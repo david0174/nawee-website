@@ -21,3 +21,21 @@ if ("IntersectionObserver" in window) {
 } else {
     revealItems.forEach((element) => element.classList.add("visible"));
 }
+
+const linkedinButton = document.getElementById("linkedin-load");
+
+if (linkedinButton) {
+    linkedinButton.addEventListener("click", () => {
+        const box = document.getElementById("linkedin-consent");
+        const iframe = document.createElement("iframe");
+
+        iframe.src = "PASTE-YOUR-EMBED-SRC-HERE";
+        iframe.title = "Eingebetteter LinkedIn-Beitrag";
+        iframe.width = "504";
+        iframe.height = "632";
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allowfullscreen", "");
+
+        box.replaceChildren(iframe);
+    });
+}
