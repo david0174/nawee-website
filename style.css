@@ -762,6 +762,10 @@ footer {
 }
 
 @media (max-width: 700px) {
+.hero-visual {
+    display: none;
+}
+    
     .site-header {
         min-height: 70px;
         padding: 8px 5vw;
