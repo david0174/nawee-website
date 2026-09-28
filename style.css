@@ -761,10 +761,10 @@ footer {
     }
 }
 
-@media (max-width: 700px) {
+/*@media (max-width: 700px) {
 .hero-visual {
     display: none;
-}
+}*/
     
     .site-header {
         min-height: 70px;
