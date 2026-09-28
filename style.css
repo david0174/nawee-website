@@ -17,7 +17,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
     margin: 0;
@@ -34,27 +34,12 @@ a {
 
 @font-face {
     font-family: "Cormorant Garamond";
-    src: url('fonts/CormorantGaramond-VariableFont_wght.ttf');
+    src: url('fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
 }
 
-@font-face {
-    font-family: "Inter";
-    src: url('fonts/Inter-VariableFont_opsz,wght') format('truetype');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Playfair Display";
-    src: url('fonts/PlayfairDisplay-VariableFont_wght') format('truetype');
-    font-weight: 400 900;
-    font-style: normal;
-    font-display: swap;
-}
 
 .site-header {
     position: sticky;
@@ -129,7 +114,7 @@ nav a:hover {
     min-height: 700px; /*changes min-height of hero section*/
     display: grid;
     grid-template-columns: .95fr 1.05fr;
-    align-items: center;
+    align-items: start;
     gap: 30px;
   /*  padding: 72px 6vw 62px;*/
     overflow: hidden;
@@ -726,7 +711,7 @@ footer {
         display: grid;
         grid-template-columns: 0.9fr 1.1fr;
         /*gap: 40px;*/
-        align-items:center;
+        align-items:start;
        /* padding-top: 55px;*/
     }
 
@@ -799,7 +784,14 @@ footer {
     }
 
     h1 {
-        font-size: clamp(2.7rem, 13vw, 4.5rem);
+        font-size: clamp(2.1rem, 9vw, 3.6rem);
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .hero-audiences {
+        flex-wrap: wrap;
+        gap: 10px 24px;
     }
 
     /*.hero-image img {
@@ -952,31 +944,6 @@ footer {
 
 .linkedin-btn:hover {
   background-color: #004182;
-}
-
-.linkedin-consent {
-    max-width: 504px;
-    width: 100%;
-    padding: 28px;
-    text-align: center;
-    background: #ffffff;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-}
-
-.linkedin-consent p {
-    margin: 0 0 18px;
-    color: var(--ink);
-    font-size: .95rem;
-}
-
-.linkedin-consent a {
-    color: var(--blue);
-    text-decoration: underline;
-}
-
-.linkedin-consent iframe {
-    max-width: 100%;
 }
 /* =========================
    NEWSLETTER
