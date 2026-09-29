@@ -709,8 +709,22 @@ footer {
     gap: 18px;
 }
 
-.footer-links a:hover {
+.footer-links a:hover,
+.footer-legal a:hover {
     color: var(--blue);
+}
+
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+}
+
+.footer-legal a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .footer-logo {
