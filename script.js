@@ -39,3 +39,30 @@ if (linkedinButton) {
         box.replaceChildren(iframe);
     });
 }
+
+    const langToggle = document.querySelector(".language-toggle");
+const langMenu = document.getElementById("language-menu");
+
+if (langToggle && langMenu) {
+    const closeMenu = () => {
+        langMenu.hidden = true;
+        langToggle.setAttribute("aria-expanded", "false");
+    };
+
+    langToggle.addEventListener("click", () => {
+        const opening = langMenu.hidden;
+        langMenu.hidden = !opening;
+        langToggle.setAttribute("aria-expanded", String(opening));
+    });
+
+    // Close when clicking anywhere outside the menu
+    document.addEventListener("click", (event) => {
+        if (!event.target.closest(".language-switch")) closeMenu();
+    });
+
+    // Close with the Escape key
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMenu();
+    });
+}
+

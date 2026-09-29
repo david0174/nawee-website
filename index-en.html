@@ -6,9 +6,9 @@
     <meta name="description" content="Nawee – English language and communication training for businesses, professionals and individuals. Business English, communication and individual English coaching online and in Hannover.">
     <title>Nawee | Learn languages. Communicate with confidence.</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
    
     <!-- START - We recommend to place the below code in head tag of your website html  -->
-
 <style>
   @font-face {
     font-display: block;
@@ -72,11 +72,18 @@
             <a href="#schueler">For Students</a>
             <a href="#ueber-mich">About Me</a>
             <a class="nav-cta" href="#kontakt">Contact</a>
-             <div class="language-switcher">
-                <a href="index.html" class="active">DE</a>
-                <span>|</span>
-                <a href="index-en.html">EN</a>
-             </div>
+             <div class="language-switch">
+    <button class="language-toggle" type="button" aria-expanded="false" aria-controls="language-menu" aria-label="Select Language">
+        <img src="assets/language-icon.svg" alt="">
+    </button>
+    <div class="language-menu" id="language-menu" hidden>
+        <a href="index.html" aria-current="page" lang="de">Deutsch</a>
+        <a href="index-en.html" class="active" lang="en">English</a>
+    </div>
+</div>
+
+
+
         </nav>
     </header>
 

@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Nawee – Englischtraining für Unternehmen, Berufstätige und Privatpersonen. Business English, Kommunikation und individuelles Englischtraining online und in Hannover.">
-    <title>Nawee | Sprachen lernen. Sicher sprechen.</title>
+    <title>Nawee | Sprachen • KI • Kommunikation</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
    
     <!-- START - We recommend to place the below code in head tag of your website html  -->
 
@@ -67,17 +68,22 @@
            <img class="logo" src="assets/logo_notext.png" alt="Nawee">
         </a>
 
-        <nav aria-label="Hauptnavigation">
+        <nav aria-label="hauptnavigation">
             <a href="#unternehmen">Für Unternehmen</a>
-            <a href="#privatpersonen">Für Privatpersonen</a>
+            <a href\="#privatpersonen">Für Privatpersonen</a>
             <a href="#schueler">Für Schülerinnen & Schüler</a>
             <a href="#ueber-mich">Über mich</a>
             <a class="nav-cta" href="#kontakt">Kontakt</a>
-             <div class="language-switcher">
-                <a href="index.html" class="active">DE</a>
-                <span>|</span>
-                <a href="index-en.html">EN</a>
-             </div>
+           <div class="language-switch">
+              <button class="language-toggle" type="button" aria-expanded="false" aria-controls="language-menu" aria-label="Sprache wählen">
+              <img src="assets/language-icon.svg" alt="">
+              </button>
+              <div class="language-menu" id="language-menu" hidden>
+                  <a href="index.html" class="active" aria-current="page" lang="de">Deutsch</a>
+                  <a href="index-en.html" lang="en">English</a>
+              </div>
+              </div>        
+            
         </nav>
     </header>
 
