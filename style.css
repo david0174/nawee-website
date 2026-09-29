@@ -368,6 +368,126 @@ button.button.secondary {
     box-shadow: 0 8px 30px rgba(20,33,61,.045);
 }
 
+/* Central statement between hero and offers */
+.intro-statement {
+    padding: 8px 6vw 72px;
+    background: #fafdff; /* matches the bottom of the hero gradient */
+}
+
+.intro-statement p {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: var(--serif);
+    font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+    line-height: 1.45;
+    letter-spacing: -.01em;
+    color: var(--ink);
+}
+
+.intro-statement strong {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+/* "Wie ich arbeite" – light band in the style of the former icon strip */
+.method {
+    background: #edf5ff;
+    border-top: 1px solid #dce9fa;
+    border-bottom: 1px solid #dce9fa;
+}
+
+.method-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+.method-item {
+    padding: 6px 28px;
+    border-right: 1px solid #cdddf2;
+}
+
+.method-item:first-child {
+    padding-left: 0;
+}
+
+.method-item:last-child {
+    padding-right: 0;
+    border-right: 0;
+}
+
+.method-item svg {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 16px;
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.method-item h3 {
+    margin: 0 0 8px;
+    font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+    hyphens: manual;
+    overflow-wrap: break-word;
+}
+
+.method-item p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+/* tablets: 2x2 grid with dividers between rows and columns */
+@media (max-width: 900px) {
+    .method-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .method-item,
+    .method-item:first-child,
+    .method-item:last-child {
+        padding: 22px 24px;
+        border-right: 0;
+        border-bottom: 1px solid #cdddf2;
+    }
+
+    .method-item:nth-child(odd) {
+        border-right: 1px solid #cdddf2;
+    }
+
+    .method-item:nth-last-child(-n+2) {
+        border-bottom: 0;
+    }
+}
+
+/* phones: stacked, lines only between items */
+@media (max-width: 560px) {
+    .method-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .method-item,
+    .method-item:first-child,
+    .method-item:last-child,
+    .method-item:nth-child(odd) {
+        padding: 20px 0;
+        border-right: 0;
+        border-bottom: 1px solid #cdddf2;
+    }
+
+    .method-item:last-child {
+        border-bottom: 0;
+    }
+}
+
 /* "Für wen?" section: soft background to separate it from the white "Über mich" below */
 .audience-groups {
     background: var(--soft);
