@@ -818,7 +818,7 @@ button.button.secondary {
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #98a2b3;
+    color: #667085; /* darker placeholder for readable contrast */
 }
 
 .form-group input:hover,
@@ -1290,7 +1290,7 @@ footer {
 }
 
 .newsletter-fields input[type="email"]::placeholder {
-  color: #98a2b3;
+  color: #667085; /* darker placeholder for readable contrast */
 }
 
 .newsletter-fields input[type="email"]:focus {
@@ -1323,7 +1323,7 @@ footer {
 
 .newsletter-note {
   margin: 14px 0 0;
-  color: #98a2b3;
+  color: #667085; /* darker placeholder for readable contrast */
   font-size: .75rem;
 }
 
@@ -1603,7 +1603,7 @@ footer {
 
 .form-field input::placeholder,
 .form-field textarea::placeholder {
-  color: #98a2b3;
+  color: #667085; /* darker placeholder for readable contrast */
 }
 
 .form-field input:focus,
@@ -1983,6 +1983,97 @@ footer {
     color: var(--muted);
 }
 
+/* "book directly" link under the homepage contact form */
+.consultation-book-direct {
+    margin: 18px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.consultation-book-direct a {
+    display: inline-block;
+    margin-left: 4px;
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.consultation-book-direct a:hover {
+    color: var(--blue-dark);
+}
+
+/* free 15-minute consultation, shown above the paid formats */
+.consult-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 32px 36px;
+    background: var(--blue-soft);
+    border: 1px solid #cfe0f7;
+    border-radius: 20px;
+}
+
+.consult-card h3 {
+    margin: 0 0 4px;
+}
+
+.consult-tag {
+    display: inline-block;
+    margin: 0 0 14px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--blue);
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.consult-sub {
+    margin: 0 0 10px;
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.consult-card p:last-child {
+    margin: 0;
+    max-width: 640px;
+    color: #475467; /* darker than --muted: enough contrast on the light-blue card */
+}
+
+.consult-card .button {
+    flex-shrink: 0;
+}
+
+/* on pages with three formats, match the narrower price grid */
+#formate:has(.price-grid-3) .consult-card {
+    max-width: 960px;
+}
+
+/* separates the free consultation from the paid cards below */
+.paid-label {
+    max-width: 1220px;
+    margin: 40px auto 18px;
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .consult-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 26px 22px;
+    }
+}
+
 /* pages with three formats (KI, Programmieren) */
 .price-grid-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2094,4 +2185,120 @@ footer {
     .price-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* links to booking terms / withdrawal under the prices */
+.price-note a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* =========================
+   ACCESSIBILITY
+   ========================= */
+
+/* clear focus ring for keyboard users (mouse clicks don't show it) */
+:where(a, button, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* "skip to content" link: hidden until someone presses Tab */
+.skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: var(--blue);
+    color: var(--white);
+    font-weight: 600;
+    transform: translateY(-150%);
+    transition: transform .2s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* respect the "reduce motion" system setting */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* newsletter form (own markup, no Brevo styles) */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.nl-trap {
+    position: absolute;
+    left: -9999px;
+}
+
+.nl-status {
+    margin: 14px 0 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #e7faf0;
+    color: #085229;
+    font-size: .9rem;
+}
+
+.nl-status--error {
+    background: #ffeded;
+    color: #661d1d;
+}
+
+.newsletter-note a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* contact card with booking + email buttons (replaces the old form) */
+.consultation-actions h3 {
+    margin: 0 0 22px;
+}
+
+.contact-option {
+    padding: 0 0 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+}
+
+.contact-option .button {
+    width: 100%;
+}
+
+.contact-option p {
+    margin: 10px 0 0;
+    color: #475467;
+    font-size: .92rem;
+    text-align: center;
+}
+
+.consultation-actions .consultation-form-note {
+    margin: 0;
 }

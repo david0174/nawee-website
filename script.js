@@ -84,3 +84,40 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") dropdowns.forEach(closeDropdown);
 });
+
+// Newsletter: send the form to Brevo in the background and show the result in place.
+// Nothing is loaded from Brevo until someone actually clicks "Abonnieren".
+document.querySelectorAll(".nl-form").forEach((form) => {
+    const button = form.querySelector('button[type="submit"]');
+    const status = form.querySelector(".nl-status");
+    const buttonText = button.textContent;
+
+    const show = (message, ok) => {
+        status.textContent = message;
+        status.classList.toggle("nl-status--error", !ok);
+        status.hidden = false;
+    };
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (form.email_address_check.value) return; // spam trap filled in: ignore
+
+        button.disabled = true;
+        button.textContent = form.dataset.sending;
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: new URLSearchParams(new FormData(form)),
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error("not saved");
+            form.reset();
+            show(form.dataset.success, true);
+        } catch {
+            show(form.dataset.error, false);
+        } finally {
+            button.disabled = false;
+            button.textContent = buttonText;
+        }
+    });
+});
