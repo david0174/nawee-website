@@ -867,8 +867,46 @@ footer {
 
 .footer-brand {
     display: flex;
-    align-items: baseline;
-    gap: 12px;
+    align-items: center;
+    gap: 22px;
+}
+
+/* email, location and LinkedIn next to the footer logo */
+/* line 1: email + LinkedIn icon, line 2: location */
+.footer-contact {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    justify-items: start;
+    align-items: center;
+    gap: 4px 12px;
+    padding-left: 22px;
+    border-left: 1px solid var(--line);
+}
+
+.footer-contact .footer-linkedin {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.footer-brand .footer-contact span {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: .8rem;
+    letter-spacing: normal;
+}
+
+.footer-contact a {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.footer-contact a:hover {
+    color: var(--blue);
+}
+
+.footer-linkedin {
+    display: inline-flex;
+    color: #0a66c2 !important;
 }
 
 .footer-brand strong {
@@ -1813,5 +1851,247 @@ footer {
 
     .benefit:last-child {
         border-bottom: 0;
+    }
+}
+
+/* =========================
+   SERVICE PAGES (e.g. englisch.html)
+   ========================= */
+.page-hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 64px) 6vw 72px;
+    text-align: center;
+}
+
+.page-back {
+    display: inline-block;
+    margin-bottom: 28px;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.page-back:hover {
+    color: var(--blue);
+}
+
+.page-hero h1 {
+    margin-bottom: 18px;
+}
+
+.page-hero-tagline {
+    margin: 0 0 18px;
+    color: var(--blue);
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.page-hero-text {
+    margin: 0 auto 32px;
+    max-width: 680px;
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
+.page-hero .hero-actions {
+    justify-content: center;
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+.price-card {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 26px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(20, 33, 61, .045);
+}
+
+.price-card-featured {
+    border-color: rgba(21, 84, 192, .45);
+    box-shadow: 0 18px 45px rgba(21, 84, 192, .10);
+}
+
+.price-card h3 {
+    margin: 0 0 14px;
+    /* break long words only at &shy; marks, e.g. Programmier-grundlagen */
+    hyphens: manual;
+    overflow-wrap: break-word;
+}
+
+/* no automatic hyphenation in service-page titles ("di-gitale") */
+.page-hero h1 {
+    hyphens: manual;
+}
+
+.price {
+    margin: 0;
+    color: var(--blue-dark);
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.price-meta {
+    margin: 8px 0 16px;
+    color: var(--blue);
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.price-card > p:not(.price):not(.price-meta) {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+/* buttons line up at the bottom of every card */
+.price-card .button {
+    margin-top: auto;
+}
+
+.price-note {
+    margin: 28px auto 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.cta-band {
+    padding: 72px 6vw;
+    text-align: center;
+    background: #edf5ff;
+    border-top: 1px solid #dce9fa;
+}
+
+.cta-band h2 {
+    margin-bottom: 12px;
+}
+
+.cta-band p {
+    margin: 0 auto 28px;
+    max-width: 560px;
+    color: var(--muted);
+}
+
+/* pages with three formats (KI, Programmieren) */
+.price-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 960px;
+}
+
+.page-hero-note {
+    display: inline-block;
+    margin: -12px 0 30px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+/* focus areas as small tiles */
+/* centred rows, so 5 tiles split as 3 + 2 instead of leaving one alone */
+.focus-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.focus-item {
+    flex: 0 1 310px;
+    padding: 22px 22px 22px 48px;
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: 0 8px 30px rgba(20, 33, 61, .04);
+}
+
+.focus-item::before {
+    content: "→";
+    position: absolute;
+    left: 22px;
+    color: var(--blue);
+}
+
+/* "Für Unternehmen" block on service pages */
+.corporate-band {
+    padding: 0 6vw 80px;
+}
+
+.corporate-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 40px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--blue);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(20, 33, 61, .045);
+}
+
+.corporate-inner .eyebrow {
+    margin-bottom: 8px;
+}
+
+.corporate-inner h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+}
+
+.corporate-inner p:last-child {
+    margin: 0;
+    max-width: 620px;
+    color: var(--muted);
+}
+
+.corporate-inner .button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 1000px) {
+    .price-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .price-grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 480px;
+    }
+
+    .corporate-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px 24px;
+    }
+}
+
+@media (max-width: 560px) {
+    .price-grid {
+        grid-template-columns: 1fr;
     }
 }

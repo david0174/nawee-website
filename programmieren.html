@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Programmieren für Einsteiger bei Nawee – Grundlagen, HTML &amp; CSS, kleine Webprojekte und KI-gestütztes Programmieren. Online oder vor Ort in Hannover.">
+    <title>Programmieren &amp; digitale Kompetenzen | Nawee</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="Nawee Startseite">
+           <img class="logo" src="assets/logo_notext.png" alt="Nawee">
+        </a>
+
+        <nav aria-label="hauptnavigation">
+            <a href="englisch.html">Englisch</a>
+            <a href="ki.html">KI &amp; Lernen</a>
+            <a href="programmieren.html" aria-current="page">Programmieren</a>
+            <a href="index.html#ueber-mich">Über mich</a>
+            <a class="nav-cta" href="index.html#kontakt">Kontakt</a>
+            <div class="language-switch">
+                <button class="language-toggle" type="button" aria-expanded="false" aria-controls="language-menu" aria-label="Sprache wählen">
+                    <img src="assets/language-icon.svg" alt="">
+                </button>
+                <div class="language-menu" id="language-menu" hidden>
+                    <a href="programmieren.html" class="active" aria-current="page" lang="de">Deutsch</a>
+                    <a href="programming.html" lang="en">English</a>
+                </div>
+            </div>
+
+            <!-- Replaces the language icon on small screens (see .menu-switch in style.css) -->
+            <div class="menu-switch">
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="mobile-menu" id="mobile-menu" hidden>
+                    <a href="englisch.html">Englisch</a>
+                    <a href="ki.html">KI &amp; Lernen</a>
+                    <a href="programmieren.html">Programmieren</a>
+                    <a href="index.html#ueber-mich">Über mich</a>
+                    <div class="mobile-menu-languages">
+                        <a href="programmieren.html" class="active" aria-current="page" lang="de">Deutsch</a>
+                        <a href="programming.html" lang="en">English</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <!-- Page intro -->
+        <section class="page-hero">
+            <a class="page-back" href="index.html#angebote">← Alle Angebote</a>
+            <p class="eyebrow">ANGEBOT · PROGRAMMIEREN</p>
+            <h1>Programmieren &amp; digitale Kompetenzen</h1>
+            <p class="page-hero-tagline">
+                Grundlagen lernen. Eigene Projekte bauen. Mit KI effektiver programmieren.
+            </p>
+            <p class="page-hero-text">
+                Lerne die Grundlagen des Programmierens und entwickle eigene kleine Projekte – verständlich, praxisnah und mit moderner Unterstützung durch KI.
+            </p>
+            <p class="page-hero-note">Für Einsteiger – keine Vorkenntnisse nötig.</p>
+            <div class="hero-actions">
+                <a class="button primary" href="index.html#kontakt">Kostenloses Erstgespräch <span>→</span></a>
+                <a class="button secondary" href="#formate">Formate &amp; Preise <span>→</span></a>
+            </div>
+        </section>
+
+        <!-- Focus areas -->
+        <section class="audiences section" id="themen">
+            <div class="section-heading centered">
+                <p class="eyebrow">INHALTE</p>
+                <h2>Woran wir arbeiten</h2>
+            </div>
+
+            <ul class="focus-grid">
+                <li class="focus-item">Programmiergrundlagen</li>
+                <li class="focus-item">HTML &amp; CSS</li>
+                <li class="focus-item">Kleine Webprojekte</li>
+                <li class="focus-item">Code verstehen &amp; Fehler finden</li>
+                <li class="focus-item">KI-gestütztes Programmieren</li>
+            </ul>
+        </section>
+
+        <!-- Formats & prices -->
+        <section class="section" id="formate">
+            <div class="section-heading centered">
+                <p class="eyebrow">FORMATE &amp; PREISE</p>
+                <h2>Wähle das passende Format</h2>
+                <p>Alle Termine online oder vor Ort in Hannover.</p>
+            </div>
+
+            <div class="price-grid price-grid-3">
+                <article class="price-card">
+                    <h3>Programmier&shy;grundlagen</h3>
+                    <p class="price">60 €</p>
+                    <p class="price-meta">60 Minuten</p>
+                    <p>Deine ersten Schritte ins Programmieren – verständlich erklärt, ohne Vorkenntnisse.</p>
+                    <a class="button secondary" href="index.html#kontakt">Termin anfragen <span>→</span></a>
+                </article>
+                <article class="price-card">
+                    <h3>Webprojekt</h3>
+                    <p class="price">85 €</p>
+                    <p class="price-meta">90 Minuten</p>
+                    <p>Mehr Zeit, um Schritt für Schritt eine eigene kleine Website zu bauen.</p>
+                    <a class="button secondary" href="index.html#kontakt">Termin anfragen <span>→</span></a>
+                </article>
+                <article class="price-card">
+                    <h3>KI-gestütztes Programmieren</h3>
+                    <p class="price">60 €</p>
+                    <p class="price-meta">60 Minuten</p>
+                    <p>Lerne, KI beim Programmieren sinnvoll einzusetzen – vom Verstehen bis zur Fehlersuche.</p>
+                    <a class="button secondary" href="index.html#kontakt">Termin anfragen <span>→</span></a>
+                </article>
+            </div>
+
+            <p class="price-note">Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
+        </section>
+
+        <!-- For companies -->
+        <section class="corporate-band">
+            <div class="corporate-inner">
+                <div>
+                    <p class="eyebrow">FÜR UNTERNEHMEN</p>
+                    <h2>Digitale Kompetenzen für dein Team</h2>
+                    <p>Du möchtest deinem Team einen verständlichen Einstieg in Programmierung und digitale Werkzeuge ermöglichen? Ich biete auch Workshops für Unternehmen an.</p>
+                </div>
+                <a class="button secondary" href="index.html#kontakt">Anfrage für Unternehmen <span>→</span></a>
+            </div>
+        </section>
+
+        <!-- Call to action -->
+        <section class="cta-band">
+            <h2>Nicht sicher, welches Format passt?</h2>
+            <p>In einem kostenlosen Erstgespräch finden wir gemeinsam heraus, was du brauchst.</p>
+            <a class="button primary" href="index.html#kontakt">Kostenloses Erstgespräch anfragen <span>→</span></a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <img class="footer-logo" src="assets/logo_notext.png" alt="Nawee">
+            <div class="footer-contact">
+                <a href="mailto:david@nawee.net">david@nawee.net</a>
+                <span>Hannover · Online &amp; vor Ort</span>
+                <a class="footer-linkedin" href="https://www.linkedin.com/company/146650137" target="_blank" rel="noopener noreferrer" aria-label="Nawee auf LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <a href="index.html#angebote">Angebot</a>
+            <a href="index.html#ueber-mich">Über mich</a>
+            <a href="index.html#kontakt">Kontakt</a>
+        </div>
+        <div class="footer-legal">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+            <span>© 2026 Nawee</span>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
