@@ -125,9 +125,10 @@ font-size: 10px;
 .hero {
     min-height: 700px; /*changes min-height of hero section*/
     display: grid;
-    grid-template-columns: .95fr 1.05fr;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
     align-items: start;
-    gap: 30px;
+    align-content: start;
+    column-gap: 40px;
   /*  padding: 72px 6vw 62px;*/
     overflow: hidden;
     background: linear-gradient(180deg, #fff 0%, #fafdff 100%);
@@ -140,6 +141,8 @@ font-size: 10px;
 }
 
 .hero-copy {
+    grid-column: 1;
+    grid-row: 2;
     max-width: 650px;
     padding-left: 2vw;
 }
@@ -159,7 +162,7 @@ h1, h2, h3 {
 h1 {
     margin: 0;
     font-family: var(--serif);
-    font-size: clamp(3rem, 5vw, 4.7rem);
+    font-size: clamp(1.8rem, 4.2vw, 4.7rem);
     letter-spacing: -.045em;
     color: var(--blue-dark);
 }
@@ -174,6 +177,7 @@ h1 {
 }
 
 h1 span {
+    display: block;
     color: var(--blue);
 }
 
@@ -284,17 +288,23 @@ h3 {
     line-height: 1.35;
 }
 
+/* audience links sit above both columns, so the image starts level with the h1 */
 .hero-visual {
+    grid-column: 2;
+    grid-row: 2;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 85px;
 }
 
 .hero-visual img {
     width: 100%;
-    max-width: 650px;
+    max-width: 760px;
     height: auto;
+    /* trim the empty space above and below the illustration */
+    aspect-ratio: 1536 / 800;
+    object-fit: cover;
+    object-position: 50% 62%;
     display: block;
    /* margin: 0px 0px 0px 20px; */
 }
@@ -715,13 +725,22 @@ footer {
         gap: 14px;
     }
 
-    nav a:not(.nav-cta) {
+    nav > a:not(.nav-cta) {
         display: none;
+    }
+
+    /* the burger menu takes over from the language icon */
+    .language-switch {
+        display: none;
+    }
+
+    nav .menu-switch {
+        display: block;
     }
 
     .hero {
         display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         /*gap: 40px;*/
         align-items:start;
        /* padding-top: 55px;*/
@@ -732,10 +751,13 @@ footer {
         padding-left: 0;
     }
 
+    .hero .hero-audiences {
+        padding-left: 0;
+    }
+
     .hero-visual {
         max-width: 760px;
-        margin: auto;
-        padding-top: 85px;
+        margin: 0 auto;
     }
 
     .cards {
@@ -794,6 +816,13 @@ footer {
         min-height: auto;
         padding-top: 55px;
         padding-bottom: 55px;
+    }
+
+    .hero-audiences,
+    .hero-copy,
+    .hero-visual {
+        grid-column: 1;
+        grid-row: auto;
     }
 
     .hero-visual {
@@ -891,8 +920,10 @@ footer {
 }*/
 
 .hero-audiences {
+    grid-column: 1;
+    padding-left: 2vw;
     display: flex;
-    gap: 40px;
+    gap: clamp(16px, 3vw, 40px);
     margin-bottom: 25px;
 }
 
@@ -929,20 +960,45 @@ footer {
     padding: 100px 0px;
 }*/
 
-.linkedin {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centers the button horizontally */
-    align-items: center;     /* Centers the button vertically (if the div has height)*/
-    background:var(--soft);
-    padding-bottom: 30px;
+.linkedin-section {
+    background: var(--soft);
 }
 
-.linkedin iframe {
-    max-width: 100%;
+.linkedin-consent {
+    max-width: 620px;
+    margin: 0 auto 32px;
+    text-align: center;
+}
+
+.linkedin-consent p {
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.linkedin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.linkedin-grid:not(:empty) {
+    margin-bottom: 36px;
+}
+
+/* LinkedIn posts have different lengths; longer ones scroll inside their card */
+.linkedin-grid iframe {
     width: 100%;
-    height: auto;
-    aspect-ratio: 504 / 632;
+    height: 480px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+}
+
+.linkedin {
+    display: flex;
+    justify-content: center;
 }
 
 .linkedin-btn {
@@ -956,6 +1012,7 @@ footer {
   padding: 8px 18px;
   border-radius: 20px;
   text-decoration: none;
+  gap: 8px;
   transition: background-color 0.2s ease;
 }
 
@@ -1473,5 +1530,96 @@ footer {
 }
 
 .language-switch .language-menu .active {
+    font-weight: 600;
+}
+
+/* =========================
+   BURGER MENU (small screens)
+   ========================= */
+.menu-switch {
+    display: none;
+    position: relative;
+}
+
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* turn the three lines into an X while open */
+.menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+.menu-switch .mobile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 30;
+    width: min(280px, calc(100vw - 32px));
+    padding: 8px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(20, 33, 61, 0.12);
+}
+
+.menu-switch .mobile-menu[hidden] {
+    display: none;
+}
+
+.menu-switch .mobile-menu a {
+    display: block;
+    padding: 11px 14px;
+    border-radius: 8px;
+    color: var(--ink);
+    font-size: .95rem;
+}
+
+.menu-switch .mobile-menu a:hover {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.mobile-menu-languages {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--line);
+}
+
+.menu-switch .mobile-menu-languages a {
+    flex: 1;
+    text-align: center;
+    color: var(--muted);
+}
+
+.menu-switch .mobile-menu-languages .active {
+    color: var(--blue);
     font-weight: 600;
 }

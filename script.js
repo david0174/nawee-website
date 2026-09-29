@@ -22,47 +22,65 @@ if ("IntersectionObserver" in window) {
     revealItems.forEach((element) => element.classList.add("visible"));
 }
 
+// LinkedIn posts shown in the grid, newest first.
+// To add a post: on LinkedIn open the post, click "…" → "Embed this post",
+// then copy the address inside src="…" from the embed code and paste it below.
+const linkedinPosts = [
+    "https://www.linkedin.com/embed/feed/update/urn:li:share:7509928475101642753",
+];
+
 const linkedinButton = document.getElementById("linkedin-load");
+const linkedinGrid = document.getElementById("linkedin-grid");
 
-if (linkedinButton) {
+if (linkedinButton && linkedinGrid) {
     linkedinButton.addEventListener("click", () => {
-        const box = document.getElementById("linkedin-consent");
-        const iframe = document.createElement("iframe");
+        linkedinPosts.forEach((src) => {
+            const iframe = document.createElement("iframe");
+            // collapsed=1: only the first lines of text, so the image shows sooner
+            const url = new URL(src);
+            url.searchParams.set("collapsed", "1");
+            iframe.src = url.href;
+            iframe.title = document.documentElement.lang === "de" ? "LinkedIn-Beitrag" : "LinkedIn post";
+            iframe.loading = "lazy";
+            iframe.setAttribute("allowfullscreen", "");
+            linkedinGrid.appendChild(iframe);
+        });
 
-        iframe.src = "PASTE-YOUR-EMBED-SRC-HERE";
-        iframe.title = "Eingebetteter LinkedIn-Beitrag";
-        iframe.width = "504";
-        iframe.height = "632";
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allowfullscreen", "");
-
-        box.replaceChildren(iframe);
+        document.getElementById("linkedin-consent").hidden = true;
     });
 }
 
-    const langToggle = document.querySelector(".language-toggle");
-const langMenu = document.getElementById("language-menu");
+// Dropdowns in the header: the language icon and the burger menu (small screens)
+const dropdowns = [
+    [document.querySelector(".language-toggle"), document.getElementById("language-menu")],
+    [document.querySelector(".menu-toggle"), document.getElementById("mobile-menu")],
+].filter(([toggle, menu]) => toggle && menu);
 
-if (langToggle && langMenu) {
-    const closeMenu = () => {
-        langMenu.hidden = true;
-        langToggle.setAttribute("aria-expanded", "false");
-    };
+const closeDropdown = ([toggle, menu]) => {
+    menu.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+};
 
-    langToggle.addEventListener("click", () => {
-        const opening = langMenu.hidden;
-        langMenu.hidden = !opening;
-        langToggle.setAttribute("aria-expanded", String(opening));
+dropdowns.forEach(([toggle, menu]) => {
+    toggle.addEventListener("click", () => {
+        const opening = menu.hidden;
+        dropdowns.forEach(closeDropdown);
+        menu.hidden = !opening;
+        toggle.setAttribute("aria-expanded", String(opening));
     });
 
-    // Close when clicking anywhere outside the menu
-    document.addEventListener("click", (event) => {
-        if (!event.target.closest(".language-switch")) closeMenu();
+    // Close after choosing a link, e.g. jumping to a section
+    menu.addEventListener("click", (event) => {
+        if (event.target.closest("a")) closeDropdown([toggle, menu]);
     });
+});
 
-    // Close with the Escape key
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeMenu();
-    });
-}
+// Close when clicking anywhere outside a menu
+document.addEventListener("click", (event) => {
+    if (!event.target.closest(".language-switch, .menu-switch")) dropdowns.forEach(closeDropdown);
+});
 
+// Close with the Escape key
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") dropdowns.forEach(closeDropdown);
+});
