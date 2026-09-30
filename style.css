@@ -1893,6 +1893,11 @@ footer {
     font-size: 1.05rem;
 }
 
+/* two intro paragraphs in a row: normal paragraph spacing between them */
+.page-hero-text:has(+ .page-hero-text) {
+    margin-bottom: 14px;
+}
+
 .page-hero .hero-actions {
     justify-content: center;
 }
