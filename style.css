@@ -8,7 +8,7 @@
     --line: #e4ebf5;
     --soft: #f7faff;
     --white: #ffffff;
-    --sans: "Cormorant Garamond","Inter", Arial, sans-serif;
+    --sans: "Inter", Arial, sans-serif;
     --serif: "Playfair Display", Georgia, serif;
     --content-width: 1440px;
     
@@ -33,10 +33,19 @@ a {
     text-decoration: none;
 }
 
+/* self-hosted fonts (files in /fonts, nothing is loaded from Google) */
 @font-face {
-    font-family: "Cormorant Garamond";
-    src: url('fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf');
-    font-weight: 600;
+    font-family: "Inter";
+    src: url("fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Playfair Display";
+    src: url("fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+    font-weight: 400 900;
     font-style: normal;
     font-display: swap;
 }
@@ -2499,4 +2508,29 @@ footer nav > a:not(.nav-cta) {
 footer .footer-links a,
 footer .footer-legal a {
     color: #475467;
+}
+
+/* show visitors which page they are on: current menu item in blue with a small underline */
+nav > a[aria-current="page"] {
+    position: relative;
+    color: var(--blue);
+    font-weight: 600;
+}
+
+nav > a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -7px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--blue);
+}
+
+/* same in the burger menu on phones (language links keep their own style) */
+.menu-switch .mobile-menu > a[aria-current="page"] {
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-weight: 600;
 }
