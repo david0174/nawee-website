@@ -2422,3 +2422,81 @@ footer {
 .session-legal {
     text-align: center;
 }
+
+/* =========================
+   FOOTER: brand | navigation | legal, copyright row below
+   ========================= */
+footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, .8fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 28px 48px;
+    padding: 44px max(6vw, calc((100vw - var(--content-width)) / 2)) 22px;
+}
+
+footer .footer-brand {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+footer .footer-contact {
+    padding-left: 0;
+    border-left: 0;
+}
+
+footer .footer-links,
+footer .footer-legal {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+footer .footer-legal a {
+    text-decoration: none;
+}
+
+footer .footer-links a:hover,
+footer .footer-legal a:hover {
+    color: var(--blue);
+}
+
+.footer-heading {
+    margin: 0 0 4px;
+    color: var(--ink);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.footer-copy {
+    grid-column: 1 / -1;
+    margin: 6px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+@media (max-width: 760px) {
+    footer {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 28px 24px;
+    }
+
+    footer .footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+/* the header rule that hides menu links on small screens must not hide footer links */
+footer nav > a:not(.nav-cta) {
+    display: inline;
+}
+
+/* same colour for both footer link columns */
+footer .footer-links a,
+footer .footer-legal a {
+    color: #475467;
+}
