@@ -127,22 +127,22 @@ document.querySelectorAll(".nl-form").forEach((form) => {
 // client_reference_id marks the payment in Stripe as coming through this consent step.
 const CONSENT_VERSION = "consent-v1";
 const NAWEE_PACKAGES = {
-    "englisch-5":       { price: 285, sessions: 5,  per: 57, cal: "englisch60min",      stripe: { de: "7sY9ATan55gwenZ1xOgjC04", en: "cNiaEXeDl10ggw76S8gjC07" },
+    "englisch-5":       { price: 285, sessions: 5,  per: 57, cal: "englisch-60-minuten-5er-paket",      stripe: { de: "7sY9ATan55gwenZ1xOgjC04", en: "cNiaEXeDl10ggw76S8gjC07" },
                           de: ["5er-Paket Englisch", "Individuelles Englischtraining für Beruf, Alltag und professionelle Kommunikation."],
                           en: ["5-Session English Package", "Personalised English training for work, everyday life and professional communication."] },
-    "englisch-10":      { price: 550, sessions: 10, per: 55, cal: "englisch60min",      stripe: { de: "dRm5kDcvd8sIenZ90ggjC05", en: "28EaEX52LgZe1Bd3FWgjC06" },
+    "englisch-10":      { price: 550, sessions: 10, per: 55, cal: "englisch-60-minuten-10er-paket",      stripe: { de: "dRm5kDcvd8sIenZ90ggjC05", en: "28EaEX52LgZe1Bd3FWgjC06" },
                           de: ["10er-Paket Englisch", "Individuelles Englischtraining für Beruf, Alltag und professionelle Kommunikation."],
                           en: ["10-Session English Package", "Personalised English training for work, everyday life and professional communication."] },
-    "ki-5":             { price: 285, sessions: 5,  per: 57, cal: "ai60min",            stripe: { de: "5kQ14nan56kAbbNfoEgjC02", en: "7sY28r7aT6kA1Bd90ggjC09" },
+    "ki-5":             { price: 285, sessions: 5,  per: 57, cal: "ki-60-minuten-5er-paket",            stripe: { de: "5kQ14nan56kAbbNfoEgjC02", en: "7sY28r7aT6kA1Bd90ggjC09" },
                           de: ["5er-Paket KI", "Individuelles Training, um KI besser zu verstehen und sinnvoll in Beruf und Alltag einzusetzen."],
                           en: ["5-Session AI Package", "Individual training to understand AI better and use it effectively at work and in everyday life."] },
-    "ki-10":            { price: 550, sessions: 10, per: 55, cal: "ai60min",            stripe: { de: "14A9ATfHpeR64Np1xOgjC03", en: "aFacN5gLt8sIenZ4K0gjC08" },
+    "ki-10":            { price: 550, sessions: 10, per: 55, cal: "ai-60-minuten-10er-paket",            stripe: { de: "14A9ATfHpeR64Np1xOgjC03", en: "aFacN5gLt8sIenZ4K0gjC08" },
                           de: ["10er-Paket KI", "Individuelles Training, um KI besser zu verstehen und sinnvoll in Beruf und Alltag einzusetzen."],
                           en: ["10-Session AI Package", "Individual training to understand AI better and use it effectively at work and in everyday life."] },
-    "programmieren-5":  { price: 285, sessions: 5,  per: 57, cal: "5-session-programming-training-package", stripe: { de: "6oU00jcvdbEU7ZBgsIgjC00", en: "eVqeVdbr98sIbbN4K0gjC0b" },
+    "programmieren-5":  { price: 285, sessions: 5,  per: 57, cal: "programmieren-60-minuten-5er-paket", stripe: { de: "6oU00jcvdbEU7ZBgsIgjC00", en: "eVqeVdbr98sIbbN4K0gjC0b" },
                           de: ["5er-Paket Programmieren mit KI", "Individuelles Training, um mit KI eigene Programme, Websites und digitale Werkzeuge zu entwickeln."],
                           en: ["5-Session Programming with AI Package", "Individual training to build your own programs, websites and digital tools with AI."] },
-    "programmieren-10": { price: 550, sessions: 10, per: 55, cal: "programmieren60min", stripe: { de: "28EeVddzh4csa7Jb8ogjC01", en: "14A7sLeDleR6cfR4K0gjC0a" },
+    "programmieren-10": { price: 550, sessions: 10, per: 55, cal: "programmieren-60-minuten-10er-paket", stripe: { de: "28EeVddzh4csa7Jb8ogjC01", en: "14A7sLeDleR6cfR4K0gjC0a" },
                           de: ["10er-Paket Programmieren mit KI", "Individuelles Training, um mit KI eigene Programme, Websites und digitale Werkzeuge zu entwickeln."],
                           en: ["10-Session Programming with AI Package", "Individual training to build your own programs, websites and digital tools with AI."] },
 };
