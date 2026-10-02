@@ -2307,3 +2307,118 @@ footer {
 .consultation-actions .consultation-form-note {
     margin: 0;
 }
+
+/* =========================
+   PACKAGES (below the individual sessions)
+   ========================= */
+.price-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 700px;
+}
+
+.package-block {
+    max-width: 960px;
+    margin: 48px auto 0;
+    padding: 34px 36px 38px;
+    text-align: center;
+    background: var(--blue-soft);
+    border: 1px solid #cfe0f7;
+    border-radius: 20px;
+}
+
+.package-block .paid-label {
+    margin: 0 0 8px;
+}
+
+.package-block h3 {
+    margin: 0 0 8px;
+}
+
+.package-intro {
+    max-width: 560px;
+    margin: 0 auto 24px;
+    color: #475467;
+}
+
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    text-align: left;
+}
+
+.package-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 26px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+}
+
+.package-card h4 {
+    margin: 0 0 10px;
+    color: var(--blue-dark);
+    font-family: var(--serif);
+    font-size: 1.3rem;
+}
+
+.package-card .price {
+    font-size: 2rem;
+}
+
+.package-card > p:not(.price):not(.price-meta) {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.package-card .button {
+    margin-top: auto;
+}
+
+@media (max-width: 760px) {
+    .price-grid-2,
+    .package-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .package-block {
+        padding: 26px 18px 28px;
+    }
+}
+
+/* link to the online withdrawal function (§ 356a BGB) inside the packages block */
+.package-withdraw {
+    margin: 20px 0 0;
+    color: #475467;
+    font-size: .9rem;
+}
+
+.package-withdraw a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+/* terms + withdrawal note directly below the package buttons */
+.package-legal {
+    margin: 22px auto 0;
+    max-width: 640px;
+    color: #475467;
+    font-size: .88rem;
+}
+
+.package-legal a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.package-legal + .package-withdraw {
+    margin-top: 8px;
+}
+
+/* same note directly below the individual-session cards */
+.session-legal {
+    text-align: center;
+}
