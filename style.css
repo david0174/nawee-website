@@ -2620,3 +2620,9 @@ nav > a[aria-current="page"]::after {
 .checkout-card .button + .checkout-note {
     margin-top: 22px;
 }
+
+/* offer section on the homepage: two centred cards (English, KI) */
+#angebote .cards {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 440px));
+    justify-content: center;
+}

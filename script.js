@@ -140,12 +140,6 @@ const NAWEE_PACKAGES = {
     "ki-10":            { price: 550, sessions: 10, per: 55,            stripe: { de: "14A9ATfHpeR64Np1xOgjC03", en: "aFacN5gLt8sIenZ4K0gjC08" },
                           de: ["10er-Paket KI", "Individuelles Training, um KI besser zu verstehen und sinnvoll in Beruf und Alltag einzusetzen."],
                           en: ["10-Session AI Package", "Individual training to understand AI better and use it effectively at work and in everyday life."] },
-    "programmieren-5":  { price: 285, sessions: 5,  per: 57, stripe: { de: "6oU00jcvdbEU7ZBgsIgjC00", en: "eVqeVdbr98sIbbN4K0gjC0b" },
-                          de: ["5er-Paket Programmieren mit KI", "Individuelles Training, um mit KI eigene Programme, Websites und digitale Werkzeuge zu entwickeln."],
-                          en: ["5-Session Programming with AI Package", "Individual training to build your own programs, websites and digital tools with AI."] },
-    "programmieren-10": { price: 550, sessions: 10, per: 55, stripe: { de: "28EeVddzh4csa7Jb8ogjC01", en: "14A7sLeDleR6cfR4K0gjC0a" },
-                          de: ["10er-Paket Programmieren mit KI", "Individuelles Training, um mit KI eigene Programme, Websites und digitale Werkzeuge zu entwickeln."],
-                          en: ["10-Session Programming with AI Package", "Individual training to build your own programs, websites and digital tools with AI."] },
 };
 
 const packageCard = document.querySelector("[data-checkout], [data-thanks]");
