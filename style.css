@@ -2534,3 +2534,11 @@ nav > a[aria-current="page"]::after {
     color: var(--blue);
     font-weight: 600;
 }
+
+.footer-copy a {
+    color: inherit;
+}
+
+.footer-copy a:hover {
+    color: var(--blue);
+}
