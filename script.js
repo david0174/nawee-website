@@ -122,3 +122,21 @@ document.querySelectorAll(".nl-form").forEach((form) => {
         }
     });
 });
+
+// "Back to top" button: appears after scrolling down, scrolls smoothly back up
+const backToTop = document.createElement("button");
+backToTop.type = "button";
+backToTop.className = "back-to-top";
+backToTop.setAttribute("aria-label", document.documentElement.lang === "de" ? "Nach oben scrollen" : "Back to top");
+backToTop.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+document.body.appendChild(backToTop);
+
+const toggleBackToTop = () => backToTop.classList.toggle("is-visible", window.scrollY > 600);
+window.addEventListener("scroll", toggleBackToTop, { passive: true });
+toggleBackToTop();
+
+backToTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const skip = document.querySelector(".skip-link");
+    if (skip) skip.focus({ preventScroll: true });
+});
