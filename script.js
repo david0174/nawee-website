@@ -26,6 +26,7 @@ if ("IntersectionObserver" in window) {
 // To add a post: on LinkedIn open the post, click "…" → "Embed this post",
 // then copy the address inside src="…" from the embed code and paste it below.
 const linkedinPosts = [
+    "https://www.linkedin.com/embed/feed/update/urn:li:share:7513548537536806912",
     "https://www.linkedin.com/embed/feed/update/urn:li:share:7509928475101642753",
 ];
 
