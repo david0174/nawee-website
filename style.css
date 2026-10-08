@@ -1230,7 +1230,9 @@ footer {
 
 .linkedin {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
 }
 
 .linkedin-btn svg {
