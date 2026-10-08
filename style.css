@@ -2544,3 +2544,19 @@ nav > a[aria-current="page"]::after {
 .footer-copy a:hover {
     color: var(--blue);
 }
+
+/* short claim under the footer logo */
+.footer-claim {
+    max-width: 320px;
+    margin: 0;
+    color: #475467;
+    font-size: .85rem;
+    line-height: 1.5;
+}
+
+/* phone availability in the contact section */
+.consultation-hours {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: .85rem;
+}
