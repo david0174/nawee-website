@@ -2560,3 +2560,45 @@ nav > a[aria-current="page"]::after {
     color: var(--muted);
     font-size: .85rem;
 }
+
+/* header button "Erstgespräch buchen": always one line */
+.nav-cta {
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .nav-cta {
+        padding: 9px 14px;
+        font-size: .82rem;
+    }
+
+    .brand img {
+        height: 42px;
+    }
+}
+
+@media (max-width: 360px) {
+    .site-header {
+        gap: 10px;
+        padding-left: 4vw;
+        padding-right: 4vw;
+    }
+
+    nav {
+        gap: 6px;
+    }
+
+    .nav-cta {
+        padding: 8px 11px;
+        font-size: .78rem;
+    }
+
+    .brand img {
+        height: 36px;
+    }
+
+    .menu-toggle {
+        width: 38px;
+        padding: 8px;
+    }
+}
