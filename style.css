@@ -4,7 +4,7 @@
     --blue-soft: #eaf3ff;
     --yellow: #f5c542;
     --ink: #14213d;
-    --muted: #667085;
+    --muted: #3b4555; /* body text: darker for easier reading */
     --line: #e4ebf5;
     --soft: #f7faff;
     --white: #ffffff;
@@ -870,7 +870,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     gap: 30px;
-    color: #667085;
+    color: var(--muted);
     font-size: .8rem;
 }
 
@@ -1320,7 +1320,7 @@ footer {
   align-items: flex-start;
   gap: 10px;
   margin-top: 18px;
-  color: #667085;
+  color: var(--muted);
   font-size: .78rem;
   line-height: 1.5;
   cursor: pointer;
@@ -2058,7 +2058,7 @@ footer {
 .consult-card p:last-child {
     margin: 0;
     max-width: 640px;
-    color: #475467; /* darker than --muted: enough contrast on the light-blue card */
+    color: var(--muted);
 }
 
 .consult-card .button {
@@ -2310,7 +2310,7 @@ footer {
 
 .contact-option p {
     margin: 10px 0 0;
-    color: #475467;
+    color: var(--muted);
     font-size: .92rem;
     text-align: center;
 }
@@ -2348,7 +2348,7 @@ footer {
 .package-intro {
     max-width: 560px;
     margin: 0 auto 24px;
-    color: #475467;
+    color: var(--muted);
 }
 
 .package-grid {
@@ -2402,7 +2402,7 @@ footer {
 /* link to the online withdrawal function (§ 356a BGB) inside the packages block */
 .package-withdraw {
     margin: 20px 0 0;
-    color: #475467;
+    color: var(--muted);
     font-size: .9rem;
 }
 
@@ -2415,7 +2415,7 @@ footer {
 .package-legal {
     margin: 22px auto 0;
     max-width: 640px;
-    color: #475467;
+    color: var(--muted);
     font-size: .88rem;
 }
 
@@ -2509,7 +2509,7 @@ footer nav > a:not(.nav-cta) {
 /* same colour for both footer link columns */
 footer .footer-links a,
 footer .footer-legal a {
-    color: #475467;
+    color: var(--muted);
 }
 
 /* show visitors which page they are on: current menu item in blue with a small underline */
@@ -2549,7 +2549,7 @@ nav > a[aria-current="page"]::after {
 .footer-claim {
     max-width: 320px;
     margin: 0;
-    color: #475467;
+    color: var(--muted);
     font-size: .85rem;
     line-height: 1.5;
 }
