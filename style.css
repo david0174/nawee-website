@@ -2616,3 +2616,35 @@ nav > a[aria-current="page"]::after {
         max-width: 560px;
     }
 }
+
+/* =========================
+   STICKY BOOKING BUTTON (phones only)
+   ========================= */
+.sticky-cta {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .sticky-cta {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 40;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+        background: rgba(255, 255, 255, .96);
+        border-top: 1px solid var(--line);
+        box-shadow: 0 -6px 20px rgba(20, 33, 61, .08);
+        backdrop-filter: blur(10px);
+    }
+
+    .sticky-cta .button {
+        width: 100%;
+    }
+
+    /* keep the footer readable above the bar */
+    body:has(.sticky-cta) {
+        padding-bottom: 76px;
+    }
+}
