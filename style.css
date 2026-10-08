@@ -2602,3 +2602,17 @@ nav > a[aria-current="page"]::after {
         padding: 8px;
     }
 }
+
+/* offer section on the homepage: two equally wide, centred cards (Englisch, KI) */
+#angebote .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+@media (max-width: 760px) {
+    #angebote .cards {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 560px;
+    }
+}
