@@ -2703,3 +2703,469 @@ nav > a[aria-current="page"]::after {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* =========================
+   BUSINESS ENGLISH ASSESSMENT
+   ========================= */
+.assessment {
+    background: var(--soft);
+}
+
+.assessment-card {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 44px);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 10px 34px rgba(20, 33, 61, .06);
+}
+
+.assessment-card h1 {
+    margin: 0 0 14px;
+    font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+}
+
+.as-lead {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 1.08rem;
+}
+
+.as-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.as-facts li {
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: var(--blue-soft);
+    color: var(--ink);
+}
+
+.as-facts strong {
+    color: var(--blue);
+}
+
+.as-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+}
+
+.as-areas li::before {
+    content: "→ ";
+    color: var(--blue);
+}
+
+.as-note {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.as-note a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+.as-disclaimer {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.as-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+/* question screen */
+.as-progress-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: .9rem;
+}
+
+.as-counter {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.as-category {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.as-progress {
+    height: 8px;
+    margin-bottom: 26px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    overflow: hidden;
+}
+
+.as-progress span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--blue);
+    transition: width .3s ease;
+}
+
+.as-passage {
+    margin: 0 0 20px;
+    padding: 16px 18px;
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    background: var(--soft);
+    color: var(--ink);
+    white-space: pre-line;
+}
+
+.as-question {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.as-question legend {
+    margin-bottom: 18px;
+    color: var(--blue-dark);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.as-options {
+    display: grid;
+    gap: 10px;
+}
+
+.as-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+
+.as-option:hover {
+    border-color: #b9cdee;
+}
+
+.as-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.as-option-letter {
+    display: grid;
+    place-items: center;
+    flex: 0 0 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+.as-option-text {
+    color: var(--ink);
+}
+
+.as-option:has(input:checked) {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.as-option:has(input:checked) .as-option-letter {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.as-option:has(input:focus-visible) {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+}
+
+.as-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.as-nav .button:disabled,
+.button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* result screen */
+.as-score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 32px;
+    margin: 10px 0 0;
+    padding: 22px 24px;
+    border-radius: 16px;
+    background: var(--blue-soft);
+}
+
+.as-score-number {
+    margin: 0;
+    color: var(--blue-dark);
+    font-family: var(--serif);
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.as-score-number small {
+    margin-left: 6px;
+    font-size: 1.2rem;
+    color: var(--muted);
+}
+
+.as-level-label {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.as-level {
+    margin: 0;
+    color: var(--blue);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.as-bars {
+    display: grid;
+    gap: 14px;
+    margin: 28px 0;
+}
+
+.as-bar-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: var(--ink);
+}
+
+.as-bar-track {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    overflow: hidden;
+}
+
+.as-bar-track span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--blue);
+}
+
+.as-insights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.as-insight {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.as-insight-label {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.as-insight h3 {
+    margin: 0 0 8px;
+}
+
+.as-insight p:last-of-type {
+    margin-bottom: 0;
+    color: var(--muted);
+}
+
+.as-focus-list {
+    margin: 10px 0 0;
+    padding-left: 18px;
+    color: var(--ink);
+}
+
+.as-cta,
+.as-email {
+    margin-top: 26px;
+    padding: 24px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.as-cta {
+    background: var(--blue-dark);
+}
+
+.as-cta h2 {
+    color: var(--white);
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    margin: 0 0 8px;
+}
+
+.as-cta p {
+    color: #d7e3f7;
+    margin: 0 0 18px;
+}
+
+.as-cta .button.primary {
+    background: var(--white);
+    color: var(--blue-dark);
+}
+
+.as-email {
+    border: 1px solid var(--line);
+}
+
+.as-email h2 {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin: 0 0 8px;
+}
+
+.as-email p {
+    color: var(--muted);
+}
+
+.as-review {
+    margin-top: 26px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.as-review summary {
+    padding: 16px 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.as-review > div {
+    padding: 0 20px 12px;
+}
+
+.as-review-item {
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+}
+
+.as-review-q {
+    margin: 0 0 4px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.as-review-a {
+    margin: 0;
+}
+
+.is-correct .as-review-a:first-of-type {
+    color: #0a6b3b;
+}
+
+.is-wrong .as-review-a:first-of-type {
+    color: #a1261b;
+}
+
+.as-review-exp {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+@media (max-width: 640px) {
+    .as-insights {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .as-nav .button {
+        flex: 1;
+    }
+}
+
+/* elements hidden by the assessment script must stay hidden, even buttons with their own display */
+.assessment-card [hidden] {
+    display: none !important;
+}
+
+/* band linking to the free assessment */
+.test-band {
+    padding: 0 6vw;
+    background: var(--white);
+}
+
+.test-band-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 34px 40px;
+    border-radius: 20px;
+    background: var(--blue-soft);
+    border: 1px solid #cfe0f7;
+}
+
+.test-band .eyebrow {
+    margin-bottom: 6px;
+}
+
+.test-band h2 {
+    margin: 0 0 8px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.test-band p:last-child {
+    margin: 0;
+    max-width: 620px;
+    color: var(--muted);
+}
+
+.test-band .button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+    .test-band-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 26px 22px;
+    }
+}
