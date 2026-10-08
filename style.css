@@ -2605,8 +2605,8 @@ nav > a[aria-current="page"]::after {
 
 /* offer section on the homepage: two equally wide, centred cards (Englisch, KI) */
 #angebote .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 980px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 1220px;
     margin: 0 auto;
 }
 
@@ -2695,5 +2695,11 @@ nav > a[aria-current="page"]::after {
 
     body:has(.sticky-cta) .back-to-top {
         bottom: calc(84px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 761px) {
+    #angebote .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
