@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kostenloser Englisch-Kommunikationscheck von Nawee: 12 kurze Fragen dazu, wie du dich ausdrückst, Gespräche führst, im Beruf kommunizierst und dich beim Englischsprechen fühlst. Dein persönliches Kommunikationsprofil in etwa 3 Minuten.">
+    <title>Englisch-Kommunikationscheck | Nawee</title>
+    <link rel="canonical" href="https://nawee.net/kommunikations-check.html">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
+</head>
+<body>
+    <a class="skip-link" href="#top">Zum Inhalt springen</a>
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="Nawee Startseite">
+           <img class="logo" src="assets/logo_notext.png" alt="Nawee">
+        </a>
+
+        <nav aria-label="hauptnavigation">
+            <a href="englisch.html">Englisch-Coaching</a>
+            <a href="index.html#ueber-mich">Über mich</a>
+            <a class="nav-cta" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Erstgespräch buchen</a>
+            <div class="language-switch">
+                <button class="language-toggle" type="button" aria-expanded="false" aria-controls="language-menu" aria-label="Sprache wählen">
+                    <img src="assets/language-icon.svg" alt="">
+                </button>
+                <div class="language-menu" id="language-menu" hidden>
+                    <a href="kommunikations-check.html" class="active" aria-current="page" lang="de">Deutsch</a>
+                    <a href="communication-check.html" lang="en">English</a>
+                </div>
+            </div>
+
+            <!-- Replaces the language icon on small screens (see .menu-switch in style.css) -->
+            <div class="menu-switch">
+                <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="mobile-menu" id="mobile-menu" hidden>
+                    <a href="englisch.html">Englisch-Coaching</a>
+                    <a href="index.html#ueber-mich">Über mich</a>
+                    <div class="mobile-menu-languages">
+                        <a href="kommunikations-check.html" class="active" aria-current="page" lang="de">Deutsch</a>
+                        <a href="communication-check.html" lang="en">English</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="assessment section" id="check">
+            <div class="assessment-card" data-check>
+
+                <!-- 1. Start screen -->
+                <div class="as-screen" data-screen="start">
+                    <p class="eyebrow">ENGLISCH-KOMMUNIKATIONSCHECK</p>
+                    <h1>Wie gut kommunizierst du auf Englisch?</h1>
+                    <p class="as-lead">Entdecke deine Stärken in der Kommunikation und finde heraus, was dir helfen könnte, sicherer Englisch zu sprechen.</p>
+                    <div class="cc-areas">
+                        <div><h3>Sich ausdrücken</h3><p>Die richtigen Worte finden und deine Ideen erklären.</p></div>
+                        <div><h3>Gespräche führen</h3><p>Natürlich reagieren und Gespräche am Laufen halten.</p></div>
+                        <div><h3>Englisch im Beruf</h3><p>Sicher kommunizieren in beruflichen Situationen.</p></div>
+                        <div><h3>Sprechsicherheit</h3><p>Deine Gedanken teilen, ohne jeden Satz zu zerdenken.</p></div>
+                    </div>
+                    <ul class="as-facts">
+                        <li><strong>ca. 3</strong> Minuten</li>
+                        <li><strong>12</strong> Fragen</li>
+                        <li><strong>Keine</strong> Grammatikprüfung</li>
+                    </ul>
+                    <p class="as-note">Keine Anmeldung nötig. Deine Antworten bleiben in deinem Browser und werden nirgendwohin gesendet. Wähle die Antwort, die am besten zu dir passt – es gibt kein Richtig oder Falsch.</p>
+                    <div class="as-actions">
+                        <button type="button" class="button primary" data-action="start">Check starten <span aria-hidden="true">→</span></button>
+                    </div>
+                    <p class="as-disclaimer">Dieser Check beruht auf deiner Selbsteinschätzung. Er ist kein Sprachtest und ermittelt kein offizielles Sprachniveau.</p>
+                </div>
+
+                <!-- 2. Question screen -->
+                <div class="as-screen" data-screen="question" hidden>
+                    <div class="as-progress-head">
+                        <span class="as-counter" data-counter>Frage 1 von 12</span>
+                        <span class="as-category" data-category>Sich ausdrücken</span>
+                    </div>
+                    <div class="as-progress" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="1" aria-label="Fortschritt"><span data-progress-bar></span></div>
+                    <fieldset class="as-question">
+                        <legend data-question-text>Frage</legend>
+                        <div class="as-options" data-options></div>
+                    </fieldset>
+                    <div class="as-nav">
+                        <button type="button" class="button secondary" data-action="prev">← Zurück</button>
+                        <button type="button" class="button primary" data-action="next" disabled>Weiter →</button>
+                    </div>
+                </div>
+
+                <!-- 3. Result screen -->
+                <div class="as-screen" data-screen="result" hidden>
+                    <p class="eyebrow">DEIN KOMMUNIKATIONSPROFIL</p>
+                    <h1 class="cc-profile" data-profile-title></h1>
+                    <p class="as-lead" data-profile-text></p>
+
+                    <div class="as-bars" data-bars></div>
+
+                    <div class="as-insights">
+                        <div class="as-insight">
+                            <p class="as-insight-label">Deine Stärke</p>
+                            <h3 data-strength-title></h3>
+                            <p data-strength-text></p>
+                        </div>
+                        <div class="as-insight">
+                            <p class="as-insight-label">Was dir am meisten helfen könnte</p>
+                            <h3 data-focus-title></h3>
+                            <p data-focus-text></p>
+                            <ul class="as-focus-list" data-focus-list></ul>
+                        </div>
+                    </div>
+                    <p class="as-disclaimer">Dein Profil beruht auf deiner Selbsteinschätzung. Es zeigt, wie du dein Englisch erlebst – kein offizielles Sprachniveau.</p>
+
+                    <div class="as-cta">
+                        <h2>Du möchtest sicherer Englisch sprechen?</h2>
+                        <p>In einem kostenlosen 15-minütigen Erstgespräch sprechen wir über deine Ziele und finden das passende Format für dich.</p>
+                        <a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen <span aria-hidden="true">→</span></a>
+                    </div>
+
+                    <div class="as-actions">
+                        <button type="button" class="button secondary" data-action="restart">Check wiederholen</button>
+                    </div>
+                </div>
+
+                <noscript><p class="as-note">Für den Check wird JavaScript benötigt. Bitte aktiviere es in deinem Browser.</p></noscript>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-brand">
+            <img class="footer-logo" src="assets/logo_notext.png" alt="Nawee">
+            <p class="footer-claim">Englisch-Coaching – praxisnah, individuell, online und in Hannover.</p>
+            <div class="footer-contact">
+                <a href="mailto:david@nawee.net">david@nawee.net</a>
+                <span>Hannover · Online &amp; vor Ort</span>
+                <a class="footer-linkedin" href="https://www.linkedin.com/company/146650137" target="_blank" rel="noopener noreferrer" aria-label="Nawee auf LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+        </div>
+        <nav class="footer-links" aria-label="Navigation">
+            <p class="footer-heading">Navigation</p>
+            <a href="index.html#angebote">Angebot</a>
+            <a href="index.html#ueber-mich">Über mich</a>
+            <a href="index.html#kontakt">Kontakt</a>
+        </nav>
+        <nav class="footer-legal" aria-label="Rechtliches">
+            <p class="footer-heading">Rechtliches</p>
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+            <a href="buchungsbedingungen.html">Buchungsbedingungen</a>
+            <a href="widerruf.html">Widerrufsbelehrung</a>
+            <a href="vertrag-widerrufen.html">Vertrag widerrufen</a>
+        </nav>
+        <p class="footer-copy">© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">0511 936 76970</a> (Mo–Fr, 9–18 Uhr) · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="communication-check.js"></script>
+</body>
+</html>

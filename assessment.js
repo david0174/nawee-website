@@ -52,17 +52,17 @@
 
     // Indicative thresholds – not a validated CEFR conversion.
     const LEVELS = [
-        { min: 95, code: "C1+", name: "Advanced" },
-        { min: 80, code: "C1", name: "Advanced" },
-        { min: 60, code: "B2", name: "Upper-Intermediate" },
-        { min: 40, code: "B1", name: "Intermediate" },
+        { min: 90, code: "C1+", name: "Advanced" },
+        { min: 70, code: "C1", name: "Advanced" },
+        { min: 45, code: "B2", name: "Upper-Intermediate" },
+        { min: 25, code: "B1", name: "Intermediate" },
         { min: 0, code: "A2", name: "Elementary or below" },
     ];
 
-    // Short version: 2 questions per area (one easier, one harder). The full bank stays in assessment-questions.js.
-    const ACTIVE_QUESTION_IDS = [6, 8, 12, 14, 16, 23, 24, 25];
+    // Short version: 3 questions per area (B2, B2+ and C1). The full bank stays in assessment-questions.js.
+    const ACTIVE_QUESTION_IDS = [4, 7, 8, 12, 14, 15, 20, 22, 23, 28, 29, 30];
 
-    const STORAGE_KEY = "nawee-assessment-v2";
+    const STORAGE_KEY = "nawee-assessment-v3";
     const questions = ACTIVE_QUESTION_IDS.map((id) => ASSESSMENT_QUESTIONS.find((q) => q.id === id));
     const total = questions.length;
 
