@@ -3273,25 +3273,3 @@ nav > a[aria-current="page"]::after {
     font-weight: 600;
     color: var(--blue-dark);
 }
-
-/* letter-style sign-off with handwritten signature */
-.about-signoff {
-    margin-top: 28px;
-}
-
-.about-copy .about-signoff p {
-    margin: 0;
-}
-
-.about-signoff img {
-    display: block;
-    width: 150px;
-    height: auto;
-    margin: 6px 0 2px -6px;
-    mix-blend-mode: multiply; /* hides the white background of the scan */
-}
-
-.about-copy .about-signoff-name {
-    font-weight: 600;
-    color: var(--ink);
-}
