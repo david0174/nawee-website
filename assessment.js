@@ -9,17 +9,18 @@
     // ---------- configuration ----------
     // Zoho form for the detailed email report. Leave url empty to hide the email box.
     // params maps result values to the Zoho field link names used for prefilling.
+    // Zoho prefills by the fields' internal names (SingleLine…), not by their aliases.
     const EMAIL_FORM = {
-        url: "",
+        url: "https://forms.zohopublic.eu/davidna1/form/Quizresults/formperma/BjFdOjMu20aMhjntPxX6RI-D7pXHJGSwF6WOy8BK5qs",
         params: {
-            score: "Score",
-            level: "Level",
-            grammar: "Grammar",
-            vocabulary: "Vocabulary",
-            communication: "Communication",
-            reading: "Reading",
-            strength: "Strength",
-            focus: "Focus",
+            score: "SingleLine",
+            level: "SingleLine1",
+            grammar: "SingleLine2",
+            vocabulary: "SingleLine3",
+            communication: "SingleLine4",
+            reading: "SingleLine5",
+            strength: "SingleLine6",
+            focus: "SingleLine7",
         },
     };
 
@@ -224,6 +225,10 @@
                 communication: `${r.percents.communication}%`, reading: `${r.percents.reading}%`,
                 strength: CATEGORIES[r.strength].name, focus: CATEGORIES[r.focus].name,
             };
+            if (r.strength === r.focus) { // all areas equal
+                values.strength = "Balanced across all areas";
+                values.focus = "Practice in real workplace situations";
+            }
             const url = new URL(EMAIL_FORM.url);
             Object.entries(EMAIL_FORM.params).forEach(([k, field]) => url.searchParams.set(field, values[k]));
             $("[data-email-link]").href = url.href;
