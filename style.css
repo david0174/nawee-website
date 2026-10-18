@@ -9,7 +9,8 @@
     --soft: #f7faff;
     --white: #ffffff;
     --sans: "Source Sans 3", Arial, sans-serif;
-    --serif: "Source Sans 3", Arial, sans-serif; /* headings: same family as body text, medium weight */
+    --serif: "Source Sans 3", Arial, sans-serif; /* smaller headings: same family as body text, medium weight */
+    --display: "Playfair Display", Georgia, serif; /* main headlines (h1, h2) */
     --content-width: 1440px;
     
 
@@ -35,6 +36,14 @@ a {
 }
 
 /* self-hosted fonts (files in /fonts, nothing is loaded from Google) */
+@font-face {
+    font-family: "Playfair Display";
+    src: url("fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+    font-weight: 400 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Source Sans 3";
     src: url("fonts/SourceSans3-Variable.woff2") format("woff2");
@@ -170,17 +179,19 @@ h1, h2, h3 {
 
 h1 {
     margin: 0;
-    font-family: var(--serif);
+    font-family: var(--display);
+    font-weight: 700;
     font-size: clamp(1.8rem, 4.2vw, 4.7rem);
-    letter-spacing: -.01em;
+    letter-spacing: -.045em;
     color: var(--blue-dark);
 }
 
 .hero-header-en {
  margin: 0;
-    font-family: var(--serif);
+    font-family: var(--display);
+    font-weight: 700;
     font-size: clamp(3rem, 4vw, 4.7rem);
-    letter-spacing: -.01em;
+    letter-spacing: -.045em;
     color: var(--blue-dark);
 
 }
@@ -201,9 +212,10 @@ h1 span {
 
 h2 {
     margin: 0 0 20px;
-    font-family: var(--serif);
+    font-family: var(--display);
+    font-weight: 700;
     font-size: clamp(2.1rem, 4vw, 3.5rem);
-    letter-spacing: -.01em;
+    letter-spacing: -.03em;
     color: var(--blue-dark);
 }
 
