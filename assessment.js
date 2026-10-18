@@ -70,12 +70,20 @@
         { min: 0, code: "A2", name: "Elementary or below" },
     ];
 
-    // Short version: 3 questions per area (B2, B2+ and C1). The full bank stays in assessment-questions.js.
-    const ACTIVE_QUESTION_IDS = [4, 7, 8, 12, 14, 15, 20, 22, 23, 28, 29, 30];
+    // Each attempt draws 12 questions: per area one B2, one B2+ and one C1 question, so every attempt
+    // is equally hard. Reading is drawn as a whole set (texts + their 3 questions).
+    const POOLS = {
+        grammar: [[4, 5, 6], [7, 31, 32], [8, 33, 34]],
+        vocabulary: [[11, 12, 13], [14, 35, 36], [15, 37, 38]],
+        communication: [[19, 20, 21], [22, 39, 40], [23, 41, 42]],
+    };
+    const READING_SETS = [[28, 29, 30], [43, 44, 45], [46, 47, 48]];
 
-    const STORAGE_KEY = "nawee-assessment-v3";
-    const questions = ACTIVE_QUESTION_IDS.map((id) => ASSESSMENT_QUESTIONS.find((q) => q.id === id));
-    const total = questions.length;
+    const STORAGE_KEY = "nawee-assessment-v4";
+    const LAST_KEY = "nawee-assessment-last"; // question ids of the previous attempt (avoided on a retake)
+    const byId = (id) => ASSESSMENT_QUESTIONS.find((q) => q.id === id);
+    const total = 12;
+    let questions = [];
 
     // ---------- state ----------
     let state = null; // { index, answers: {questionId: optionIndex}, order: {questionId: [optionIndexes]}, finished }
@@ -101,12 +109,33 @@
         return a;
     };
 
-    const newState = () => ({
-        index: 0,
-        answers: {},
-        order: Object.fromEntries(questions.map((q) => [q.id, shuffled(q.options.length)])),
-        finished: false,
-    });
+    // random pick that prefers items not used in the previous attempt
+    const pick = (items, avoid) => {
+        const fresh = items.filter((x) => !avoid(x));
+        const from = fresh.length ? fresh : items;
+        return from[Math.floor(Math.random() * from.length)];
+    };
+
+    const drawQuestionIds = () => {
+        let last = [];
+        try { last = JSON.parse(sessionStorage.getItem(LAST_KEY)) || []; } catch { /* ignore */ }
+        const ids = [];
+        Object.values(POOLS).forEach((levels) => levels.forEach((pool) => ids.push(pick(pool, (id) => last.includes(id)))));
+        ids.push(...pick(READING_SETS, (set) => set.some((id) => last.includes(id))));
+        return ids;
+    };
+
+    const newState = () => {
+        const ids = drawQuestionIds();
+        questions = ids.map(byId);
+        return {
+            index: 0,
+            ids,
+            answers: {},
+            order: Object.fromEntries(questions.map((q) => [q.id, shuffled(q.options.length)])),
+            finished: false,
+        };
+    };
 
     // ---------- DOM helpers ----------
     const $ = (sel) => root.querySelector(sel);
@@ -279,7 +308,13 @@
         if (action === "prev" && state.index > 0) { state.index--; store.save(); renderQuestion(); }
         if (action === "next") {
             if (state.index < total - 1) { state.index++; store.save(); renderQuestion(); }
-            else { state.finished = true; store.save(); renderResult(); show("result"); }
+            else {
+                state.finished = true;
+                store.save();
+                try { sessionStorage.setItem(LAST_KEY, JSON.stringify(state.ids)); } catch { /* ignore */ }
+                renderResult();
+                show("result");
+            }
         }
         if (action === "restart") { store.clear(); state = null; show("start"); $('[data-action="resume"]').hidden = true; }
     });
@@ -302,8 +337,9 @@
 
     // resume an unfinished assessment (e.g. after reloading the page)
     const saved = store.load();
-    if (saved && saved.order && Object.keys(saved.answers || {}).length > 0) {
+    if (saved && saved.ids && Object.keys(saved.answers || {}).length > 0) {
         state = saved;
+        questions = saved.ids.map(byId);
         $('[data-action="resume"]').hidden = false;
     }
 })();
