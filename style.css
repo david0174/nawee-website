@@ -3261,6 +3261,19 @@ nav > a[aria-current="page"]::after {
     }
 }
 
+/* about section: calmer two-line headline (one sentence per line, second in blue) */
+.about-copy .about-heading {
+    font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+}
+
+.about-heading span {
+    display: block;
+    color: var(--blue);
+}
+
 /* about section: background line and closing slogan */
 .about-background {
     font-size: .95rem;
