@@ -3260,3 +3260,16 @@ nav > a[aria-current="page"]::after {
         grid-template-columns: 1fr;
     }
 }
+
+/* about section: background line and closing slogan */
+.about-background {
+    font-size: .95rem;
+}
+
+.about-copy .about-signature {
+    margin-top: 26px;
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+}
