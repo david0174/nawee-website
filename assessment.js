@@ -10,8 +10,18 @@
     // Zoho form for the detailed email report. Leave url empty to hide the email box.
     // params maps result values to the Zoho field link names used for prefilling.
     // Zoho prefills by the fields' internal names (SingleLine…), not by their aliases.
+    // Visitors whose browser language is German get the German form (same field names).
+    const prefersGerman = (navigator.languages || [navigator.language || ""]).some((l) => /^de\b/i.test(l));
     const EMAIL_FORM = {
-        url: "https://forms.zohopublic.eu/davidna1/form/Quizresults/formperma/BjFdOjMu20aMhjntPxX6RI-D7pXHJGSwF6WOy8BK5qs",
+        url: prefersGerman
+            ? "https://forms.zohopublic.eu/davidna1/form/QuizresultsGerman/formperma/r6E414Mt8Ub4vmJCR9xdy2hqGNnJ7_NuILZX6ld3OVA"
+            : "https://forms.zohopublic.eu/davidna1/form/Quizresults/formperma/BjFdOjMu20aMhjntPxX6RI-D7pXHJGSwF6WOy8BK5qs",
+        // area names and the "all areas equal" texts as they appear in the email
+        labels: prefersGerman
+            ? { grammar: "Grammatik", vocabulary: "Wortschatz", communication: "Kommunikation", reading: "Leseverstehen",
+                balancedStrength: "Ausgeglichen in allen Bereichen", balancedFocus: "Üben in echten beruflichen Situationen" }
+            : { grammar: "Grammar", vocabulary: "Business Vocabulary", communication: "Business Communication", reading: "Reading",
+                balancedStrength: "Balanced across all areas", balancedFocus: "Practice in real workplace situations" },
         params: {
             score: "SingleLine",
             level: "SingleLine1",
@@ -223,11 +233,11 @@
                 score: `${r.overall}/100`, level: r.level.code,
                 grammar: `${r.percents.grammar}%`, vocabulary: `${r.percents.vocabulary}%`,
                 communication: `${r.percents.communication}%`, reading: `${r.percents.reading}%`,
-                strength: CATEGORIES[r.strength].name, focus: CATEGORIES[r.focus].name,
+                strength: EMAIL_FORM.labels[r.strength], focus: EMAIL_FORM.labels[r.focus],
             };
             if (r.strength === r.focus) { // all areas equal
-                values.strength = "Balanced across all areas";
-                values.focus = "Practice in real workplace situations";
+                values.strength = EMAIL_FORM.labels.balancedStrength;
+                values.focus = EMAIL_FORM.labels.balancedFocus;
             }
             const url = new URL(EMAIL_FORM.url);
             Object.entries(EMAIL_FORM.params).forEach(([k, field]) => url.searchParams.set(field, values[k]));
