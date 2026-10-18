@@ -3174,6 +3174,29 @@ nav > a[aria-current="page"]::after {
     flex-shrink: 0;
 }
 
+/* dark blue box so the free tests stand out from the white sections around them */
+.test-band-inner {
+    background: var(--blue-dark);
+    border-color: var(--blue-dark);
+}
+
+.test-band .eyebrow {
+    color: #9fc2f5;
+}
+
+.test-band h2 {
+    color: var(--white);
+}
+
+.test-band-inner > div > p:last-child {
+    color: #d7e3f7;
+}
+
+.test-band-inner > .button.primary {
+    background: var(--white);
+    color: var(--blue-dark);
+}
+
 /* homepage variant: two choices side by side */
 .test-band-inner:has(.test-band-options) {
     display: block;
@@ -3194,7 +3217,7 @@ nav > a[aria-current="page"]::after {
     flex-direction: column;
     align-items: flex-start;
     padding: 24px 26px;
-    border: 1px solid #cfe0f7;
+    border: 1px solid transparent;
     border-radius: 16px;
     background: var(--white);
 }
