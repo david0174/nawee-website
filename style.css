@@ -896,7 +896,7 @@ footer {
 /* line 1: email + LinkedIn icon, line 2: location */
 .footer-contact {
     display: grid;
-    grid-template-columns: max-content max-content 1fr;
+    grid-template-columns: max-content max-content max-content 1fr;
     justify-items: start;
     align-items: center;
     gap: 4px 12px;
@@ -911,6 +911,11 @@ footer {
 
 .footer-contact .footer-instagram {
     grid-column: 3;
+    grid-row: 1;
+}
+
+.footer-contact .footer-facebook {
+    grid-column: 4;
     grid-row: 1;
 }
 
@@ -938,6 +943,16 @@ footer {
 .footer-instagram {
     display: inline-flex;
     color: #e1306c !important;
+}
+
+.footer-facebook {
+    display: inline-flex;
+    color: #1877f2 !important;
+}
+
+/* Facebook icon is prepared in all footers but hidden until the page is ready – delete this rule to show it */
+.footer-contact .footer-facebook {
+    display: none;
 }
 
 .footer-brand strong {
