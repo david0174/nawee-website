@@ -896,7 +896,7 @@ footer {
 /* line 1: email + LinkedIn icon, line 2: location */
 .footer-contact {
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content max-content 1fr;
     justify-items: start;
     align-items: center;
     gap: 4px 12px;
@@ -906,6 +906,11 @@ footer {
 
 .footer-contact .footer-linkedin {
     grid-column: 2;
+    grid-row: 1;
+}
+
+.footer-contact .footer-instagram {
+    grid-column: 3;
     grid-row: 1;
 }
 
@@ -928,6 +933,11 @@ footer {
 .footer-linkedin {
     display: inline-flex;
     color: #0a66c2 !important;
+}
+
+.footer-instagram {
+    display: inline-flex;
+    color: #e1306c !important;
 }
 
 .footer-brand strong {
