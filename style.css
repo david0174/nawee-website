@@ -252,6 +252,43 @@ h3 {
     margin-top: 30px;
 }
 
+/* small personal introduction under the hero buttons */
+.hero-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    color: var(--muted);
+    font-size: .92rem;
+    line-height: 1.4;
+}
+
+.hero-person img {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white);
+    box-shadow: 0 4px 14px rgba(11, 46, 131, .18);
+}
+
+.hero-person strong {
+    display: block;
+    color: var(--blue-dark);
+    font-size: 1rem;
+}
+
+.hero-person em {
+    font-style: normal;
+    color: var(--blue);
+    white-space: nowrap;
+}
+
+.hero-person:hover em {
+    text-decoration: underline;
+}
+
 .button {
     display: inline-flex;
     align-items: center;
