@@ -232,7 +232,7 @@ methodTabs.forEach((tab) => {
     const el = document.querySelector("[data-footer-quote]");
     if (!el) return;
     const lines = document.documentElement.lang === "en"
-        ? ["Progress over perfection.", "Fail faster, reach farther.", "Every conversation is a chance to grow.", "The courage to speak is the first step.", "Languages bring people together."]
-        : ["Fortschritt statt Perfektion.", "Schneller scheitern, weiter kommen.", "Jedes Gespräch ist eine Chance zu wachsen.", "Der Mut zu sprechen ist der erste Schritt.", "Sprachen verbinden Menschen."];
+        ? ["Progress over perfection.", "Try faster, reach farther.", "The more you try, the more you learn.", "Every conversation is a chance to grow.", "The courage to speak is the first step.", "Languages bring people together."]
+        : ["Fortschritt statt Perfektion.", "Mehr wagen, weiter kommen.", "Je mehr du versuchst, desto mehr lernst du.", "Jedes Gespräch ist eine Chance zu wachsen.", "Der Mut zu sprechen ist der erste Schritt.", "Sprachen verbinden Menschen."];
     el.textContent = lines[Math.floor(Math.random() * lines.length)];
 })();
