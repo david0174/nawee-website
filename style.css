@@ -4052,10 +4052,13 @@ nav > a.is-current::after {
     background: var(--yellow);
 }
 
-/* 3. highlighted words in the central statement: soft marker underline */
+/* 3. highlighted words in the central statement: thin yellow underline with some space below the letters */
 .intro-statement strong {
-    background: linear-gradient(transparent 64%, rgba(245, 197, 66, .45) 64%);
-    padding: 0 2px;
+    text-decoration: underline;
+    text-decoration-color: var(--yellow);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 9px;
+    text-decoration-skip-ink: none;
 }
 
 /* 4. offer and audience cards: yellow edge on hover */
