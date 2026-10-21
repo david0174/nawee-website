@@ -5985,3 +5985,47 @@ mark.hl {
     from { background-size: 0% var(--hl-size); }
     to { background-size: 100% var(--hl-size); }
 }
+
+/* "Continue with Google" on the login and sign-up forms */
+.account-google {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 6px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    color: #1f1f1f;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(20, 33, 61, .06);
+}
+
+.account-google:hover {
+    border-color: #c6d3e6;
+    background: #f8fafd;
+}
+
+.account-google:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+.account-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 420px;
+    margin: 18px 0 4px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.account-divider::before,
+.account-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+}

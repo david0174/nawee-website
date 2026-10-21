@@ -29,9 +29,12 @@
     const RELOAD_FLAG = "nawee-synced-reload";
 
     const params = new URLSearchParams(location.search);
+    const NEXT_KEY = "nawee-next-page";
+    const validNext = (n) => /^(kurs\.html|lektion\.html\?l=\d-\d|communication-course\.html|communication-lesson\.html\?l=\d-\d)$/.test(n || "") ? n : "";
     const nextPage = (() => {
-        const n = params.get("next") || "";
-        return /^(kurs\.html|lektion\.html\?l=\d-\d|communication-course\.html|communication-lesson\.html\?l=\d-\d)$/.test(n) ? n : "";
+        let n = validNext(params.get("next"));
+        if (!n) { try { n = validNext(sessionStorage.getItem(NEXT_KEY)); sessionStorage.removeItem(NEXT_KEY); } catch { /* ignore */ } }
+        return n;
     })();
 
     const T = isEnglish ? {
@@ -57,6 +60,7 @@
         deleteTitle: "Delete account", deleteText: "Deletes your account, username and saved progress on our servers. Progress stored in this browser stays here.",
         deleteBtn: "Delete my account", deleteConfirm: "Do you really want to delete your account? This cannot be undone.", deleted: "Your account has been deleted.",
         hint: (n) => `Logged in as <strong>${n}</strong> · <a href="account.html">My account</a>`,
+        google: "Continue with Google", or: "or with your email",
         confirmedTitle: "Your email is confirmed!",
         confirmedText: "Welcome to Nawee – your account is ready. Your learning progress is now saved in your account and available on all your devices.",
         confirmedPrimary: "Start learning", confirmedSecondary: "Go to my account", learnPage: "learn.html",
@@ -91,6 +95,7 @@
         deleteTitle: "Konto löschen", deleteText: "Löscht dein Konto, deinen Benutzernamen und deinen gespeicherten Fortschritt auf unseren Servern. Der Fortschritt in diesem Browser bleibt erhalten.",
         deleteBtn: "Mein Konto löschen", deleteConfirm: "Möchtest du dein Konto wirklich löschen? Das kann nicht rückgängig gemacht werden.", deleted: "Dein Konto wurde gelöscht.",
         hint: (n) => `Angemeldet als <strong>${n}</strong> · <a href="konto.html">Mein Konto</a>`,
+        google: "Weiter mit Google", or: "oder mit deiner E-Mail-Adresse",
         confirmedTitle: "Deine E-Mail ist bestätigt!",
         confirmedText: "Willkommen bei Nawee – dein Konto ist startklar. Dein Lernfortschritt wird jetzt in deinem Konto gespeichert und ist auf allen deinen Geräten verfügbar.",
         confirmedPrimary: "Jetzt lernen", confirmedSecondary: "Zu meinem Konto", learnPage: "lernen.html",
@@ -239,6 +244,22 @@
     // ---------- account page ----------
     const root = document.querySelector("[data-account]");
     const field = (id, label, type, extra = "", star = false) => `<label class="account-label" for="${id}">${label}${star ? ' <span class="account-required" aria-hidden="true">*</span>' : ""}</label><input class="account-input" id="${id}" name="${id}" type="${type}" ${extra}>`;
+    // "Continue with Google" (Supabase OAuth); Google sends the visitor back to the account page
+    const GOOGLE_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.9l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>`;
+    const googleBlock = () => `<button type="button" class="button account-google" data-google>${GOOGLE_ICON}<span>${T.google}</span></button>
+                <p class="account-divider"><span>${T.or}</span></p>`;
+    const wireGoogle = () => {
+        root.querySelector("[data-google]")?.addEventListener("click", async (e) => {
+            e.currentTarget.disabled = true;
+            if (nextPage) { try { sessionStorage.setItem(NEXT_KEY, nextPage); } catch { /* ignore */ } }
+            const { error } = await db.auth.signInWithOAuth({ provider: "google", options: { redirectTo: LIVE_ACCOUNT_URL } });
+            if (error) {
+                e.currentTarget.disabled = false;
+                root.querySelector("[data-msg]").innerHTML = message(errorText(error));
+            }
+        });
+    };
+
     // passwords: at least 8 characters with letters and numbers; the checklist ticks off live while typing
     const strongPassword = (p) => p.length >= 8 && /[A-Za-z]/.test(p) && /[0-9]/.test(p);
     const passwordRules = () => `<ul class="account-pw-rules" data-pw-rules>${T.pwRules.map((r, i) => `<li data-rule="${i}">${r}</li>`).join("")}</ul>`;
@@ -259,6 +280,7 @@
     const views = {
         login(note = "") {
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.loginTitle}</h1><p class="as-lead">${T.loginLead}</p>${note}
+                ${googleBlock()}
                 <form class="account-form" data-form novalidate>
                     ${field("email", T.email, "email", 'autocomplete="email" required')}
                     ${field("password", T.password, "password", 'autocomplete="current-password" required')}
@@ -266,6 +288,7 @@
                     <button type="submit" class="button primary">${T.login} <span aria-hidden="true">→</span></button>
                 </form>
                 <p class="account-links"><button type="button" class="link-button" data-go="forgot">${T.forgot}</button> · ${T.noAccount} <button type="button" class="link-button" data-go="signup">${T.signup}</button></p>`;
+            wireGoogle();
             const form = root.querySelector("[data-form]");
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -279,6 +302,7 @@
             const cc = fromCommunicationCourse && isEnglish;
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.signupTitle}</h1><p class="as-lead">${cc ? T.ccSignupLead : T.signupLead}</p>
                 <ul class="account-benefits">${(cc ? T.ccBenefits : T.benefits).map((b) => `<li>${b}</li>`).join("")}</ul>
+                ${googleBlock()}
                 <form class="account-form" data-form novalidate>
                     <p class="account-hint-text account-required-note">${T.requiredNote}</p>
                     ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required', true)}
@@ -293,6 +317,7 @@
                     <p class="as-note">${T.privacy}</p>
                 </form>
                 <p class="account-links">${T.haveAccount} <button type="button" class="link-button" data-go="login">${T.login}</button></p>`;
+            wireGoogle();
             const form = root.querySelector("[data-form]");
             wirePasswords(form);
             form.addEventListener("submit", async (e) => {
