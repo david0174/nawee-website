@@ -142,8 +142,8 @@ backToTop.addEventListener("click", () => {
     if (skip) skip.focus({ preventScroll: true });
 });
 
-// Language: suggest the other language version of a page (no forced redirect, so search engines
-// still see every page), and remember the visitor's explicit choice for future visits.
+// Language: on a first visit with a different browser language, ask once whether to switch to the other
+// language version (no forced redirect, so search engines still see every page), and remember the choice.
 (() => {
     const PREF_KEY = "nawee-lang";
     const lang = document.documentElement.lang.startsWith("de") ? "de" : "en";
@@ -161,26 +161,39 @@ backToTop.addEventListener("click", () => {
     const target = (new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.hash;
 
     const pref = getPref();
-    if (pref === other) { location.replace(target); return; } // visitor chose the other language before
-    if (pref) return;
+    const preview = new URLSearchParams(location.search).has("lang-preview"); // ?lang-preview always shows the box (nothing is saved)
+    if (!preview && pref === other) { location.replace(target); return; } // visitor chose the other language before
+    if (!preview && pref) return;
 
     const browserLangs = (navigator.languages || [navigator.language || ""]).map((l) => l.toLowerCase());
-    const suggest = lang === "de"
+    const suggest = preview || (lang === "de"
         ? !browserLangs.some((l) => l.startsWith("de")) // German page, browser without German
-        : (browserLangs[0] || "").startsWith("de"); // English page, browser set to German first
+        : (browserLangs[0] || "").startsWith("de")); // English page, browser set to German first
     if (!suggest) return;
 
+    // first visit with a different browser language: ask once in a small box, remember the answer
     const text = lang === "de"
-        ? { msg: "This page is also available in English.", go: "Switch to English", close: "Stay on the German page" }
-        : { msg: "Diese Seite gibt es auch auf Deutsch.", go: "Auf Deutsch ansehen", close: "Auf der englischen Seite bleiben" };
-    const bar = document.createElement("div");
-    bar.className = "lang-suggest";
-    bar.lang = other;
-    bar.innerHTML = `<span>${text.msg}</span> <a href="${target}">${text.go} →</a> <button type="button" aria-label="${text.close}">×</button>`;
-    bar.querySelector("a").addEventListener("click", () => setPref(other));
-    bar.querySelector("button").addEventListener("click", () => { setPref(lang); bar.remove(); });
-    const header = document.querySelector(".site-header");
-    (header || document.body.firstElementChild).insertAdjacentElement(header ? "afterend" : "beforebegin", bar);
+        ? { title: "Welcome to Nawee!", msg: "This page is in German. Would you like to see the English version?", go: "Switch to English", stay: "Stay on the German page" }
+        : { title: "Willkommen bei Nawee!", msg: "Diese Seite ist auf Englisch. Möchtest du die deutsche Version sehen?", go: "Auf Deutsch wechseln", stay: "Auf der englischen Seite bleiben" };
+    const overlay = document.createElement("div");
+    overlay.className = "lang-modal";
+    overlay.lang = other;
+    overlay.innerHTML = `<div class="lang-modal-box" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
+        <p class="lang-modal-title" id="lang-modal-title">${text.title}</p>
+        <p>${text.msg}</p>
+        <div class="lang-modal-actions">
+            <a class="button primary" href="${target}">${text.go} <span aria-hidden="true">→</span></a>
+            <button type="button" class="button secondary">${text.stay}</button>
+        </div>
+    </div>`;
+    const close = () => { if (!preview) setPref(lang); overlay.remove(); document.removeEventListener("keydown", onKey); };
+    const onKey = (event) => { if (event.key === "Escape") close(); };
+    overlay.querySelector("a").addEventListener("click", () => { if (!preview) setPref(other); });
+    overlay.querySelector("button").addEventListener("click", close);
+    overlay.addEventListener("click", (event) => { if (event.target === overlay) close(); });
+    document.addEventListener("keydown", onKey);
+    document.body.append(overlay);
+    overlay.querySelector("a").focus();
 })();
 
 // Homepage: underline "Über mich" / "About Me" in the menu while the About Me section is on screen

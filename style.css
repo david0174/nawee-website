@@ -3962,38 +3962,50 @@ nav > a.is-current::after {
     background: rgba(255, 255, 255, .1);
 }
 
-/* suggestion bar for the other language version */
-.lang-suggest {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 6px 14px;
-    padding: 10px 48px 10px 16px;
-    position: relative;
-    background: var(--blue-dark);
-    color: var(--white);
-    font-size: .92rem;
+/* language box: asks first-time visitors with a different browser language once */
+.lang-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(11, 46, 131, .45);
+}
+
+.lang-modal-box {
+    width: min(100%, 440px);
+    box-sizing: border-box;
+    padding: 30px 28px 26px;
+    border-top: 5px solid var(--yellow);
+    border-radius: 18px;
+    background: var(--white);
+    box-shadow: 0 24px 60px rgba(11, 46, 131, .3);
     text-align: center;
 }
 
-.lang-suggest a {
-    color: var(--yellow);
-    font-weight: 600;
-    text-decoration: underline;
+.lang-modal-title {
+    margin: 0 0 8px;
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--blue-dark);
 }
 
-.lang-suggest button {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 2px 8px;
-    border: 0;
-    background: none;
-    color: var(--white);
-    font-size: 1.3rem;
-    line-height: 1;
+.lang-modal-box p {
+    margin: 0 0 22px;
+    color: var(--muted);
+}
+
+.lang-modal-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.lang-modal-actions .button {
+    justify-content: center;
+    font: inherit;
+    font-weight: 600;
     cursor: pointer;
 }
 
@@ -4115,7 +4127,7 @@ nav > a.is-current::after {
 }
 
 .method-more-body {
-    margin-top: 14px;
+    margin-top: 18px;
     padding: 14px 16px;
     border-left: 3px solid var(--yellow);
     border-radius: 0 10px 10px 0;
