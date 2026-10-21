@@ -5696,3 +5696,168 @@ nav.learn-jump > a {
         padding: 22px;
     }
 }
+
+/* popup after confirming the email address (account.js) */
+.account-popup {
+    width: min(440px, calc(100vw - 32px));
+    padding: 32px 28px 28px;
+    border: 0;
+    border-radius: 24px;
+    background: var(--white);
+    color: var(--ink, #1d2433);
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(13, 47, 130, .25);
+}
+
+.account-popup::backdrop {
+    background: rgba(13, 47, 130, .35);
+    backdrop-filter: blur(3px);
+}
+
+.account-popup[open] {
+    animation: account-popup-in .45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes account-popup-in {
+    from { opacity: 0; transform: translateY(16px) scale(.94); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .account-popup[open] { animation: none; }
+}
+
+.account-popup .account-popup-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: #e3f5ea;
+    color: #1e9e5a;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.account-popup h2 {
+    margin: 0 0 10px;
+    font-size: 1.6rem;
+}
+
+.account-popup p {
+    margin: 0 0 20px;
+    color: var(--muted);
+}
+
+.account-popup .as-actions {
+    justify-content: center;
+}
+
+/* sign-up: required-field asterisks and live password rules */
+.account-required {
+    color: #c0392b;
+}
+
+.account-required-note {
+    margin-bottom: 2px;
+}
+
+.account-pw-rules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.account-pw-rules li::before {
+    content: "○ ";
+}
+
+.account-pw-rules li.is-ok {
+    color: #1e7a48;
+}
+
+.account-pw-rules li.is-ok::before {
+    content: "✓ ";
+}
+
+.account-pw-match {
+    margin: 0;
+    color: #1e7a48;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+/* Free consultation box: pops in when it scrolls into view, then the booking button glows and its arrow nudges */
+@media (prefers-reduced-motion: no-preference) {
+    .js .consult-card {
+        opacity: 0;
+    }
+
+    .js .consult-card.in-view {
+        animation: news-pop .8s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    }
+
+    .js .consult-card > div > * {
+        opacity: 0;
+    }
+
+    .js .consult-card.in-view > div > * {
+        animation: consult-rise .6s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .consult-card.in-view > div > :nth-child(1) { animation-delay: .25s; }
+    .js .consult-card.in-view > div > :nth-child(2) { animation-delay: .35s; }
+    .js .consult-card.in-view > div > :nth-child(3) { animation-delay: .45s; }
+    .js .consult-card.in-view > div > :nth-child(4) { animation-delay: .55s; }
+
+    .js .consult-card.in-view > .button {
+        animation: consult-glow 1.4s .9s ease-in-out 2;
+    }
+
+    .js .consult-card.in-view > .button span {
+        display: inline-block;
+        animation: nl-nudge .6s 1.1s ease-in-out 3;
+    }
+}
+
+@keyframes consult-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes consult-glow {
+    0%, 100% { box-shadow: 0 12px 26px rgba(21, 84, 192, .22); }
+    50% { box-shadow: 0 0 0 8px rgba(21, 84, 192, .14), 0 14px 30px rgba(21, 84, 192, .3); }
+}
+
+/* Communication Coaching: the free course band as a rounded tile instead of a full-width band */
+#free-course {
+    padding: 56px 6vw;
+    background: none;
+}
+
+#free-course .test-band-inner {
+    max-width: 1100px;
+    padding: 44px 48px;
+    border-radius: 28px;
+    background:
+        radial-gradient(ellipse 50% 90% at 100% 0%, rgba(59, 130, 246, .38), transparent 70%),
+        radial-gradient(ellipse 40% 80% at 0% 100%, rgba(59, 130, 246, .2), transparent 70%),
+        var(--blue-dark);
+    box-shadow: 0 24px 60px rgba(13, 47, 130, .18);
+}
+
+@media (max-width: 700px) {
+    #free-course .test-band-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 24px;
+        border-radius: 22px;
+    }
+}

@@ -8,6 +8,11 @@
     // Course pages are only shown with an account (see [data-requires-account] in style.css).
     // If the login service can't load, open them anyway instead of locking learners out.
     const gated = document.querySelector("[data-requires-account]");
+    // The confirmation link from the sign-up email lands here with "#…type=signup" (or "#error=…" if the link
+    // is expired). Read it before the Supabase client processes and removes it.
+    const linkParams = new URLSearchParams(location.hash.slice(1));
+    const justConfirmed = linkParams.get("type") === "signup";
+    const linkError = linkParams.get("error_code") || linkParams.get("error") || "";
     const unlockGate = () => { if (gated) gated.classList.add("account-ok"); };
     if (!window.supabase) { unlockGate(); return; }
 
@@ -41,7 +46,7 @@
         ccBenefits: ["Your completed lessons saved in your account", "Continue on any device – phone, laptop or tablet", "Your progress stays safe if you clear your browser data", "Also saves your progress in the course “Sicher sprechen”"],
         loginLead: "Log in to continue with your course and trophies.",
         usernameHint: "3–24 characters: letters, numbers, dot, dash or underscore. Shown on your profile.",
-        passwordHint: "At least 8 characters.",
+        passwordHint: "At least 8 characters.", pwRules: ["At least 8 characters", "Letters and numbers"], pwMatch: "Passwords match", requiredNote: "* Required",
         privacy: `By creating an account, our <a href="privacy-policy.html">Privacy Policy</a> applies.`,
         checkTitle: "Almost done!", checkText: (e) => `We sent an email to <strong>${e}</strong>. Click the link in it to confirm your account – then you can log in.`,
         forgotTitle: "Reset your password", forgotLead: "Enter your email and we'll send you a link to set a new password.",
@@ -52,12 +57,16 @@
         deleteTitle: "Delete account", deleteText: "Deletes your account, username and saved progress on our servers. Progress stored in this browser stays here.",
         deleteBtn: "Delete my account", deleteConfirm: "Do you really want to delete your account? This cannot be undone.", deleted: "Your account has been deleted.",
         hint: (n) => `Logged in as <strong>${n}</strong> · <a href="account.html">My account</a>`,
+        confirmedTitle: "Your email is confirmed!",
+        confirmedText: "Welcome to Nawee – your account is ready. Your learning progress is now saved in your account and available on all your devices.",
+        confirmedPrimary: "Start learning", confirmedSecondary: "Go to my account", learnPage: "learn.html",
+        linkExpired: "This link has expired or was already used. If you've already confirmed your email, just log in. Otherwise, sign up again to get a new link.",
         hintOut: `<a href="account.html">Create a free account</a> to save your progress and trophies on all your devices.`,
         errors: {
             invalid: "Email or password is incorrect.", unconfirmed: "Please confirm your email address first – check your inbox.",
             exists: "There is already an account for this email.", usernameTaken: "This username is already taken.",
             usernameFormat: "Please choose a username with 3–24 characters (letters, numbers, . _ -).",
-            short: "Your password needs at least 8 characters.", mismatch: "The passwords don't match.",
+            short: "Your password needs at least 8 characters.", weak: "Your password needs at least 8 characters, with both letters and numbers.", mismatch: "The passwords don't match.",
             rate: "Too many attempts – please wait a few minutes and try again.",
             email: "We couldn't send the confirmation email right now. Please try again later – or write to david@nawee.net.", generic: "Something went wrong. Please try again.",
         },
@@ -71,7 +80,7 @@
         benefits: ["21 Lektionen für echte Gespräche", "Einstufungstest mit deinem empfohlenen Einstieg", "Trophäen für jeden Meilenstein", "Dein Fortschritt gespeichert – auf allen deinen Geräten"],
         loginLead: "Melde dich an, um mit deinem Kurs und deinen Trophäen weiterzumachen.",
         usernameHint: "3–24 Zeichen: Buchstaben, Zahlen, Punkt, Bindestrich oder Unterstrich. Wird in deinem Profil angezeigt.",
-        passwordHint: "Mindestens 8 Zeichen.",
+        passwordHint: "Mindestens 8 Zeichen.", pwRules: ["Mindestens 8 Zeichen", "Buchstaben und Zahlen"], pwMatch: "Passwörter stimmen überein", requiredNote: "* Pflichtfeld",
         privacy: `Mit der Registrierung gilt unsere <a href="datenschutz.html">Datenschutzerklärung</a>.`,
         checkTitle: "Fast geschafft!", checkText: (e) => `Wir haben dir eine E-Mail an <strong>${e}</strong> geschickt. Klicke auf den Link darin, um dein Konto zu bestätigen – danach kannst du dich anmelden.`,
         forgotTitle: "Passwort zurücksetzen", forgotLead: "Gib deine E-Mail-Adresse ein – wir schicken dir einen Link, mit dem du ein neues Passwort festlegen kannst.",
@@ -82,12 +91,16 @@
         deleteTitle: "Konto löschen", deleteText: "Löscht dein Konto, deinen Benutzernamen und deinen gespeicherten Fortschritt auf unseren Servern. Der Fortschritt in diesem Browser bleibt erhalten.",
         deleteBtn: "Mein Konto löschen", deleteConfirm: "Möchtest du dein Konto wirklich löschen? Das kann nicht rückgängig gemacht werden.", deleted: "Dein Konto wurde gelöscht.",
         hint: (n) => `Angemeldet als <strong>${n}</strong> · <a href="konto.html">Mein Konto</a>`,
+        confirmedTitle: "Deine E-Mail ist bestätigt!",
+        confirmedText: "Willkommen bei Nawee – dein Konto ist startklar. Dein Lernfortschritt wird jetzt in deinem Konto gespeichert und ist auf allen deinen Geräten verfügbar.",
+        confirmedPrimary: "Jetzt lernen", confirmedSecondary: "Zu meinem Konto", learnPage: "lernen.html",
+        linkExpired: "Dieser Link ist abgelaufen oder wurde schon benutzt. Wenn du deine E-Mail-Adresse schon bestätigt hast, melde dich einfach an. Sonst registriere dich noch einmal, um einen neuen Link zu bekommen.",
         hintOut: `<a href="konto.html">Kostenloses Konto erstellen</a>, um deinen Fortschritt und deine Trophäen auf allen Geräten zu speichern.`,
         errors: {
             invalid: "E-Mail oder Passwort ist falsch.", unconfirmed: "Bitte bestätige zuerst deine E-Mail-Adresse – schau in dein Postfach.",
             exists: "Für diese E-Mail gibt es schon ein Konto.", usernameTaken: "Dieser Benutzername ist leider schon vergeben.",
             usernameFormat: "Bitte wähle einen Benutzernamen mit 3–24 Zeichen (Buchstaben, Zahlen, . _ -).",
-            short: "Dein Passwort braucht mindestens 8 Zeichen.", mismatch: "Die Passwörter stimmen nicht überein.",
+            short: "Dein Passwort braucht mindestens 8 Zeichen.", weak: "Dein Passwort braucht mindestens 8 Zeichen – mit Buchstaben und Zahlen.", mismatch: "Die Passwörter stimmen nicht überein.",
             rate: "Zu viele Versuche – bitte warte ein paar Minuten und versuch es dann noch einmal.",
             email: "Die Bestätigungs-E-Mail konnte gerade nicht gesendet werden. Bitte versuch es später noch einmal – oder schreib an david@nawee.net.", generic: "Etwas ist schiefgelaufen. Bitte versuch es noch einmal.",
         },
@@ -100,6 +113,7 @@
         if (m.includes("not confirmed")) return T.errors.unconfirmed;
         if (m.includes("already registered") || m.includes("already been registered")) return T.errors.exists;
         if (m.includes("password") && m.includes("6")) return T.errors.short;
+        if (m.includes("password should") || m.includes("weak password")) return T.errors.weak;
         if (m.includes("security purposes") || m.includes("rate limit") || m.includes("too many")) return T.errors.rate;
         if (m.includes("error sending")) return T.errors.email; // e.g. "Error sending confirmation email" (email service problem)
         return T.errors.generic;
@@ -200,9 +214,45 @@
         unlockGate();
     };
 
+    // ---------- popup after confirming the email address ----------
+    let celebrated = false;
+    const celebrate = () => {
+        if (!justConfirmed || celebrated) return;
+        celebrated = true;
+        const dialog = document.createElement("dialog");
+        dialog.className = "account-popup";
+        dialog.setAttribute("aria-labelledby", "account-popup-title");
+        dialog.innerHTML = `<p class="account-popup-icon" aria-hidden="true">✓</p>
+            <h2 id="account-popup-title">${T.confirmedTitle}</h2>
+            <p>${T.confirmedText}</p>
+            <div class="as-actions">
+                <a class="button primary" href="${T.learnPage}">${T.confirmedPrimary} <span aria-hidden="true">→</span></a>
+                <button type="button" class="button secondary" data-close>${T.confirmedSecondary}</button>
+            </div>`;
+        dialog.querySelector("[data-close]").addEventListener("click", () => dialog.close());
+        dialog.addEventListener("close", () => dialog.remove());
+        dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); }); // click outside closes
+        document.body.append(dialog);
+        if (dialog.showModal) dialog.showModal(); else dialog.setAttribute("open", "");
+    };
+
     // ---------- account page ----------
     const root = document.querySelector("[data-account]");
-    const field = (id, label, type, extra = "") => `<label class="account-label" for="${id}">${label}</label><input class="account-input" id="${id}" name="${id}" type="${type}" ${extra}>`;
+    const field = (id, label, type, extra = "", star = false) => `<label class="account-label" for="${id}">${label}${star ? ' <span class="account-required" aria-hidden="true">*</span>' : ""}</label><input class="account-input" id="${id}" name="${id}" type="${type}" ${extra}>`;
+    // passwords: at least 8 characters with letters and numbers; the checklist ticks off live while typing
+    const strongPassword = (p) => p.length >= 8 && /[A-Za-z]/.test(p) && /[0-9]/.test(p);
+    const passwordRules = () => `<ul class="account-pw-rules" data-pw-rules>${T.pwRules.map((r, i) => `<li data-rule="${i}">${r}</li>`).join("")}</ul>`;
+    const passwordMatch = () => `<p class="account-pw-match" data-pw-match hidden>✓ ${T.pwMatch}</p>`;
+    const wirePasswords = (form) => {
+        const update = () => {
+            const p = form.password.value, p2 = form.password2.value;
+            const ok = [p.length >= 8, /[A-Za-z]/.test(p) && /[0-9]/.test(p)];
+            form.querySelectorAll("[data-rule]").forEach((li) => li.classList.toggle("is-ok", ok[Number(li.dataset.rule)]));
+            form.querySelector("[data-pw-match]").hidden = !(p2 && p === p2);
+        };
+        form.password.addEventListener("input", update);
+        form.password2.addEventListener("input", update);
+    };
     const message = (text, kind = "error") => `<p class="account-message is-${kind}" role="${kind === "error" ? "alert" : "status"}">${text}</p>`;
     const setBusy = (form, busy) => form.querySelectorAll("button, input").forEach((el) => { el.disabled = busy; });
 
@@ -230,24 +280,27 @@
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.signupTitle}</h1><p class="as-lead">${cc ? T.ccSignupLead : T.signupLead}</p>
                 <ul class="account-benefits">${(cc ? T.ccBenefits : T.benefits).map((b) => `<li>${b}</li>`).join("")}</ul>
                 <form class="account-form" data-form novalidate>
-                    ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required')}
+                    <p class="account-hint-text account-required-note">${T.requiredNote}</p>
+                    ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required', true)}
                     <p class="account-hint-text">${T.usernameHint}</p>
-                    ${field("email", T.email, "email", 'autocomplete="email" required')}
-                    ${field("password", T.password, "password", 'autocomplete="new-password" minlength="8" required')}
-                    <p class="account-hint-text">${T.passwordHint}</p>
-                    ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required')}
+                    ${field("email", T.email, "email", 'autocomplete="email" required', true)}
+                    ${field("password", T.password, "password", 'autocomplete="new-password" minlength="8" required', true)}
+                    ${passwordRules()}
+                    ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required', true)}
+                    ${passwordMatch()}
                     <div data-msg></div>
                     <button type="submit" class="button primary">${T.signup} <span aria-hidden="true">→</span></button>
                     <p class="as-note">${T.privacy}</p>
                 </form>
                 <p class="account-links">${T.haveAccount} <button type="button" class="link-button" data-go="login">${T.login}</button></p>`;
             const form = root.querySelector("[data-form]");
+            wirePasswords(form);
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const msg = form.querySelector("[data-msg]");
                 const username = form.username.value.trim(), email = form.email.value.trim(), password = form.password.value;
                 if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { msg.innerHTML = message(T.errors.usernameFormat); return; }
-                if (password.length < 8) { msg.innerHTML = message(T.errors.short); return; }
+                if (!strongPassword(password)) { msg.innerHTML = message(T.errors.weak); return; }
                 if (password !== form.password2.value) { msg.innerHTML = message(T.errors.mismatch); return; }
                 setBusy(form, true);
                 const { data: free, error: checkError } = await db.rpc("username_available", { name: username });
@@ -283,17 +336,20 @@
         newPassword() {
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.newPwTitle}</h1>
                 <form class="account-form" data-form novalidate>
-                    ${field("password", T.passwordNew, "password", 'autocomplete="new-password" minlength="8" required')}
-                    ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required')}
-                    <p class="account-hint-text">${T.passwordHint}</p>
+                    <p class="account-hint-text account-required-note">${T.requiredNote}</p>
+                    ${field("password", T.passwordNew, "password", 'autocomplete="new-password" minlength="8" required', true)}
+                    ${passwordRules()}
+                    ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required', true)}
+                    ${passwordMatch()}
                     <div data-msg></div>
                     <button type="submit" class="button primary">${T.savePassword} <span aria-hidden="true">→</span></button>
                 </form>`;
             const form = root.querySelector("[data-form]");
+            wirePasswords(form);
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const msg = form.querySelector("[data-msg]");
-                if (form.password.value.length < 8) { msg.innerHTML = message(T.errors.short); return; }
+                if (!strongPassword(form.password.value)) { msg.innerHTML = message(T.errors.weak); return; }
                 if (form.password.value !== form.password2.value) { msg.innerHTML = message(T.errors.mismatch); return; }
                 setBusy(form, true);
                 const { error } = await db.auth.updateUser({ password: form.password.value });
@@ -364,7 +420,7 @@
         if (recovering) return;
         if (event === "SIGNED_IN") {
             if (nextPage) { location.href = nextPage; return; } // back to the course page the visitor wanted
-            setTimeout(() => views.profile(), 0);
+            setTimeout(() => views.profile().then(celebrate), 0);
         }
         if (event === "SIGNED_OUT") views.login();
     });
@@ -374,7 +430,9 @@
         if (root) {
             if (recovering) return;
             if (user && nextPage) { location.href = nextPage; return; }
-            if (user) views.profile(); else if (params.get("mode") === "signup") views.signup(); else views.login();
+            if (user) views.profile().then(celebrate);
+            else if (linkError) views.login(message(T.linkExpired));
+            else if (params.get("mode") === "signup") views.signup(); else views.login();
             return;
         }
         if (gated) {

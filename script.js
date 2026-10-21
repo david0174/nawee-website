@@ -257,6 +257,21 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     observer.observe(section);
 });
 
+// Free consultation boxes ("Not sure what you need? Let's find out together."): pop in once they scroll into view
+(() => {
+    const cards = document.querySelectorAll(".consult-card");
+    if (!cards.length) return;
+    if (!("IntersectionObserver" in window)) { cards.forEach((c) => c.classList.add("in-view")); return; }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("in-view");
+            observer.unobserve(e.target);
+        });
+    }, { threshold: 0.4 });
+    cards.forEach((c) => observer.observe(c));
+})();
+
 // In-page links (menu, hero tabs, buttons) stop exactly below the sticky header,
 // so a section starts right where its background color begins
 (() => {
