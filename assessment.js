@@ -311,6 +311,7 @@
             else {
                 state.finished = true;
                 store.save();
+                window.NaweeTrophies?.record("bizTest");
                 try { sessionStorage.setItem(LAST_KEY, JSON.stringify(state.ids)); } catch { /* ignore */ }
                 renderResult();
                 show("result");

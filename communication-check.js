@@ -250,6 +250,7 @@
 
     // ---------- result screen ----------
     const renderResult = () => {
+        window.NaweeTrophies?.record("commCheck");
         const r = score();
         const p = profile(r);
         $("[data-profile-title]").textContent = p.title;

@@ -4294,3 +4294,148 @@ nav > a.is-current::after {
     box-shadow: 0 16px 36px rgba(245, 197, 66, .28);
     transform: translateY(-4px);
 }
+
+/* TROPHIES – cabinet in the course overview and the "trophy unlocked" message */
+.trophy-cabinet {
+    margin-top: 34px;
+}
+
+.trophy-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 16px;
+}
+
+.trophy-head .lesson-h {
+    margin-bottom: 4px;
+}
+
+.trophy-count {
+    margin: 0;
+    font-weight: 700;
+    color: var(--blue-dark);
+}
+
+.trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+    gap: 10px;
+    margin: 14px 0 12px;
+}
+
+.trophy {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--soft);
+}
+
+.trophy:not(.is-unlocked) {
+    opacity: .55;
+}
+
+.trophy:not(.is-unlocked) .trophy-medal {
+    filter: grayscale(1);
+}
+
+.trophy.is-unlocked {
+    background: var(--white);
+    box-shadow: 0 6px 18px rgba(11, 46, 131, .07);
+}
+
+.trophy-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.trophy-text strong {
+    font-size: .95rem;
+    color: var(--blue-dark);
+}
+
+.trophy-text small {
+    font-size: .78rem;
+    line-height: 1.35;
+    color: var(--muted);
+}
+
+/* round medal with a trophy cup, colored by level */
+.trophy-medal {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--medal);
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .15), 0 2px 6px rgba(0, 0, 0, .12);
+}
+
+.trophy-medal svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--white);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.is-bronze { --medal: linear-gradient(145deg, #e0a06a, #a8622d); }
+.is-silver { --medal: linear-gradient(145deg, #d9dfe6, #8e9aa8); }
+.is-gold { --medal: linear-gradient(145deg, #ffe08a, #e0a82e); }
+.is-platinum { --medal: linear-gradient(145deg, #c9e6ff, #5b8fd6 60%, #3a63b8); }
+
+/* message that slides in when a trophy is unlocked */
+.trophy-toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: calc(100% - 40px);
+    padding: 14px 20px 14px 14px;
+    border-left: 4px solid var(--yellow);
+    border-radius: 14px;
+    background: var(--blue-dark);
+    color: var(--white);
+    box-shadow: 0 18px 40px rgba(11, 46, 131, .35);
+    transform: translateY(140%);
+    opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+}
+
+.trophy-toast.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.trophy-toast span:last-child {
+    display: grid;
+}
+
+.trophy-toast small {
+    font-size: .78rem;
+    color: var(--yellow);
+}
+
+.trophy-toast strong {
+    font-size: 1.05rem;
+}
+
+@media (max-width: 560px) {
+    .trophy-toast {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        max-width: none;
+    }
+}

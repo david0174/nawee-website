@@ -137,6 +137,7 @@
             data.levelDate = new Date().toISOString().slice(0, 10);
             save(data);
             if (firstResult) sendLevel(level);
+            window.NaweeTrophies?.check();
             renderResult();
             show("result");
         };
@@ -172,6 +173,8 @@
             } else {
                 cont.hidden = true;
             }
+
+            if (window.NaweeTrophies) window.NaweeTrophies.renderCabinet($("[data-trophies]"), $("[data-trophy-count]"));
 
             const list = $("[data-modules]");
             list.replaceChildren();
@@ -268,6 +271,11 @@
         lessonRoot.innerHTML = parts.join("");
 
         // ----- exercises -----
+        // trophies: count today as a learning day, and remember whether each exercise was right on the first try
+        window.NaweeTrophies?.record("day");
+        const firstTry = {};
+        const noteFirst = (n, ok) => { if (firstTry[n] === undefined) firstTry[n] = ok; };
+
         const box = lessonRoot.querySelector("[data-exercises]");
         lesson.exercises.forEach((ex, n) => {
             const card = el("div", "exercise");
@@ -285,6 +293,7 @@
                     btn.lastChild.textContent = ex.options[i];
                     btn.addEventListener("click", () => {
                         const ok = i === ex.answer;
+                        noteFirst(n, ok);
                         btn.classList.add(ok ? "is-right" : "is-wrong");
                         if (ok) opts.querySelectorAll("button").forEach((b) => { b.disabled = true; });
                         feedback.innerHTML = `${ok ? "✓ Richtig! " : "✗ Nicht ganz – versuch es noch einmal. "}${ok ? esc(ex.explain) : ""}`;
@@ -311,6 +320,7 @@
                 const run = () => {
                     const val = input.value.trim().toLowerCase();
                     const ok = ex.answers.includes(val);
+                    noteFirst(n, ok);
                     feedback.innerHTML = ok ? `✓ Richtig! ${esc(ex.explain)}` : `✗ Noch nicht. Tipp: Lösung ist „${esc(ex.answers[0])}“. ${esc(ex.explain)}`;
                     feedback.className = `exercise-feedback ${ok ? "is-right" : "is-wrong"}`;
                     feedback.hidden = false;
@@ -342,6 +352,7 @@
                         draw();
                         if (picked.length === ex.words.length) {
                             const ok = picked.join(" ") === ex.words.join(" ");
+                            noteFirst(n, ok);
                             feedback.innerHTML = ok ? `✓ Richtig! ${esc(ex.explain)}` : `✗ Nicht ganz. Richtig ist: „${esc(ex.words.join(" "))}“`;
                             feedback.className = `exercise-feedback ${ok ? "is-right" : "is-wrong"}`;
                             feedback.hidden = false;
@@ -368,6 +379,7 @@
                 const compare = el("button", "button secondary exercise-check", "Mit Musterantworten vergleichen");
                 compare.type = "button";
                 compare.addEventListener("click", () => {
+                    if (area.value.trim()) window.NaweeTrophies?.record("compare", `${id}-${n}`); // only counts with an own answer
                     feedback.innerHTML = `<strong>So könntest du es sagen:</strong><br>${ex.models.map((m) => `„<span lang="en">${esc(m)}</span>“`).join("<br>")}<br><em>${esc(ex.tip)}</em>`;
                     feedback.className = "exercise-feedback is-model";
                     feedback.hidden = false;
@@ -391,6 +403,7 @@
                 const evaluate = el("button", "button secondary exercise-check", "Auswerten");
                 evaluate.type = "button";
                 evaluate.addEventListener("click", () => {
+                    window.NaweeTrophies?.record("camera");
                     const done = list.querySelectorAll("input:checked").length;
                     feedback.innerHTML = `<strong>${done} von ${ex.items.length} Punkten klappen schon.</strong> ${esc(ex.explain)}`;
                     feedback.className = "exercise-feedback is-model";
@@ -427,6 +440,10 @@
             finish.querySelector("[data-complete]")?.addEventListener("click", () => {
                 if (!data.completed.includes(id)) data.completed.push(id);
                 save(data);
+                // "perfect" lesson: every graded exercise (choice, gap, order) right on the first try
+                const graded = lesson.exercises.map((ex, n) => n).filter((n) => ["choice", "gap", "order"].includes(lesson.exercises[n].type));
+                if (graded.every((n) => firstTry[n] === true)) window.NaweeTrophies?.record("perfect", id);
+                else window.NaweeTrophies?.check();
                 drawFinish();
             });
         };
