@@ -182,3 +182,20 @@ backToTop.addEventListener("click", () => {
     const header = document.querySelector(".site-header");
     (header || document.body.firstElementChild).insertAdjacentElement(header ? "afterend" : "beforebegin", bar);
 })();
+
+// Homepage: underline "Über mich" / "About Me" in the menu while the About Me section is on screen
+(() => {
+    const section = document.getElementById("ueber-mich");
+    const links = document.querySelectorAll('.site-header nav > a[href*="#ueber-mich"], .mobile-menu > a[href*="#ueber-mich"]');
+    if (!section || !links.length) return;
+    // active while the section covers the middle of the screen
+    const update = () => {
+        const rect = section.getBoundingClientRect();
+        const middle = window.innerHeight / 2;
+        const active = rect.top <= middle && rect.bottom >= middle;
+        links.forEach((a) => a.classList.toggle("is-current", active));
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+})();

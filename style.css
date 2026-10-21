@@ -2587,13 +2587,15 @@ footer .footer-legal a {
 }
 
 /* show visitors which page they are on: current menu item in blue with a small underline */
-nav > a[aria-current="page"] {
+nav > a[aria-current="page"],
+nav > a.is-current {
     position: relative;
     color: var(--blue);
     font-weight: 600;
 }
 
-nav > a[aria-current="page"]::after {
+nav > a[aria-current="page"]::after,
+nav > a.is-current::after {
     content: "";
     position: absolute;
     left: 0;
@@ -4044,21 +4046,9 @@ nav > a[aria-current="page"]::after {
 
 /* YELLOW ACCENTS – low-key touches of the brand yellow across the site */
 
-/* 1. small yellow dash before every small label ("MEIN ANGEBOT", "ÜBER MICH", …) */
-.eyebrow::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 3px;
-    margin-right: 10px;
-    border-radius: 2px;
-    background: var(--yellow);
-    vertical-align: middle;
-    transform: translateY(-1px);
-}
-
 /* 2. current page in the menu: yellow underline */
-nav > a[aria-current="page"]::after {
+nav > a[aria-current="page"]::after,
+nav > a.is-current::after {
     background: var(--yellow);
 }
 
@@ -4077,15 +4067,4 @@ nav > a[aria-current="page"]::after {
     border-color: var(--yellow);
     box-shadow: 0 0 0 2px rgba(245, 197, 66, .3), 0 8px 30px rgba(20, 33, 61, .06);
     transform: translateY(-2px);
-}
-
-/* 5. footer headings: short yellow line */
-.footer-heading::after {
-    content: "";
-    display: block;
-    width: 24px;
-    height: 3px;
-    margin-top: 8px;
-    border-radius: 2px;
-    background: var(--yellow);
 }
