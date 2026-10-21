@@ -51,7 +51,7 @@
     const SOUND_KEY = "nawee-sound";
     let audio = null;
     const soundOn = () => { try { return localStorage.getItem(SOUND_KEY) !== "off"; } catch { return true; } };
-    const tone = (freq, start, length, type = "sine", volume = 0.12) => {
+    const tone = (freq, start, length, type = "sine", volume = 0.26) => {
         const t0 = audio.currentTime + start;
         const osc = audio.createOscillator();
         const gain = audio.createGain();
@@ -70,9 +70,9 @@
             audio = audio || new (window.AudioContext || window.webkitAudioContext)();
             if (audio.state === "suspended") audio.resume();
             if (kind === "correct") { tone(880, 0, 0.12); tone(1318.5, 0.09, 0.2); }
-            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.07); tone(262, 0.1, 0.2, "triangle", 0.06); }
+            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
             if (kind === "complete") { tone(659.3, 0, 0.16); tone(784, 0.12, 0.16); tone(1046.5, 0.24, 0.32); }
-            if (kind === "trophy") { [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.1, 0.28, "triangle", 0.11)); tone(1318.5, 0.42, 0.45, "sine", 0.08); }
+            if (kind === "trophy") { [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.1, 0.28, "triangle", 0.24)); tone(1318.5, 0.42, 0.45, "sine", 0.18); }
         } catch { /* audio not available – stay silent */ }
     };
     const setSound = (on) => { try { localStorage.setItem(SOUND_KEY, on ? "on" : "off"); } catch { /* ignore */ } };
