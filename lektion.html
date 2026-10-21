@@ -61,7 +61,7 @@
     </header>
 
     <main id="top">
-        <section class="assessment section">
+        <section class="assessment section" data-requires-account>
             <article class="assessment-card lesson" data-lesson>
                 <p>Lektion wird geladen …</p>
                 <noscript><p class="as-note">Der Kurs benötigt JavaScript. Bitte aktiviere es in deinem Browser.</p></noscript>
@@ -95,6 +95,7 @@
             <a href="mission.html">Mission</a>
             <a href="index.html#kontakt">Kontakt</a>
             <a href="fehler-melden.html">Fehler melden</a>
+            <a href="konto.html">Mein Konto</a>
         </nav>
         <nav class="footer-legal" aria-label="Rechtliches">
             <p class="footer-heading">Rechtliches</p>
@@ -112,5 +113,7 @@
     <script src="course-data.js"></script>
     <script src="trophies.js"></script>
     <script src="course.js"></script>
+    <script src="vendor/supabase.js"></script>
+    <script src="account.js"></script>
 </body>
 </html>

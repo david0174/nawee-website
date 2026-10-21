@@ -61,7 +61,7 @@
     </header>
 
     <main id="top">
-        <section class="assessment section" id="kurs">
+        <section class="assessment section" id="kurs" data-requires-account>
             <div class="assessment-card course-card" data-course>
 
                 <!-- 1. Welcome + placement test intro -->
@@ -72,7 +72,7 @@
                     <ul class="as-facts">
                         <li><strong>7</strong> Module</li>
                         <li><strong>10–15</strong> Min. pro Lektion</li>
-                        <li><strong>Kostenlos</strong> &amp; ohne Anmeldung</li>
+                        <li><strong>Kostenlos</strong> mit deinem Konto</li>
                     </ul>
                     <h2 class="lesson-h">Zuerst: Wo stehst du?</h2>
                     <p>Ein kurzer Einstufungstest zeigt dein Englischniveau (A2 bis C1) und wo du im Kurs am besten startest. Die Fragen passen sich deinen Antworten an – <strong>6 bis 9 Fragen, ca. 3–5 Minuten</strong>.</p>
@@ -80,7 +80,7 @@
                         <button type="button" class="button primary" data-action="start-test">Einstufungstest starten <span aria-hidden="true">→</span></button>
                     </div>
                     <p class="as-note"><button type="button" class="link-button" data-action="skip">Überspringen und direkt zum Kurs</button></p>
-                    <p class="as-disclaimer">Dein Fortschritt wird nur in deinem Browser gespeichert. Das Testergebnis zählen wir anonym (nur das Niveau, keine persönlichen Daten), um den Kurs zu verbessern.</p>
+                    <p class="as-disclaimer">Dein Fortschritt und deine Trophäen werden in deinem Konto gespeichert. Das Testergebnis zählen wir zusätzlich anonym (nur das Niveau), um den Kurs zu verbessern.</p>
                 </div>
 
                 <!-- 2. Placement test question -->
@@ -122,6 +122,7 @@
                 <div class="as-screen" data-screen="overview" hidden>
                     <p class="eyebrow">KOSTENLOSER ONLINE-KURS · BETA</p>
                     <h1>Sicher sprechen – Englisch im echten Gespräch</h1>
+                    <p class="account-hint" data-account-slot></p>
                     <div class="course-meta">
                         <p class="course-level-line" data-overview-level></p>
                         <span data-sound-slot></span>
@@ -139,7 +140,7 @@
                             <p class="trophy-count" data-trophy-count></p>
                         </div>
                         <div class="trophy-grid" data-trophies></div>
-                        <p class="as-note">Bronze, Silber, Gold – und Platin für alle zusammen. Deine Trophäen werden in deinem Browser gespeichert.</p>
+                        <p class="as-note">Bronze, Silber, Gold – und Platin für alle zusammen. Deine Trophäen werden in deinem Konto gespeichert.</p>
                     </section>
                     <p class="as-note">Etwas funktioniert nicht oder du hast eine Idee für den Kurs? <a href="fehler-melden.html">Schreib mir</a></p>
                 </div>
@@ -175,6 +176,7 @@
             <a href="mission.html">Mission</a>
             <a href="index.html#kontakt">Kontakt</a>
             <a href="fehler-melden.html">Fehler melden</a>
+            <a href="konto.html">Mein Konto</a>
         </nav>
         <nav class="footer-legal" aria-label="Rechtliches">
             <p class="footer-heading">Rechtliches</p>
@@ -193,5 +195,7 @@
     <script src="course-data.js"></script>
     <script src="trophies.js"></script>
     <script src="course.js"></script>
+    <script src="vendor/supabase.js"></script>
+    <script src="account.js"></script>
 </body>
 </html>

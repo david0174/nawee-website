@@ -5,7 +5,11 @@
 (() => {
     const SUPABASE_URL = "https://sphhbjfyreugpuzbwird.supabase.co";
     const SUPABASE_KEY = "sb_publishable_jhaV37RIZUZph1S5bikzYQ_RKtDrHvF"; // publishable key: safe to be public (data protected by Row Level Security)
-    if (!window.supabase) return;
+    // Course pages are only shown with an account (see [data-requires-account] in style.css).
+    // If the login service can't load, open them anyway instead of locking learners out.
+    const gated = document.querySelector("[data-requires-account]");
+    const unlockGate = () => { if (gated) gated.classList.add("account-ok"); };
+    if (!window.supabase) { unlockGate(); return; }
 
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -16,7 +20,14 @@
     const LIVE_ACCOUNT_URL = `https://nawee.net/${ACCOUNT_PAGE}`; // where confirmation and reset links lead
     const COURSE_KEY = "nawee-course-v1";
     const TROPHY_KEY = "nawee-trophies-v1";
+    const CC_KEY = "nawee-communication-course-v1"; // free Communication Course (no account needed; synced inside `course.communication`)
     const RELOAD_FLAG = "nawee-synced-reload";
+
+    const params = new URLSearchParams(location.search);
+    const nextPage = (() => {
+        const n = params.get("next") || "";
+        return /^(kurs\.html|lektion\.html\?l=\d-\d|communication-course\.html|communication-lesson\.html\?l=\d-\d)$/.test(n) ? n : "";
+    })();
 
     const T = isEnglish ? {
         login: "Log in", signup: "Create account", email: "Email", password: "Password", username: "Username",
@@ -24,7 +35,10 @@
         noAccount: "No account yet?", haveAccount: "Already have an account?", sendLink: "Send reset link",
         back: "Back to login", savePassword: "Save new password", logout: "Log out", toCourse: "Go to the course",
         title: "My account", loginTitle: "Welcome back!", signupTitle: "Create your free account",
-        signupLead: "Save your course progress and trophies – on all your devices.",
+        signupLead: "It gives you access to the online course “Sicher sprechen”:",
+        benefits: ["21 lessons for real conversations", "A placement test with your recommended starting point", "Trophies for every milestone", "Your progress saved – on all your devices"],
+        ccSignupLead: "Save your progress in the free Communication Course:",
+        ccBenefits: ["Your completed lessons saved in your account", "Continue on any device – phone, laptop or tablet", "Your progress stays safe if you clear your browser data", "Also gives you access to the course “Sicher sprechen”"],
         loginLead: "Log in to continue with your course and trophies.",
         usernameHint: "3–24 characters: letters, numbers, dot, dash or underscore. Shown on your profile.",
         passwordHint: "At least 8 characters.",
@@ -52,7 +66,8 @@
         noAccount: "Noch kein Konto?", haveAccount: "Schon ein Konto?", sendLink: "Link senden",
         back: "Zurück zur Anmeldung", savePassword: "Neues Passwort speichern", logout: "Abmelden", toCourse: "Zum Kurs",
         title: "Mein Konto", loginTitle: "Willkommen zurück!", signupTitle: "Dein kostenloses Konto",
-        signupLead: "Speichere deinen Kursfortschritt und deine Trophäen – auf allen deinen Geräten.",
+        signupLead: "Damit bekommst du Zugang zum Online-Kurs „Sicher sprechen“:",
+        benefits: ["21 Lektionen für echte Gespräche", "Einstufungstest mit deinem empfohlenen Einstieg", "Trophäen für jeden Meilenstein", "Dein Fortschritt gespeichert – auf allen deinen Geräten"],
         loginLead: "Melde dich an, um mit deinem Kurs und deinen Trophäen weiterzumachen.",
         usernameHint: "3–24 Zeichen: Buchstaben, Zahlen, Punkt, Bindestrich oder Unterstrich. Wird in deinem Profil angezeigt.",
         passwordHint: "Mindestens 8 Zeichen.",
@@ -87,6 +102,8 @@
         return T.errors.generic;
     };
 
+    const fromCommunicationCourse = /^communication-/.test(nextPage);
+
     // ---------- syncing course progress and trophies ----------
     const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
     const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } };
@@ -112,8 +129,9 @@
         };
     };
     // what counts as "new progress" (to decide whether the page needs a refresh after syncing)
-    const signature = (c, t) => JSON.stringify([c.level || "", (c.completed || []).slice().sort(), Object.keys(t.unlocked || {}).sort(),
-        (t.days || []).length, (t.perfect || []).length, (t.compared || []).length, Boolean(t.camera), Boolean(t.commCheck), Boolean(t.bizTest)]);
+    const signature = (c, t, cc) => JSON.stringify([c.level || "", (c.completed || []).slice().sort(), Object.keys(t.unlocked || {}).sort(),
+        (t.days || []).length, (t.perfect || []).length, (t.compared || []).length, Boolean(t.camera), Boolean(t.commCheck), Boolean(t.bizTest),
+        (cc.completed || []).slice().sort()]);
 
     let user = null;
     let pushTimer = null;
@@ -121,19 +139,23 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            db.from("learner_progress").upsert({ user_id: user.id, course: read(COURSE_KEY), trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY) };
+            db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
     };
     const pull = async () => {
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
-        const lc = read(COURSE_KEY), lt = read(TROPHY_KEY);
-        const mc = mergeCourse(lc, (data && data.course) || {}), mt = mergeTrophies(lt, (data && data.trophies) || {});
+        const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
+        const { communication: rcc = {}, ...rc } = (data && data.course) || {};
+        const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
+        const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
         write(TROPHY_KEY, mt);
+        write(CC_KEY, mcc);
         push();
-        return signature(lc, lt) !== signature(mc, mt); // true = progress from another device arrived
+        return signature(lc, lt, lcc) !== signature(mc, mt, mcc); // true = progress from another device arrived
     };
     window.addEventListener("nawee:progress", push);
 
@@ -143,10 +165,36 @@
     };
 
     // ---------- small account hint in the course overview ----------
+    // Communication Course: [data-cc-account-slot] offers an optional account to save progress
+    const ccHint = (name, compact) => name
+        ? `✓ Your progress is saved in your account (<strong>${name}</strong>) · <a href="account.html">My account</a>`
+        : compact
+            ? `Your progress is only saved in this browser. <a href="account.html?mode=signup&amp;next=${encodeURIComponent("communication-course.html")}">Create a free account</a> to keep it safe and continue on any device – or <a href="account.html?next=${encodeURIComponent("communication-course.html")}">log in</a>.`
+            : `<strong>No sign-up needed.</strong> Your progress is saved in this browser. Want to keep it safe and continue on any device? <a href="account.html?mode=signup&amp;next=${encodeURIComponent("communication-course.html")}">Create a free account</a> · <a href="account.html?next=${encodeURIComponent("communication-course.html")}">Log in</a>`;
     const fillHint = async () => {
         const slot = document.querySelector("[data-account-slot]");
-        if (!slot) return;
-        slot.innerHTML = user ? T.hint(esc(await profileName())) : T.hintOut;
+        const ccSlots = document.querySelectorAll("[data-cc-account-slot]");
+        if (!slot && !ccSlots.length) return;
+        const name = user ? esc(await profileName()) : "";
+        if (slot) slot.innerHTML = user ? T.hint(name) : T.hintOut;
+        ccSlots.forEach((s) => { s.innerHTML = ccHint(name, s.dataset.ccAccountSlot === "compact"); s.hidden = false; });
+    };
+    window.NaweeAccount = { refresh: fillHint }; // the Communication Course calls this after drawing new slots
+
+    // ---------- gate on course pages: sign up or log in first ----------
+    const showGate = () => {
+        const back = encodeURIComponent((location.pathname.split("/").pop() || "kurs.html") + location.search);
+        gated.innerHTML = `<div class="assessment-card account-gate">
+            <p class="eyebrow">KOSTENLOSER ONLINE-KURS</p>
+            <h1>Melde dich an, um den Kurs zu starten</h1>
+            <p class="as-lead">Der Kurs ist kostenlos. Mit deinem Konto speichern wir deinen Fortschritt und deine Trophäen – so kannst du jederzeit und auf jedem Gerät weitermachen.</p>
+            <div class="as-actions">
+                <a class="button primary" href="konto.html?mode=signup&amp;next=${back}">Kostenloses Konto erstellen <span aria-hidden="true">→</span></a>
+                <a class="button secondary" href="konto.html?next=${back}">Ich habe schon ein Konto – anmelden</a>
+            </div>
+            <p class="as-note">Die kostenlosen Tests kannst du auch ohne Konto machen: den <a href="kommunikations-check.html">Kommunikationscheck</a> und den <a href="business-english-test.html">Business-English-Test</a>.</p>
+        </div>`;
+        unlockGate();
     };
 
     // ---------- account page ----------
@@ -175,7 +223,9 @@
             });
         },
         signup() {
-            root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.signupTitle}</h1><p class="as-lead">${T.signupLead}</p>
+            const cc = fromCommunicationCourse && isEnglish;
+            root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.signupTitle}</h1><p class="as-lead">${cc ? T.ccSignupLead : T.signupLead}</p>
+                <ul class="account-benefits">${(cc ? T.ccBenefits : T.benefits).map((b) => `<li>${b}</li>`).join("")}</ul>
                 <form class="account-form" data-form novalidate>
                     ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required')}
                     <p class="account-hint-text">${T.usernameHint}</p>
@@ -257,11 +307,13 @@
             const done = (course.completed || []).length;
             const levelLabels = { "below-A2": isEnglish ? "below A2" : "unter A2", C1: isEnglish ? "C1 or higher" : "C1 oder höher" };
             const level = course.level ? (levelLabels[course.level] || course.level) : T.noLevel;
+            const ccDone = (read(CC_KEY).completed || []).length;
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.hello(esc(name))}</h1>${note}
                 <p class="account-meta">${T.loggedInAs} <strong>${esc(user.email)}</strong></p>
                 <div class="account-stats">
                     <div><span>${T.level}</span><strong>${esc(level)}</strong></div>
                     <div><span>${isEnglish ? "Course" : "Kurs"}</span><strong>${T.progress(done, total)}</strong></div>
+                    <div><span>Communication Course</span><strong>${T.progress(ccDone, 21)}</strong> <a href="communication-course.html">${ccDone ? (isEnglish ? "Continue" : "Weiter") : (isEnglish ? "Start" : "Starten")} →</a></div>
                 </div>
                 <div class="as-progress" aria-hidden="true"><span style="width:${(done / total) * 100}%"></span></div>
                 <section class="trophy-cabinet">
@@ -307,7 +359,10 @@
         if (event === "PASSWORD_RECOVERY") { recovering = true; if (root) views.newPassword(); return; }
         if (!root) { if (event === "SIGNED_IN" || event === "SIGNED_OUT") fillHint(); return; }
         if (recovering) return;
-        if (event === "SIGNED_IN") setTimeout(() => views.profile(), 0);
+        if (event === "SIGNED_IN") {
+            if (nextPage) { location.href = nextPage; return; } // back to the course page the visitor wanted
+            setTimeout(() => views.profile(), 0);
+        }
         if (event === "SIGNED_OUT") views.login();
     });
 
@@ -315,8 +370,12 @@
         user = data.session ? data.session.user : null;
         if (root) {
             if (recovering) return;
-            if (user) views.profile(); else views.login();
+            if (user && nextPage) { location.href = nextPage; return; }
+            if (user) views.profile(); else if (params.get("mode") === "signup") views.signup(); else views.login();
             return;
+        }
+        if (gated) {
+            if (user) unlockGate(); else showGate();
         }
         if (user) {
             const changed = await pull();

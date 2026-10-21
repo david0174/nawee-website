@@ -265,3 +265,60 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     setOffset();
     window.addEventListener("resize", setOffset);
 })();
+
+// Header: "Anmelden" / "Mein Konto" on every page, and a course announcement bar at the top.
+// The login state is read from the session Supabase keeps in the browser (no extra library needed here).
+(() => {
+    const en = document.documentElement.lang === "en";
+    const accountPage = en ? "account.html" : "konto.html";
+    let loggedIn = false;
+    try {
+        const session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
+        loggedIn = Boolean(session && session.user && session.refresh_token);
+    } catch { /* storage unavailable */ }
+    const label = loggedIn ? (en ? "My account" : "Mein Konto") : (en ? "Log in" : "Anmelden");
+    const icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>';
+
+    const languageSwitch = document.querySelector(".site-header nav > .language-switch");
+    if (languageSwitch) {
+        const link = document.createElement("a");
+        link.className = "nav-account";
+        link.href = accountPage;
+        link.innerHTML = `${icon}<span>${label}</span>`;
+        if (location.pathname.endsWith(accountPage)) link.setAttribute("aria-current", "page");
+        languageSwitch.before(link);
+    }
+    const mobileLanguages = document.querySelector(".mobile-menu .mobile-menu-languages");
+    if (mobileLanguages) {
+        const link = document.createElement("a");
+        link.href = accountPage;
+        link.textContent = label;
+        mobileLanguages.before(link);
+    }
+
+    // announcement bar (not on the account and course pages themselves)
+    if (document.querySelector("[data-account], [data-requires-account]")) return;
+    const CLOSED_KEY = "nawee-course-bar-closed";
+    let closed = false;
+    try { closed = localStorage.getItem(CLOSED_KEY) === "1"; } catch { /* ignore */ }
+    if (closed && !loggedIn) return;
+    const bar = document.createElement("div");
+    bar.className = "course-bar";
+    bar.innerHTML = loggedIn
+        ? (en ? `Welcome back! <a href="kurs.html">Continue your course →</a>` : `Willkommen zurück! <a href="kurs.html">Weiter mit deinem Kurs →</a>`)
+        : (en
+            ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> the free online course “Sicher sprechen” – 21 lessons, placement test &amp; trophies (explanations in German). <a href="account.html?mode=signup&amp;next=kurs.html">Sign up free →</a>`
+            : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> der kostenlose Online-Kurs „Sicher sprechen“ – 21 Lektionen, Einstufungstest &amp; Trophäen. <a href="konto.html?mode=signup&amp;next=kurs.html">Kostenlos registrieren →</a>`);
+    if (!loggedIn) {
+        const close = document.createElement("button");
+        close.type = "button";
+        close.setAttribute("aria-label", en ? "Close" : "Schließen");
+        close.textContent = "×";
+        close.addEventListener("click", () => {
+            bar.remove();
+            try { localStorage.setItem(CLOSED_KEY, "1"); } catch { /* ignore */ }
+        });
+        bar.append(close);
+    }
+    document.body.prepend(bar);
+})();

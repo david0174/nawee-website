@@ -252,6 +252,322 @@ h3 {
     margin-top: 30px;
 }
 
+/* hero quick start: the free checks as one line of links under the buttons */
+.hero-quickstart-line {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.hero-quickstart-line a {
+    white-space: nowrap;
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(21, 84, 192, .3);
+    text-underline-offset: 3px;
+}
+
+.hero-quickstart-line a:hover {
+    text-decoration-color: currentColor;
+}
+
+/* hero quiz: three quick questions right in the hero (hero-quiz.js) */
+.hero-visual:has(.hero-quiz.is-live) {
+    align-items: center;
+}
+
+.hero-visual:has(.hero-quiz.is-live):hover {
+    transform: none;
+}
+
+/* fixed height, so the hero doesn't jump when feedback and the Next button appear */
+.hero-quiz.is-live {
+    display: flex;
+    flex-direction: column;
+    min-height: 680px;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(160deg, #fff 55%, var(--blue-soft) 100%);
+    box-shadow: 0 24px 60px rgba(13, 47, 130, .12);
+}
+
+/* track switch at the top of the card: English vs. communication */
+.hq-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin: 14px 16px 0;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+}
+
+.hq-switch-option {
+    padding: 9px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background .2s, color .2s, box-shadow .2s;
+}
+
+.hq-switch-option small {
+    display: block;
+    font-size: .75rem;
+    font-weight: 400;
+    opacity: .8;
+}
+
+.hq-switch-option:not([aria-pressed="true"]):hover {
+    background: rgba(255, 255, 255, .6);
+}
+
+.hq-switch-option[aria-pressed="true"] {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(21, 84, 192, .25);
+}
+
+.hq-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.hq-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.hq-dots span {
+    width: 22px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    transition: background .3s, width .3s;
+}
+
+.hq-dots .is-current {
+    width: 34px;
+    background: var(--blue);
+}
+
+.hq-dots .is-done {
+    background: #1e9e5a;
+}
+
+.hq-xp {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #fff7dc;
+    color: #8a6100;
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.hq-xp.is-bump {
+    animation: hq-bump .4s ease;
+}
+
+@keyframes hq-bump {
+    50% { transform: scale(1.18); }
+}
+
+.hq-body {
+    padding: 22px 24px 8px;
+}
+
+.hq-label {
+    margin: 0 0 4px;
+    color: var(--blue);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.hq-count {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.hq-prompt {
+    margin: 0 0 12px;
+    color: var(--blue-dark);
+    font-size: 1.12rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.hq-say {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    padding: 6px 16px 6px 6px;
+    border: 2px solid #cfe0f7;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: 1.02rem;
+    cursor: pointer;
+}
+
+.hq-say:disabled {
+    cursor: default;
+}
+
+.hq-say-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+}
+
+.hq-say:not(:disabled):hover {
+    border-color: var(--blue);
+}
+
+.hq-options {
+    display: grid;
+    gap: 8px;
+}
+
+.hq-option {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: .98rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, transform .15s;
+}
+
+.hq-option:not(:disabled):hover {
+    border-color: var(--blue);
+    transform: translateY(-1px);
+}
+
+.hq-option:disabled {
+    cursor: default;
+}
+
+.hq-option.is-right {
+    border-color: #1e9e5a;
+    background: #e3f5ea;
+    color: #145c36;
+    font-weight: 600;
+}
+
+.hq-option.is-wrong {
+    border-color: #e5a3a3;
+    background: #fdf0f0;
+    color: #8f2f2f;
+    animation: hq-shake .35s ease;
+}
+
+@keyframes hq-shake {
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.hq-feedback {
+    min-height: 1.4em;
+    margin: 12px 0 0;
+    font-size: .9rem;
+}
+
+.hq-feedback.is-right { color: #145c36; }
+.hq-feedback.is-wrong { color: #8f2f2f; }
+
+.hq-actions:not(:empty) {
+    margin-top: 12px;
+}
+
+.hq-footer {
+    display: block;
+    margin-top: auto;
+    padding: 14px 24px 20px;
+    color: var(--blue);
+    font-size: .92rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.hq-footer:hover {
+    text-decoration: underline;
+}
+
+.hq-done {
+    margin: auto 0;
+    padding-bottom: 24px;
+    text-align: center;
+}
+
+.hq-trophy {
+    margin: 0 0 4px;
+    font-size: 2.4rem;
+}
+
+.hq-title {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+}
+
+.hq-text {
+    margin: 0 auto 18px;
+    max-width: 360px;
+    color: var(--muted);
+}
+
+.hq-secondary {
+    display: block;
+    margin-top: 14px;
+    color: var(--blue);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.hq-again {
+    margin-top: 10px;
+    font-size: .85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hq-xp.is-bump,
+    .hq-option.is-wrong { animation: none; }
+}
+
+@media (max-width: 700px) {
+    .hero-quiz.is-live {
+        min-height: 0;
+    }
+
+    .hq-head,
+    .hq-body { padding-left: 18px; padding-right: 18px; }
+}
+
 /* small personal introduction under the hero buttons */
 .hero-person {
     display: inline-flex;
@@ -2134,6 +2450,16 @@ footer {
     flex-shrink: 0;
 }
 
+/* second free tile (online course) under the free consultation */
+.consult-card-course {
+    margin-top: 16px;
+    background: var(--white);
+}
+
+.consult-card-course .consult-tag {
+    background: var(--blue-soft);
+}
+
 /* on pages with three formats, match the narrower price grid */
 #formate:has(.price-grid-3) .consult-card {
     max-width: 960px;
@@ -3592,6 +3918,20 @@ nav > a.is-current::after {
     color: #1e9e5a;
 }
 
+/* communication course: lessons unlock one after another */
+.course-lessons .is-locked {
+    color: #8a94a6;
+}
+
+.course-lessons .is-locked .course-status {
+    font-size: .8rem;
+}
+
+.course-badge.is-done {
+    background: #e3f5ea;
+    color: #1e7a48;
+}
+
 /* lesson page */
 .lesson-back {
     display: inline-block;
@@ -4714,6 +5054,27 @@ footer .footer-copy p {
     font-weight: 600;
 }
 
+/* Communication Course: optional account offer (no sign-up needed to learn) */
+.cc-account-note {
+    margin: 16px 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--soft);
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.cc-account-note a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.account-stats a {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--blue);
+}
+
 /* LOGO – feels like a button: lifts, grows and tilts slightly on hover, "presses" on click */
 .brand img {
     transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), filter .25s;
@@ -4926,4 +5287,104 @@ footer .footer-copy p {
 /* the box sits at the very top of its section; leave a little air when a tab jumps to it */
 #communication {
     padding-top: 40px;
+}
+
+/* course pages are only shown with an account: hidden until account.js has checked the login.
+   Safety net: if the check never runs (script blocked), the content appears after 6 seconds. */
+@keyframes account-failsafe {
+    to { visibility: visible; }
+}
+
+.js [data-requires-account]:not(.account-ok) {
+    visibility: hidden;
+    animation: account-failsafe 0s 6s forwards;
+}
+
+.account-gate {
+    text-align: left;
+}
+
+/* end of the tests: two ways to continue */
+.as-cta-actions {
+    justify-content: center;
+}
+
+.as-cta-note {
+    margin: 14px 0 0;
+    font-size: .85rem;
+}
+
+/* header: "Anmelden" / "Mein Konto" link with a person icon */
+.nav-account {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-account svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* course announcement bar above the header */
+.course-bar {
+    position: relative;
+    padding: 9px 48px 9px 16px;
+    background: var(--blue-dark);
+    color: #d7e3f7;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.course-bar strong {
+    color: var(--white);
+}
+
+.course-bar a {
+    margin-left: 4px;
+    color: var(--yellow);
+    font-weight: 600;
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+.course-bar button {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    padding: 2px 8px;
+    border: 0;
+    background: none;
+    color: var(--white);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* sign-up: what the free account includes */
+.account-benefits {
+    margin: 4px 0 6px;
+    padding: 0;
+    list-style: none;
+}
+
+.account-benefits li {
+    position: relative;
+    margin: 6px 0;
+    padding-left: 26px;
+    color: var(--ink);
+}
+
+.account-benefits li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #1e9e5a;
+    font-weight: 700;
 }

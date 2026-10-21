@@ -88,8 +88,10 @@
 
                 <div class="hero-actions">
                     <a class="button primary" href="#angebote"> Angebot entdecken  <span>→</span></a>
-                    <a class="button secondary" href="#fuer-wen"> Für wen? <span>→</span></a>
+                    <a class="button secondary" href="kurs.html">Kostenlosen Kurs starten <span>→</span></a>
                 </div>
+                <!-- quick start: the free checks, no sign-up (the quiz card on the right lets visitors start right away) -->
+                <p class="hero-quickstart-line">Kostenlos, ohne Anmeldung: <a href="kommunikations-check.html">Kommunikations-Check</a> · <a href="business-english-test.html">Business-English-Test</a> · <a href="communication-course.html" hreflang="en">Communication Course</a></p>
                 <!-- personal introduction: puts a face to Nawee right at the top -->
                 <a class="hero-person" href="#ueber-mich">
                     <img src="assets/david-avatar.jpg" alt="" width="56" height="56">
@@ -101,7 +103,10 @@
             </div>
 
             <div class="hero-visual">
-                <img src="assets/hero-illustration.jpg" alt="Menschen kommunizieren international auf Englisch.">
+                <!-- interactive quick quiz (hero-quiz.js); the illustration shows if JavaScript is off -->
+                <div class="hero-quiz" data-hero-quiz>
+                    <img src="assets/hero-illustration.jpg" alt="Menschen kommunizieren international auf Englisch.">
+                </div>
             </div>
 
         </section>
@@ -188,7 +193,7 @@
         <section class="test-band" id="tests">
             <div class="test-band-inner">
                 <div class="test-band-head">
-                    <p class="eyebrow">KOSTENLOS &amp; OHNE ANMELDUNG</p>
+                    <p class="eyebrow">KOSTENLOS</p>
                     <h2>Wo stehst du mit deinem Englisch?</h2>
                 </div>
                 <div class="test-band-options">
@@ -204,7 +209,7 @@
                     </div>
                     <div class="test-band-option">
                         <h3>Kostenloser Online-Kurs <span class="test-band-new">Neu</span></h3>
-                        <p>Sicher sprechen im echten Gespräch: nachfragen, fehlende Wörter finden, höflich unterbrechen. Startet mit einem kurzen Einstufungstest – kostenlos und ohne Anmeldung.</p>
+                        <p>Sicher sprechen im echten Gespräch: nachfragen, fehlende Wörter finden, höflich unterbrechen. Startet mit einem kurzen Einstufungstest – kostenlos, du brauchst nur ein kostenloses Konto.</p>
                         <a class="button secondary" href="kurs.html">Kurs starten <span aria-hidden="true">→</span></a>
                     </div>
                 </div>
@@ -599,6 +604,7 @@ Wir sprechen über deine Ziele und deine aktuellen Herausforderungen.           
             <a href="#kontakt">Kontakt</a>
             <a href="fehler-melden.html">Fehler melden</a>
             <a href="mission.html">Mission</a>
+            <a href="konto.html">Mein Konto</a>
         </nav>
         <nav class="footer-legal" aria-label="Rechtliches">
             <p class="footer-heading">Rechtliches</p>
@@ -617,5 +623,6 @@ Wir sprechen über deine Ziele und deine aktuellen Herausforderungen.           
         <a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen <span>→</span></a>
     </div>
     <script src="script.js"></script>
+    <script src="hero-quiz.js"></script>
 </body>
 </html>

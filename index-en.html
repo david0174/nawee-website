@@ -87,8 +87,10 @@
 
                 <div class="hero-actions">
                     <a class="button primary" href="#angebote"> Explore what we offer  <span>→</span></a>
-                    <a class="button secondary" href="#fuer-wen">Who is it for? <span>→</span></a>
+                    <a class="button secondary" href="kurs.html">Start the free course <span>→</span></a>
                 </div>
+                <!-- quick start: the free checks, no sign-up (the quiz card on the right lets visitors start right away) -->
+                <p class="hero-quickstart-line">Free, no sign-up: <a href="communication-check.html">Communication Check</a> · <a href="business-english-test.html">Business English Test</a> · <a href="communication-course.html">Communication Course</a></p>
                 <!-- personal introduction: puts a face to Nawee right at the top -->
                 <a class="hero-person" href="#ueber-mich">
                     <img src="assets/david-avatar.jpg" alt="" width="56" height="56">
@@ -100,7 +102,10 @@
             </div>
 
             <div class="hero-visual">
-                <img src="assets/hero-illustration.jpg" alt="People communicating internationally in English.">
+                <!-- interactive quick quiz (hero-quiz.js); the illustration shows if JavaScript is off -->
+                <div class="hero-quiz" data-hero-quiz>
+                    <img src="assets/hero-illustration.jpg" alt="People communicating internationally in English.">
+                </div>
             </div>
 
         </section>
@@ -187,7 +192,7 @@
         <section class="test-band" id="tests">
             <div class="test-band-inner">
                 <div class="test-band-head">
-                    <p class="eyebrow">FREE &amp; NO REGISTRATION</p>
+                    <p class="eyebrow">FREE</p>
                     <h2>Where does your English stand?</h2>
                 </div>
                 <div class="test-band-options">
@@ -203,7 +208,7 @@
                     </div>
                     <div class="test-band-option">
                         <h3>Free online course <span class="test-band-new">New</span></h3>
-                        <p>Speak with confidence in real conversations: asking, finding missing words, interrupting politely. Starts with a short placement test – free, no registration. Explanations are in German.</p>
+                        <p>Speak with confidence in real conversations: asking, finding missing words, interrupting politely. Starts with a short placement test – free, all you need is a free account. Explanations are in German.</p>
                         <a class="button secondary" href="kurs.html">Start the course <span aria-hidden="true">→</span></a>
                     </div>
                 </div>
@@ -598,6 +603,7 @@ We’ll talk about your goals and your current challenges.            </p>
             <a href="#kontakt">Contact</a>
             <a href="report-a-bug.html">Report a bug</a>
             <a href="our-mission.html">Our mission</a>
+            <a href="account.html">My account</a>
         </nav>
         <nav class="footer-legal" aria-label="Legal">
             <p class="footer-heading">Legal</p>
@@ -617,5 +623,6 @@ We’ll talk about your goals and your current challenges.            </p>
         <a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Book a free consultation <span>→</span></a>
     </div>
     <script src="script.js"></script>
+    <script src="hero-quiz.js"></script>
 </body>
 </html>
