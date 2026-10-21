@@ -4506,3 +4506,64 @@ nav > a.is-current::after {
         opacity: .55;
     }
 }
+
+/* Communication Coaching: workshop list in the company box */
+.workshop-list {
+    margin: 0 0 14px;
+    padding-left: 1.2em;
+}
+
+.workshop-list li {
+    margin: 6px 0;
+}
+
+/* Communication Coaching: the three "Why with me?" cards in one row on wider screens */
+#why .cards {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* homepage: box introducing the second pillar, Communication Coaching */
+.pillar-band {
+    padding: 0 6vw 80px;
+    background: var(--soft); /* continues the offers section above */
+}
+
+.pillar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 34px 40px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 20px 20px 0;
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(11, 46, 131, .06);
+}
+
+.pillar-inner h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.pillar-inner p:last-child {
+    margin: 0;
+    max-width: 640px;
+    color: var(--muted);
+}
+
+.pillar-inner .button {
+    flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+    .pillar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 26px 22px;
+    }
+}
