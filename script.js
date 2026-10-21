@@ -199,3 +199,12 @@ backToTop.addEventListener("click", () => {
     window.addEventListener("resize", update);
     update();
 })();
+
+// "Wie ich arbeite": clicking a heading opens or closes its example box
+document.querySelectorAll(".method-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+        const open = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!open));
+        document.getElementById(button.getAttribute("aria-controls")).hidden = open;
+    });
+});

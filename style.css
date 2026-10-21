@@ -4071,3 +4071,74 @@ nav > a.is-current::after {
     box-shadow: 0 0 0 2px rgba(245, 197, 66, .3), 0 8px 30px rgba(20, 33, 61, .06);
     transform: translateY(-2px);
 }
+
+/* "Wie ich arbeite": each heading opens a short box showing what the principle looks like in practice */
+.method-toggle {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--yellow);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+    text-decoration-skip-ink: none;
+    transition: text-decoration-thickness .15s;
+}
+
+.method-toggle:hover,
+.method-toggle:focus-visible {
+    text-decoration-thickness: 3px;
+}
+
+/* small arrow next to the heading: points down when closed, up when open */
+.method-chevron {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 10px;
+    border-right: 2px solid var(--blue);
+    border-bottom: 2px solid var(--blue);
+    transform: translateY(-4px) rotate(45deg);
+    transition: transform .2s;
+}
+
+.method-toggle:hover .method-chevron {
+    transform: translateY(-1px) rotate(45deg);
+}
+
+.method-toggle[aria-expanded="true"] .method-chevron {
+    transform: translateY(1px) rotate(-135deg);
+}
+
+.method-more-body {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 10px 10px 0;
+    background: rgba(255, 255, 255, .7);
+}
+
+.method-more-body p {
+    margin: 0 0 10px;
+    font-size: .92rem;
+    color: var(--ink);
+}
+
+.method-item .method-more-body p.method-more-example {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.method-more-body a {
+    font-size: .92rem;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+.method-more-body a:hover {
+    text-decoration: underline;
+}
