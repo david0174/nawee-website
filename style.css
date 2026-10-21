@@ -2516,7 +2516,8 @@ footer {
     grid-template-columns: minmax(0, 1.5fr) minmax(0, .8fr) minmax(0, 1fr);
     align-items: start;
     gap: 28px 48px;
-    padding: 44px max(6vw, calc((100vw - var(--content-width)) / 2)) 22px;
+    --footer-pad: max(6vw, calc((100vw - var(--content-width)) / 2));
+    padding: 44px var(--footer-pad) 22px;
 }
 
 footer .footer-brand {
@@ -4566,4 +4567,21 @@ nav > a.is-current::after {
         align-items: flex-start;
         padding: 26px 22px;
     }
+}
+
+/* copyright line: full-width navy strip at the very bottom (same blue as the free-tests band) */
+footer .footer-copy {
+    margin: 10px calc(-1 * var(--footer-pad, 6vw)) -22px;
+    padding: 18px var(--footer-pad, 6vw);
+    border-top: 0;
+    background: var(--blue-dark);
+    color: #d7e3f7;
+}
+
+footer .footer-copy a {
+    color: var(--white);
+}
+
+footer .footer-copy a:hover {
+    color: var(--yellow);
 }
