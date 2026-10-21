@@ -34,6 +34,7 @@
     };
     const save = (data) => {
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch { /* storage unavailable */ }
+        window.dispatchEvent(new Event("nawee:progress")); // lets account.js sync to the account (if logged in)
     };
     let data = load();
     data.completed = data.completed || [];

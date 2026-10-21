@@ -9,9 +9,14 @@
     const isEnglish = document.documentElement.lang === "en";
 
     const load = (key) => { try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; } };
-    const save = (data) => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ } };
+    const save = (data) => {
+        try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ }
+        window.dispatchEvent(new Event("nawee:progress")); // lets account.js sync to the account (if logged in)
+    };
 
-    const state = Object.assign({ unlocked: {}, days: [], perfect: [], compared: [], camera: false, commCheck: false, bizTest: false }, load(KEY));
+    const DEFAULTS = { unlocked: {}, days: [], perfect: [], compared: [], camera: false, commCheck: false, bizTest: false };
+    const state = Object.assign({}, DEFAULTS, load(KEY));
+    const reload = () => { Object.keys(state).forEach((k) => delete state[k]); Object.assign(state, DEFAULTS, load(KEY)); }; // after syncing with the account
     const course = () => { const c = load(COURSE_KEY); return { level: c.level, completed: c.completed || [] }; };
 
     const moduleLessons = (m) => [`${m}-1`, `${m}-2`, `${m}-3`];
@@ -160,7 +165,7 @@
         }));
     };
 
-    window.NaweeTrophies = { record, check, renderCabinet, total: TROPHIES.length, play, soundToggle };
+    window.NaweeTrophies = { record, check, reload, renderCabinet, total: TROPHIES.length, play, soundToggle };
 
     // credit progress made before a trophy existed (e.g. lessons completed earlier)
     check();
