@@ -5219,6 +5219,31 @@ footer .footer-copy p {
     .js .newsletter.in-view .nl-arrow {
         animation: nl-nudge .6s 1.6s ease-in-out 2;
     }
+
+    /* "News from Nawee": heading, posts box and follow buttons pop toward the viewer, one after another */
+    .js .linkedin-section .section-heading > *,
+    .js .linkedin-section .linkedin-consent,
+    .js .linkedin-section .linkedin-grid,
+    .js .linkedin-section .linkedin {
+        opacity: 0;
+    }
+
+    .js .linkedin-section.in-view .section-heading > *,
+    .js .linkedin-section.in-view .linkedin-consent,
+    .js .linkedin-section.in-view .linkedin-grid,
+    .js .linkedin-section.in-view .linkedin {
+        animation: news-pop .75s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    }
+
+    .js .linkedin-section.in-view .section-heading > :nth-child(2) { animation-delay: .12s; }
+    .js .linkedin-section.in-view .linkedin-consent,
+    .js .linkedin-section.in-view .linkedin-grid { animation-delay: .25s; }
+    .js .linkedin-section.in-view .linkedin { animation-delay: .4s; }
+}
+
+@keyframes news-pop {
+    from { opacity: 0; transform: translateY(26px) scale(.9); }
+    to { opacity: 1; transform: none; }
 }
 
 .hero-audiences {

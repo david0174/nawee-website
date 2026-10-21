@@ -245,16 +245,17 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     });
 });
 
-// Newsletter: forward-moving entrance (heading, momentum line, form) once the section scrolls into view
-(() => {
-    const section = document.getElementById("newsletter");
+// Newsletter: forward-moving entrance (heading, momentum line, form) once the section scrolls into view;
+// "News from Nawee" (#linkedin): heading, posts and follow buttons pop forward the same way
+["newsletter", "linkedin"].forEach((id) => {
+    const section = document.getElementById(id);
     if (!section) return;
     if (!("IntersectionObserver" in window)) { section.classList.add("in-view"); return; }
     const observer = new IntersectionObserver((entries) => {
         if (entries.some((e) => e.isIntersecting)) { section.classList.add("in-view"); observer.disconnect(); }
-    }, { threshold: 0.35 });
+    }, { threshold: 0.3 });
     observer.observe(section);
-})();
+});
 
 // In-page links (menu, hero tabs, buttons) stop exactly below the sticky header,
 // so a section starts right where its background color begins
