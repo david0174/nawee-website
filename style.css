@@ -4585,3 +4585,23 @@ footer .footer-copy a {
 footer .footer-copy a:hover {
     color: var(--yellow);
 }
+
+/* inspirational line on the right of the navy copyright strip (changes on each visit, see script.js) */
+footer .footer-copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+}
+
+footer .footer-copy p {
+    margin: 0;
+}
+
+footer .footer-quote {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--yellow);
+}

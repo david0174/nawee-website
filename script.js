@@ -226,3 +226,13 @@ methodTabs.forEach((tab) => {
         }
     });
 });
+
+// Footer: one of Nawee's guiding lines, a different one on each visit
+(() => {
+    const el = document.querySelector("[data-footer-quote]");
+    if (!el) return;
+    const lines = document.documentElement.lang === "en"
+        ? ["Progress over perfection.", "Fail faster, reach farther.", "Every conversation is a chance to grow.", "The courage to speak is the first step.", "Languages bring people together."]
+        : ["Fortschritt statt Perfektion.", "Schneller scheitern, weiter kommen.", "Jedes Gespräch ist eine Chance zu wachsen.", "Der Mut zu sprechen ist der erste Schritt.", "Sprachen verbinden Menschen."];
+    el.textContent = lines[Math.floor(Math.random() * lines.length)];
+})();
