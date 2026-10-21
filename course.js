@@ -273,7 +273,11 @@
         parts.push(`<div class="lesson-mission"><p class="lesson-mistake-label">Deine Mission</p><p>${esc(lesson.mission)}</p></div>`);
         parts.push(`<div class="lesson-finish" data-finish></div>`);
         lessonRoot.innerHTML = parts.join("");
-        if (window.NaweeTrophies) lessonRoot.querySelector(".lesson-back").insertAdjacentElement("afterend", window.NaweeTrophies.soundToggle());
+        if (window.NaweeTrophies) { // sound switch floats at the bottom left, so it stays visible while scrolling
+            const toggle = window.NaweeTrophies.soundToggle();
+            toggle.classList.add("is-floating");
+            document.body.append(toggle);
+        }
 
         // ----- exercises -----
         // trophies: count today as a learning day, and remember whether each exercise was right on the first try

@@ -4473,8 +4473,21 @@ nav > a.is-current::after {
     color: var(--blue);
 }
 
-.lesson-back + .sound-toggle {
-    float: right;
+/* lesson pages: floating switch, always visible at the bottom left */
+.sound-toggle.is-floating {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 90;
+    padding: 8px 14px;
+    box-shadow: 0 8px 22px rgba(11, 46, 131, .15);
+}
+
+@media (max-width: 560px) {
+    .sound-toggle.is-floating {
+        left: 12px;
+        bottom: 12px;
+    }
 }
 
 /* lesson phrases: the tile under the mouse stands out, the others fade a little */
