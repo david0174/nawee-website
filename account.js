@@ -58,7 +58,8 @@
             exists: "There is already an account for this email.", usernameTaken: "This username is already taken.",
             usernameFormat: "Please choose a username with 3–24 characters (letters, numbers, . _ -).",
             short: "Your password needs at least 8 characters.", mismatch: "The passwords don't match.",
-            rate: "Too many attempts – please wait a few minutes and try again.", generic: "Something went wrong. Please try again.",
+            rate: "Too many attempts – please wait a few minutes and try again.",
+            email: "We couldn't send the confirmation email right now. Please try again later – or write to david@nawee.net.", generic: "Something went wrong. Please try again.",
         },
     } : {
         login: "Anmelden", signup: "Konto erstellen", email: "E-Mail", password: "Passwort", username: "Benutzername",
@@ -87,7 +88,8 @@
             exists: "Für diese E-Mail gibt es schon ein Konto.", usernameTaken: "Dieser Benutzername ist leider schon vergeben.",
             usernameFormat: "Bitte wähle einen Benutzernamen mit 3–24 Zeichen (Buchstaben, Zahlen, . _ -).",
             short: "Dein Passwort braucht mindestens 8 Zeichen.", mismatch: "Die Passwörter stimmen nicht überein.",
-            rate: "Zu viele Versuche – bitte warte ein paar Minuten und versuch es dann noch einmal.", generic: "Etwas ist schiefgelaufen. Bitte versuch es noch einmal.",
+            rate: "Zu viele Versuche – bitte warte ein paar Minuten und versuch es dann noch einmal.",
+            email: "Die Bestätigungs-E-Mail konnte gerade nicht gesendet werden. Bitte versuch es später noch einmal – oder schreib an david@nawee.net.", generic: "Etwas ist schiefgelaufen. Bitte versuch es noch einmal.",
         },
     };
 
@@ -99,6 +101,7 @@
         if (m.includes("already registered") || m.includes("already been registered")) return T.errors.exists;
         if (m.includes("password") && m.includes("6")) return T.errors.short;
         if (m.includes("security purposes") || m.includes("rate limit") || m.includes("too many")) return T.errors.rate;
+        if (m.includes("error sending")) return T.errors.email; // e.g. "Error sending confirmation email" (email service problem)
         return T.errors.generic;
     };
 
