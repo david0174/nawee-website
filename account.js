@@ -182,6 +182,7 @@
                     ${field("email", T.email, "email", 'autocomplete="email" required')}
                     ${field("password", T.password, "password", 'autocomplete="new-password" minlength="8" required')}
                     <p class="account-hint-text">${T.passwordHint}</p>
+                    ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required')}
                     <div data-msg></div>
                     <button type="submit" class="button primary">${T.signup} <span aria-hidden="true">→</span></button>
                     <p class="as-note">${T.privacy}</p>
@@ -194,6 +195,7 @@
                 const username = form.username.value.trim(), email = form.email.value.trim(), password = form.password.value;
                 if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { msg.innerHTML = message(T.errors.usernameFormat); return; }
                 if (password.length < 8) { msg.innerHTML = message(T.errors.short); return; }
+                if (password !== form.password2.value) { msg.innerHTML = message(T.errors.mismatch); return; }
                 setBusy(form, true);
                 const { data: free, error: checkError } = await db.rpc("username_available", { name: username });
                 if (checkError) { setBusy(form, false); msg.innerHTML = message(T.errors.generic); return; }
