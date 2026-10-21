@@ -213,11 +213,18 @@ backToTop.addEventListener("click", () => {
     update();
 })();
 
-// "Wie ich arbeite": clicking a heading opens or closes its example box
-document.querySelectorAll(".method-toggle").forEach((button) => {
-    button.addEventListener("click", () => {
-        const open = button.getAttribute("aria-expanded") === "true";
-        button.setAttribute("aria-expanded", String(!open));
-        document.getElementById(button.getAttribute("aria-controls")).hidden = open;
+// "Wie ich arbeite": clicking a tile opens its panel below the row (one at a time); clicking it again closes it
+const methodTabs = document.querySelectorAll(".method-tab");
+methodTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        const opening = tab.getAttribute("aria-expanded") !== "true";
+        methodTabs.forEach((other) => {
+            other.setAttribute("aria-expanded", "false");
+            document.getElementById(other.getAttribute("aria-controls")).hidden = true;
+        });
+        if (opening) {
+            tab.setAttribute("aria-expanded", "true");
+            document.getElementById(tab.getAttribute("aria-controls")).hidden = false;
+        }
     });
 });

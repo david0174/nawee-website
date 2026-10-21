@@ -4154,3 +4154,119 @@ nav > a.is-current::after {
 .method-more-body a:hover {
     text-decoration: underline;
 }
+
+/* "Wie ich arbeite" as four tiles; the selected tile opens a wide panel below the row */
+.method-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+.method-tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 26px 24px;
+    border: 1px solid #cdddf2;
+    border-top: 3px solid transparent;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .45);
+    color: var(--blue-dark);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s, border-color .2s, transform .2s;
+}
+
+.method-tab:hover {
+    background: var(--white);
+    transform: translateY(-2px);
+}
+
+.method-tab[aria-expanded="true"] {
+    background: var(--white);
+    border-top-color: var(--yellow);
+    box-shadow: 0 12px 30px rgba(11, 46, 131, .1);
+}
+
+.method-tab svg {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.method-tab-title {
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    hyphens: manual;
+}
+
+.method-tab .method-chevron {
+    position: absolute;
+    top: 30px;
+    right: 24px;
+    margin: 0;
+}
+
+.method-tab:hover .method-chevron {
+    transform: translateY(3px) rotate(45deg);
+}
+
+.method-tab[aria-expanded="true"] .method-chevron {
+    transform: translateY(4px) rotate(-135deg);
+}
+
+.method-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    max-width: 1220px;
+    margin: 18px auto 0;
+    padding: 30px 34px;
+    box-sizing: border-box;
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 16px 16px 0;
+    background: var(--white);
+    box-shadow: 0 12px 30px rgba(11, 46, 131, .08);
+}
+
+.method-panel[hidden] {
+    display: none;
+}
+
+.method-panel-lead {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--blue-dark);
+}
+
+.method-panel-example {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-style: italic;
+}
+
+@media (max-width: 900px) {
+    .method-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .method-panel {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 24px;
+    }
+}

@@ -205,59 +205,54 @@
                 <h2>Wie ich arbeite</h2>
             </div>
 
-            <div class="method-grid">
-                <div class="method-item">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="9"></circle>
-                        <path d="M3 12h18"></path>
-                        <path d="M12 3a14 14 0 0 1 0 18"></path>
-                        <path d="M12 3a14 14 0 0 0 0 18"></path>
-                    </svg>
-                    <h3><button type="button" class="method-toggle" aria-expanded="false" aria-controls="method-more-1">Praxisnah<span class="method-chevron" aria-hidden="true"></span></button></h3>
-                    <div class="method-more-body" id="method-more-1" hidden>
-                            <p>Wir üben deine echten Situationen: dein nächstes Meeting, ein Kundentelefonat, deine Präsentation – keine Lehrbuchdialoge.</p>
-                            <p class="method-more-example">Beispiel: Du hast am Donnerstag ein Meeting mit dem Team in London? Dann spielen wir es vorher durch – mit deinen Themen und den Phrasen, die du wirklich brauchst.</p>
-                            <a href="lektion.html?l=7-1">Kostenlos ausprobieren: Lektion „Mission Meeting“ <span aria-hidden="true">→</span></a>
-                        </div>
+            <div class="method-tabs">
+                <button type="button" class="method-tab" id="method-tab-1" aria-expanded="false" aria-controls="method-panel-1">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"> <circle cx="12" cy="12" r="9"></circle> <path d="M3 12h18"></path> <path d="M12 3a14 14 0 0 1 0 18"></path> <path d="M12 3a14 14 0 0 0 0 18"></path> </svg>
+                    <span class="method-tab-title">Praxisnah</span>
+                    <span class="method-chevron" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="method-tab" id="method-tab-2" aria-expanded="false" aria-controls="method-panel-2">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"> <circle cx="9" cy="8" r="3"></circle> <circle cx="17" cy="9" r="2.5"></circle> <path d="M3.5 20a5.5 5.5 0 0 1 11 0"></path> <path d="M14 20a4.5 4.5 0 0 1 7 0"></path> </svg>
+                    <span class="method-tab-title">Individuell</span>
+                    <span class="method-chevron" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="method-tab" id="method-tab-3" aria-expanded="false" aria-controls="method-panel-3">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"> <path d="M3 20V4"></path> <path d="M3 20h18"></path> <path d="m7 16 4-5 3 2 6-8"></path> </svg>
+                    <span class="method-tab-title">Verständlich</span>
+                    <span class="method-chevron" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="method-tab" id="method-tab-4" aria-expanded="false" aria-controls="method-panel-4">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"> <rect x="4" y="4" width="16" height="12" rx="1.5"></rect> <path d="M2 20h20"></path> </svg>
+                    <span class="method-tab-title">Zukunfts&shy;orientiert</span>
+                    <span class="method-chevron" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="method-panel" id="method-panel-1" role="region" aria-labelledby="method-tab-1" hidden>
+                <p class="method-panel-lead">Wir üben deine echten Situationen: dein nächstes Meeting, ein Kundentelefonat, deine Präsentation – keine Lehrbuchdialoge.</p>
+                <div class="method-panel-side">
+                    <p class="method-panel-example">Beispiel: Du hast am Donnerstag ein Meeting mit dem Team in London? Dann spielen wir es vorher durch – mit deinen Themen und den Phrasen, die du wirklich brauchst.</p>
+                    <a class="text-link" href="lektion.html?l=7-1">Kostenlos ausprobieren: Lektion „Mission Meeting“ <span aria-hidden="true">→</span></a>
                 </div>
-                <div class="method-item">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="9" cy="8" r="3"></circle>
-                        <circle cx="17" cy="9" r="2.5"></circle>
-                        <path d="M3.5 20a5.5 5.5 0 0 1 11 0"></path>
-                        <path d="M14 20a4.5 4.5 0 0 1 7 0"></path>
-                    </svg>
-                    <h3><button type="button" class="method-toggle" aria-expanded="false" aria-controls="method-more-2">Individuell<span class="method-chevron" aria-hidden="true"></span></button></h3>
-                    <div class="method-more-body" id="method-more-2" hidden>
-                            <p>Jedes Coaching beginnt dort, wo du stehst: bei deinem Niveau, deinen Zielen und deinen Situationen.</p>
-                            <p class="method-more-example">Beispiel: Die eine braucht Sicherheit im Small Talk, der andere Präzision in Verhandlungen – deshalb gibt es bei mir keinen Standardplan.</p>
-                            <a href="kommunikations-check.html">Finde heraus, wo du stehst: Kommunikationscheck <span aria-hidden="true">→</span></a>
-                        </div>
+            </div>
+            <div class="method-panel" id="method-panel-2" role="region" aria-labelledby="method-tab-2" hidden>
+                <p class="method-panel-lead">Jedes Coaching beginnt dort, wo du stehst: bei deinem Niveau, deinen Zielen und deinen Situationen.</p>
+                <div class="method-panel-side">
+                    <p class="method-panel-example">Beispiel: Die eine braucht Sicherheit im Small Talk, der andere Präzision in Verhandlungen – deshalb gibt es bei mir keinen Standardplan.</p>
+                    <a class="text-link" href="kommunikations-check.html">Finde heraus, wo du stehst: Kommunikationscheck <span aria-hidden="true">→</span></a>
                 </div>
-                <div class="method-item">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M3 20V4"></path>
-                        <path d="M3 20h18"></path>
-                        <path d="m7 16 4-5 3 2 6-8"></path>
-                    </svg>
-                    <h3><button type="button" class="method-toggle" aria-expanded="false" aria-controls="method-more-3">Verständlich<span class="method-chevron" aria-hidden="true"></span></button></h3>
-                    <div class="method-more-body" id="method-more-3" hidden>
-                            <p>Komplexe Themen in kleinen, klaren Schritten – mit deutschen Erklärungen, wo sie helfen.</p>
-                            <p class="method-more-example">Beispiel: Statt Grammatiktabellen lernst du, wie du im Gespräch höflich nachfragst – mit fertigen Phrasen, die du sofort einsetzen kannst.</p>
-                            <a href="lektion.html?l=2-2">Beispiel-Lektion ansehen: „Nachfragen im Gespräch“ <span aria-hidden="true">→</span></a>
-                        </div>
+            </div>
+            <div class="method-panel" id="method-panel-3" role="region" aria-labelledby="method-tab-3" hidden>
+                <p class="method-panel-lead">Komplexe Themen in kleinen, klaren Schritten – mit deutschen Erklärungen, wo sie helfen.</p>
+                <div class="method-panel-side">
+                    <p class="method-panel-example">Beispiel: Statt Grammatiktabellen lernst du, wie du im Gespräch höflich nachfragst – mit fertigen Phrasen, die du sofort einsetzen kannst.</p>
+                    <a class="text-link" href="lektion.html?l=2-2">Beispiel-Lektion ansehen: „Nachfragen im Gespräch“ <span aria-hidden="true">→</span></a>
                 </div>
-                <div class="method-item">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <rect x="4" y="4" width="16" height="12" rx="1.5"></rect>
-                        <path d="M2 20h20"></path>
-                    </svg>
-                    <h3><button type="button" class="method-toggle" aria-expanded="false" aria-controls="method-more-4">Zukunfts&shy;orientiert<span class="method-chevron" aria-hidden="true"></span></button></h3>
-                    <div class="method-more-body" id="method-more-4" hidden>
-                            <p>Ich zeige dir, wie du KI-Tools sinnvoll nutzt, um zwischen den Stunden zu üben – klug eingesetzt, ohne dich davon abhängig zu machen.</p>
-                            <p class="method-more-example">Beispiel: Du schreibst eine E-Mail selbst und lässt sie danach von einem KI-Tool prüfen – mit Erklärung der Fehler. So lernst du aus dem Unterschied.</p>
-                            <a href="lektion.html?l=3-3">Kostenlose Lektion: „Werkzeuge klug nutzen“ <span aria-hidden="true">→</span></a>
-                        </div>
+            </div>
+            <div class="method-panel" id="method-panel-4" role="region" aria-labelledby="method-tab-4" hidden>
+                <p class="method-panel-lead">Ich zeige dir, wie du KI-Tools sinnvoll nutzt, um zwischen den Stunden zu üben – klug eingesetzt, ohne dich davon abhängig zu machen.</p>
+                <div class="method-panel-side">
+                    <p class="method-panel-example">Beispiel: Du schreibst eine E-Mail selbst und lässt sie danach von einem KI-Tool prüfen – mit Erklärung der Fehler. So lernst du aus dem Unterschied.</p>
+                    <a class="text-link" href="lektion.html?l=3-3">Kostenlose Lektion: „Werkzeuge klug nutzen“ <span aria-hidden="true">→</span></a>
                 </div>
             </div>
         </section>
