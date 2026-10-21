@@ -227,21 +227,21 @@ methodTabs.forEach((tab) => {
     });
 });
 
-// Hero tabs: scroll to the offers section (heading stays visible) and let the chosen card light up.
-// On narrow screens the cards are stacked, so it scrolls to the card itself.
+// Hero tabs: jump to the main offers on the homepage (English coaching, Communication Coaching, free tests);
+// the Communication Coaching box lights up briefly so it's clear where to look
 document.querySelectorAll(".hero-audience").forEach((tab) => {
     tab.addEventListener("click", (event) => {
-        const card = document.querySelector(tab.getAttribute("href"));
-        const section = document.getElementById("angebote");
-        if (!card || !section) return;
+        const target = document.querySelector(tab.getAttribute("href"));
+        if (!target) return;
         event.preventDefault();
         document.querySelectorAll(".hero-audience").forEach((t) => t.classList.toggle("active", t === tab));
-        const stacked = window.matchMedia("(max-width: 760px)").matches;
-        (stacked ? card : section).scrollIntoView({ behavior: "smooth", block: "start" });
-        card.classList.remove("is-highlight");
-        void card.offsetWidth; // restart the animation
-        card.classList.add("is-highlight");
-        setTimeout(() => card.classList.remove("is-highlight"), 2300);
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        const box = target.querySelector(".pillar-inner");
+        if (!box) return;
+        box.classList.remove("is-highlight");
+        void box.offsetWidth; // restart the animation
+        box.classList.add("is-highlight");
+        setTimeout(() => box.classList.remove("is-highlight"), 2300);
     });
 });
 

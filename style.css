@@ -4917,3 +4917,13 @@ footer .footer-copy p {
 .linkedin-section .linkedin-grid iframe {
     border-color: transparent;
 }
+
+/* Communication Coaching box lights up when chosen via the hero tabs */
+.pillar-inner.is-highlight {
+    animation: card-highlight 2.2s ease;
+}
+
+/* the box sits at the very top of its section; leave a little air when a tab jumps to it */
+#communication {
+    padding-top: 40px;
+}
