@@ -4586,7 +4586,7 @@ footer .footer-copy a:hover {
     color: var(--yellow);
 }
 
-/* navy strip at the very bottom: copyright on the left, the N icon on the right */
+/* navy strip at the very bottom with the copyright line */
 footer .footer-copy {
     display: flex;
     flex-wrap: wrap;
@@ -4597,9 +4597,4 @@ footer .footer-copy {
 
 footer .footer-copy p {
     margin: 0;
-}
-
-footer .footer-mark {
-    width: 34px;
-    height: 34px;
 }
