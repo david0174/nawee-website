@@ -4439,3 +4439,57 @@ nav > a.is-current::after {
         max-width: none;
     }
 }
+
+/* sound on/off switch in the course */
+.course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin: 4px 0 18px;
+}
+
+.course-meta .course-level-line {
+    margin: 0;
+}
+
+.sound-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--muted);
+    font: inherit;
+    font-size: .82rem;
+    cursor: pointer;
+}
+
+.sound-toggle:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+.lesson-back + .sound-toggle {
+    float: right;
+}
+
+/* lesson phrases: the tile under the mouse stands out, the others fade a little */
+.lesson-phrases li {
+    transition: border-color .2s, box-shadow .2s, transform .2s, opacity .2s;
+}
+
+.lesson-phrases li:hover {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 2px rgba(245, 197, 66, .3), 0 10px 24px rgba(11, 46, 131, .08);
+    transform: translateY(-2px);
+}
+
+@media (hover: hover) {
+    .lesson-phrases:hover li:not(:hover) {
+        opacity: .55;
+    }
+}

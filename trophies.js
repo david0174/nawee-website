@@ -1,6 +1,7 @@
 // Nawee trophies – a fixed set of bronze, silver, gold and platinum trophies, like on a game console.
 // Everything is stored in the visitor's browser (localStorage); nothing is sent anywhere.
 // Pages report events with NaweeTrophies.record(...); newly unlocked trophies slide in as a small message.
+// It also provides short sounds for correct/wrong answers (NaweeTrophies.play) with an on/off switch.
 
 (() => {
     const KEY = "nawee-trophies-v1";
@@ -46,6 +47,53 @@
 
     const trophyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3"></path><path d="M7 5H4v2a3 3 0 0 0 3 3"></path><path d="M12 14v4"></path><path d="M8 21h8"></path><path d="M9 18h6v3H9z"></path></svg>';
 
+    // ---------- sounds (generated in the browser, no audio files; can be switched off) ----------
+    const SOUND_KEY = "nawee-sound";
+    let audio = null;
+    const soundOn = () => { try { return localStorage.getItem(SOUND_KEY) !== "off"; } catch { return true; } };
+    const tone = (freq, start, length, type = "sine", volume = 0.12) => {
+        const t0 = audio.currentTime + start;
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(volume, t0 + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
+        osc.connect(gain).connect(audio.destination);
+        osc.start(t0);
+        osc.stop(t0 + length + 0.05);
+    };
+    const play = (kind) => {
+        if (!soundOn()) return;
+        try {
+            audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+            if (audio.state === "suspended") audio.resume();
+            if (kind === "correct") { tone(880, 0, 0.12); tone(1318.5, 0.09, 0.2); }
+            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.07); tone(262, 0.1, 0.2, "triangle", 0.06); }
+            if (kind === "complete") { tone(659.3, 0, 0.16); tone(784, 0.12, 0.16); tone(1046.5, 0.24, 0.32); }
+            if (kind === "trophy") { [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.1, 0.28, "triangle", 0.11)); tone(1318.5, 0.42, 0.45, "sine", 0.08); }
+        } catch { /* audio not available – stay silent */ }
+    };
+    const setSound = (on) => { try { localStorage.setItem(SOUND_KEY, on ? "on" : "off"); } catch { /* ignore */ } };
+
+    // a small "sound on/off" switch that pages can place where they like
+    const soundToggle = () => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "sound-toggle";
+        const draw = () => {
+            const on = soundOn();
+            button.setAttribute("aria-pressed", String(on));
+            button.innerHTML = on
+                ? `<span aria-hidden="true">🔊</span> ${isEnglish ? "Sound on" : "Ton an"}`
+                : `<span aria-hidden="true">🔇</span> ${isEnglish ? "Sound off" : "Ton aus"}`;
+        };
+        button.addEventListener("click", () => { setSound(!soundOn()); draw(); if (soundOn()) play("correct"); });
+        draw();
+        return button;
+    };
+
     // ---------- unlock messages (one after another) ----------
     const queue = [];
     let showing = false;
@@ -59,6 +107,7 @@
         toast.innerHTML = `<span class="trophy-medal">${trophyIcon}</span>
             <span><small>${isEnglish ? "Trophy unlocked" : "Trophäe freigeschaltet"} · ${LEVEL_NAMES[t.level]}</small><strong>${t.name}</strong></span>`;
         document.body.append(toast);
+        play("trophy");
         requestAnimationFrame(() => toast.classList.add("is-visible"));
         setTimeout(() => {
             toast.classList.remove("is-visible");
@@ -111,7 +160,7 @@
         }));
     };
 
-    window.NaweeTrophies = { record, check, renderCabinet, total: TROPHIES.length };
+    window.NaweeTrophies = { record, check, renderCabinet, total: TROPHIES.length, play, soundToggle };
 
     // credit progress made before a trophy existed (e.g. lessons completed earlier)
     check();

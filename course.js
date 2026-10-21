@@ -174,7 +174,11 @@
                 cont.hidden = true;
             }
 
-            if (window.NaweeTrophies) window.NaweeTrophies.renderCabinet($("[data-trophies]"), $("[data-trophy-count]"));
+            if (window.NaweeTrophies) {
+                window.NaweeTrophies.renderCabinet($("[data-trophies]"), $("[data-trophy-count]"));
+                const slot = $("[data-sound-slot]");
+                if (slot && !slot.firstChild) slot.append(window.NaweeTrophies.soundToggle());
+            }
 
             const list = $("[data-modules]");
             list.replaceChildren();
@@ -269,6 +273,7 @@
         parts.push(`<div class="lesson-mission"><p class="lesson-mistake-label">Deine Mission</p><p>${esc(lesson.mission)}</p></div>`);
         parts.push(`<div class="lesson-finish" data-finish></div>`);
         lessonRoot.innerHTML = parts.join("");
+        if (window.NaweeTrophies) lessonRoot.querySelector(".lesson-back").insertAdjacentElement("afterend", window.NaweeTrophies.soundToggle());
 
         // ----- exercises -----
         // trophies: count today as a learning day, and remember whether each exercise was right on the first try
@@ -294,6 +299,7 @@
                     btn.addEventListener("click", () => {
                         const ok = i === ex.answer;
                         noteFirst(n, ok);
+                        window.NaweeTrophies?.play(ok ? "correct" : "wrong");
                         btn.classList.add(ok ? "is-right" : "is-wrong");
                         if (ok) opts.querySelectorAll("button").forEach((b) => { b.disabled = true; });
                         feedback.innerHTML = `${ok ? "✓ Richtig! " : "✗ Nicht ganz – versuch es noch einmal. "}${ok ? esc(ex.explain) : ""}`;
@@ -321,6 +327,7 @@
                     const val = input.value.trim().toLowerCase();
                     const ok = ex.answers.includes(val);
                     noteFirst(n, ok);
+                    window.NaweeTrophies?.play(ok ? "correct" : "wrong");
                     feedback.innerHTML = ok ? `✓ Richtig! ${esc(ex.explain)}` : `✗ Noch nicht. Tipp: Lösung ist „${esc(ex.answers[0])}“. ${esc(ex.explain)}`;
                     feedback.className = `exercise-feedback ${ok ? "is-right" : "is-wrong"}`;
                     feedback.hidden = false;
@@ -353,6 +360,7 @@
                         if (picked.length === ex.words.length) {
                             const ok = picked.join(" ") === ex.words.join(" ");
                             noteFirst(n, ok);
+                            window.NaweeTrophies?.play(ok ? "correct" : "wrong");
                             feedback.innerHTML = ok ? `✓ Richtig! ${esc(ex.explain)}` : `✗ Nicht ganz. Richtig ist: „${esc(ex.words.join(" "))}“`;
                             feedback.className = `exercise-feedback ${ok ? "is-right" : "is-wrong"}`;
                             feedback.hidden = false;
@@ -442,8 +450,8 @@
                 save(data);
                 // "perfect" lesson: every graded exercise (choice, gap, order) right on the first try
                 const graded = lesson.exercises.map((ex, n) => n).filter((n) => ["choice", "gap", "order"].includes(lesson.exercises[n].type));
-                if (graded.every((n) => firstTry[n] === true)) window.NaweeTrophies?.record("perfect", id);
-                else window.NaweeTrophies?.check();
+                const fresh = graded.every((n) => firstTry[n] === true) ? window.NaweeTrophies?.record("perfect", id) : window.NaweeTrophies?.check();
+                if (!fresh || !fresh.length) window.NaweeTrophies?.play("complete"); // a trophy brings its own fanfare
                 drawFinish();
             });
         };
