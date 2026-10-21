@@ -4270,3 +4270,15 @@ nav > a.is-current::after {
         padding: 24px;
     }
 }
+
+/* free-tests cards: yellow top line, soft yellow glow and a slight lift only on hover */
+.test-band-option {
+    border-top-color: transparent;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+.test-band-option:hover {
+    border-top-color: var(--yellow);
+    box-shadow: 0 16px 36px rgba(245, 197, 66, .28);
+    transform: translateY(-4px);
+}
