@@ -5861,3 +5861,115 @@ nav.learn-jump > a {
         border-radius: 22px;
     }
 }
+
+/* =========================
+   HEADLINES: yellow marker on the key word + words rise in on scroll (script.js)
+   ========================= */
+mark.hl {
+    padding: 0 .08em;
+    background: linear-gradient(transparent 58%, rgba(245, 197, 66, .7) 58%, rgba(245, 197, 66, .7) 92%, transparent 92%) no-repeat;
+    background-size: 100% 100%;
+    color: inherit;
+    border-radius: 2px;
+}
+
+/* on dark bands the key word turns yellow instead (a marker would look muddy on navy) */
+.test-band mark.hl,
+.linkedin-section mark.hl {
+    background: none;
+    color: var(--yellow);
+}
+
+.reveal-words .hw {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(.45em);
+    transition: opacity .5s cubic-bezier(.22, 1, .36, 1), transform .6s cubic-bezier(.22, 1, .36, 1);
+    transition-delay: calc(var(--i) * 70ms);
+}
+
+.reveal-words.is-revealed .hw {
+    opacity: 1;
+    transform: none;
+}
+
+/* the marker draws in from the left after the words have arrived */
+.reveal-words mark.hl {
+    background-size: 0% 100%;
+    transition: background-size .7s cubic-bezier(.65, 0, .35, 1);
+    transition-delay: calc(var(--words) * 70ms + .45s);
+}
+
+.reveal-words.is-revealed mark.hl {
+    background-size: 100% 100%;
+}
+
+/* dark bands: the word arrives white, then turns yellow */
+.test-band .reveal-words mark.hl,
+.linkedin-section .reveal-words mark.hl {
+    color: inherit;
+    transition: color .6s ease;
+    transition-delay: calc(var(--words) * 70ms + .45s);
+}
+
+.test-band .reveal-words.is-revealed mark.hl,
+.linkedin-section .reveal-words.is-revealed mark.hl {
+    color: var(--yellow);
+}
+
+/* "Let's find out what you need." (homepage #kontakt): intro rises, benefits from the left, contact panel from the right */
+@media (prefers-reduced-motion: no-preference) {
+    .js .consultation .consultation-header > p,
+    .js .consultation .consultation-benefit,
+    .js .consultation .consultation-details,
+    .js .consultation .consultation-actions {
+        opacity: 0;
+    }
+
+    .js .consultation.in-view .consultation-header > p {
+        animation: consult-rise .6s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .consultation.in-view .consultation-header > p:last-child { animation-delay: .5s; }
+
+    .js .consultation.in-view .consultation-benefit,
+    .js .consultation.in-view .consultation-details {
+        animation: contact-from-left .7s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .consultation.in-view .consultation-benefit:nth-child(1) { animation-delay: .55s; }
+    .js .consultation.in-view .consultation-benefit:nth-child(2) { animation-delay: .7s; }
+    .js .consultation.in-view .consultation-benefit:nth-child(3) { animation-delay: .85s; }
+    .js .consultation.in-view .consultation-details { animation-delay: 1s; }
+
+    .js .consultation.in-view .benefit-icon {
+        animation: contact-icon-pop .6s cubic-bezier(.34, 1.56, .64, 1) backwards;
+    }
+
+    .js .consultation.in-view .consultation-benefit:nth-child(1) .benefit-icon { animation-delay: .75s; }
+    .js .consultation.in-view .consultation-benefit:nth-child(2) .benefit-icon { animation-delay: .9s; }
+    .js .consultation.in-view .consultation-benefit:nth-child(3) .benefit-icon { animation-delay: 1.05s; }
+
+    .js .consultation.in-view .consultation-actions {
+        animation: contact-from-right .8s .65s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .consultation.in-view .consultation-actions .button.primary {
+        animation: consult-glow 1.4s 1.5s ease-in-out 2;
+    }
+}
+
+@keyframes contact-from-left {
+    from { opacity: 0; transform: translateX(-28px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes contact-from-right {
+    from { opacity: 0; transform: translateX(28px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes contact-icon-pop {
+    from { transform: scale(.4); }
+    to { transform: none; }
+}

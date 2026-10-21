@@ -246,8 +246,9 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
 });
 
 // Newsletter: forward-moving entrance (heading, momentum line, form) once the section scrolls into view;
-// "News from Nawee" (#linkedin): heading, posts and follow buttons pop forward the same way
-["newsletter", "linkedin"].forEach((id) => {
+// "News from Nawee" (#linkedin): heading, posts and follow buttons pop forward the same way;
+// "Let's find out what you need" (#kontakt): intro rises, benefits slide in from the left, contact panel from the right
+["newsletter", "linkedin", "kontakt"].forEach((id) => {
     const section = document.getElementById(id);
     if (!section) return;
     if (!("IntersectionObserver" in window)) { section.classList.add("in-view"); return; }
@@ -256,6 +257,49 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     }, { threshold: 0.3 });
     observer.observe(section);
 });
+
+// Section headlines: words rise in one after another when the headline scrolls into view, then the
+// highlighted word (<mark class="hl">) gets its yellow marker stroke. Skipped for "reduce motion".
+(() => {
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const headlines = document.querySelectorAll("main h2:not(.about-heading)");
+    let index;
+    const split = (node) => {
+        [...node.childNodes].forEach((child) => {
+            if (child.nodeType === Node.TEXT_NODE) {
+                const parts = child.textContent.split(/(\s+)/);
+                const frag = document.createDocumentFragment();
+                parts.forEach((part) => {
+                    if (!part) return;
+                    if (/^\s+$/.test(part)) { frag.append(part); return; }
+                    const word = document.createElement("span");
+                    word.className = "hw";
+                    word.style.setProperty("--i", index++);
+                    word.textContent = part;
+                    frag.append(word);
+                });
+                child.replaceWith(frag);
+            } else if (child.nodeType === Node.ELEMENT_NODE) {
+                split(child);
+            }
+        });
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("is-revealed");
+            observer.unobserve(e.target);
+        });
+    }, { threshold: 0.6 });
+    headlines.forEach((h) => {
+        index = 0;
+        h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim()); // read as one sentence
+        split(h);
+        h.style.setProperty("--words", index);
+        h.classList.add("reveal-words");
+        observer.observe(h);
+    });
+})();
 
 // Free consultation boxes ("Not sure what you need? Let's find out together."): pop in once they scroll into view
 (() => {
