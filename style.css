@@ -987,11 +987,6 @@ footer {
     color: #1877f2 !important;
 }
 
-/* Facebook icon is prepared in all footers but hidden until the page is ready – delete this rule to show it */
-.footer-contact .footer-facebook {
-    display: none;
-}
-
 .footer-brand strong {
     font-family: var(--serif);
     color: var(--blue);
