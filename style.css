@@ -4006,3 +4006,38 @@ nav > a[aria-current="page"]::after {
 .about-more:hover {
     text-decoration: underline;
 }
+
+/* course: checklist exercise and course completion box */
+.exercise-checklist {
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+}
+
+.exercise-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+}
+
+.exercise-checklist input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--blue);
+}
+
+.lesson-complete {
+    margin-top: 0;
+}
+
+.lesson-complete .as-actions {
+    justify-content: center;
+}
+
+/* links inside lesson texts */
+.lesson p a:not(.button) {
+    color: var(--blue);
+    text-decoration: underline;
+}

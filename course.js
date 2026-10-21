@@ -375,6 +375,30 @@
                 card.append(area, compare);
             }
 
+            if (ex.type === "checklist") {
+                const list = el("ul", "exercise-checklist");
+                ex.items.forEach((item, i) => {
+                    const li = el("li");
+                    const label = el("label");
+                    const input = el("input");
+                    input.type = "checkbox";
+                    input.id = `cl${n}-${i}`;
+                    label.htmlFor = input.id;
+                    label.textContent = item;
+                    li.append(input, label);
+                    list.append(li);
+                });
+                const evaluate = el("button", "button secondary exercise-check", "Auswerten");
+                evaluate.type = "button";
+                evaluate.addEventListener("click", () => {
+                    const done = list.querySelectorAll("input:checked").length;
+                    feedback.innerHTML = `<strong>${done} von ${ex.items.length} Punkten klappen schon.</strong> ${esc(ex.explain)}`;
+                    feedback.className = "exercise-feedback is-model";
+                    feedback.hidden = false;
+                });
+                card.append(list, evaluate);
+            }
+
             card.append(feedback);
             box.append(card);
         });
@@ -383,8 +407,17 @@
         const finish = lessonRoot.querySelector("[data-finish]");
         const lessons = allLessons();
         const nextAvailable = lessons.slice(lessons.findIndex((l) => l.id === id) + 1).find((l) => isAvailable(l.id));
+        const courseComplete = lessons.every((l) => isAvailable(l.id));
         const drawFinish = () => {
             const done = data.completed.includes(id);
+            if (done && !nextAvailable && courseComplete) {
+                finish.innerHTML = `<div class="as-cta lesson-complete">
+                    <h2>Glückwunsch – du hast den Kurs abgeschlossen!</h2>
+                    <p>Du kennst jetzt die wichtigsten Strategien für echte Gespräche. Wenn du gezielt an deinen Situationen arbeiten willst, begleite ich dich gern persönlich.</p>
+                    <div class="as-actions"><a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen <span aria-hidden="true">→</span></a>
+                    <a class="button mission-outline" href="kurs.html">Zur Kursübersicht</a></div></div>`;
+                return;
+            }
             finish.innerHTML = done
                 ? `<p class="lesson-done">✓ Lektion abgeschlossen – stark!</p>
                    <div class="as-actions">${nextAvailable ? `<a class="button primary" href="lektion.html?l=${nextAvailable.id}">Nächste Lektion <span aria-hidden="true">→</span></a>` : ""}
