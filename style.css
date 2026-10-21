@@ -4586,22 +4586,37 @@ footer .footer-copy a:hover {
     color: var(--yellow);
 }
 
-/* inspirational line on the right of the navy copyright strip (changes on each visit, see script.js) */
+/* navy strip at the very bottom: big, friendly sign-off ("You got this!") above the copyright line */
 footer .footer-copy {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px 24px;
+    gap: 14px;
+    padding-top: 34px;
+    padding-bottom: 26px;
+    text-align: center;
 }
 
 footer .footer-copy p {
     margin: 0;
 }
 
-footer .footer-quote {
+footer .footer-slogan {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+footer .footer-slogan img {
+    width: 46px;
+    height: 46px;
+}
+
+footer .footer-slogan span {
     font-family: var(--display);
-    font-size: 1rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
     font-style: italic;
+    font-weight: 700;
+    line-height: 1;
     color: var(--yellow);
 }

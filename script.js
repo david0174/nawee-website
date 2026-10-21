@@ -226,27 +226,3 @@ methodTabs.forEach((tab) => {
         }
     });
 });
-
-// Footer: a fun line, a different one on each visit
-(() => {
-    const el = document.querySelector("[data-footer-quote]");
-    if (!el) return;
-    const lines = document.documentElement.lang === "en"
-        ? [
-            "You scrolled all the way down. We love that kind of commitment. 😄",
-            "Fun fact: “set” has over 400 meanings in English. Good luck! 😉",
-            "Mistakes are just proof you’re trying. 🚀",
-            "Psst… you made it to the bottom. High five! ✋",
-            "Keep calm and keep talking. 💬",
-            "Try faster, reach farther. 🚀",
-        ]
-        : [
-            "Du hast bis ganz nach unten gescrollt – mit so viel Ausdauer wird das was mit deinem Englisch. 😄",
-            "Fun Fact: „set“ hat im Englischen über 400 Bedeutungen. Viel Glück! 😉",
-            "Kleiner Tipp: „I become a coffee“ macht dich zum Kaffee. Sag lieber „I’d like a coffee“. ☕",
-            "Fehler sind nur der Beweis, dass du es versuchst. 🚀",
-            "Keep calm and keep talking. 💬",
-            "Mehr wagen, weiter kommen. 🚀",
-        ];
-    el.textContent = lines[Math.floor(Math.random() * lines.length)];
-})();
