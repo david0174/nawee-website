@@ -297,8 +297,8 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         mobileLanguages.before(link);
     }
 
-    // announcement bar (not on the account and course pages themselves)
-    if (document.querySelector("[data-account], [data-requires-account]")) return;
+    // announcement bar (not on the account, learning hub and course pages themselves)
+    if (document.querySelector("[data-account], [data-requires-account], [data-learn], [data-course], [data-lesson], [data-cc-course], [data-cc-lesson]")) return;
     const CLOSED_KEY = "nawee-course-bar-closed";
     let closed = false;
     try { closed = localStorage.getItem(CLOSED_KEY) === "1"; } catch { /* ignore */ }
@@ -306,10 +306,10 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     const bar = document.createElement("div");
     bar.className = "course-bar";
     bar.innerHTML = loggedIn
-        ? (en ? `Welcome back! <a href="kurs.html">Continue your course →</a>` : `Willkommen zurück! <a href="kurs.html">Weiter mit deinem Kurs →</a>`)
+        ? (en ? `Welcome back! <a href="learn.html">Continue learning →</a>` : `Willkommen zurück! <a href="lernen.html">Weiter lernen →</a>`)
         : (en
-            ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> the free online course “Sicher sprechen” – 21 lessons, placement test &amp; trophies (explanations in German). <a href="account.html?mode=signup&amp;next=kurs.html">Sign up free →</a>`
-            : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> der kostenlose Online-Kurs „Sicher sprechen“ – 21 Lektionen, Einstufungstest &amp; Trophäen. <a href="konto.html?mode=signup&amp;next=kurs.html">Kostenlos registrieren →</a>`);
+            ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
+            : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);
     if (!loggedIn) {
         const close = document.createElement("button");
         close.type = "button";
