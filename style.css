@@ -3447,3 +3447,28 @@ nav > a[aria-current="page"]::after {
 .bug-list li {
     margin: 4px 0;
 }
+
+/* hiring page (draft, not published yet) */
+.jobs-heading {
+    margin: 30px 0 12px;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+}
+
+.job-card {
+    padding: 22px 24px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--yellow);
+    border-radius: 14px;
+    background: var(--soft);
+}
+
+.job-card h3 {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+}
+
+.job-meta {
+    margin: 0 0 14px;
+    font-size: .9rem;
+    color: var(--muted);
+}
