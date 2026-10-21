@@ -141,3 +141,44 @@ backToTop.addEventListener("click", () => {
     const skip = document.querySelector(".skip-link");
     if (skip) skip.focus({ preventScroll: true });
 });
+
+// Language: suggest the other language version of a page (no forced redirect, so search engines
+// still see every page), and remember the visitor's explicit choice for future visits.
+(() => {
+    const PREF_KEY = "nawee-lang";
+    const lang = document.documentElement.lang.startsWith("de") ? "de" : "en";
+    const other = lang === "de" ? "en" : "de";
+    const getPref = () => { try { return localStorage.getItem(PREF_KEY); } catch { return null; } };
+    const setPref = (value) => { try { localStorage.setItem(PREF_KEY, value); } catch { /* storage unavailable */ } };
+
+    // choosing a language in the menu counts as an explicit choice
+    document.querySelectorAll(".language-menu a[lang], .mobile-menu-languages a[lang]").forEach((a) => {
+        a.addEventListener("click", () => setPref(a.lang));
+    });
+
+    const alternate = document.querySelector(`link[rel="alternate"][hreflang="${other}"]`);
+    if (!alternate) return; // page exists in one language only
+    const target = (new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.hash;
+
+    const pref = getPref();
+    if (pref === other) { location.replace(target); return; } // visitor chose the other language before
+    if (pref) return;
+
+    const browserLangs = (navigator.languages || [navigator.language || ""]).map((l) => l.toLowerCase());
+    const suggest = lang === "de"
+        ? !browserLangs.some((l) => l.startsWith("de")) // German page, browser without German
+        : (browserLangs[0] || "").startsWith("de"); // English page, browser set to German first
+    if (!suggest) return;
+
+    const text = lang === "de"
+        ? { msg: "This page is also available in English.", go: "Switch to English", close: "Stay on the German page" }
+        : { msg: "Diese Seite gibt es auch auf Deutsch.", go: "Auf Deutsch ansehen", close: "Auf der englischen Seite bleiben" };
+    const bar = document.createElement("div");
+    bar.className = "lang-suggest";
+    bar.lang = other;
+    bar.innerHTML = `<span>${text.msg}</span> <a href="${target}">${text.go} →</a> <button type="button" aria-label="${text.close}">×</button>`;
+    bar.querySelector("a").addEventListener("click", () => setPref(other));
+    bar.querySelector("button").addEventListener("click", () => { setPref(lang); bar.remove(); });
+    const header = document.querySelector(".site-header");
+    (header || document.body.firstElementChild).insertAdjacentElement(header ? "afterend" : "beforebegin", bar);
+})();
