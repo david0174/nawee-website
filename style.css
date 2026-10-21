@@ -3436,3 +3436,14 @@ nav > a[aria-current="page"]::after {
     font-weight: 600;
     color: var(--blue-dark);
 }
+
+/* bug report page */
+.bug-list {
+    margin: 0 0 24px;
+    padding-left: 1.2em;
+    color: var(--muted);
+}
+
+.bug-list li {
+    margin: 4px 0;
+}
