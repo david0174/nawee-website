@@ -5973,3 +5973,15 @@ mark.hl {
     from { transform: scale(.4); }
     to { transform: none; }
 }
+
+/* hero headline: the marker on the key word draws in shortly after the page loads */
+@media (prefers-reduced-motion: no-preference) {
+    .hero-copy h1 mark.hl {
+        animation: hero-marker .8s 1s cubic-bezier(.65, 0, .35, 1) backwards;
+    }
+}
+
+@keyframes hero-marker {
+    from { background-size: 0% 100%; }
+    to { background-size: 100% 100%; }
+}
