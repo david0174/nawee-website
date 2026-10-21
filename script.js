@@ -92,7 +92,7 @@ document.addEventListener("keydown", (event) => {
 document.querySelectorAll(".nl-form").forEach((form) => {
     const button = form.querySelector('button[type="submit"]');
     const status = form.querySelector(".nl-status");
-    const buttonText = button.textContent;
+    const buttonHTML = button.innerHTML; // keeps the animated arrow
 
     const show = (message, ok) => {
         status.textContent = message;
@@ -119,7 +119,7 @@ document.querySelectorAll(".nl-form").forEach((form) => {
             show(form.dataset.error, false);
         } finally {
             button.disabled = false;
-            button.textContent = buttonText;
+            button.innerHTML = buttonHTML;
         }
     });
 });
@@ -226,3 +226,42 @@ methodTabs.forEach((tab) => {
         }
     });
 });
+
+// Hero tabs: scroll to the offers section (heading stays visible) and let the chosen card light up.
+// On narrow screens the cards are stacked, so it scrolls to the card itself.
+document.querySelectorAll(".hero-audience").forEach((tab) => {
+    tab.addEventListener("click", (event) => {
+        const card = document.querySelector(tab.getAttribute("href"));
+        const section = document.getElementById("angebote");
+        if (!card || !section) return;
+        event.preventDefault();
+        document.querySelectorAll(".hero-audience").forEach((t) => t.classList.toggle("active", t === tab));
+        const stacked = window.matchMedia("(max-width: 760px)").matches;
+        (stacked ? card : section).scrollIntoView({ behavior: "smooth", block: "start" });
+        card.classList.remove("is-highlight");
+        void card.offsetWidth; // restart the animation
+        card.classList.add("is-highlight");
+        setTimeout(() => card.classList.remove("is-highlight"), 2300);
+    });
+});
+
+// Newsletter: forward-moving entrance (heading, momentum line, form) once the section scrolls into view
+(() => {
+    const section = document.getElementById("newsletter");
+    if (!section) return;
+    if (!("IntersectionObserver" in window)) { section.classList.add("in-view"); return; }
+    const observer = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { section.classList.add("in-view"); observer.disconnect(); }
+    }, { threshold: 0.35 });
+    observer.observe(section);
+})();
+
+// In-page links (menu, hero tabs, buttons) stop exactly below the sticky header,
+// so a section starts right where its background color begins
+(() => {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+    const setOffset = () => { document.documentElement.style.scrollPaddingTop = `${header.offsetHeight}px`; };
+    setOffset();
+    window.addEventListener("resize", setOffset);
+})();

@@ -19,7 +19,7 @@
 * { box-sizing: border-box; }
 
 /* scroll-padding-top: in-page links stop below the sticky header instead of behind it */
-html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 100px; }
+html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 77px; } /* exact header height is set by script.js */
 
 body {
     margin: 0;
@@ -4592,4 +4592,328 @@ footer .footer-copy {
 
 footer .footer-copy p {
     margin: 0;
+}
+
+/* ACCOUNTS – login, sign-up and account page */
+.account-form {
+    display: grid;
+    gap: 6px;
+    max-width: 420px;
+    margin: 22px 0 10px;
+}
+
+.account-label {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--blue-dark);
+}
+
+.account-input {
+    padding: 11px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--white);
+    font: inherit;
+}
+
+.account-input:focus {
+    outline: 2px solid var(--blue);
+    outline-offset: 1px;
+    border-color: var(--blue);
+}
+
+.account-form .button {
+    justify-self: start;
+    margin-top: 14px;
+}
+
+.account-hint-text {
+    margin: 0;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.account-links {
+    font-size: .92rem;
+    color: var(--muted);
+}
+
+.account-message {
+    margin: 10px 0 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: .92rem;
+}
+
+.account-message.is-error {
+    background: #fdecec;
+    color: #8c2b2b;
+}
+
+.account-message.is-success {
+    background: #e8f7ee;
+    color: #155c36;
+}
+
+.account-meta {
+    color: var(--muted);
+}
+
+.account-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 12px;
+    margin: 18px 0 12px;
+}
+
+.account-stats div {
+    display: grid;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--soft);
+}
+
+.account-stats span {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.account-stats strong {
+    color: var(--blue-dark);
+}
+
+.account-danger {
+    margin-top: 36px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: .92rem;
+    color: var(--muted);
+}
+
+.account-danger summary {
+    cursor: pointer;
+    color: #8c2b2b;
+    font-weight: 600;
+}
+
+/* course overview: small hint about saving progress in an account */
+.account-hint {
+    margin: 4px 0 6px;
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.account-hint a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+/* LOGO – feels like a button: lifts, grows and tilts slightly on hover, "presses" on click */
+.brand img {
+    transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), filter .25s;
+}
+
+.brand:hover img,
+.brand:focus-visible img {
+    transform: translateY(-2px) scale(1.07) rotate(-2deg);
+    filter: drop-shadow(0 6px 10px rgba(22, 82, 196, .25));
+}
+
+.brand:active img {
+    transform: scale(.95);
+}
+
+/* HERO – elements glide in one after another on load
+   (switched off for visitors who prefer reduced motion) */
+@keyframes hero-in {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes hero-fade {
+    from { opacity: 0; transform: scale(.97); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-audiences { animation: hero-in .6s ease backwards; }
+    .hero-copy h1 { animation: hero-in .7s .1s ease backwards; }
+    .hero-copy .hero-text { animation: hero-in .7s .25s ease backwards; }
+    .hero-copy .hero-actions { animation: hero-in .7s .4s ease backwards; }
+    .hero-copy .hero-person { animation: hero-in .7s .55s ease backwards; }
+
+    .hero-visual { animation: hero-fade .9s .3s ease backwards; }
+}
+
+.hero-visual {
+    transition: transform .4s ease;
+}
+
+.hero-visual:hover {
+    transform: scale(1.02);
+}
+
+.hero-person img {
+    transition: transform .25s ease;
+}
+
+.hero-person:hover img {
+    transform: scale(1.08);
+}
+
+/* offer card selected via the hero tabs: lights up briefly */
+@keyframes card-highlight {
+    0%, 100% { box-shadow: 0 8px 30px rgba(20, 33, 61, .045); }
+    20%, 70% { box-shadow: 0 0 0 3px rgba(245, 197, 66, .55), 0 12px 32px rgba(11, 46, 131, .1); }
+}
+
+.card.is-highlight {
+    border-color: var(--yellow);
+    animation: card-highlight 2.2s ease;
+}
+
+/* hero tabs: names never break inside; if space runs out, a tab moves to the next line */
+.hero-audiences {
+    flex-wrap: wrap;
+    row-gap: 8px;
+}
+
+.hero-audience {
+    white-space: nowrap;
+}
+
+/* NEWSLETTER – "ideas that move you forward": heading glides in with momentum, a yellow line draws
+   forward ending in an arrowhead, the form follows, the button arrow nudges forward.
+   Only with JavaScript (class "js" on <html>) and when visitors don't prefer reduced motion. */
+.nl-momentum {
+    position: relative;
+    display: block;
+    width: 140px;
+    height: 4px;
+    margin: -4px 0 20px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(245, 197, 66, 0), var(--yellow));
+}
+
+.nl-momentum::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 9px solid var(--yellow);
+    transform: translateY(-50%);
+}
+
+.nl-arrow {
+    display: inline-block;
+    transition: transform .25s ease;
+}
+
+.newsletter-fields .button:hover .nl-arrow {
+    transform: translateX(4px);
+}
+
+@keyframes nl-forward {
+    0% { opacity: 0; transform: translateX(-48px); }
+    70% { opacity: 1; transform: translateX(6px); }
+    100% { opacity: 1; transform: none; }
+}
+
+@keyframes nl-draw {
+    from { width: 0; opacity: 0; }
+    to { width: 140px; opacity: 1; }
+}
+
+@keyframes nl-nudge {
+    0%, 100% { transform: none; }
+    50% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .js .newsletter .newsletter-copy > *,
+    .js .newsletter .newsletter-form {
+        opacity: 0;
+    }
+
+    .js .newsletter.in-view .newsletter-copy > * {
+        animation: nl-forward .8s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .newsletter.in-view .newsletter-copy h2 { animation-delay: .1s; }
+    .js .newsletter.in-view .newsletter-copy .nl-momentum { animation: nl-draw 1s .45s cubic-bezier(.22, 1, .36, 1) forwards; }
+    .js .newsletter.in-view .newsletter-copy > p:last-child { animation-delay: .6s; }
+
+    .js .newsletter.in-view .newsletter-form {
+        animation: nl-forward .9s .5s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .js .newsletter.in-view .nl-arrow {
+        animation: nl-nudge .6s 1.6s ease-in-out 2;
+    }
+}
+
+.hero-audiences {
+    column-gap: clamp(14px, 1.8vw, 28px);
+}
+
+.hero-audience {
+    font-size: 15px;
+}
+
+/* "Aktuelles von Nawee" / follow section: navy like the free-tests band, white follow buttons with brand icons */
+.linkedin-section {
+    background:
+        radial-gradient(ellipse 50% 90% at 100% 0%, rgba(59, 130, 246, .38), transparent 70%),
+        radial-gradient(ellipse 40% 80% at 0% 100%, rgba(59, 130, 246, .2), transparent 70%),
+        var(--blue-dark);
+}
+
+.linkedin-section .section-heading .eyebrow {
+    color: var(--yellow);
+}
+
+.linkedin-section h2 {
+    color: var(--white);
+}
+
+.linkedin-section .section-heading p,
+.linkedin-section .linkedin-consent p {
+    color: #d7e3f7;
+}
+
+.linkedin-section .linkedin-consent a {
+    color: var(--white);
+}
+
+.linkedin-section #linkedin-load {
+    background: var(--white);
+    color: var(--blue-dark);
+}
+
+.linkedin-section .linkedin-btn {
+    border-color: transparent;
+    background: var(--white);
+    color: var(--blue-dark);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.linkedin-section .linkedin-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(245, 197, 66, .35);
+}
+
+.linkedin-btn-linkedin svg { color: #0a66c2; }
+.linkedin-btn-instagram svg { color: #e1306c; }
+.linkedin-btn-facebook svg { color: #1877f2; }
+
+.linkedin-section .linkedin-grid iframe {
+    border-color: transparent;
 }
