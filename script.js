@@ -178,7 +178,7 @@ backToTop.addEventListener("click", () => {
     overlay.className = "lang-modal";
     overlay.innerHTML = `<div class="lang-modal-box" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
         <svg class="lang-modal-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg>
-        <p class="lang-modal-title" id="lang-modal-title"><span lang="de">Sprache</span> · <span lang="en">Language</span></p>
+        <p class="lang-modal-title" id="lang-modal-title"><span lang="en">Language</span> · <span lang="de">Sprache</span></p>
         <div class="lang-modal-actions">
             <a class="button primary" href="${target}" lang="${other}">${names[other]}</a>
             <button type="button" class="button secondary" lang="${lang}">${names[lang]}</button>
