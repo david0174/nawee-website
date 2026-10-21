@@ -5865,12 +5865,12 @@ nav.learn-jump > a {
 /* =========================
    HEADLINES: yellow marker on the key word + words rise in on scroll (script.js)
    ========================= */
+/* a thin yellow line just under the key word */
 mark.hl {
-    padding: 0 .08em;
-    background: linear-gradient(transparent 58%, rgba(245, 197, 66, .7) 58%, rgba(245, 197, 66, .7) 92%, transparent 92%) no-repeat;
-    background-size: 100% 100%;
+    --hl-size: .09em;
+    background: linear-gradient(var(--yellow), var(--yellow)) no-repeat 0 100%;
+    background-size: 100% var(--hl-size);
     color: inherit;
-    border-radius: 2px;
 }
 
 /* on dark bands the key word turns yellow instead (a marker would look muddy on navy) */
@@ -5895,13 +5895,13 @@ mark.hl {
 
 /* the marker draws in from the left after the words have arrived */
 .reveal-words mark.hl {
-    background-size: 0% 100%;
+    background-size: 0% var(--hl-size);
     transition: background-size .7s cubic-bezier(.65, 0, .35, 1);
     transition-delay: calc(var(--words) * 70ms + .45s);
 }
 
 .reveal-words.is-revealed mark.hl {
-    background-size: 100% 100%;
+    background-size: 100% var(--hl-size);
 }
 
 /* dark bands: the word arrives white, then turns yellow */
@@ -5982,6 +5982,6 @@ mark.hl {
 }
 
 @keyframes hero-marker {
-    from { background-size: 0% 100%; }
-    to { background-size: 100% 100%; }
+    from { background-size: 0% var(--hl-size); }
+    to { background-size: 100% var(--hl-size); }
 }
