@@ -171,19 +171,17 @@ backToTop.addEventListener("click", () => {
         : (browserLangs[0] || "").startsWith("de")); // English page, browser set to German first
     if (!suggest) return;
 
-    // first visit with a different browser language: ask once in a small box, remember the answer
-    const text = lang === "de"
-        ? { title: "Welcome to Nawee!", msg: "This page is in German. Would you like to see the English version?", go: "Switch to English", stay: "Stay on the German page" }
-        : { title: "Willkommen bei Nawee!", msg: "Diese Seite ist auf Englisch. Möchtest du die deutsche Version sehen?", go: "Auf Deutsch wechseln", stay: "Auf der englischen Seite bleiben" };
+    // first visit with a different browser language: ask once in a small box, remember the answer.
+    // Only the two language names, so it is understandable without reading either language.
+    const names = { de: "Deutsch", en: "English" };
     const overlay = document.createElement("div");
     overlay.className = "lang-modal";
-    overlay.lang = other;
     overlay.innerHTML = `<div class="lang-modal-box" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
-        <p class="lang-modal-title" id="lang-modal-title">${text.title}</p>
-        <p>${text.msg}</p>
+        <svg class="lang-modal-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg>
+        <p class="lang-modal-title" id="lang-modal-title"><span lang="de">Sprache</span> · <span lang="en">Language</span></p>
         <div class="lang-modal-actions">
-            <a class="button primary" href="${target}">${text.go} <span aria-hidden="true">→</span></a>
-            <button type="button" class="button secondary">${text.stay}</button>
+            <a class="button primary" href="${target}" lang="${other}">${names[other]}</a>
+            <button type="button" class="button secondary" lang="${lang}">${names[lang]}</button>
         </div>
     </div>`;
     const close = () => { if (!preview) setPref(lang); overlay.remove(); document.removeEventListener("keydown", onKey); };

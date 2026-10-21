@@ -3974,7 +3974,7 @@ nav > a.is-current::after {
 }
 
 .lang-modal-box {
-    width: min(100%, 440px);
+    width: min(100%, 380px);
     box-sizing: border-box;
     padding: 30px 28px 26px;
     border-top: 5px solid var(--yellow);
@@ -3984,8 +3984,19 @@ nav > a.is-current::after {
     text-align: center;
 }
 
+.lang-modal-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 8px;
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .lang-modal-title {
-    margin: 0 0 8px;
+    margin: 0 0 20px;
     font-family: var(--display);
     font-size: 1.6rem;
     font-weight: 700;
@@ -3999,7 +4010,8 @@ nav > a.is-current::after {
 
 .lang-modal-actions {
     display: grid;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .lang-modal-actions .button {
