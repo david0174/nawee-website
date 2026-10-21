@@ -4041,3 +4041,51 @@ nav > a[aria-current="page"]::after {
     color: var(--blue);
     text-decoration: underline;
 }
+
+/* YELLOW ACCENTS – low-key touches of the brand yellow across the site */
+
+/* 1. small yellow dash before every small label ("MEIN ANGEBOT", "ÜBER MICH", …) */
+.eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 3px;
+    margin-right: 10px;
+    border-radius: 2px;
+    background: var(--yellow);
+    vertical-align: middle;
+    transform: translateY(-1px);
+}
+
+/* 2. current page in the menu: yellow underline */
+nav > a[aria-current="page"]::after {
+    background: var(--yellow);
+}
+
+/* 3. highlighted words in the central statement: soft marker underline */
+.intro-statement strong {
+    background: linear-gradient(transparent 64%, rgba(245, 197, 66, .45) 64%);
+    padding: 0 2px;
+}
+
+/* 4. offer and audience cards: yellow edge on hover */
+.card {
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+.card:hover {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 2px rgba(245, 197, 66, .3), 0 8px 30px rgba(20, 33, 61, .06);
+    transform: translateY(-2px);
+}
+
+/* 5. footer headings: short yellow line */
+.footer-heading::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 3px;
+    margin-top: 8px;
+    border-radius: 2px;
+    background: var(--yellow);
+}
