@@ -65,7 +65,7 @@
         lesson: { href: "beruf-lektion.html?l=1-1", text: "Lektion 1.1 ansehen" },
         daily: (m) => `Dein Ziel: ${m} Minuten am Tag. Eine Lektion dauert etwa 10 Minuten, eine Runde Bildkarten etwa 5.`,
         save: "Möchtest du deinen Plan und Fortschritt auf jedem Gerät haben?",
-        saveLink: "Kostenloses Konto erstellen", saveHref: "konto.html?mode=signup&next=fuer-mich.html",
+        saveLink: "Kostenloses Konto erstellen", saveHref: "konto.html?mode=signup&next=start.html", saved: (n) => `✓ Dein Plan ist in deinem Konto gespeichert (<strong>${n}</strong>) und auf allen Geräten da.`,
         noSign: "Kein Konto nötig – dein Plan ist in diesem Browser gespeichert.",
         redo: "Fragen neu beantworten",
         path: { href: "fuer-mich.html", text: "Zu deinem Lernweg →" },
@@ -83,7 +83,7 @@
         lesson: { href: "work-lesson.html?l=1-1", text: "See lesson 1.1" },
         daily: (m) => `Your goal: ${m} minutes a day. A lesson takes about 10 minutes, a round of picture cards about 5.`,
         save: "Want your plan and progress on every device?",
-        saveLink: "Create a free account", saveHref: "account.html?mode=signup&next=for-me.html",
+        saveLink: "Create a free account", saveHref: "account.html?mode=signup&next=get-started.html", saved: (n) => `✓ Your plan is saved in your account (<strong>${n}</strong>) and available on all your devices.`,
         noSign: "No account needed – your plan is saved in this browser.",
         redo: "Answer the questions again",
         path: { href: "for-me.html", text: "Go to your learning path →" },
@@ -157,6 +157,7 @@
                 const firstTime = !load();
                 save({ ...answers, date: new Date().toISOString().slice(0, 10) });
                 if (firstTime) count(answers);
+                window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
             }
             render();
         });
@@ -167,7 +168,22 @@
         return o ? o[2].replace(/\.$/, "") : "";
     };
 
+    // logged in (account.js tells us): the plan is saved in the account; otherwise offer one
+    let accountName = "";
+    const saveBox = () => accountName
+        ? `<p>${T.saved(esc(accountName))}</p>`
+        : `<p><strong>${T.save}</strong> <a href="${T.saveHref}">${T.saveLink} →</a></p><p class="ob-small">${T.noSign}</p>`;
+    window.addEventListener("nawee:account", (e) => {
+        accountName = (e.detail && e.detail.name) || "";
+        const box = root.querySelector("[data-ob-save]");
+        if (box) box.innerHTML = saveBox();
+        // answers from another device arrived while the welcome screen is open: show the plan
+        const synced = load();
+        if (step === -1 && synced && synced.level !== undefined) { Object.assign(answers, synced); plan(); }
+    });
+
     const plan = () => {
+        step = Q.length;
         const p = load() || answers;
         const level = Number(p.level) || 0;
         const rec = level <= 1 ? T.beginner : level === 2 ? T.middle : T.advanced;
@@ -189,10 +205,7 @@
                 <a class="ob-rec-extra" href="${extra.href}">${extra.text} →</a>
             </div>
             ${p.minutes ? `<p class="ob-daily">${T.daily(p.minutes)}</p>` : ""}
-            <div class="ob-save">
-                <p><strong>${T.save}</strong> <a href="${T.saveHref}">${T.saveLink} →</a></p>
-                <p class="ob-small">${T.noSign}</p>
-            </div>
+            <div class="ob-save" data-ob-save>${saveBox()}</div>
             <p class="ob-links"><a href="${T.path.href}">${T.path.text}</a> · <button type="button" class="ob-redo">${T.redo}</button></p>`;
         root.querySelector(".ob-redo").addEventListener("click", () => {
             Object.keys(answers).forEach((k) => delete answers[k]);

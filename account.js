@@ -57,6 +57,10 @@
         forgotSent: "If an account exists for this email, you'll receive a link in a few minutes.",
         newPwTitle: "Set a new password", pwSaved: "Your new password is saved.",
         hello: (n) => `Hello, ${n}!`, loggedInAs: "Logged in as", level: "Your level", progress: (d, t) => `${d} of ${t} lessons completed`,
+        plan: "Your learning plan", planEdit: "Change answers", planNone: "Not set up yet.", planStart: "Answer 5 quick questions",
+        planGoal: { travel: "Travel", work: "Job", school: "School or college", abroad: "Living abroad", people: "Talking with people", fun: "For fun" },
+        planFocus: { listening: "Understanding", speaking: "Speaking", vocab: "Vocabulary", pronunciation: "Pronunciation", confidence: "Confidence" },
+        planLevel: ["New", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `${m} min a day`, startPage: "get-started.html",
         noLevel: "not determined yet", trophies: "Your trophies", syncNote: "Your progress and trophies are saved in your account and synced across your devices.",
         deleteTitle: "Delete account", deleteText: "Deletes your account, username and saved progress on our servers. Progress stored in this browser stays here.",
         deleteBtn: "Delete my account", deleteConfirm: "Do you really want to delete your account? This cannot be undone.", deleted: "Your account has been deleted.",
@@ -92,6 +96,10 @@
         forgotSent: "Falls es ein Konto mit dieser E-Mail gibt, bekommst du in wenigen Minuten einen Link.",
         newPwTitle: "Neues Passwort festlegen", pwSaved: "Dein neues Passwort ist gespeichert.",
         hello: (n) => `Hallo, ${n}!`, loggedInAs: "Angemeldet als", level: "Dein Niveau", progress: (d, t) => `${d} von ${t} Lektionen abgeschlossen`,
+        plan: "Dein Lernplan", planEdit: "Antworten ändern", planNone: "Noch nicht eingerichtet.", planStart: "5 kurze Fragen beantworten",
+        planGoal: { travel: "Reisen", work: "Job", school: "Schule oder Studium", abroad: "Leben im Ausland", people: "Mit Menschen reden", fun: "Aus Spaß" },
+        planFocus: { listening: "Verstehen", speaking: "Sprechen", vocab: "Wortschatz", pronunciation: "Aussprache", confidence: "Selbstvertrauen" },
+        planLevel: ["Neu", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `${m} Min. am Tag`, startPage: "start.html",
         noLevel: "noch nicht ermittelt", trophies: "Deine Trophäen", syncNote: "Dein Fortschritt und deine Trophäen sind in deinem Konto gespeichert und auf allen Geräten verfügbar.",
         deleteTitle: "Konto löschen", deleteText: "Löscht dein Konto, deinen Benutzernamen und deinen gespeicherten Fortschritt auf unseren Servern. Der Fortschritt in diesem Browser bleibt erhalten.",
         deleteBtn: "Mein Konto löschen", deleteConfirm: "Möchtest du dein Konto wirklich löschen? Das kann nicht rückgängig gemacht werden.", deleted: "Dein Konto wurde gelöscht.",
@@ -281,6 +289,19 @@
     const message = (text, kind = "error") => `<p class="account-message is-${kind}" role="${kind === "error" ? "alert" : "status"}">${text}</p>`;
     const setBusy = (form, busy) => form.querySelectorAll("button, input").forEach((el) => { el.disabled = busy; });
 
+    // the answers from the "get started" questions, shown on the account page
+    const planBlock = () => {
+        const p = read(PROFILE_KEY);
+        const chips = p.level === undefined ? "" : [
+            T.planGoal[p.goal], T.planLevel[p.level], T.planFocus[p.focus], p.minutes ? T.planMinutes(p.minutes) : "",
+        ].filter(Boolean).map((c) => `<li>${esc(c)}</li>`).join("");
+        return `<section class="account-plan">
+                    <h2 class="lesson-h">${T.plan}</h2>
+                    ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}">${T.planEdit} →</a>`
+                        : `<p>${T.planNone} <a href="${T.startPage}">${T.planStart} →</a></p>`}
+                </section>`;
+    };
+
     const views = {
         login(note = "") {
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.loginTitle}</h1><p class="as-lead">${T.loginLead}</p>${note}
@@ -404,6 +425,7 @@
                     <div><span>Communication Course</span><strong>${T.progress(ccDone, 21)}</strong> <a href="communication-course.html">${ccDone ? (isEnglish ? "Continue" : "Weiter") : (isEnglish ? "Start" : "Starten")} →</a></div>
                 </div>
                 <div class="as-progress" aria-hidden="true"><span style="width:${(done / total) * 100}%"></span></div>
+                ${planBlock()}
                 <section class="trophy-cabinet">
                     <div class="trophy-head"><h2 class="lesson-h">${T.trophies}</h2><p class="trophy-count" data-trophy-count></p></div>
                     <div class="trophy-grid" data-trophies></div>
@@ -479,5 +501,10 @@
             }
         }
         fillHint();
+        // get-started page: say whether the answers are saved in an account (synced answers may have arrived, too)
+        if (document.querySelector("[data-onboarding]")) {
+            const name = user ? await profileName() : "";
+            window.dispatchEvent(new CustomEvent("nawee:account", { detail: { name } }));
+        }
     });
 })();

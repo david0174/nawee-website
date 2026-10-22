@@ -7770,3 +7770,25 @@ a.hs-caption:hover {
     border-left: 5px solid var(--yellow);
     background: var(--blue-soft);
 }
+
+/* account page: the learner's plan from the get-started questions */
+.account-plan {
+    margin: 26px 0 8px;
+    padding: 20px 22px;
+    border-left: 5px solid var(--yellow);
+    border-radius: 14px;
+    background: var(--blue-soft);
+}
+
+.account-plan .lesson-h {
+    margin-top: 0;
+}
+
+.account-plan .ob-summary {
+    margin-bottom: 12px;
+}
+
+.account-plan a {
+    color: var(--blue);
+    font-weight: 700;
+}
