@@ -42,7 +42,8 @@
     };
 
     const id = new URLSearchParams(location.search).get("l") || "1-1";
-    const lesson = WORK_LESSONS[id];
+    const preview = new URLSearchParams(location.search).has("preview");
+    const lesson = WORK_LESSONS[id] && (!WORK_LESSONS[id].draft || preview) ? WORK_LESSONS[id] : null;
     const meta = WORK_MODULES.flatMap((m) => m.lessons.map((l) => ({ ...l, module: m }))).find((l) => l.id === id);
     if (!lesson || !meta) { root.innerHTML = `<h1>—</h1><p><a href="${T.backHref}">${T.back}</a></p>`; return; }
     document.title = `${L(meta.title)} | ${lang === "de" ? "Englisch von Anfang an" : "English from the start"} | Nawee`;
@@ -321,7 +322,7 @@
             if (progress.completed.includes(id)) {
                 const all = WORK_MODULES.flatMap((m) => m.lessons);
                 const next = all[all.findIndex((l) => l.id === id) + 1];
-                const nextLink = next && WORK_LESSONS[next.id] ? `<a class="button primary" href="?l=${next.id}">${T.next}: ${esc(L(next.title))} <span aria-hidden="true">→</span></a>` : "";
+                const nextLink = next && WORK_LESSONS[next.id] && !WORK_LESSONS[next.id].draft ? `<a class="button primary" href="?l=${next.id}">${T.next}: ${esc(L(next.title))} <span aria-hidden="true">→</span></a>` : "";
                 finish.innerHTML = `<p class="lesson-done">${T.done}</p>${nextLink ? "" : `<p class="as-note">${T.nextLesson}</p>`}<div class="as-actions">${nextLink}<a class="button secondary" href="${T.backHref}">${T.back}</a></div>`;
                 return;
             }

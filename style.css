@@ -7008,3 +7008,68 @@ mark.hl {
 .hs-badge {
     top: -2%;
 }
+
+/* hero phone: upright, larger text, the whole phone is a link to the picture cards */
+a.hs-visual {
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.hs-phone,
+.hs-phone:hover {
+    transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hs-phone { animation: hs-float-up 6s ease-in-out infinite; }
+}
+
+@keyframes hs-float-up {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+a.hs-visual .hs-phone {
+    transition: box-shadow .2s;
+}
+
+a.hs-visual:hover .hs-phone,
+a.hs-visual:focus-visible .hs-phone {
+    box-shadow: 0 0 0 4px var(--yellow), 0 34px 70px rgba(13, 47, 130, .25);
+}
+
+.hs-count {
+    font-size: .85rem;
+}
+
+.hs-ask {
+    font-size: 1rem;
+}
+
+.hs-word {
+    font-size: 2.6rem;
+}
+
+.hs-play {
+    width: 52px;
+    height: 52px;
+    font-size: 1.05rem;
+}
+
+.hs-rate span {
+    padding: 9px 4px;
+    font-size: .9rem;
+}
+
+.hs-caption {
+    color: var(--blue);
+    font-size: .95rem;
+    font-weight: 700;
+}
+
+a.hs-visual:hover .hs-caption {
+    text-decoration: underline;
+}

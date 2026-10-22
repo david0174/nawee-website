@@ -91,6 +91,7 @@ const WORK_LESSONS = {
         },
     },
     "1-2": {
+        draft: true, // not published yet (waiting for the recordings); preview: ?l=1-2&preview
         goal: {
             de: "Du kannst dich auf Englisch verabreden: fragen, ob jemand Zeit hat, einen Tag, eine Uhrzeit und einen Ort vorschlagen.",
             en: "You can make plans in English: ask if someone is free and suggest a day, a time and a place.",
