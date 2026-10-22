@@ -7297,3 +7297,42 @@ a.hs-caption:hover {
     width: 100%;
     text-align: center;
 }
+
+/* hero headline: the second line ("past its limits." / "kann mehr.") springs in after the first,
+   then the key word pushes outward once and the marker draws under it */
+.hero-copy h1 > span {
+    display: inline-block;
+    transform-origin: 0 70%;
+}
+
+.hero-copy h1 mark.hl {
+    display: inline-block;
+    transform-origin: 0 70%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-copy h1 > span {
+        animation: hero-pop .75s .45s cubic-bezier(.34, 1.56, .64, 1) backwards;
+    }
+
+    .hero-copy h1 mark.hl {
+        animation:
+            hero-push .7s 1.1s cubic-bezier(.34, 1.56, .64, 1) both,
+            hero-marker .6s 1.35s cubic-bezier(.65, 0, .35, 1) backwards;
+    }
+}
+
+@keyframes hero-pop {
+    from { opacity: 0; transform: translateY(.35em) scale(.7); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes hero-push {
+    0% { transform: none; }
+    45% { transform: scale(1.14) rotate(-2deg); }
+    100% { transform: none; }
+}
+
+.about-coaching strong {
+    color: var(--blue-dark);
+}
