@@ -22,6 +22,7 @@
         micDenied: "Kein Zugriff auf das Mikrofon. Du kannst es in den Browser-Einstellungen erlauben – oder einfach laut mitsprechen.",
         privacy: "Deine Aufnahmen bleiben auf deinem Gerät und werden nirgendwohin gesendet. Beim Schließen der Seite sind sie weg.",
         beta: "Beta – die Stimmen kommen vorerst vom Browser. Bald hörst du hier echte Aufnahmen.",
+        recorded: "Alle Sätze gesprochen von David Nawee, Muttersprachler aus den USA.",
         nextLesson: "Nächste Lektion: in Arbeit", sayIt: "Sag es laut:",
     } : {
         back: "← Path: career", backHref: "career.html", course: "ENGLISH FOR WORK · A1", lesson: "LESSON",
@@ -36,6 +37,7 @@
         micDenied: "No access to the microphone. You can allow it in your browser settings – or just speak out loud.",
         privacy: "Your recordings stay on your device and are never sent anywhere. They’re gone when you close the page.",
         beta: "Beta – the voices come from your browser for now. Real recordings are coming soon.",
+        recorded: "All lines spoken by David Nawee, a native speaker from the US.",
         nextLesson: "Next lesson: in progress", sayIt: "Say it out loud:",
     };
 
@@ -69,7 +71,7 @@
         stopAudio();
         if (item.audio) {
             currentAudio = new Audio(item.audio);
-            currentAudio.playbackRate = rate < 0.9 ? 0.8 : 1;
+            currentAudio.playbackRate = rate <= 0.75 ? 0.8 : 1; // recordings: only the "slowly" button slows down
             currentAudio.onended = resolve; currentAudio.onerror = resolve;
             currentAudio.play().catch(resolve);
             return;
@@ -138,7 +140,7 @@
         <h1>${esc(L(meta.title))}</h1>
         <p class="lesson-goal"><strong>${T.goal}:</strong> ${esc(L(lesson.goal))}</p>
         <ol class="sl-steps">${T.steps.map((s) => `<li>${s}</li>`).join("")}</ol>
-        <p class="sl-note sl-beta">${T.beta}</p>`;
+        <p class="sl-note sl-beta">${lesson.recorded ? T.recorded : T.beta}</p>`;
 
     // 1. Listen
     {
@@ -179,7 +181,7 @@
         const s = section(2, T.steps[1]);
         lesson.listen.forEach((q, n) => {
             const card = el("div", "sl-card");
-            card.append(el("p", "exercise-number", `${T.question} ${n + 1}`), playButton({ text: q.say }, {}, T.listenQ));
+            card.append(el("p", "exercise-number", `${T.question} ${n + 1}`), playButton({ text: q.say, audio: q.audio }, {}, T.listenQ));
             const opts = el("div", "sl-options");
             const fb = el("p", "exercise-feedback"); fb.hidden = true;
             q.options.forEach((o, i) => {
@@ -222,7 +224,7 @@
         const pairs = el("div", "sl-pairs");
         lesson.sounds.pairs.forEach((pair) => {
             const row = el("div", "sl-pair");
-            pair.forEach((w) => row.append(playButton({ text: w }, { rate: 0.8 }, esc(w))));
+            pair.forEach((w) => row.append(playButton({ text: w, audio: lesson.sounds.audio?.[w] }, { rate: 0.8 }, esc(w))));
             pairs.append(row);
         });
         s.append(pairs);
@@ -242,7 +244,7 @@
             }
             target = order[round];
             status.textContent = `${T.which} (${round + 1}/${order.length})`;
-            opts.append(playButton({ text: target }, { rate: 0.8 }));
+            opts.append(playButton({ text: target, audio: lesson.sounds.audio?.[target] }, { rate: 0.8 }));
             lesson.sounds.pairs[round].forEach((w) => opts.append(button("sl-option", esc(w), () => {
                 const ok = w === target;
                 if (ok) right += 1;
@@ -265,10 +267,10 @@
             const card = el("div", "sl-card");
             card.append(el("p", "exercise-number", `${T.question} ${n + 1}`));
             const row = el("div", "sl-row");
-            row.append(playButton({ text: r.say }, {}, T.listenQ), recorderWidget());
+            row.append(playButton({ text: r.say, audio: r.audio }, {}, T.listenQ), recorderWidget());
             const model = el("p", "exercise-feedback is-model"); model.hidden = true;
             model.innerHTML = `<em>„${esc(r.say)}“</em><br><strong>${esc(r.model)}</strong>`;
-            const show = button("sl-link", T.model, () => { model.hidden = false; show.remove(); speak({ text: r.model.replace(/…/g, "") }, { voice: "b" }); });
+            const show = button("sl-link", T.model, () => { model.hidden = false; show.remove(); speak({ text: r.model.replace(/…/g, ""), audio: r.modelAudio }, { voice: "b" }); });
             card.append(row, show, model);
             s.append(card);
         });
