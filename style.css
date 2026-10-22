@@ -7073,3 +7073,215 @@ a.hs-visual:focus-visible .hs-phone {
 a.hs-visual:hover .hs-caption {
     text-decoration: underline;
 }
+
+/* hero demo inside the phone (hero-demo.js) */
+.hs-visual {
+    gap: 16px;
+}
+
+.hs-screen {
+    min-height: 440px;
+    align-content: start;
+}
+
+.hd-ask {
+    margin: 4px 0 0;
+    color: var(--blue-dark);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.hd-options {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+}
+
+.hd-option {
+    padding: 11px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+
+.hd-option:hover:not(:disabled) {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.hd-option:disabled {
+    cursor: default;
+}
+
+.hd-option.is-right {
+    border-color: #1e9e5a;
+    background: #e3f5ea;
+    color: #145c36;
+}
+
+.hd-option.is-wrong {
+    border-color: #e5a3a3;
+    background: #fdf0f0;
+    color: #8f2f2f;
+}
+
+.hd-result {
+    width: 100%;
+}
+
+.hd-feedback {
+    margin: 2px 0 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.hd-feedback.is-right { color: #145c36; }
+.hd-feedback.is-wrong { color: #8f2f2f; }
+
+.hd-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.hd-row button {
+    border: 0;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.hd-play {
+    width: 40px;
+    height: 40px;
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.hd-example {
+    padding: 9px 12px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .85rem;
+}
+
+.hd-next {
+    padding: 9px 14px;
+    background: var(--blue);
+    color: var(--white);
+    font-size: .9rem;
+}
+
+.hd-done {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.hd-done-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0;
+    border-radius: 50%;
+    background: #e3f5ea;
+    color: #1e9e5a;
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.hd-done-title {
+    margin: 6px 0 0;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.hd-done-text {
+    margin: 0 0 10px;
+    color: var(--muted);
+}
+
+.hd-more {
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: var(--blue);
+    color: var(--white);
+    font-weight: 700;
+}
+
+a.hs-caption {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+a.hs-caption:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 820px) {
+    .hs-screen {
+        min-height: 400px;
+    }
+}
+
+/* hero demo: fixed screen height so the phone doesn't jump; everything fits inside it */
+.hs-screen[data-hero-demo] {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 500px;
+}
+
+.hs-screen[data-hero-demo] img {
+    width: auto;
+    max-width: 100%;
+    height: 130px;
+    object-fit: contain;
+}
+
+.hd-option {
+    padding: 9px 10px;
+    font-size: 1rem;
+}
+
+.hd-row button {
+    white-space: nowrap;
+}
+
+.hd-play {
+    flex: none;
+    width: 38px;
+    height: 38px;
+}
+
+.hd-example,
+.hd-next {
+    padding: 9px 12px;
+    font-size: .85rem;
+}
+
+@media (max-width: 820px) {
+    .hs-phone {
+        width: min(290px, 82vw);
+    }
+
+    .hs-screen[data-hero-demo] {
+        min-height: 450px;
+        padding: 16px 14px 18px;
+    }
+
+    .hs-screen[data-hero-demo] img {
+        height: 110px;
+    }
+}

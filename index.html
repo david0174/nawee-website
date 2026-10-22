@@ -7,7 +7,7 @@
     <meta name="description" content="Kostenlos Englisch lernen mit Nawee: ein Lernweg vom ersten Wort an, Lektionen zum Hören und Sprechen, Bildkarten und Tests – gesprochen von einem Muttersprachler. Ohne Anmeldung.">
     <title>Nawee – Englisch lernen durch Hören und Sprechen | kostenlos</title>
     <link rel="canonical" href="https://nawee.net/">
-    <link rel="stylesheet" href="style.css?v=20261022o">
+    <link rel="stylesheet" href="style.css?v=20261022q">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=5">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
    
@@ -117,10 +117,10 @@
 
     <main id="top">
         <section class="hero hero-simple">
-            <!-- what you do here, at a glance: a picture card on a phone – tapping it opens the picture cards -->
-            <a class="hs-visual" href="vokabeln.html" aria-label="Bildkarten üben – Karte antippen und loslegen">
-                <div class="hs-phone" aria-hidden="true">
-                    <div class="hs-screen">
+            <!-- try it right here: a mini picture-card demo inside the phone (hero-demo.js); the static card is the no-JS fallback -->
+            <div class="hs-visual">
+                <div class="hs-phone">
+                    <div class="hs-screen" data-hero-demo>
                         <div class="hs-top"><span class="hs-progress"><span></span></span><span class="hs-count">Bildkarte 3 / 20</span></div>
                         <img src="assets/vocab/office/mug.svg" alt="">
                         <p class="hs-ask">Sag es laut:</p>
@@ -129,8 +129,8 @@
                         <div class="hs-rate"><span>Nochmal</span><span>Gut</span><span>Leicht</span></div>
                     </div>
                 </div>
-            <span class="hs-caption">Tipp auf die Karte und üb gleich los →</span>
-            </a>
+                <a class="hs-caption" href="vokabeln.html">Alle 20 Bildkarten üben →</a>
+            </div>
 
             <div class="hs-copy">
                 <h1>Englisch lernen durch Hören und Sprechen.</h1>
@@ -372,6 +372,8 @@
             <p>© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">0511 936 76970</a> (Mo–Fr, 9–18 Uhr) · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
         </div>
     </footer>
-    <script src="script.js?v=20261022o"></script>
+    <script src="script.js?v=20261022q"></script>
+    <script src="vocab-data.js?v=20261022q"></script>
+    <script src="hero-demo.js?v=20261022q"></script>
 </body>
 </html>
