@@ -62,8 +62,10 @@
         const pool = us.length ? us : voices;
         const female = /samantha|allison|ava|susan|victoria|zira|jenny|aria|google us english|karen|moira|tessa/i;
         const male = /alex|daniel|fred|tom|aaron|david|guy|mark|google uk english male|rishi/i;
-        const want = key === "b" ? male : female;
-        return pool.find((v) => want.test(v.name)) || pool[key === "b" ? 1 : 0] || pool[0] || null;
+        const want = key === "a" ? female : male;
+        const matches = pool.filter((v) => want.test(v.name));
+        if (key === "c") return matches[1] || matches[0] || pool[2] || pool[0] || null; // a second male voice
+        return matches[0] || pool[key === "b" ? 1 : 0] || pool[0] || null;
     };
     let currentAudio = null;
     const stopAudio = () => { synth?.cancel(); if (currentAudio) { currentAudio.pause(); currentAudio = null; } };
@@ -82,7 +84,7 @@
         const v = pickVoice(voice);
         if (v) u.voice = v;
         u.rate = rate;
-        u.pitch = voice === "b" && v === pickVoice("a") ? 0.8 : 1; // same voice for both: make B a little deeper
+        u.pitch = voice === "c" && v === pickVoice("b") ? 1.15 : voice === "b" && v === pickVoice("a") ? 0.8 : 1; // same voice for both: make B a little deeper
         u.onend = resolve; u.onerror = resolve;
         synth.speak(u);
     });
@@ -298,7 +300,7 @@
                 stage.append(li);
                 ctrl.replaceChildren(button("sl-play", `${T.next} →`, advance));
             } else {
-                li.append(el("p", "sl-who", "Sarah"), el("p", "sl-text-visible", esc(t.text)), playButton(t, { voice: t.voice }, ""));
+                li.append(el("p", "sl-who", esc(lesson.roleplay.partner || "Sarah")), el("p", "sl-text-visible", esc(t.text)), playButton(t, { voice: t.voice }, ""));
                 stage.append(li);
                 ctrl.replaceChildren();
                 await speak(t, { voice: t.voice });
@@ -317,7 +319,10 @@
         const finish = el("div", "lesson-finish");
         const draw = () => {
             if (progress.completed.includes(id)) {
-                finish.innerHTML = `<p class="lesson-done">${T.done}</p><p class="as-note">${T.nextLesson}</p><div class="as-actions"><a class="button secondary" href="${T.backHref}">${T.back}</a></div>`;
+                const all = WORK_MODULES.flatMap((m) => m.lessons);
+                const next = all[all.findIndex((l) => l.id === id) + 1];
+                const nextLink = next && WORK_LESSONS[next.id] ? `<a class="button primary" href="?l=${next.id}">${T.next}: ${esc(L(next.title))} <span aria-hidden="true">→</span></a>` : "";
+                finish.innerHTML = `<p class="lesson-done">${T.done}</p>${nextLink ? "" : `<p class="as-note">${T.nextLesson}</p>`}<div class="as-actions">${nextLink}<a class="button secondary" href="${T.backHref}">${T.back}</a></div>`;
                 return;
             }
             finish.replaceChildren(button("button primary", `${T.complete} ✓`, () => {

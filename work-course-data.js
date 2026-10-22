@@ -6,7 +6,7 @@
 const WORK_MODULES = [
     { id: 1, title: { de: "Erste Schritte", en: "First steps" }, lessons: [
         { id: "1-1", title: { de: "Sich vorstellen", en: "Introducing yourself" } },
-        { id: "1-2", title: { de: "Zahlen, Uhrzeiten, Termine", en: "Numbers, times, appointments" } },
+        { id: "1-2", title: { de: "Sich verabreden", en: "Making plans" } },
         { id: "1-3", title: { de: "Am Telefon: die ersten Sätze", en: "On the phone: the first sentences" } },
     ] },
 ];
@@ -88,6 +88,78 @@ const WORK_LESSONS = {
         mission: {
             de: "Stell dich diese Woche einer Person auf Englisch vor – einer Kollegin, einem Nachbarn oder vor dem Spiegel. Nimm dich danach einmal mit dem Handy auf: Name, Herkunft, Beruf.",
             en: "This week, introduce yourself in English to one person – a colleague, a neighbor, or the mirror. Then record yourself once on your phone: name, where you’re from, your job.",
+        },
+    },
+    "1-2": {
+        goal: {
+            de: "Du kannst dich auf Englisch verabreden: fragen, ob jemand Zeit hat, einen Tag, eine Uhrzeit und einen Ort vorschlagen.",
+            en: "You can make plans in English: ask if someone is free and suggest a day, a time and a place.",
+        },
+        intro: {
+            de: "Hör dir zuerst das Gespräch an, ohne mitzulesen. Achte auf drei Dinge: Wann? Um wie viel Uhr? Wo?",
+            en: "Listen to the conversation first, without reading along. Listen for three things: When? What time? Where?",
+        },
+        dialogue: {
+            situation: { de: "Ben ruft am Donnerstagabend seinen Freund Tom an.", en: "Ben calls his friend Tom on Thursday evening." },
+            lines: [
+                { who: "Ben", voice: "c", text: "Hi Tom! Are you free this weekend?" },
+                { who: "Tom", voice: "b", text: "Hi Ben! I’m free on Saturday. Why?" },
+                { who: "Ben", voice: "c", text: "Let’s go for coffee. What time is good for you?" },
+                { who: "Tom", voice: "b", text: "How about three o’clock?" },
+                { who: "Ben", voice: "c", text: "Three is perfect. Where do you want to meet?" },
+                { who: "Tom", voice: "b", text: "At the café next to the station." },
+                { who: "Ben", voice: "c", text: "Great. See you on Saturday at three!" },
+                { who: "Tom", voice: "b", text: "See you then!" },
+            ],
+        },
+        listen: [
+            { say: "When is Tom free?", options: ["On Saturday", "On Sunday", "On Friday"], answer: 0,
+              explain: { de: "Tom sagt: „I’m free on Saturday.“", en: "Tom says: “I’m free on Saturday.”" } },
+            { say: "What time do they meet?", options: ["At three o’clock", "At two o’clock", "At four o’clock"], answer: 0,
+              explain: { de: "„How about three o’clock?“ – „Three is perfect.“", en: "“How about three o’clock?” – “Three is perfect.”" } },
+            { say: "Where do they meet?", options: ["At the café next to the station", "At the office", "At the park"], answer: 0,
+              explain: { de: "„At the café next to the station“ – im Café neben dem Bahnhof.", en: "“At the café next to the station.”" } },
+        ],
+        phrases: [
+            { text: "Are you free this weekend?", de: "Hast du am Wochenende Zeit?", tip: { de: "„free“ heißt hier: Zeit haben – nicht „kostenlos“.", en: "“Free” here means having time – not “costing nothing”." } },
+            { text: "I’m free on Saturday.", de: "Ich habe am Samstag Zeit.", tip: { de: "Tage mit „on“: on Saturday, on Monday.", en: "Days take “on”: on Saturday, on Monday." } },
+            { text: "What time is good for you?", de: "Welche Uhrzeit passt dir?", tip: { de: "Höflich nach einer Uhrzeit fragen.", en: "A polite way to ask for a time." } },
+            { text: "How about three o’clock?", de: "Wie wäre es mit drei Uhr?", tip: { de: "Uhrzeiten mit „at“: at three o’clock.", en: "Times take “at”: at three o’clock." } },
+            { text: "That’s perfect.", de: "Das passt perfekt.", tip: { de: "Zusage – kurz und freundlich.", en: "A short, friendly yes." } },
+            { text: "Where do you want to meet?", de: "Wo wollen wir uns treffen?", tip: { de: "Die Stimme geht am Ende nach unten.", en: "Your voice goes down at the end." } },
+            { text: "See you on Saturday!", de: "Bis Samstag!", tip: { de: "„See you“ + Tag = Bis …", en: "“See you” + a day." } },
+            { text: "See you then!", de: "Bis dann!", tip: { de: "Der klassische Abschied, wenn ihr verabredet seid.", en: "The classic goodbye once you have a plan." } },
+        ],
+        sounds: {
+            title: { de: "thirteen oder thirty?", en: "thirteen or thirty?" },
+            explain: {
+                de: "Diese Zahlen klingen ähnlich. Die Betonung hilft: bei -teen liegt sie am Ende (thir-TEEN), bei -ty am Anfang (THIR-ty). Welche Zahl hörst du?",
+                en: "These numbers sound alike. The stress tells them apart: -teen is stressed at the end (thir-TEEN), -ty at the start (THIR-ty). Which number do you hear?",
+            },
+            pairs: [["thirteen", "thirty"], ["fourteen", "forty"], ["fifteen", "fifty"]],
+        },
+        respond: [
+            { say: "Are you free on Saturday?", model: "Yes, I’m free on Saturday." },
+            { say: "What time is good for you?", model: "How about four o’clock?" },
+            { say: "Where do you want to meet?", model: "At the café next to the station." },
+        ],
+        roleplay: {
+            partner: "Ben",
+            situation: { de: "Du bist Tom. Ben ruft dich an – antworte laut.", en: "You’re Tom. Ben calls you – answer out loud." },
+            turns: [
+                { voice: "c", text: "Hi! Are you free this weekend?" },
+                { you: { de: "Sag, an welchem Tag du Zeit hast", en: "Say which day you’re free" }, model: "I’m free on Saturday." },
+                { voice: "c", text: "Let’s go for coffee. What time is good for you?" },
+                { you: { de: "Schlag eine Uhrzeit vor", en: "Suggest a time" }, model: "How about three o’clock?" },
+                { voice: "c", text: "Perfect. Where do you want to meet?" },
+                { you: { de: "Schlag einen Ort vor", en: "Suggest a place" }, model: "At the café next to the station." },
+                { voice: "c", text: "Great. See you then!" },
+                { you: { de: "Verabschiede dich", en: "Say goodbye" }, model: "See you then!" },
+            ],
+        },
+        mission: {
+            de: "Mach diese Woche eine echte Verabredung auf Englisch – mit einem Freund, einer Kollegin oder per Nachricht: Tag, Uhrzeit und Ort.",
+            en: "This week, make one real plan in English – with a friend, a colleague or in a message: day, time and place.",
         },
     },
 };
