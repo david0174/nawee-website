@@ -6029,3 +6029,220 @@ mark.hl {
     height: 1px;
     background: var(--line);
 }
+
+/* =========================
+   LEARNING PATHS: chooser on the homepage hero and Learn page, path pages
+   ========================= */
+.hero-paths {
+    align-items: center;
+}
+
+.path-chooser {
+    width: 100%;
+    max-width: 500px;
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: linear-gradient(160deg, #fff 55%, var(--blue-soft) 100%);
+    box-shadow: 0 24px 60px rgba(13, 47, 130, .12);
+}
+
+.learn-paths .path-chooser {
+    margin: 0 auto;
+}
+
+.path-chooser-label {
+    margin: 0 0 16px;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.path-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+    color: var(--blue-dark);
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+.path-card:hover,
+.path-card:focus-visible {
+    border-color: var(--blue);
+    box-shadow: 0 10px 24px rgba(21, 84, 192, .12);
+    transform: translateY(-2px);
+}
+
+.path-card-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.path-card-icon svg,
+.path-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.path-card-text {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    line-height: 1.25;
+}
+
+.path-card-text strong {
+    font-size: 1.08rem;
+}
+
+.path-card-text small {
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.path-card-arrow {
+    color: var(--blue);
+    font-size: 1.2rem;
+    transition: transform .2s;
+}
+
+.path-card:hover .path-card-arrow {
+    transform: translateX(4px);
+}
+
+/* the path this visitor chose before */
+.path-card.is-chosen {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 2px rgba(245, 197, 66, .35);
+}
+
+.path-card-badge {
+    justify-self: start;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.path-chooser-note {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: .85rem;
+    text-align: center;
+}
+
+/* path pages */
+.path-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+    border-radius: 20px;
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.path-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.path-other {
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.path-other a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.path-quiz {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.path-quiz .learn-quiz.is-live {
+    min-height: 0;
+}
+
+.learn-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.path-coaching-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 22px 28px;
+    border: 1px dashed var(--line);
+    border-radius: 18px;
+    color: var(--muted);
+}
+
+.path-coaching-note p {
+    margin: 0;
+    max-width: 720px;
+}
+
+.path-coaching-note strong {
+    color: var(--blue-dark);
+}
+
+.path-coaching-note .text-link {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.learn-steps-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px) {
+    .learn-steps-4,
+    .learn-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .learn-steps-4,
+    .learn-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .path-chooser {
+        padding: 20px 16px;
+    }
+}
+
+/* path pages: back link on its own line above the path icon */
+.path-hero .page-back {
+    display: table;
+    margin: 0 auto 18px;
+}

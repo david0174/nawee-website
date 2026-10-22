@@ -7,7 +7,7 @@
     <meta name="description" content="Nawee bietet Business-English-Coaching in Hannover und online. Sicherer kommunizieren, professioneller auftreten und Englisch im Beruf selbstbewusst einsetzen.">
     <title>Englisch-Coaching in Hannover | Business English &amp; Kommunikation | Nawee</title>
     <link rel="canonical" href="https://nawee.net/">
-    <link rel="stylesheet" href="style.css?v=20261022a">
+    <link rel="stylesheet" href="style.css?v=20261022c">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=5">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
    
@@ -114,11 +114,6 @@
 
     <main id="top">
         <section class="hero">
-            <div class="hero-audiences">
-                <a href="#angebote" class="hero-audience active">Englisch-Coaching</a>
-                <a href="#communication" class="hero-audience">Communication Coaching</a>
-                <a href="#tests" class="hero-audience">Kostenlos testen</a>
-            </div>
 
             <div class="hero-copy">
 
@@ -127,29 +122,38 @@
                     <span>kann <mark class="hl">mehr</mark>.</span>
                 </h1>
                 <p class="hero-text">
-                Englisch-Coaching und Communication Coaching – damit du im Beruf, im Alltag und in internationalen Situationen sicher kommunizierst.
+                Kostenlose Kurse, Übungen und Tipps – für dich, deinen Beruf oder die Schule. Wähle deinen Weg und leg direkt los.
                 </p>
-
-                <div class="hero-actions">
-                    <a class="button primary" href="#angebote"> Angebot entdecken  <span>→</span></a>
-                    <a class="button secondary" href="lernen.html">Kostenlos lernen <span>→</span></a>
-                </div>
-                <!-- quick start: the free checks, no sign-up (the quiz card on the right lets visitors start right away) -->
-                <p class="hero-quickstart-line">Kostenlos, ohne Anmeldung: <a href="kommunikations-check.html">Kommunikations-Check</a> · <a href="business-english-test.html">Business-English-Test</a> · <a href="communication-course.html" hreflang="en">Communication Course</a></p>
                 <!-- personal introduction: puts a face to Nawee right at the top -->
                 <a class="hero-person" href="#ueber-mich">
                     <img src="assets/david-avatar.jpg" alt="" width="56" height="56">
                     <span>
                         <strong>Hi, ich bin David Nawee</strong>
-                        Coach für Englisch &amp; Kommunikation in Hannover · <em>Mehr über mich →</em>
+                        Muttersprachler aus den USA – ich habe die Kurse für dich gemacht · <em>Mehr über mich →</em>
                     </span>
                 </a>
             </div>
 
-            <div class="hero-visual">
-                <!-- interactive quick quiz (hero-quiz.js); the illustration shows if JavaScript is off -->
-                <div class="hero-quiz" data-hero-quiz>
-                    <img src="assets/hero-illustration.jpg" alt="Menschen kommunizieren international auf Englisch.">
+            <div class="hero-visual hero-paths">
+                <!-- the visitor's first decision: which learning path (remembered in script.js) -->
+                <div class="path-chooser" id="wege">
+                    <p class="path-chooser-label">Warum lernst du Englisch?</p>
+                    <a class="path-card" href="fuer-mich.html" data-path-card="me">
+                        <span class="path-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5s1.3 2 3.5 2 3.5-2 3.5-2"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
+                        <span class="path-card-text"><strong>Für mich</strong><small>Alltag, Reisen, Freunde</small></span>
+                        <span class="path-card-arrow" aria-hidden="true">→</span>
+                    </a>
+                    <a class="path-card" href="beruf.html" data-path-card="career">
+                        <span class="path-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>
+                        <span class="path-card-text"><strong>Für den Beruf</strong><small>Von null bis zum Meeting</small></span>
+                        <span class="path-card-arrow" aria-hidden="true">→</span>
+                    </a>
+                    <a class="path-card" href="schule.html" data-path-card="school">
+                        <span class="path-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></svg></span>
+                        <span class="path-card-text"><strong>Für die Schule</strong><small>Klasse 5–10 · passend zum Lehrplan</small></span>
+                        <span class="path-card-arrow" aria-hidden="true">→</span>
+                    </a>
+                    <p class="path-chooser-note">Kostenlos · ohne Anmeldung</p>
                 </div>
             </div>
 
@@ -666,7 +670,6 @@ Wir sprechen über deine Ziele und deine aktuellen Herausforderungen.           
     <div class="sticky-cta">
         <a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen <span>→</span></a>
     </div>
-    <script src="script.js?v=20261022a"></script>
-    <script src="hero-quiz.js?v=20261022a"></script>
+    <script src="script.js?v=20261022c"></script>
 </body>
 </html>

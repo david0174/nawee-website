@@ -316,6 +316,22 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     cards.forEach((c) => observer.observe(c));
 })();
 
+// Learning paths (für mich / Beruf / Schule): a path page remembers the choice in this browser;
+// the path choosers on the homepage and the Learn page then mark it as "Dein Weg" / "Your path"
+(() => {
+    const KEY = "nawee-path";
+    const page = document.querySelector("[data-path-page]");
+    if (page) { try { localStorage.setItem(KEY, page.dataset.pathPage); } catch { /* storage unavailable */ } }
+    let chosen = null;
+    try { chosen = localStorage.getItem(KEY); } catch { /* storage unavailable */ }
+    if (!chosen) return;
+    const badge = document.documentElement.lang === "en" ? "Your path" : "Dein Weg";
+    document.querySelectorAll(`[data-path-card="${chosen}"]`).forEach((card) => {
+        card.classList.add("is-chosen");
+        card.querySelector("strong")?.insertAdjacentHTML("afterend", `<span class="path-card-badge">${badge}</span>`);
+    });
+})();
+
 // In-page links (menu, hero tabs, buttons) stop exactly below the sticky header,
 // so a section starts right where its background color begins
 (() => {
