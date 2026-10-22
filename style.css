@@ -6564,3 +6564,202 @@ mark.hl {
         max-width: 92%;
     }
 }
+
+/* =========================
+   PICTURE CARDS (vocab.js): spaced repetition like Anki
+   ========================= */
+.vc-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.vc-tabs {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+}
+
+.vc-tab {
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.vc-tab[aria-selected="true"] {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.vc-card,
+.vc-listen,
+.vc-done {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--white);
+    text-align: center;
+    box-shadow: 0 18px 44px rgba(13, 47, 130, .1);
+}
+
+.vc-img {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 14px;
+    border-radius: 18px;
+}
+
+.vc-ask {
+    margin: 0 0 6px;
+    color: var(--blue-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.vc-front .sl-btn {
+    margin-top: 8px;
+}
+
+.vc-word {
+    margin: 0;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.vc-de {
+    margin: 4px 0 0;
+    color: var(--muted);
+}
+
+.vc-row {
+    justify-content: center;
+    margin: 14px 0 6px;
+}
+
+.vc-example {
+    margin: 8px 0 16px;
+    color: var(--blue-dark);
+    font-style: italic;
+}
+
+.vc-example span {
+    color: var(--muted);
+    font-style: normal;
+    font-size: .85rem;
+}
+
+.vc-rate {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.sl-btn.vc-grade {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    padding: 10px 6px;
+    border-radius: 14px;
+}
+
+.vc-grade small {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: .78rem;
+}
+
+.sl-btn.vc-grade-0 { border-color: #e5a3a3; }
+.sl-btn.vc-grade-2 { border-color: var(--blue); }
+.sl-btn.vc-grade-3 { border-color: #1e9e5a; }
+
+.vc-done-icon {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: #e3f5ea;
+    color: #1e9e5a;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.vc-listen .sl-row {
+    justify-content: center;
+    margin: 10px 0 14px;
+}
+
+.vc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.sl-btn.vc-pick {
+    display: block;
+    padding: 6px;
+    border-radius: 18px;
+}
+
+.vc-pick img {
+    display: block;
+    width: 100%;
+    border-radius: 14px;
+}
+
+.sl-btn.vc-pick.is-right { border-color: #1e9e5a; box-shadow: 0 0 0 3px rgba(30, 158, 90, .25); }
+.sl-btn.vc-pick.is-wrong { border-color: #e5a3a3; opacity: .7; }
+
+.vc-listen .exercise-feedback + .sl-btn {
+    margin-top: 10px;
+}
+
+.vc-all {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.sl-btn.vc-item {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    padding: 8px 8px 12px;
+    border-radius: 18px;
+}
+
+.vc-item img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.vc-item small {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+@media (max-width: 500px) {
+    .vc-rate {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
