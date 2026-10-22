@@ -26,6 +26,7 @@
     const COURSE_KEY = "nawee-course-v1";
     const TROPHY_KEY = "nawee-trophies-v1";
     const CC_KEY = "nawee-communication-course-v1"; // free Communication Course (no account needed; synced inside `course.communication`)
+    const PROFILE_KEY = "nawee-profile-v1"; // answers from the "get started" questions (start.html; synced inside `course.profile`)
     const RELOAD_FLAG = "nawee-synced-reload";
 
     const params = new URLSearchParams(location.search);
@@ -161,7 +162,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -170,12 +171,15 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
         write(TROPHY_KEY, mt);
         write(CC_KEY, mcc);
+        const lp = read(PROFILE_KEY);
+        if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
+        else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
         push();
         return signature(lc, lt, lcc) !== signature(mc, mt, mcc); // true = progress from another device arrived
     };

@@ -6783,7 +6783,7 @@ mark.hl {
 }
 
 /* =========================
-   HOMEPAGE HERO, Duolingo-style: what Nawee is at a glance + one button to start
+   HOMEPAGE HERO (phone version, currently unused): what Nawee is at a glance + one button to start
    ========================= */
 .hero.hero-simple {
     display: grid;
@@ -7335,4 +7335,438 @@ a.hs-caption:hover {
 
 .about-coaching strong {
     color: var(--blue-dark);
+}
+
+/* =========================
+   "Get started" questions (start.html / get-started.html, onboarding.js)
+   ========================= */
+.ob-section {
+    padding: clamp(20px, 4vw, 44px) 16px 0;
+}
+
+.ob {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.ob-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.ob-back,
+.ob-back-space {
+    flex: none;
+    width: 36px;
+    height: 36px;
+}
+
+.ob-back {
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.ob-back:hover {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.ob-progress {
+    flex: 1;
+    height: 8px;
+    border-radius: 99px;
+    background: var(--line);
+    overflow: hidden;
+}
+
+.ob-progress span {
+    display: block;
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--blue), #3d7be0);
+    transition: width .4s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ob-speaker {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.ob-speaker img {
+    flex: none;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 6px 18px rgba(13, 47, 130, .18);
+}
+
+.ob-bubble {
+    position: relative;
+    margin: 0;
+    padding: 14px 20px;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+    color: var(--ink, #1c2633);
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+    font-weight: 600;
+}
+
+.ob-bubble::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -9px;
+    width: 14px;
+    height: 14px;
+    border-left: 2px solid var(--line);
+    border-bottom: 2px solid var(--line);
+    background: var(--white);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .ob-bubble { animation: ob-in .35s ease both; }
+    .ob-option { animation: ob-in .35s ease both; }
+    .ob-option:nth-child(2) { animation-delay: .03s; }
+    .ob-option:nth-child(3) { animation-delay: .06s; }
+    .ob-option:nth-child(4) { animation-delay: .09s; }
+    .ob-option:nth-child(5) { animation-delay: .12s; }
+    .ob-option:nth-child(6) { animation-delay: .15s; }
+    .ob-option:nth-child(7) { animation-delay: .18s; }
+}
+
+@keyframes ob-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+}
+
+.ob-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.ob-options-1 {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.ob-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 68px;
+    padding: 12px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: 0 2px 8px rgba(13, 47, 130, .05);
+    color: var(--ink, #1c2633);
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, transform .1s;
+}
+
+.ob-option:hover {
+    background: #f7f9fc;
+}
+
+.ob-option:active {
+    transform: translateY(2px);
+}
+
+.ob-option.is-picked {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    box-shadow: inset 4px 0 0 var(--yellow), 0 2px 8px rgba(13, 47, 130, .08);
+}
+
+.ob-icon {
+    flex: none;
+    width: 40px;
+    font-size: 1.9rem;
+    line-height: 1;
+    text-align: center;
+}
+
+.ob-label small {
+    display: block;
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* level question: a small level tag (Neu, A1, A2, B1–B2, C1+) instead of an icon */
+.ob-level {
+    flex: none;
+    min-width: 58px;
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .82rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.ob-option.is-picked .ob-level {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.ob-bottom {
+    display: flex;
+    justify-content: center;
+    margin: 28px 0 70px;
+}
+
+.ob-next {
+    min-width: 180px;
+}
+
+.ob-next:disabled {
+    background: var(--line);
+    box-shadow: none;
+    color: var(--muted);
+    cursor: default;
+}
+
+/* the plan at the end */
+.ob-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+}
+
+.ob-summary li {
+    padding: 8px 14px;
+    border-radius: 99px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-weight: 700;
+    font-size: .92rem;
+}
+
+.ob-summary li span {
+    margin-right: 6px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.ob-rec {
+    padding: clamp(22px, 4vw, 34px);
+    border: 2px solid var(--line);
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: 0 18px 40px rgba(13, 47, 130, .08);
+}
+
+.ob-rec-label {
+    margin: 0 0 6px;
+    color: var(--blue);
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.ob-rec h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+}
+
+.ob-rec > p:not(.ob-rec-label) {
+    margin: 0 0 20px;
+    color: var(--muted);
+}
+
+.ob-rec .button {
+    margin-right: 14px;
+}
+
+.ob-rec-extra {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.ob-daily {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.ob-save {
+    margin-top: 22px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: var(--soft, #f6f8fb);
+}
+
+.ob-save p {
+    margin: 0;
+}
+
+.ob-save a {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.ob-small {
+    margin-top: 4px !important;
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.ob-links {
+    margin: 22px 0 60px;
+    color: var(--muted);
+}
+
+.ob-links a {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.ob-redo {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .ob-options {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ob-speaker img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .ob-next {
+        width: 100%;
+    }
+}
+
+/* get-started questions: Nawee blue + yellow */
+.ob-section {
+    background: linear-gradient(180deg, var(--blue-soft) 0, rgba(255, 255, 255, 0) 260px);
+}
+
+.ob-progress span {
+    position: relative;
+    background: var(--blue);
+    box-shadow: inset -14px 0 0 var(--yellow); /* yellow tip on the blue bar */
+}
+
+.ob-speaker img {
+    border: 3px solid var(--yellow);
+}
+
+.ob-bubble {
+    border-color: var(--blue);
+    color: var(--blue-dark);
+}
+
+.ob-bubble::before {
+    border-color: var(--blue);
+}
+
+.ob-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #fff6d6;
+    font-size: 1.6rem;
+}
+
+.ob-option:hover {
+    border-color: var(--blue);
+    background: var(--white);
+}
+
+.ob-option.is-picked {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+    box-shadow: inset 5px 0 0 var(--yellow), 0 6px 16px rgba(13, 47, 130, .12);
+}
+
+.ob-option.is-picked .ob-icon {
+    background: var(--yellow);
+}
+
+.ob-level {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.ob-option.is-picked .ob-level {
+    background: var(--yellow);
+    color: var(--blue-dark);
+}
+
+.ob-next:not(:disabled) {
+    box-shadow: 0 5px 0 var(--yellow);
+}
+
+.ob-next:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+/* the plan */
+.ob-summary li {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.ob-summary li span {
+    color: var(--yellow);
+}
+
+.ob-rec {
+    border: 2px solid var(--blue);
+    border-top: 8px solid var(--yellow);
+}
+
+.ob-rec-label {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+}
+
+.ob-rec .button {
+    box-shadow: 0 5px 0 var(--yellow);
+}
+
+.ob-save {
+    border-left: 5px solid var(--yellow);
+    background: var(--blue-soft);
 }
