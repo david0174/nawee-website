@@ -226,8 +226,8 @@
         if (!following) {
             finish.innerHTML = `<div class="as-cta lesson-complete">
                 <h2>Congratulations – you've completed the course!</h2>
-                <p>You now have a toolkit for confident, clear communication. If you'd like to work on your own situations – a presentation, a difficult conversation, your next big meeting – I'd be glad to coach you personally.</p>
-                <div class="as-actions"><a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Book a free consultation <span aria-hidden="true">→</span></a>
+                <p>You now have a toolkit for confident, clear communication. If you'd like to work on your own situations – a presentation, a difficult conversation, your next big meeting – you can <a href="https://davidnawee.com/communication-coaching.html" target="_blank" rel="noopener">learn about coaching with David ↗</a>.</p>
+                <div class="as-actions"><a class="button primary" href="learn.html">More free practice <span aria-hidden="true">→</span></a>
                 <a class="button mission-outline" href="communication-course.html">Course overview</a></div></div>${accountNote}`;
             window.NaweeAccount?.refresh();
             return;

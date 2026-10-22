@@ -6763,3 +6763,21 @@ mark.hl {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* homepage "who's behind Nawee": quiet pointer to David's coaching site */
+.about-coaching {
+    margin: 14px 0 0;
+    font-size: .92rem;
+}
+
+.about-coaching a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: rgba(21, 84, 192, .3);
+    text-underline-offset: 3px;
+}
+
+/* header: small "Coaching ↗" link next to the learning items */
+.site-header nav > a.nav-coaching {
+    color: var(--muted);
+}

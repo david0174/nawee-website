@@ -1104,7 +1104,7 @@ const COURSE_LESSONS = {
             "Herzlichen Glückwunsch – du bist bei der letzten Lektion angekommen! Du kennst jetzt die wichtigsten Strategien für echte Gespräche: Zeit gewinnen, nachfragen, Wörter finden, Chunks hören, Phrasen sammeln, einhaken, klären und selbstbewusst auftreten.",
             "Nimm dein Ziel aus Lektion 1.3 zur Hand: In welcher Situation wolltest du sicherer werden? Wo stehst du heute? Auch kleine Fortschritte zählen.",
             "Wie geht es weiter? Sprache wächst durch Gebrauch. Bleib bei deinen 10 Minuten am Tag, füll deine Phrasensammlung weiter und such dir regelmäßig echte Gespräche. Du kannst auch den <a href=\"kurs.html\">Einstufungstest</a> wiederholen und sehen, wie sich dein Niveau entwickelt.",
-            "Wenn du gezielt an deinen Situationen arbeiten willst – mit persönlichem Feedback –, begleite ich dich gern im Coaching. Ein <a href=\"https://cal.com/nawee/15min\" target=\"_blank\" rel=\"noopener\">kostenloses Erstgespräch</a> ist der einfachste Einstieg.",
+            "Wenn du gezielt an deinen Situationen arbeiten willst – mit persönlichem Feedback –, begleite ich dich gern im Coaching. Alle Infos findest du unter <a href=\"https://davidnawee.com/englisch.html\" target=\"_blank\" rel=\"noopener\">Coaching mit David</a>.",
         ],
         phrases: [
             { en: "I've come a long way.", de: "Ich habe schon viel geschafft." },

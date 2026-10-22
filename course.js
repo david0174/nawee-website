@@ -439,8 +439,8 @@
             if (done && !nextAvailable && courseComplete) {
                 finish.innerHTML = `<div class="as-cta lesson-complete">
                     <h2>Glückwunsch – du hast den Kurs abgeschlossen!</h2>
-                    <p>Du kennst jetzt die wichtigsten Strategien für echte Gespräche. Wenn du gezielt an deinen Situationen arbeiten willst, begleite ich dich gern persönlich.</p>
-                    <div class="as-actions"><a class="button primary" href="https://cal.com/nawee/15min" target="_blank" rel="noopener">Kostenloses Erstgespräch buchen <span aria-hidden="true">→</span></a>
+                    <p>Du kennst jetzt die wichtigsten Strategien für echte Gespräche. Übe weiter mit den Bildkarten und den anderen kostenlosen Kursen. Wenn du gezielt an deinen Situationen arbeiten willst: <a href="https://davidnawee.com/englisch.html" target="_blank" rel="noopener">mehr über Coaching mit David ↗</a></p>
+                    <div class="as-actions"><a class="button primary" href="lernen.html">Weiter lernen <span aria-hidden="true">→</span></a>
                     <a class="button mission-outline" href="kurs.html">Zur Kursübersicht</a></div></div>`;
                 return;
             }
