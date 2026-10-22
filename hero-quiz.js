@@ -58,7 +58,7 @@
             ],
             doneText: "Das war ein kleiner Vorgeschmack. Der kostenlose Communication Course geht weiter – 21 kurze Lektionen auf Englisch, ohne Anmeldung.",
             primary: { href: "communication-lesson.html?l=1-1", text: "Gratis-Lektion starten" },
-            secondary: { href: "communication-coaching.html", text: "oder Communication Coaching ansehen →" },
+            secondary: { href: "https://davidnawee.com/communication-coaching.html", text: "oder Communication Coaching ansehen →" },
             footer: { href: "communication-lesson.html?l=1-1", text: "oder direkt zur Gratis-Lektion (auf Englisch) →" },
         },
     } : {
@@ -95,7 +95,7 @@
             ],
             doneText: "That was a small taste. The free Communication Course goes further – 21 short lessons, no sign-up.",
             primary: { href: "communication-lesson.html?l=1-1", text: "Start the free lesson" },
-            secondary: { href: "communication-coaching.html", text: "or see Communication Coaching →" },
+            secondary: { href: "https://davidnawee.com/communication-coaching.html", text: "or see Communication Coaching →" },
             footer: { href: "communication-lesson.html?l=1-1", text: "or start the full free lesson →" },
         },
     };
