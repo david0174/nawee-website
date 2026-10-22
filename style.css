@@ -6781,3 +6781,230 @@ mark.hl {
 .site-header nav > a.nav-coaching {
     color: var(--muted);
 }
+
+/* =========================
+   HOMEPAGE HERO, Duolingo-style: what Nawee is at a glance + one button to start
+   ========================= */
+.hero.hero-simple {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(28px, 5vw, 80px);
+    max-width: 1100px;
+    min-height: min(78vh, 720px);
+    margin: 0 auto;
+    padding: clamp(32px, 6vw, 72px) 6vw;
+}
+
+.hs-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.hs-phone {
+    width: min(300px, 70vw);
+    padding: 14px;
+    border-radius: 42px;
+    background: var(--blue-dark);
+    box-shadow: 0 34px 70px rgba(13, 47, 130, .25);
+    transform: rotate(-6deg);
+}
+
+.hs-screen {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    padding: 18px 18px 22px;
+    border-radius: 30px;
+    background: var(--white);
+}
+
+.hs-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.hs-progress {
+    flex: 1;
+    height: 8px;
+    border-radius: 99px;
+    background: var(--line);
+}
+
+.hs-progress span {
+    display: block;
+    width: 15%;
+    height: 100%;
+    border-radius: 99px;
+    background: #1e9e5a;
+}
+
+.hs-count {
+    color: var(--muted);
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+.hs-screen img {
+    width: 100%;
+    border-radius: 18px;
+}
+
+.hs-ask {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.hs-word {
+    margin: 0;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.hs-play {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-size: .9rem;
+}
+
+.hs-rate {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.hs-rate span {
+    padding: 7px 4px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    color: var(--blue-dark);
+    font-size: .72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.hs-rate span:nth-child(2) { border-color: var(--blue); }
+.hs-rate span:nth-child(3) { border-color: #1e9e5a; }
+
+.hs-badge {
+    position: absolute;
+    right: max(0px, calc(50% - 210px));
+    bottom: 8%;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-size: .85rem;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(13, 47, 130, .18);
+}
+
+.hs-copy {
+    text-align: center;
+}
+
+.hs-copy h1 {
+    margin: 0 0 28px;
+    font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+    line-height: 1.15;
+}
+
+.hs-actions {
+    display: grid;
+    gap: 12px;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.hs-actions .button {
+    justify-content: center;
+    padding: 16px 22px;
+    font-size: 1rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.hs-note {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.hs-note a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hs-phone { animation: hs-float 6s ease-in-out infinite; }
+    .hs-copy { animation: hero-in .7s ease backwards; }
+}
+
+@keyframes hs-float {
+    0%, 100% { transform: rotate(-6deg) translateY(0); }
+    50% { transform: rotate(-6deg) translateY(-10px); }
+}
+
+@media (max-width: 820px) {
+    .hero.hero-simple {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding-top: 28px;
+    }
+
+    .hs-phone {
+        width: min(220px, 60vw);
+    }
+
+    .hs-badge {
+        right: 8%;
+    }
+}
+
+.hero.hero-simple {
+    background: none;
+}
+
+.hs-copy h1 {
+    margin-bottom: 12px;
+}
+
+.hs-sub {
+    margin: 0 0 28px;
+    color: var(--muted);
+    font-size: 1.02rem;
+    font-weight: 600;
+}
+
+/* badge sits at the phone's top right corner, clear of the buttons */
+.hs-badge {
+    top: 6%;
+    bottom: auto;
+    right: max(0px, calc(50% - 200px));
+    transform: rotate(4deg);
+}
+
+@media (max-width: 820px) {
+    .hs-badge {
+        right: 6%;
+    }
+}
+
+.hs-badge {
+    top: -2%;
+}
