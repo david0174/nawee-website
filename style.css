@@ -6246,3 +6246,321 @@ mark.hl {
     display: table;
     margin: 0 auto 18px;
 }
+
+/* =========================
+   LISTENING & SPEAKING LESSONS (speak-lesson.js)
+   ========================= */
+.sl-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin: 18px 0 6px;
+    padding: 0;
+    list-style: none;
+    counter-reset: sl;
+}
+
+.sl-steps li {
+    counter-increment: sl;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-size: .82rem;
+    font-weight: 600;
+}
+
+.sl-steps li::before {
+    content: counter(sl) " · ";
+    color: var(--blue);
+}
+
+.sl-section {
+    margin-top: 40px;
+}
+
+.sl-h {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+    font-size: 1.6rem;
+}
+
+.sl-step {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 1rem;
+}
+
+.sl-note {
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.sl-beta {
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #fff7dc;
+    color: #6b4e00;
+}
+
+.sl-situation {
+    padding: 10px 14px;
+    border-left: 3px solid var(--yellow);
+    background: var(--soft);
+    color: var(--blue-dark);
+    font-style: italic;
+}
+
+.sl-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.sl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+
+.sl-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+}
+
+.sl-btn.sl-play {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: var(--white);
+}
+
+.sl-btn.sl-big {
+    padding: 12px 22px;
+    font-size: 1rem;
+}
+
+.sl-btn.sl-record {
+    border-color: #e5a3a3;
+    color: #b42318;
+}
+
+.sl-btn.sl-record.is-recording {
+    border-color: #b42318;
+    background: #b42318;
+    color: var(--white);
+    animation: sl-pulse 1.2s infinite;
+}
+
+@keyframes sl-pulse {
+    50% { box-shadow: 0 0 0 6px rgba(180, 35, 24, .15); }
+}
+
+.sl-btn.sl-link {
+    border: 0;
+    background: none;
+    color: var(--blue);
+    padding-left: 0;
+    text-decoration: underline;
+}
+
+.sl-btn.button {
+    padding: 13px 22px;
+    border: 0;
+    background: var(--blue);
+    color: var(--white);
+}
+
+.sl-rec {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.sl-rec .sl-note {
+    margin: 4px 0 0;
+}
+
+/* dialogue */
+.sl-dialogue {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sl-line {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    transition: background .2s, border-color .2s;
+}
+
+.sl-line .sl-btn.sl-play {
+    padding: 6px 12px;
+}
+
+.sl-line.is-playing {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.sl-who {
+    margin: 0;
+    color: var(--blue);
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.sl-voice-b .sl-who {
+    color: #b45309;
+}
+
+.is-hidden-text .sl-text {
+    color: transparent;
+    background: var(--line);
+    border-radius: 6px;
+    user-select: none;
+}
+
+.sl-card {
+    margin-top: 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+}
+
+.sl-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.sl-btn.sl-option.is-right {
+    border-color: #1e9e5a;
+    background: #e3f5ea;
+    color: #145c36;
+}
+
+.sl-btn.sl-option.is-wrong {
+    border-color: #e5a3a3;
+    background: #fdf0f0;
+    color: #8f2f2f;
+}
+
+/* phrases */
+.sl-phrases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.sl-phrase-en {
+    margin: 0;
+    color: var(--blue-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.sl-phrase-de {
+    margin: 2px 0 0;
+    color: var(--muted);
+}
+
+.sl-tip {
+    margin: 8px 0 12px;
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+/* sound pairs */
+.sl-pairs {
+    display: grid;
+    gap: 8px;
+}
+
+.sl-pair {
+    display: flex;
+    gap: 8px;
+}
+
+/* role-play */
+.sl-roleplay {
+    display: grid;
+    gap: 10px;
+    margin: 16px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sl-turn {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+}
+
+.sl-turn p {
+    margin: 0 0 6px;
+}
+
+.sl-turn-you {
+    justify-self: end;
+    border-color: #cfe0f7;
+    background: var(--blue-soft);
+}
+
+.sl-model {
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.speak-lesson .lesson-mission {
+    margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+    .sl-phrases {
+        grid-template-columns: 1fr;
+    }
+
+    .sl-line {
+        grid-template-columns: 1fr auto;
+    }
+
+    .sl-line .sl-who {
+        grid-column: 1 / -1;
+    }
+
+    .sl-turn {
+        max-width: 92%;
+    }
+}
