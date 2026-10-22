@@ -7285,3 +7285,15 @@ a.hs-caption:hover {
         height: 110px;
     }
 }
+
+/* homepage path card: start and sign-in buttons under the path */
+.path-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.path-actions .button {
+    width: 100%;
+    text-align: center;
+}
