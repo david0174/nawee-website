@@ -1,4 +1,4 @@
-// Listening & speaking lessons ("English for work – from zero"): work-lesson.html / beruf-lektion.html.
+// Listening & speaking lessons ("English from the start", A1): work-lesson.html / beruf-lektion.html.
 // Audio: a recorded file if the line has one, otherwise the browser voice. Recordings of the learner's
 // voice stay in this browser tab (nothing is uploaded or saved). Progress: localStorage only.
 
@@ -10,7 +10,7 @@
     const L = (v) => (v && typeof v === "object" ? v[lang] : v) || "";
     const KEY = "nawee-work-course-v1";
     const T = lang === "de" ? {
-        back: "← Weg: Beruf", backHref: "beruf.html", course: "ENGLISCH FÜR DEN JOB · A1", lesson: "LEKTION",
+        back: "← Dein Lernweg", backHref: "fuer-mich.html", course: "ENGLISCH VON ANFANG AN · A1", lesson: "LEKTION",
         goal: "Ziel", steps: ["Hören", "Verstehen", "Nachsprechen", "Laute", "Antworten", "Rollenspiel"],
         playAll: "Gespräch anhören", stop: "Stopp", showText: "Text anzeigen", hideText: "Text ausblenden",
         play: "Anhören", slow: "Langsam", record: "Aufnehmen", stopRec: "Stopp", mine: "Meine Aufnahme",
@@ -25,7 +25,7 @@
         recorded: "Alle Sätze gesprochen von David Nawee, Muttersprachler aus den USA.",
         nextLesson: "Nächste Lektion: in Arbeit", sayIt: "Sag es laut:",
     } : {
-        back: "← Path: career", backHref: "career.html", course: "ENGLISH FOR WORK · A1", lesson: "LESSON",
+        back: "← Your learning path", backHref: "for-me.html", course: "ENGLISH FROM THE START · A1", lesson: "LESSON",
         goal: "Goal", steps: ["Listen", "Understand", "Repeat", "Sounds", "Respond", "Role-play"],
         playAll: "Play the conversation", stop: "Stop", showText: "Show text", hideText: "Hide text",
         play: "Listen", slow: "Slowly", record: "Record", stopRec: "Stop", mine: "My recording",
@@ -45,7 +45,7 @@
     const lesson = WORK_LESSONS[id];
     const meta = WORK_MODULES.flatMap((m) => m.lessons.map((l) => ({ ...l, module: m }))).find((l) => l.id === id);
     if (!lesson || !meta) { root.innerHTML = `<h1>—</h1><p><a href="${T.backHref}">${T.back}</a></p>`; return; }
-    document.title = `${L(meta.title)} | ${lang === "de" ? "Englisch für den Job" : "English for work"} | Nawee`;
+    document.title = `${L(meta.title)} | ${lang === "de" ? "Englisch von Anfang an" : "English from the start"} | Nawee`;
 
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };

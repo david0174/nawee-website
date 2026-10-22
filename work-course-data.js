@@ -1,10 +1,10 @@
-// "English for work – from zero" (A1): listening & speaking course for complete beginners.
+// "English from the start" (A1): listening & speaking course for complete beginners (general path).
 // Explanations in German (de) and simple English (en); everything learners hear and say is English.
 // Audio: each spoken line can get an `audio` file (David's recordings, e.g. "audio/work/1-1/d1.mp3");
 // until then the browser voice reads `text` aloud.
 
 const WORK_MODULES = [
-    { id: 1, title: { de: "Erste Schritte im Job", en: "First steps at work" }, lessons: [
+    { id: 1, title: { de: "Erste Schritte", en: "First steps" }, lessons: [
         { id: "1-1", title: { de: "Sich vorstellen", en: "Introducing yourself" } },
         { id: "1-2", title: { de: "Zahlen, Uhrzeiten, Termine", en: "Numbers, times, appointments" } },
         { id: "1-3", title: { de: "Am Telefon: die ersten Sätze", en: "On the phone: the first sentences" } },

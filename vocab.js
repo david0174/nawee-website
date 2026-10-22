@@ -12,7 +12,7 @@
     const KEY = "nawee-vocab-v1";
     const NEW_PER_DAY = 10;
     const T = lang === "de" ? {
-        back: "← Weg: Beruf", backHref: "beruf.html", eyebrow: "BILDKARTEN", modes: ["Lernen", "Hören", "Alle Wörter"],
+        back: "← Dein Lernweg", backHref: "fuer-mich.html", eyebrow: "BILDKARTEN", modes: ["Lernen", "Hören", "Alle Wörter"],
         due: (d, n) => `Heute: ${d} zum Wiederholen · ${n} neu`, learned: (a, b) => `${a} von ${b} Wörtern gelernt`,
         streak: (n) => `🔥 ${n} ${n === 1 ? "Tag" : "Tage"} in Folge`,
         ask: "Wie heißt das auf Englisch? Sag es laut.", flip: "Umdrehen", play: "Anhören", example: "Beispiel",
@@ -22,7 +22,7 @@
         score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird nur in diesem Browser gespeichert.",
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
     } : {
-        back: "← Path: career", backHref: "career.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
+        back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
         due: (d, n) => `Today: ${d} to review · ${n} new`, learned: (a, b) => `${a} of ${b} words learned`,
         streak: (n) => `🔥 ${n}-day streak`,
         ask: "What is this in English? Say it out loud.", flip: "Flip", play: "Listen", example: "Example",

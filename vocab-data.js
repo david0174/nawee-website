@@ -5,7 +5,7 @@
 const VOCAB_DECKS = {
     office: {
         title: { de: "Im Büro", en: "At the office" },
-        path: "career",
+        path: "me",
         level: "A1",
         intro: {
             de: "20 Dinge, die du im Büro jeden Tag siehst. Sag das Wort laut, bevor du die Karte umdrehst.",
