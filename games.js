@@ -43,6 +43,18 @@
         window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
     };
     // typing-friendly text: straight quotes and plain dashes
+    // say a word: David's recording if there is one, otherwise the browser voice
+    const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
+    let clip = null;
+    const say = (text, file) => {
+        synth?.cancel(); if (clip) { clip.pause(); clip = null; }
+        if (file) { clip = new Audio(file); clip.play().catch(() => {}); return; }
+        if (!synth) return;
+        const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = 0.9;
+        const v = synth.getVoices().find((x) => /en.US/i.test(x.lang) && /samantha|alex|google us english|aaron|allison|ava/i.test(x.name)) || synth.getVoices().find((x) => /^en/i.test(x.lang));
+        if (v) u.voice = v;
+        synth.speak(u);
+    };
     const plain = (s) => s.replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...");
 
     const game = new URLSearchParams(location.search).get("g");
@@ -192,6 +204,7 @@
                     <p class="gm-def-count" data-count></p>
                     <span class="dash-bar gm-def-bar"><span data-bar style="width:0%"></span></span>
                     <img class="gm-def-img" data-img alt="">
+                    <button type="button" class="gm-say" data-say aria-label="${de ? "Wort anhören" : "Hear the word"}">🔊 <span data-word></span></button>
                     <div class="gm-text gm-def-line" data-text></div>
                     <input class="gm-input" data-input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}">
                     <p class="gm-def-de" data-de></p>
@@ -211,8 +224,10 @@
                 root.querySelector("[data-bar]").style.width = `${(i / items.length) * 100}%`;
                 root.querySelector("[data-img]").src = w.img;
                 root.querySelector("[data-de]").innerHTML = "&nbsp;";
+                root.querySelector("[data-word]").textContent = w.word;
                 draw();
                 input.focus();
+                say(w.word, w.audio); // hear the word when it appears
             };
             const finish = () => {
                 const secs = (performance.now() - t0) / 1000;
@@ -248,6 +263,7 @@
                     setTimeout(() => { input.disabled = false; if (i >= items.length) finish(); else show(); }, de ? 700 : 300);
                 }
             });
+            root.querySelector("[data-say]").addEventListener("click", () => { const w = items[Math.min(i, items.length - 1)]; say(w.word, w.audio); input.focus(); });
             show();
         };
         play();

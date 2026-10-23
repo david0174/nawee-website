@@ -9080,3 +9080,24 @@ footer .footer-links {
     font-weight: 700;
     text-align: center;
 }
+
+.gm-say {
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 99px;
+    background: var(--blue);
+    color: var(--white);
+    font: inherit;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--yellow);
+}
+
+.gm-say:hover {
+    transform: translateY(-1px);
+}
