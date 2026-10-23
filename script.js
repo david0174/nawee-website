@@ -341,6 +341,31 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         mobileLanguages.before(link);
     }
 
+    // logged in: a small stats line instead of the announcement – streak, learning time, words, a fun fact
+    function statsBar() {
+        const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
+        const vocab = read("nawee-vocab-v1"), time = read("nawee-time-v1");
+        const days = new Set([...(read("nawee-trophies-v1").days || []), ...(vocab.days || []), ...(read("nawee-games-v1").days || []), ...Object.keys(time.days || {})]);
+        Object.values(read("nawee-reading-v1").done || {}).forEach((r) => r.date && days.add(r.date));
+        const iso = (d) => d.toISOString().slice(0, 10);
+        const d = new Date();
+        if (!days.has(iso(d))) d.setDate(d.getDate() - 1);
+        let streak = 0;
+        while (days.has(iso(d))) { streak += 1; d.setDate(d.getDate() - 1); }
+        const minutes = Math.round((time.total || 0) / 60);
+        const timeText = minutes >= 60 ? `${Math.floor(minutes / 60)} h ${minutes % 60} ${en ? "min" : "Min."}` : `${minutes} ${en ? "min" : "Min."}`;
+        const words = Object.values(vocab.cards || {}).filter((c) => (c.reps || 0) > 0).length;
+        const facts = en ? ["“Goodbye” comes from “God be with ye”.", "The most common word in English is “the”.", "“Queue” sounds the same without its last four letters.", "English and German are related: house – Haus, water – Wasser.", "The verb “run” has more than 600 meanings."]
+            : ["„Goodbye“ kommt von „God be with ye“.", "Das häufigste englische Wort ist „the“.", "„Queue“ klingt ohne die letzten vier Buchstaben genauso.", "Englisch und Deutsch sind verwandt: house – Haus, water – Wasser.", "Das Verb „run“ hat über 600 Bedeutungen."];
+        const fact = facts[new Date().getDate() % facts.length]; // one fact per day
+        return `<span class="cb-stats">
+                <span>🔥 <strong>${streak}</strong> ${en ? (streak === 1 ? "day in a row" : "days in a row") : (streak === 1 ? "Tag in Folge" : "Tage in Folge")}</span>
+                <span>⏱️ <strong>${timeText}</strong> ${en ? "learned" : "gelernt"}</span>
+                <span>📚 <strong>${words}</strong> ${en ? "words" : "Wörter"}</span>
+                <span class="cb-fact">💡 ${fact}</span>
+            </span> <a href="${en ? "account.html" : "konto.html"}">${en ? "Continue →" : "Weiter →"}</a>`;
+    }
+
     // announcement bar (not on the account, learning hub and course pages themselves)
     if (document.querySelector("[data-account], [data-requires-account], [data-learn], [data-course], [data-lesson], [data-cc-course], [data-cc-lesson]")) return;
     const CLOSED_KEY = "nawee-course-bar-closed";
@@ -350,7 +375,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     const bar = document.createElement("div");
     bar.className = "course-bar";
     bar.innerHTML = loggedIn
-        ? (en ? `Welcome back! <a href="learn.html">Continue learning →</a>` : `Willkommen zurück! <a href="lernen.html">Weiter lernen →</a>`)
+        ? statsBar()
         : (en
             ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
             : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);
@@ -366,4 +391,32 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         bar.append(close);
     }
     document.body.prepend(bar);
+})();
+
+// Learning time ("nawee-time-v1"): counted only on learning pages, while the tab is visible and the learner was
+// active in the last 2 minutes. Shown in the stats line and synced to the account by account.js.
+(() => {
+    if (!document.querySelector("[data-learn], [data-lesson], [data-course], [data-cc-course], [data-cc-lesson], [data-vocab], [data-games], [data-reading], [data-hero-quiz]")) return;
+    const KEY = "nawee-time-v1";
+    let last = Date.now(), pending = 0;
+    ["pointerdown", "keydown", "scroll", "touchstart"].forEach((e) => window.addEventListener(e, () => { last = Date.now(); }, { passive: true }));
+    const flush = () => {
+        if (!pending) return;
+        try {
+            const t = JSON.parse(localStorage.getItem(KEY) || "{}");
+            const day = new Date().toISOString().slice(0, 10);
+            t.total = (t.total || 0) + pending;
+            t.days = { ...(t.days || {}), [day]: ((t.days || {})[day] || 0) + pending };
+            const keep = Object.keys(t.days).sort().slice(-400); // keep about a year
+            t.days = Object.fromEntries(keep.map((k) => [k, t.days[k]]));
+            localStorage.setItem(KEY, JSON.stringify(t));
+        } catch { /* storage unavailable */ }
+        pending = 0;
+    };
+    setInterval(() => {
+        if (document.visibilityState === "visible" && Date.now() - last < 120000) pending += 5;
+        if (pending >= 30) flush();
+    }, 5000);
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
 })();

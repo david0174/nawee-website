@@ -9657,3 +9657,26 @@ footer .footer-links {
     margin: 0 0 10px;
     color: var(--muted);
 }
+
+/* logged-in stats line in the top bar */
+.cb-stats {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 18px;
+    margin-right: 12px;
+}
+
+.cb-stats strong {
+    color: var(--yellow);
+}
+
+.cb-fact {
+    opacity: .9;
+}
+
+@media (max-width: 760px) {
+    .cb-fact {
+        display: none;
+    }
+}
