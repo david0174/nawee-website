@@ -19,6 +19,7 @@
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
     });
+    window.NaweeDB = db; // shared with page scripts (e.g. webinar.js)
 
     const isEnglish = document.documentElement.lang === "en";
     const ACCOUNT_PAGE = isEnglish ? "account.html" : "konto.html";
@@ -222,9 +223,9 @@
         Object.entries(lg.best || {}).forEach(([k, v]) => { best[k] = Math.max(v, best[k] || 0); });
         write(GAMES_KEY, { best, days: union(lg.days, rg.days).sort().slice(-400) });
         // learning time per day: keep the larger value of both devices' records for each day
-        const lt = read(TIME_KEY), tdays = { ...(rti.days || {}) };
-        Object.entries(lt.days || {}).forEach(([k, v]) => { tdays[k] = Math.max(v, tdays[k] || 0); });
-        write(TIME_KEY, { days: tdays, total: Math.max(lt.total || 0, rti.total || 0, Object.values(tdays).reduce((a, b) => a + b, 0)) });
+        const ltime = read(TIME_KEY), tdays = { ...(rti.days || {}) };
+        Object.entries(ltime.days || {}).forEach(([k, v]) => { tdays[k] = Math.max(v, tdays[k] || 0); });
+        write(TIME_KEY, { days: tdays, total: Math.max(ltime.total || 0, rti.total || 0, Object.values(tdays).reduce((a, b) => a + b, 0)) });
         const lp = read(PROFILE_KEY);
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
@@ -486,6 +487,27 @@
         </section>`;
     };
 
+    // web seminar the learner signed up for: date + Zoom link (the link is only readable for signed-up people)
+    const fillWebinar = async () => {
+        const slot = root.querySelector("[data-dash-webinar]");
+        if (!slot) return;
+        const { data: regs } = await db.from("webinar_registrations").select("webinar").eq("user_id", user.id);
+        const upcoming = (regs || []).map((r) => r.webinar).filter((w) => w >= iso(new Date())).sort();
+        if (!upcoming.length) return;
+        const w = upcoming[0];
+        const { data: link } = await db.from("webinar_links").select("zoom_url").eq("webinar", w).maybeSingle();
+        const safe = link && /^https:\/\/([a-z0-9-]+\.)*zoom\.us\//i.test(link.zoom_url) ? link.zoom_url : "";
+        const when = new Date(`${w}T12:00:00`).toLocaleDateString(isEnglish ? "en-US" : "de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+        slot.innerHTML = `<section class="dash-card dash-webinar">
+            <p class="dash-webinar-tag">🎙️ ${isEnglish ? "LIVE WEB SEMINAR" : "LIVE-WEB-SEMINAR"}</p>
+            <h2 class="dash-h">${isEnglish ? "You’re signed up!" : "Du bist angemeldet!"}</h2>
+            <p>${esc(when)} · ${isEnglish ? "7:00–8:00 pm (German time)" : "19:00–20:00 Uhr (deutsche Zeit)"} · Zoom</p>
+            ${safe ? `<a class="button primary" href="${esc(safe)}" target="_blank" rel="noopener">${isEnglish ? "Join on Zoom" : "Mit Zoom teilnehmen"} →</a>`
+                : `<p class="dash-sub">${isEnglish ? "Your Zoom link will appear here as soon as it’s ready – at the latest the day before." : "Dein Zoom-Link erscheint hier, sobald er bereit ist – spätestens am Tag vorher."}</p>`}
+            <a class="dash-link" href="${isEnglish ? "web-seminar.html" : "webseminar.html"}">${isEnglish ? "Details" : "Details"} →</a>
+        </section>`;
+    };
+
     const views = {
         login(note = "") {
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.loginTitle}</h1><p class="as-lead">${T.loginLead}</p>${note}
@@ -614,6 +636,7 @@
                     </div>
                     <div class="dash-side">${dashActivity()}${dashToday()}</div>
                 </div>
+                <div data-dash-webinar></div>
                 <section class="trophy-cabinet dash-card">
                     <div class="trophy-head"><h2 class="lesson-h">${T.trophies}</h2><p class="trophy-count" data-trophy-count></p></div>
                     <div class="trophy-grid" data-trophies></div>
@@ -628,6 +651,7 @@
                     <button type="button" class="button secondary" data-delete>${T.deleteBtn}</button>
                 </details>
             </div>`;
+            fillWebinar();
             if (window.NaweeTrophies) {
                 window.NaweeTrophies.reload?.();
                 window.NaweeTrophies.renderCabinet(root.querySelector("[data-trophies]"), root.querySelector("[data-trophy-count]"));
@@ -689,6 +713,8 @@
             }
         }
         fillHint();
+        window.NaweeUser = user;
+        window.dispatchEvent(new CustomEvent("nawee:session", { detail: { user } })); // e.g. webinar.js
         // get-started page: say whether the answers are saved in an account (synced answers may have arrived, too)
         if (document.querySelector("[data-onboarding]")) {
             const name = user ? await profileName() : "";
