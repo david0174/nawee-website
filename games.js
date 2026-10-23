@@ -18,7 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
+        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
         typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key - it opens a lock“. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
@@ -30,7 +30,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
+        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
         typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key - it opens a lock”. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
@@ -290,14 +290,101 @@
             ["moon", "soon", "spoon", "noon", "June"], ["hot", "not", "lot", "got", "spot"], ["heart", "start", "part", "art", "smart"],
             ["fish", "dish", "wish"], ["love", "above", "glove"], ["house", "mouse"],
         ];
-        let secs = 20;
+        let secs = 20, beatId = "boombap", volume = 0.6;
+
+        // ---- own beats, synthesized live with the Web Audio API (no audio files, no licenses) ----
+        const BEATS = {
+            boombap: { name: "Boom Bap", bpm: 90, kick: [0, 7, 10], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14], bass: [[0, 41], [7, 41], [10, 44]], chords: null },
+            lofi: { name: "Lo-fi", bpm: 75, kick: [0, 8, 11], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14], bass: [[0, 45], [8, 41]], chords: [[57, 60, 64, 67], [53, 57, 60, 64]] },
+            trap: { name: "Trap", bpm: 140, kick: [0, 3, 10], snare: [8], hat: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], bass: [[0, 36], [3, 36], [10, 39]], chords: null, halfTime: true },
+        };
+        let ctx = null, master = null, beatTimer = null, nextTime = 0, stepNo = 0;
+        const noiseBuffer = () => {
+            const b = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate);
+            const d = b.getChannelData(0);
+            for (let k = 0; k < d.length; k += 1) d[k] = Math.random() * 2 - 1;
+            return b;
+        };
+        let noise = null;
+        const freq = (midi) => 440 * 2 ** ((midi - 69) / 12);
+        const kick = (t) => {
+            const o = ctx.createOscillator(), g = ctx.createGain();
+            o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.18);
+            g.gain.setValueAtTime(1, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+            o.connect(g).connect(master); o.start(t); o.stop(t + 0.36);
+        };
+        const snare = (t) => {
+            const n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+            n.buffer = noise; f.type = "highpass"; f.frequency.value = 1500;
+            g.gain.setValueAtTime(0.55, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+            n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + 0.2);
+            const o = ctx.createOscillator(), g2 = ctx.createGain();
+            o.frequency.value = 190; g2.gain.setValueAtTime(0.3, t); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+            o.connect(g2).connect(master); o.start(t); o.stop(t + 0.12);
+        };
+        const hat = (t, loud) => {
+            const n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+            n.buffer = noise; f.type = "highpass"; f.frequency.value = 7000;
+            g.gain.setValueAtTime(loud ? 0.22 : 0.12, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+            n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + 0.06);
+        };
+        const bass = (t, midi, len) => {
+            const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+            o.type = "sawtooth"; o.frequency.value = freq(midi); f.type = "lowpass"; f.frequency.value = 320;
+            g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + len);
+            o.connect(f).connect(g).connect(master); o.start(t); o.stop(t + len + 0.05);
+        };
+        const chord = (t, notes, len) => notes.forEach((m) => {
+            const o = ctx.createOscillator(), g = ctx.createGain();
+            o.type = "triangle"; o.frequency.value = freq(m);
+            g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.3); g.gain.exponentialRampToValueAtTime(0.001, t + len);
+            o.connect(g).connect(master); o.start(t); o.stop(t + len + 0.1);
+        });
+        const schedule = () => {
+            const b = BEATS[beatId];
+            const step = 60 / b.bpm / 4 * (b.halfTime ? 1 : 1);
+            while (nextTime < ctx.currentTime + 0.15) {
+                const i16 = stepNo % 16, bar = Math.floor(stepNo / 16);
+                if (b.kick.includes(i16)) kick(nextTime);
+                if (b.snare.includes(i16)) snare(nextTime);
+                if (b.hat.includes(i16)) hat(nextTime, i16 % 4 === 0);
+                b.bass.forEach(([at, m]) => { if (at === i16) bass(nextTime, m, step * 3); });
+                if (b.chords && i16 === 0) chord(nextTime, b.chords[bar % b.chords.length], step * 15);
+                nextTime += step; stepNo += 1;
+            }
+        };
+        const startBeat = () => {
+            stopBeat();
+            if (beatId === "off") return;
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            ctx = ctx || new AC();
+            ctx.resume();
+            noise = noise || noiseBuffer();
+            master = ctx.createGain(); master.gain.value = volume * 0.7; master.connect(ctx.destination);
+            nextTime = ctx.currentTime + 0.05; stepNo = 0;
+            beatTimer = setInterval(schedule, 40);
+        };
+        const stopBeat = () => {
+            clearInterval(beatTimer); beatTimer = null;
+            if (master) { try { master.gain.setTargetAtTime(0, ctx.currentTime, 0.05); } catch { /* ignore */ } master = null; }
+        };
+        window.addEventListener("pagehide", stopBeat);
+
         const setup = () => {
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🎤 ${T.rhyme}</h1>
                 <p class="as-lead">${T.rhymeText}</p>
                 <p class="gm-label">${T.timer}</p>
                 <div class="gm-choices">${[0, 10, 20, 30].map((t) => `<button type="button" class="gm-choice${t === secs ? " is-on" : ""}" data-secs="${t}">${t ? `${t} s` : T.off}</button>`).join("")}</div>
+                <p class="gm-label">${T.beat}</p>
+                <div class="gm-choices">${[["off", T.off], ...Object.entries(BEATS).map(([id, b]) => [id, `${b.name} <small>${b.bpm} BPM</small>`])].map(([id, label]) => `<button type="button" class="gm-choice${id === beatId ? " is-on" : ""}" data-beat="${id}">${label}</button>`).join("")}</div>
+                <p class="as-note">🎧 ${T.beatNote}</p>
                 <button type="button" class="button primary gm-start" data-start>${T.start} →</button>
                 <p class="as-disclaimer">${T.privacy}</p>`;
+            root.querySelectorAll("[data-beat]").forEach((b) => b.addEventListener("click", () => {
+                beatId = b.dataset.beat;
+                root.querySelectorAll("[data-beat]").forEach((x) => x.classList.toggle("is-on", x === b));
+            }));
             root.querySelectorAll("[data-secs]").forEach((b) => b.addEventListener("click", () => {
                 secs = Number(b.dataset.secs);
                 root.querySelectorAll("[data-secs]").forEach((x) => x.classList.toggle("is-on", x === b));
@@ -315,6 +402,7 @@
                     <div class="gm-rhyme-list" data-list></div>
                     <p class="gm-rhyme-task">🗣️ ${T.rhymeTask}</p>
                     <div class="gm-rhyme-actions"><button type="button" class="button primary" data-next>${T.nextWord} →</button><button type="button" class="button secondary" data-stop>${T.stop}</button></div>
+                    ${beatId !== "off" ? `<label class="gm-volume">🎧 ${BEATS[beatId].name} · ${T.volume} <input type="range" min="0" max="1" step="0.05" value="${volume}" data-volume></label>` : ""}
                     <p class="gm-rhyme-count" data-count></p>
                 </div>`;
             const show = () => {
@@ -342,6 +430,7 @@
             const next = () => { done += 1; i += 1; show(); };
             const stop = () => {
                 clearInterval(timer);
+                stopBeat();
                 if (done > (data.best.rhyme || 0)) data.best.rhyme = done;
                 save();
                 root.querySelector(".gm-rhyme").innerHTML = `<div class="gm-result"><p class="gm-place">${T.words2(done)} 🎤</p><button type="button" class="button primary" data-again>${T.again}</button></div>`;
@@ -349,6 +438,8 @@
             };
             root.querySelector("[data-next]").addEventListener("click", next);
             root.querySelector("[data-stop]").addEventListener("click", stop);
+            root.querySelector("[data-volume]")?.addEventListener("input", (e) => { volume = Number(e.target.value); if (master) master.gain.value = volume * 0.7; });
+            startBeat();
             window.addEventListener("pagehide", () => clearInterval(timer));
             show();
         };

@@ -9601,3 +9601,16 @@ footer .footer-links {
     color: var(--muted);
     font-weight: 700;
 }
+
+.gm-volume {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.gm-volume input {
+    accent-color: var(--blue);
+}
