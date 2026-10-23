@@ -9807,3 +9807,37 @@ footer .footer-links {
         grid-template-columns: minmax(0, 1fr);
     }
 }
+
+/* Word & Meaning: tap a word to hear it */
+.gm-def-line {
+    cursor: pointer;
+}
+
+.gm-def-hint {
+    margin: -4px 0 0;
+    color: var(--muted);
+    font-size: .85rem;
+    text-align: center;
+}
+
+.gm-say-word,
+.gm-say-def {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.gm-say-word {
+    color: var(--blue-dark);
+    font-weight: 800;
+}
+
+.gm-say-def:hover,
+.gm-say-word:hover {
+    color: var(--blue);
+    text-decoration: underline;
+}

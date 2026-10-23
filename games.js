@@ -208,7 +208,8 @@
                     <span class="dash-bar gm-def-bar"><span data-bar style="width:0%"></span></span>
                     <img class="gm-def-img" data-img alt="">
                     <button type="button" class="gm-say" data-say aria-label="${de ? "Wort anhören" : "Hear the word"}">🔊 <span data-word></span></button>
-                    <div class="gm-text gm-def-line" data-text></div>
+                    <div class="gm-text gm-def-line" data-text title="${de ? "Auf ein Wort tippen, um es zu hören" : "Tap a word to hear it"}"></div>
+                    <p class="gm-def-hint">🔊 ${de ? "Tipp auf ein Wort, um es zu hören." : "Tap any word to hear it."}</p>
                     <input class="gm-input" data-input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}">
                     <p class="gm-def-de" data-de></p>
                 </div>
@@ -246,7 +247,9 @@
                     <p><strong>${wpm}</strong> ${T.wpmLong} · <strong>${acc}%</strong> ${T.acc} · <strong>${Math.round(secs)}</strong> ${T.sec}${newBest ? ` · <span class="gm-new">${T.newBest}</span>` : ""}</p>
                     <button type="button" class="button primary" data-again>${T.again}</button>
                 </div>
-                <div class="gm-words"><h2>${T.typed}</h2><dl>${items.map((w) => `<div><dt>${esc(w.word)}</dt><dd>${esc(w.def)}${de ? ` · <em>${esc(w.de)}</em>` : ""}</dd></div>`).join("")}</dl></div>`;
+                <div class="gm-words"><h2>${T.typed}</h2><dl>${items.map((w, k) => `<div><dt><button type="button" class="gm-say-word" data-sayw="${k}">🔊 ${esc(w.word)}</button></dt><dd><button type="button" class="gm-say-def" data-sayd="${k}">${esc(w.def)}</button>${de ? ` · <em>${esc(w.de)}</em>` : ""}</dd></div>`).join("")}</dl></div>`;
+                root.querySelectorAll("[data-sayw]").forEach((b) => b.addEventListener("click", () => { const w = items[Number(b.dataset.sayw)]; say(w.word, w.audio); }));
+                root.querySelectorAll("[data-sayd]").forEach((b) => b.addEventListener("click", () => say(items[Number(b.dataset.sayd)].def)));
                 root.querySelector("[data-again]").addEventListener("click", play);
             };
             input.addEventListener("input", () => {
@@ -272,6 +275,23 @@
                 }
             });
             root.querySelector("[data-say]").addEventListener("click", () => { const w = items[Math.min(i, items.length - 1)]; say(w.word, w.audio); input.focus(); });
+            // tap any word of the line to hear it (find the word under the click in the plain text)
+            box.addEventListener("click", (e) => {
+                const r = document.caretRangeFromPoint ? document.caretRangeFromPoint(e.clientX, e.clientY) : null;
+                const pos = document.caretPositionFromPoint ? document.caretPositionFromPoint(e.clientX, e.clientY) : null;
+                const node = r ? r.startContainer : pos?.offsetNode, offset = r ? r.startOffset : pos?.offset;
+                if (!node || !box.contains(node)) return;
+                let at = offset;
+                const walk = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
+                for (let n = walk.nextNode(); n && n !== node; n = walk.nextNode()) at += n.textContent.length;
+                let a = at, b = at;
+                while (a > 0 && /[A-Za-z’']/.test(text[a - 1])) a -= 1;
+                while (b < text.length && /[A-Za-z’']/.test(text[b])) b += 1;
+                const word = text.slice(a, b);
+                const w = items[Math.min(i, items.length - 1)];
+                if (word) say(word, word.toLowerCase() === w.word.toLowerCase() ? w.audio : null);
+                input.focus();
+            });
             show();
         };
         play();
