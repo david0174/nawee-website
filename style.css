@@ -9207,3 +9207,71 @@ footer .footer-links {
     font-weight: 800;
     text-align: center;
 }
+
+/* =========================
+   Seasonal: fall theme on the homepage (seasonal.js adds .theme-fall from Sept 22 to Nov 30)
+   ========================= */
+.theme-fall .hero {
+    position: relative;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(242, 177, 52, .22), transparent 45%),
+        radial-gradient(circle at 92% 20%, rgba(212, 87, 42, .14), transparent 40%),
+        linear-gradient(180deg, #fffaf2 0%, #fff 100%);
+}
+
+.theme-fall .hero > :not(.fall-leaves) {
+    position: relative;
+    z-index: 1;
+}
+
+.fall-leaves {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.fall-leaf {
+    position: absolute;
+    top: -40px;
+    width: var(--size, 24px);
+    height: var(--size, 24px);
+    opacity: .85;
+}
+
+.fall-leaf svg {
+    width: 100%;
+    height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .fall-leaf {
+        animation: leaf-fall var(--dur, 12s) linear var(--delay, 0s) infinite;
+    }
+
+    .fall-leaf svg {
+        animation: leaf-sway calc(var(--dur, 12s) / 4) ease-in-out var(--delay, 0s) infinite alternate;
+    }
+}
+
+@keyframes leaf-fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    8% { opacity: .85; }
+    90% { opacity: .85; }
+    100% { transform: translateY(var(--fall, 640px)) rotate(calc(var(--spin, 1) * 300deg)); opacity: 0; }
+}
+
+@keyframes leaf-sway {
+    from { transform: translateX(calc(var(--sway, 30px) * -1)); }
+    to { transform: translateX(var(--sway, 30px)); }
+}
+
+/* warm accents */
+.theme-fall .hero-copy h1 mark.hl {
+    --yellow: #e8892b;
+}
+
+.theme-fall .path-chooser {
+    border-top: 6px solid #e8892b;
+}
