@@ -8345,3 +8345,311 @@ footer .footer-links .footer-heading {
 .rd-next {
     margin-top: 26px;
 }
+
+/* =========================
+   Account overview (dashboard, account.js): courses, level, activity, today, picture cards
+   ========================= */
+.dash-hello {
+    margin: 0 0 6px;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.dash-hello span {
+    color: #9aa6b8;
+    font-weight: 600;
+}
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 18px;
+    margin: 22px 0 18px;
+}
+
+.dash-main,
+.dash-side {
+    display: grid;
+    gap: 18px;
+    align-content: start;
+}
+
+.dash-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.dash-card {
+    padding: 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 22px;
+    background: var(--white);
+}
+
+.dash-h {
+    margin: 0 0 14px;
+    color: var(--blue-dark);
+    font-size: 1.25rem;
+}
+
+.dash-feature {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    color: var(--white);
+    text-decoration: none;
+    box-shadow: 0 12px 26px rgba(13, 47, 130, .25);
+    transition: transform .15s;
+}
+
+.dash-feature:hover {
+    transform: translateY(-2px);
+}
+
+.dash-feature-tag {
+    justify-self: start;
+    padding: 2px 10px;
+    border-radius: 99px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+.dash-feature strong {
+    font-size: 1.15rem;
+}
+
+.dash-feature .dash-bar {
+    background: rgba(255, 255, 255, .25);
+}
+
+.dash-feature .dash-bar span {
+    background: var(--yellow);
+}
+
+.dash-feature-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: .85rem;
+    font-weight: 700;
+    opacity: .9;
+}
+
+.dash-bar {
+    display: block;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: var(--blue-soft);
+}
+
+.dash-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 99px;
+    background: var(--blue);
+}
+
+.dash-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #f6f8fc;
+    color: var(--ink, #1c2633);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.dash-row + .dash-row {
+    margin-top: 8px;
+}
+
+.dash-row:hover {
+    background: var(--blue-soft);
+}
+
+.dash-row-count {
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.dash-big {
+    margin: 0;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.dash-sub {
+    margin: 6px 0 10px;
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.dash-level .account-plan {
+    margin: 10px 0;
+    padding: 12px 14px;
+}
+
+.dash-level .account-plan .lesson-h {
+    display: none;
+}
+
+.dash-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.dash-streak {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 12px;
+}
+
+.dash-streak strong {
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.dash-streak span {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.dash-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.dash-day {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: #f1f3f7;
+    color: #9aa6b8;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.dash-day.is-on {
+    background: var(--blue);
+    color: var(--yellow);
+    font-size: 1rem;
+}
+
+.dash-day.is-today {
+    box-shadow: 0 0 0 2px var(--yellow);
+}
+
+.dash-task {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 4px;
+    color: var(--ink, #1c2633);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.dash-task + .dash-task {
+    border-top: 1px solid var(--line);
+}
+
+.dash-task:hover .dash-task-text {
+    color: var(--blue);
+}
+
+.dash-task-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff6d6;
+    font-size: 1.2rem;
+}
+
+.dash-task-text small {
+    display: block;
+    color: var(--muted);
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.dash-task-min {
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #f1f3f7;
+    color: var(--blue-dark);
+    font-size: .85rem;
+}
+
+.dash-go {
+    width: 100%;
+    margin-top: 14px;
+    text-align: center;
+}
+
+.dash .trophy-cabinet {
+    margin-top: 0;
+}
+
+@media (max-width: 900px) {
+    .dash-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .dash-pair {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dash-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .dash-row .dash-bar {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+}
+
+/* the account card gets wider and a soft background when it shows the overview */
+.assessment-card.account-card:has(.dash) {
+    max-width: 1120px;
+    background: #f6f8fc;
+}
+
+.dash-level .ob-summary {
+    gap: 6px;
+}
+
+.dash-level .ob-summary li {
+    padding: 4px 10px;
+    font-size: .8rem;
+}
+
+/* phones: today's tasks and the streak first */
+@media (max-width: 900px) {
+    .dash-side {
+        order: -1;
+    }
+}

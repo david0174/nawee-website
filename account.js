@@ -29,6 +29,7 @@
     const PROFILE_KEY = "nawee-profile-v1"; // answers from the "get started" questions (start.html; synced inside `course.profile`)
     const VOCAB_KEY = "nawee-vocab-v1"; // picture cards (vocab.js; synced inside `course.vocab`)
     const READING_KEY = "nawee-reading-v1"; // reading texts (reading.js; synced inside `course.reading`)
+    const WORK_KEY = "nawee-work-course-v1"; // "English from the start" lessons (speak-lesson.js; synced inside `course.work`)
     const RELOAD_FLAG = "nawee-synced-reload";
 
     const params = new URLSearchParams(location.search);
@@ -193,7 +194,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), work: read(WORK_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -202,7 +203,7 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, work: rw = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
@@ -212,11 +213,13 @@
         write(VOCAB_KEY, mv);
         const lr = read(READING_KEY), mr = { done: { ...(rr.done || {}), ...(lr.done || {}) } };
         write(READING_KEY, mr);
+        const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed) };
+        write(WORK_KEY, mw);
         const lp = read(PROFILE_KEY);
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
         push();
-        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length; // true = progress from another device arrived
+        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length || (lw.completed || []).length !== mw.completed.length; // true = progress from another device arrived
     };
     window.addEventListener("nawee:progress", push);
 
@@ -333,6 +336,134 @@
                     ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}">${T.planEdit} →</a>`
                         : `<p>${T.planNone} <a href="${T.startPage}">${T.planStart} →</a></p>`}
                 </section>`;
+    };
+
+    // ---------- account overview (dashboard): courses, level, activity, today's tasks, picture cards ----------
+    const D = isEnglish ? {
+        welcome: "Welcome back,", courses: "Your courses", continue: "Continue", start: "Start", lessons: (d, t) => `${d}/${t} lessons`,
+        fromStart: "English from the start", safeSpeaking: "Speaking with confidence", cc: "Communication Course",
+        level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
+        activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
+        week: ["M", "T", "W", "T", "F", "S", "S"],
+        today: "Today", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due",
+        words: (n) => `${n} ${n === 1 ? "word" : "words"}`, texts: (n) => `${n} new ${n === 1 ? "text" : "texts"}`, min: (n) => `${n} min`, go: "Let’s go",
+        cards: "Picture cards", allTopics: "All topics", practice: "Practice",
+        status: { green: "mastered", yellow: "practiced", red: "wrong", grey: "new" },
+        workPage: "work-lesson.html", ccPage: "communication-course.html", cardsPage: "vocabulary.html", readPage: "reading.html", startPage: "get-started.html",
+    } : {
+        welcome: "Willkommen zurück,", courses: "Deine Kurse", continue: "Weiter", start: "Starten", lessons: (d, t) => `${d}/${t} Lektionen`,
+        fromStart: "Englisch von Anfang an", safeSpeaking: "Sicher sprechen", cc: "Communication Course",
+        level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
+        activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
+        week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+        today: "Heute", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig",
+        words: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"}`, texts: (n) => `${n} neue ${n === 1 ? "Text" : "Texte"}`, min: (n) => `${n} Min.`, go: "Los geht’s",
+        cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
+        status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
+        workPage: "beruf-lektion.html", ccPage: "communication-course.html", cardsPage: "vokabeln.html", readPage: "lesen.html", startPage: "start.html",
+    };
+    const iso = (d) => d.toISOString().slice(0, 10);
+    const bar = (part, whole) => `<span class="dash-bar"><span style="width:${whole ? Math.round((part / whole) * 100) : 0}%"></span></span>`;
+
+    const workLessons = () => (typeof WORK_MODULES === "undefined" ? [] : WORK_MODULES.flatMap((m) => m.lessons)
+        .filter((l) => typeof WORK_LESSONS === "undefined" || (WORK_LESSONS[l.id] && !WORK_LESSONS[l.id].draft)));
+    const nextWork = () => {
+        const doneIds = read(WORK_KEY).completed || [];
+        return workLessons().find((l) => !doneIds.includes(l.id)) || null;
+    };
+    const dashCourses = (done, total, ccDone) => {
+        const lessons = workLessons(), wDone = (read(WORK_KEY).completed || []).filter((id) => lessons.some((l) => l.id === id)).length;
+        const next = nextWork();
+        const row = (title, d, t, href) => `<a class="dash-row" href="${href}"><span class="dash-row-title">${title}</span>${bar(d, t)}<span class="dash-row-count">${d}/${t}</span></a>`;
+        return `<section class="dash-card">
+            <h2 class="dash-h">${D.courses}</h2>
+            <a class="dash-feature" href="${next ? `${D.workPage}?l=${next.id}` : D.workPage + "?l=1-1"}">
+                <span class="dash-feature-tag">A1 → A2</span>
+                <strong>${D.fromStart}</strong>
+                ${bar(wDone, lessons.length)}
+                <span class="dash-feature-foot"><span>${D.lessons(wDone, lessons.length)}</span><span>${next ? `${wDone ? D.continue : D.start} →` : "✓"}</span></span>
+            </a>
+            ${row(D.safeSpeaking, done, total, "kurs.html")}
+            ${row(D.cc, ccDone, 21, D.ccPage)}
+        </section>`;
+    };
+    const dashLevel = (level, course) => {
+        const p = read(PROFILE_KEY);
+        const big = course.level ? level : p.level !== undefined ? T.planLevel[p.level] : "–";
+        const sub = course.level ? D.tested(esc(course.levelDate || "")) : p.level !== undefined ? D.fromAnswers : D.noLevel;
+        return `<section class="dash-card dash-level">
+            <h2 class="dash-h">${D.level}</h2>
+            <p class="dash-big">${esc(big)}</p><p class="dash-sub">${sub}</p>
+            ${planBlock()}
+            <a class="dash-link" href="kurs.html">▶ ${D.testAgain}</a>
+        </section>`;
+    };
+    // all days with any learning activity (lessons/trophies, picture cards, reading)
+    const activeDays = () => {
+        const days = new Set([...(read(TROPHY_KEY).days || []), ...(read(VOCAB_KEY).days || [])]);
+        Object.values(read(READING_KEY).done || {}).forEach((r) => r.date && days.add(r.date));
+        return days;
+    };
+    const dashActivity = () => {
+        const days = activeDays();
+        let streak = 0;
+        const d = new Date();
+        if (!days.has(iso(d))) d.setDate(d.getDate() - 1); // today not done yet: the streak from yesterday still counts
+        while (days.has(iso(d))) { streak += 1; d.setDate(d.getDate() - 1); }
+        const monday = new Date(); monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+        const todayIso = iso(new Date());
+        const week = D.week.map((label, i) => {
+            const day = new Date(monday); day.setDate(monday.getDate() + i);
+            const key = iso(day);
+            return `<span class="dash-day${days.has(key) ? " is-on" : ""}${key === todayIso ? " is-today" : ""}" title="${key}">${days.has(key) ? "⚡" : label}</span>`;
+        }).join("");
+        return `<section class="dash-card dash-activity">
+            <h2 class="dash-h">${D.activity}</h2>
+            <p class="dash-streak"><strong>${streak}</strong><span>${D.streak(streak)}</span></p>
+            <div class="dash-week">${week}</div>
+            <p class="dash-sub">${D.totalDays(days.size)}</p>
+        </section>`;
+    };
+    const dashToday = () => {
+        const v = read(VOCAB_KEY), cards = v.cards || {}, today = iso(new Date());
+        let due = 0, unseen = 0;
+        if (typeof VOCAB_DECKS !== "undefined") Object.entries(VOCAB_DECKS).forEach(([d, deck]) => deck.words.forEach((w) => {
+            const c = cards[`${d}/${w.id}`];
+            if (c && c.due <= today) due += 1;
+            if (!c) unseen += 1;
+        }));
+        const fresh = Math.min(unseen, Math.max(0, 10 - (v.newDay === today ? v.newCount || 0 : 0)));
+        const doneTexts = read(READING_KEY).done || {};
+        const unread = typeof READINGS === "undefined" ? [] : READINGS.filter((r) => !doneTexts[r.id]);
+        const next = nextWork();
+        const tasks = [
+            due ? { icon: "🔁", title: D.repeat, sub: D.words(due), min: Math.max(1, Math.round(due / 3)), href: D.cardsPage } : null,
+            fresh ? { icon: "💡", title: D.learnNew, sub: D.words(fresh), min: 5, href: D.cardsPage } : null,
+            unread.length ? { icon: "📰", title: D.read, sub: D.texts(unread.length), min: 5, href: `${D.readPage}?t=${unread[0].id}` } : null,
+            next ? { icon: "🎧", title: D.lesson, sub: esc(isEnglish ? next.title.en : next.title.de), min: 10, href: `${D.workPage}?l=${next.id}` } : null,
+        ].filter(Boolean);
+        return `<section class="dash-card dash-today">
+            <h2 class="dash-h">${D.today}</h2>
+            ${tasks.length ? tasks.map((t) => `<a class="dash-task" href="${t.href}"><span class="dash-task-icon" aria-hidden="true">${t.icon}</span><span class="dash-task-text"><small>${t.sub}</small>${t.title}</span><span class="dash-task-min">${D.min(t.min)}</span></a>`).join("")
+                : `<p class="dash-sub">✓ ${D.nothingDue}</p>`}
+            ${tasks.length ? `<a class="button primary dash-go" href="${tasks[0].href}">${D.go} →</a>` : ""}
+        </section>`;
+    };
+    const dashCards = () => {
+        if (typeof VOCAB_DECKS === "undefined") return "";
+        const v = read(VOCAB_KEY), n = { green: 0, yellow: 0, red: 0, grey: 0 };
+        Object.entries(VOCAB_DECKS).forEach(([d, deck]) => deck.words.forEach((w) => {
+            const k = `${d}/${w.id}`, c = (v.cards || {})[k], last = (v.last || {})[k];
+            n[!c && !last ? "grey" : last === "wrong" ? "red" : (c?.reps || 0) >= 3 ? "green" : "yellow"] += 1;
+        }));
+        const total = n.green + n.yellow + n.red + n.grey;
+        const order = ["green", "yellow", "red", "grey"];
+        return `<section class="dash-card">
+            <h2 class="dash-h">${D.cards}</h2>
+            <div class="vc-bar">${order.map((c) => `<span class="vc-bar-${c}" style="width:${total ? (n[c] / total) * 100 : 0}%"></span>`).join("")}</div>
+            <ul class="vc-legend">${order.map((c) => `<li><i class="vc-dot vc-dot-${c}"></i><strong>${n[c]}</strong> ${D.status[c]}</li>`).join("")}</ul>
+            <a class="dash-link" href="${D.cardsPage}">${D.practice} →</a>
+        </section>`;
     };
 
     const views = {
@@ -453,29 +584,30 @@
             const levelLabels = { "below-A2": isEnglish ? "below A2" : "unter A2", C1: isEnglish ? "C1 or higher" : "C1 oder höher" };
             const level = course.level ? (levelLabels[course.level] || course.level) : T.noLevel;
             const ccDone = (read(CC_KEY).completed || []).length;
-            root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.hello(esc(firstName() || name))}</h1>${note}
+            root.innerHTML = `<div class="dash">
+                <h1 class="dash-hello"><span>${D.welcome}</span> ${esc(firstName() || name)}!</h1>${note}
                 <p class="account-meta">${T.loggedInAs} <strong>${esc(user.email)}</strong></p>
-                <div class="account-stats">
-                    <div><span>${T.level}</span><strong>${esc(level)}</strong></div>
-                    <div><span>${isEnglish ? "Course" : "Kurs"}</span><strong>${T.progress(done, total)}</strong></div>
-                    <div><span>Communication Course</span><strong>${T.progress(ccDone, 21)}</strong> <a href="communication-course.html">${ccDone ? (isEnglish ? "Continue" : "Weiter") : (isEnglish ? "Start" : "Starten")} →</a></div>
+                <div class="dash-grid">
+                    <div class="dash-main">
+                        ${dashCourses(done, total, ccDone)}
+                        <div class="dash-pair">${dashLevel(level, course)}${dashCards()}</div>
+                    </div>
+                    <div class="dash-side">${dashActivity()}${dashToday()}</div>
                 </div>
-                <div class="as-progress" aria-hidden="true"><span style="width:${(done / total) * 100}%"></span></div>
-                ${planBlock()}
-                <section class="trophy-cabinet">
+                <section class="trophy-cabinet dash-card">
                     <div class="trophy-head"><h2 class="lesson-h">${T.trophies}</h2><p class="trophy-count" data-trophy-count></p></div>
                     <div class="trophy-grid" data-trophies></div>
                     <p class="as-note">${T.syncNote}</p>
                 </section>
                 <div class="as-actions">
-                    <a class="button primary" href="kurs.html">${T.toCourse} <span aria-hidden="true">→</span></a>
                     <button type="button" class="button secondary" data-logout>${T.logout}</button>
                 </div>
                 <details class="account-danger">
                     <summary>${T.deleteTitle}</summary>
                     <p>${T.deleteText}</p>
                     <button type="button" class="button secondary" data-delete>${T.deleteBtn}</button>
-                </details>`;
+                </details>
+            </div>`;
             if (window.NaweeTrophies) {
                 window.NaweeTrophies.reload?.();
                 window.NaweeTrophies.renderCabinet(root.querySelector("[data-trophies]"), root.querySelector("[data-trophy-count]"));
