@@ -9,7 +9,7 @@
     const de = document.documentElement.lang === "de";
     const WEBINAR = "2026-11-23";
     const SEATS = 5; // same number as in 05-webinar.sql
-    const START = new Date("2026-11-23T19:00:00+01:00"), END = new Date("2026-11-23T20:00:00+01:00");
+    const START = new Date("2026-11-23T19:00:00+01:00"), END = new Date("2026-11-23T19:30:00+01:00");
     const page = de ? "webseminar.html" : "web-seminar.html";
     const account = de ? "konto.html" : "account.html";
     const T = de ? {

@@ -501,7 +501,7 @@
         slot.innerHTML = `<section class="dash-card dash-webinar">
             <p class="dash-webinar-tag">🎙️ ${isEnglish ? "LIVE WEB SEMINAR" : "LIVE-WEB-SEMINAR"}</p>
             <h2 class="dash-h">${isEnglish ? "You’re signed up!" : "Du bist angemeldet!"}</h2>
-            <p>${esc(when)} · ${isEnglish ? "7:00–8:00 pm (German time)" : "19:00–20:00 Uhr (deutsche Zeit)"} · Zoom</p>
+            <p>${esc(when)} · ${isEnglish ? "7:00–7:30 pm (German time)" : "19:00–19:30 Uhr (deutsche Zeit)"} · Zoom</p>
             ${safe ? `<a class="button primary" href="${esc(safe)}" target="_blank" rel="noopener">${isEnglish ? "Join on Zoom" : "Mit Zoom teilnehmen"} →</a>`
                 : `<p class="dash-sub">${isEnglish ? "Your Zoom link will appear here as soon as it’s ready – at the latest the day before." : "Dein Zoom-Link erscheint hier, sobald er bereit ist – spätestens am Tag vorher."}</p>`}
             <a class="dash-link" href="${isEnglish ? "web-seminar.html" : "webseminar.html"}">${isEnglish ? "Details" : "Details"} →</a>
