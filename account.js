@@ -27,6 +27,7 @@
     const TROPHY_KEY = "nawee-trophies-v1";
     const CC_KEY = "nawee-communication-course-v1"; // free Communication Course (no account needed; synced inside `course.communication`)
     const PROFILE_KEY = "nawee-profile-v1"; // answers from the "get started" questions (start.html; synced inside `course.profile`)
+    const VOCAB_KEY = "nawee-vocab-v1"; // picture cards (vocab.js; synced inside `course.vocab`)
     const RELOAD_FLAG = "nawee-synced-reload";
 
     const params = new URLSearchParams(location.search);
@@ -159,6 +160,27 @@
             bizTest: Boolean(local.bizTest || remote.bizTest),
         };
     };
+    // picture cards: per word keep the state with more successful reviews (or the later due date); newest "last answer" wins locally
+    const mergeVocab = (local, remote) => {
+        const pick = (a, b) => {
+            if (!a) return b;
+            if (!b) return a;
+            if ((a.reps || 0) !== (b.reps || 0)) return (a.reps || 0) > (b.reps || 0) ? a : b;
+            return (a.due || "") >= (b.due || "") ? a : b;
+        };
+        const cards = {};
+        new Set([...Object.keys(remote.cards || {}), ...Object.keys(local.cards || {})])
+            .forEach((k) => { cards[k] = pick((local.cards || {})[k], (remote.cards || {})[k]); });
+        const localDay = (local.newDay || "") >= (remote.newDay || "");
+        return {
+            cards,
+            last: { ...(remote.last || {}), ...(local.last || {}) },
+            days: union(local.days, remote.days).sort().slice(-400),
+            newDay: localDay ? local.newDay || "" : remote.newDay,
+            newCount: localDay ? local.newCount || 0 : remote.newCount || 0,
+        };
+    };
+    const vocabSig = (v) => Object.entries(v.cards || {}).map(([k, c]) => `${k}:${c.reps || 0}`).sort().join(",") + "|" + Object.keys(v.last || {}).length;
     // what counts as "new progress" (to decide whether the page needs a refresh after syncing)
     const signature = (c, t, cc) => JSON.stringify([c.level || "", (c.completed || []).slice().sort(), Object.keys(t.unlocked || {}).sort(),
         (t.days || []).length, (t.perfect || []).length, (t.compared || []).length, Boolean(t.camera), Boolean(t.commCheck), Boolean(t.bizTest),
@@ -170,7 +192,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -179,17 +201,19 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, profile: rp = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
         write(TROPHY_KEY, mt);
         write(CC_KEY, mcc);
+        const lv = read(VOCAB_KEY), mv = mergeVocab(lv, rv);
+        write(VOCAB_KEY, mv);
         const lp = read(PROFILE_KEY);
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
         push();
-        return signature(lc, lt, lcc) !== signature(mc, mt, mcc); // true = progress from another device arrived
+        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv); // true = progress from another device arrived
     };
     window.addEventListener("nawee:progress", push);
 

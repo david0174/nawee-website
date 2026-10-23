@@ -1,7 +1,7 @@
 // Picture flashcards with spaced repetition (vokabeln.html / vocabulary.html?deck=office).
 // Learn: picture → say the word out loud → flip → hear it → rate (Again / Hard / Good / Easy); the rating
 // decides when the card comes back (like Anki). Listen: hear a word, pick the picture.
-// Progress is stored in this browser only (localStorage).
+// Progress is stored in this browser (localStorage) and, with an account, synced by account.js.
 
 (() => {
     const root = document.querySelector("[data-vocab]");
@@ -19,7 +19,7 @@
         rate: ["Nochmal", "Schwer", "Gut", "Leicht"], days: (n) => (n === 0 ? "gleich" : n === 1 ? "1 Tag" : `${n} Tage`),
         doneTitle: "Für heute geschafft!", doneText: "Komm morgen wieder – dann sind die nächsten Karten dran.",
         listenAsk: "Hör zu: Welches Bild passt?", right: "Richtig!", wrong: "Nicht ganz.", nextQ: "Weiter",
-        score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird nur in diesem Browser gespeichert.",
+        score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto, auf allen Geräten.",
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
         status: { green: "sicher", yellow: "geübt", red: "zuletzt falsch", grey: "neu" }, barLabel: "Dein Stand bei diesem Thema",
         allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
@@ -32,7 +32,7 @@
         rate: ["Again", "Hard", "Good", "Easy"], days: (n) => (n === 0 ? "soon" : n === 1 ? "1 day" : `${n} days`),
         doneTitle: "Done for today!", doneText: "Come back tomorrow – the next cards will be waiting.",
         listenAsk: "Listen: which picture fits?", right: "Correct!", wrong: "Not quite.", nextQ: "Next",
-        score: (r, t) => `${r} of ${t} correct`, again: "Again", privacy: "Your progress is saved in this browser only.",
+        score: (r, t) => `${r} of ${t} correct`, again: "Again", privacy: "Your progress is saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too, on all your devices.",
         reset: "Reset progress", resetQ: "Delete your progress for these cards?", tip: "Tip: say it out loud first, then flip – that’s what makes the word stick.",
         status: { green: "mastered", yellow: "practiced", red: "last answer wrong", grey: "new" }, barLabel: "Your progress in this topic",
         allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
@@ -52,7 +52,10 @@
     const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
     const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
     const data = Object.assign({ cards: {}, last: {}, days: [], newDay: "", newCount: 0 }, load());
-    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ } };
+    const save = () => {
+        try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ }
+        window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
+    };
     const cid = (w) => `${deckId}/${w.id}`;
     if (data.newDay !== today()) { data.newDay = today(); data.newCount = 0; }
 
