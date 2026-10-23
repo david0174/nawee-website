@@ -40,7 +40,7 @@
     })();
 
     const T = isEnglish ? {
-        login: "Log in", signup: "Create account", email: "Email", password: "Password", username: "Username",
+        login: "Log in", signup: "Create account", email: "Email", password: "Password", username: "Username", firstName: "First name",
         passwordNew: "New password", passwordRepeat: "Repeat password", forgot: "Forgot your password?",
         noAccount: "No account yet?", haveAccount: "Already have an account?", sendLink: "Send reset link",
         back: "Back to login", savePassword: "Save new password", logout: "Log out", toCourse: "Go to the course",
@@ -75,13 +75,13 @@
         errors: {
             invalid: "Email or password is incorrect.", unconfirmed: "Please confirm your email address first – check your inbox.",
             exists: "There is already an account for this email.", usernameTaken: "This username is already taken.",
-            usernameFormat: "Please choose a username with 3–24 characters (letters, numbers, . _ -).",
+            usernameFormat: "Please choose a username with 3–24 characters (letters, numbers, . _ -).", firstName: "Please enter your first name.",
             short: "Your password needs at least 8 characters.", weak: "Your password needs at least 8 characters, with both letters and numbers.", mismatch: "The passwords don't match.",
             rate: "Too many attempts – please wait a few minutes and try again.",
             email: "We couldn't send the confirmation email right now. Please try again later – or write to david@nawee.net.", generic: "Something went wrong. Please try again.",
         },
     } : {
-        login: "Anmelden", signup: "Konto erstellen", email: "E-Mail", password: "Passwort", username: "Benutzername",
+        login: "Anmelden", signup: "Konto erstellen", email: "E-Mail", password: "Passwort", username: "Benutzername", firstName: "Vorname",
         passwordNew: "Neues Passwort", passwordRepeat: "Passwort wiederholen", forgot: "Passwort vergessen?",
         noAccount: "Noch kein Konto?", haveAccount: "Schon ein Konto?", sendLink: "Link senden",
         back: "Zurück zur Anmeldung", savePassword: "Neues Passwort speichern", logout: "Abmelden", toCourse: "Zum Kurs",
@@ -114,7 +114,7 @@
         errors: {
             invalid: "E-Mail oder Passwort ist falsch.", unconfirmed: "Bitte bestätige zuerst deine E-Mail-Adresse – schau in dein Postfach.",
             exists: "Für diese E-Mail gibt es schon ein Konto.", usernameTaken: "Dieser Benutzername ist leider schon vergeben.",
-            usernameFormat: "Bitte wähle einen Benutzernamen mit 3–24 Zeichen (Buchstaben, Zahlen, . _ -).",
+            usernameFormat: "Bitte wähle einen Benutzernamen mit 3–24 Zeichen (Buchstaben, Zahlen, . _ -).", firstName: "Bitte gib deinen Vornamen ein.",
             short: "Dein Passwort braucht mindestens 8 Zeichen.", weak: "Dein Passwort braucht mindestens 8 Zeichen – mit Buchstaben und Zahlen.", mismatch: "Die Passwörter stimmen nicht überein.",
             rate: "Zu viele Versuche – bitte warte ein paar Minuten und versuch es dann noch einmal.",
             email: "Die Bestätigungs-E-Mail konnte gerade nicht gesendet werden. Bitte versuch es später noch einmal – oder schreib an david@nawee.net.", generic: "Etwas ist schiefgelaufen. Bitte versuch es noch einmal.",
@@ -217,6 +217,11 @@
     };
     window.addEventListener("nawee:progress", push);
 
+    // greeting: the first name from the sign-up form or from Google; older accounts without one fall back to the username
+    const firstName = () => {
+        const m = (user && user.user_metadata) || {};
+        return (m.first_name || m.given_name || String(m.full_name || m.name || "").trim().split(/\s+/)[0] || "").trim();
+    };
     const profileName = async () => {
         const { data } = await db.from("profiles").select("username").eq("id", user.id).maybeSingle();
         return (data && data.username) || (user.user_metadata && user.user_metadata.username) || user.email;
@@ -354,6 +359,7 @@
                 ${googleBlock()}
                 <form class="account-form" data-form novalidate>
                     <p class="account-hint-text account-required-note">${T.requiredNote}</p>
+                    ${field("firstName", T.firstName, "text", 'autocomplete="given-name" maxlength="40" required', true)}
                     ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required', true)}
                     <p class="account-hint-text">${T.usernameHint}</p>
                     ${field("email", T.email, "email", 'autocomplete="email" required', true)}
@@ -372,7 +378,9 @@
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const msg = form.querySelector("[data-msg]");
+                const firstName = form.firstName.value.trim().replace(/\s+/g, " ").slice(0, 40);
                 const username = form.username.value.trim(), email = form.email.value.trim(), password = form.password.value;
+                if (!firstName) { msg.innerHTML = message(T.errors.firstName); return; }
                 if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { msg.innerHTML = message(T.errors.usernameFormat); return; }
                 if (!strongPassword(password)) { msg.innerHTML = message(T.errors.weak); return; }
                 if (password !== form.password2.value) { msg.innerHTML = message(T.errors.mismatch); return; }
@@ -380,7 +388,7 @@
                 const { data: free, error: checkError } = await db.rpc("username_available", { name: username });
                 if (checkError) { setBusy(form, false); msg.innerHTML = message(T.errors.generic); return; }
                 if (!free) { setBusy(form, false); msg.innerHTML = message(T.errors.usernameTaken); return; }
-                const { error } = await db.auth.signUp({ email, password, options: { data: { username }, emailRedirectTo: LIVE_ACCOUNT_URL } });
+                const { error } = await db.auth.signUp({ email, password, options: { data: { username, first_name: firstName }, emailRedirectTo: LIVE_ACCOUNT_URL } });
                 setBusy(form, false);
                 if (error) { msg.innerHTML = message(errorText(error)); return; }
                 views.check(email);
@@ -441,7 +449,7 @@
             const levelLabels = { "below-A2": isEnglish ? "below A2" : "unter A2", C1: isEnglish ? "C1 or higher" : "C1 oder höher" };
             const level = course.level ? (levelLabels[course.level] || course.level) : T.noLevel;
             const ccDone = (read(CC_KEY).completed || []).length;
-            root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.hello(esc(name))}</h1>${note}
+            root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.hello(esc(firstName() || name))}</h1>${note}
                 <p class="account-meta">${T.loggedInAs} <strong>${esc(user.email)}</strong></p>
                 <div class="account-stats">
                     <div><span>${T.level}</span><strong>${esc(level)}</strong></div>
