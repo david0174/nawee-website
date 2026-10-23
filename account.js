@@ -337,8 +337,8 @@
         ].filter(Boolean).map((c) => `<li>${esc(c)}</li>`).join("");
         return `<section class="account-plan">
                     <h2 class="lesson-h">${T.plan}</h2>
-                    ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}">${T.planEdit} →</a>`
-                        : `<p>${T.planNone} <a href="${T.startPage}">${T.planStart} →</a></p>`}
+                    ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}?edit">${T.planEdit} →</a>`
+                        : `<p>${T.planNone} <a href="${T.startPage}?edit">${T.planStart} →</a></p>`}
                 </section>`;
     };
 

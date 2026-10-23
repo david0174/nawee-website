@@ -106,6 +106,7 @@
 
     const answers = {};
     let step = -1; // -1 = welcome
+    let started = false; // the visitor began answering on this page
 
     const shell = (bubble, body, { progress = 0, canNext = false, nextLabel = T.next, back = true } = {}) => {
         root.innerHTML = `
@@ -129,7 +130,7 @@
         window.scrollTo({ top: 0 });
         if (step === -1) {
             shell(esc(T.hello), "", { canNext: true, nextLabel: T.go, back: false });
-            root.querySelector(".ob-next").addEventListener("click", () => { step = 0; render(); });
+            root.querySelector(".ob-next").addEventListener("click", () => { started = true; step = 0; render(); });
             return;
         }
         if (step >= Q.length) return plan();
@@ -215,6 +216,20 @@
     };
 
     // came back later: show the saved plan (with the option to answer again)
+    // logged in + questions already answered → straight to the account overview ("?edit" = answer the questions again)
+    const editing = new URLSearchParams(location.search).has("edit");
+    const accountPage = de ? "konto.html" : "account.html";
+    let loggedIn = false;
+    try {
+        const session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
+        loggedIn = Boolean(session && session.user && session.refresh_token);
+    } catch { /* storage unavailable */ }
     const saved = load();
-    if (saved && saved.level !== undefined) { Object.assign(answers, saved); plan(); } else render();
+    const answered = (p) => p && p.level !== undefined;
+    if (loggedIn && answered(saved) && !editing) { location.replace(accountPage); return; }
+    // answers saved in the account (another device) arrive after account.js has synced
+    window.addEventListener("nawee:account", (e) => {
+        if (e.detail && e.detail.name && answered(load()) && !editing && !started) location.replace(accountPage);
+    });
+    if (answered(saved) && !editing) { Object.assign(answers, saved); plan(); } else render();
 })();
