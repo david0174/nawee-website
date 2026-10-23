@@ -19,7 +19,7 @@
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
         rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
-        typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key - it opens a lock“. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
+        typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "GAMES", title: "Games", lead: "Type English, get faster, remember words – with texts and words from your course.",
@@ -31,7 +31,7 @@
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
         rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
-        typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key - it opens a lock”. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
+        typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
 
@@ -252,6 +252,11 @@
             input.addEventListener("input", () => {
                 if (!t0) t0 = performance.now();
                 const before = typed;
+                // the dash fills itself in: after the word, a space (or a dash) becomes " - "
+                const word = items[i].word, sep = `${word} - `;
+                const v = input.value;
+                if (v === `${word} ` || v === `${word}-` || v === `${word} -`) input.value = sep;
+                else if (v === `${sep}-` || v === `${sep} `) input.value = sep; // typed the dash or a space anyway
                 typed = input.value;
                 if (typed.length > before.length) {
                     keys += 1;
