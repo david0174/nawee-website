@@ -368,7 +368,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
 
     // announcement bar (not on the account, learning hub and course pages themselves)
     if (document.querySelector("[data-account], [data-requires-account], [data-learn], [data-course], [data-lesson], [data-cc-course], [data-cc-lesson]")) return;
-    const CLOSED_KEY = "nawee-course-bar-closed";
+    const CLOSED_KEY = new Date() < new Date("2026-11-23T20:00:00+01:00") ? "nawee-webinar-bar-closed" : "nawee-course-bar-closed";
     let closed = false;
     try { closed = localStorage.getItem(CLOSED_KEY) === "1"; } catch { /* ignore */ }
     if (closed && !loggedIn) return;
@@ -376,9 +376,13 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     bar.className = "course-bar";
     bar.innerHTML = loggedIn
         ? statsBar()
-        : (en
-            ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
-            : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);
+        : new Date() < new Date("2026-11-23T20:00:00+01:00") // web seminar announcement until it has taken place
+            ? (en
+                ? `<span aria-hidden="true">🎙️</span> <strong>Free live web seminar</strong> on Nov 23 – learn English on your own, with David. Only 5 seats. <a href="web-seminar.html">Save your seat →</a>`
+                : `<span aria-hidden="true">🎙️</span> <strong>Kostenloses Live-Web-Seminar</strong> am 23.11. – Englisch selbst lernen, mit David. Nur 5 Plätze. <a href="webseminar.html">Platz sichern →</a>`)
+            : (en
+                ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
+                : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);
     if (!loggedIn) {
         const close = document.createElement("button");
         close.type = "button";

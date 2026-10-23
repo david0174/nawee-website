@@ -9680,3 +9680,130 @@ footer .footer-links {
         display: none;
     }
 }
+
+/* =========================
+   Live web seminar (webseminar.html / web-seminar.html, webinar.js) + account card
+   ========================= */
+.wb {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 64px) 16px 48px;
+}
+
+.wb h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 18px;
+}
+
+.wb h2 {
+    margin-top: 36px;
+    font-size: 1.6rem;
+}
+
+.wb-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.wb-facts li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+}
+
+.wb-facts span {
+    font-size: 1.3rem;
+}
+
+.wb-box {
+    margin: 22px 0;
+    padding: 22px;
+    border: 2px solid var(--blue);
+    border-top: 8px solid var(--yellow);
+    border-radius: 20px;
+    background: var(--white);
+}
+
+.wb-box p {
+    margin: 0 0 12px;
+}
+
+.wb-seats {
+    color: var(--blue-dark);
+    font-weight: 800;
+}
+
+.wb-seats.is-full {
+    color: #8f2f2f;
+}
+
+.wb-in {
+    color: #1e7a48;
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.wb-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.wb-cancel {
+    margin-top: 14px;
+    color: var(--muted);
+}
+
+.wb-msg {
+    color: #8f2f2f;
+    font-weight: 700;
+}
+
+.wb-list,
+.wb-steps {
+    display: grid;
+    gap: 10px;
+    padding-left: 22px;
+    font-size: 1.06rem;
+    line-height: 1.6;
+}
+
+.wb-note {
+    margin-top: 26px;
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.wb-note a {
+    color: var(--blue);
+}
+
+.dash-webinar {
+    margin-bottom: 18px;
+    border: 2px solid var(--blue);
+    border-left: 8px solid var(--yellow);
+}
+
+.dash-webinar-tag {
+    margin: 0 0 4px;
+    color: var(--blue);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+}
+
+@media (max-width: 560px) {
+    .wb-facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
