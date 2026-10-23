@@ -21,6 +21,7 @@
         listenAsk: "Hör zu: Welches Bild passt?", right: "Richtig!", wrong: "Nicht ganz.", nextQ: "Weiter",
         score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird nur in diesem Browser gespeichert.",
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
+        status: { green: "sicher", yellow: "geübt", red: "zuletzt falsch", grey: "neu" }, barLabel: "Dein Stand bei diesem Thema",
     } : {
         back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
         due: (d, n) => `Today: ${d} to review · ${n} new`, learned: (a, b) => `${a} of ${b} words learned`,
@@ -31,6 +32,7 @@
         listenAsk: "Listen: which picture fits?", right: "Correct!", wrong: "Not quite.", nextQ: "Next",
         score: (r, t) => `${r} of ${t} correct`, again: "Again", privacy: "Your progress is saved in this browser only.",
         reset: "Reset progress", resetQ: "Delete your progress for these cards?", tip: "Tip: say it out loud first, then flip – that’s what makes the word stick.",
+        status: { green: "mastered", yellow: "practiced", red: "last answer wrong", grey: "new" }, barLabel: "Your progress in this topic",
     };
 
     const deckId = new URLSearchParams(location.search).get("deck") || "office";
@@ -43,7 +45,7 @@
     const today = () => new Date().toISOString().slice(0, 10);
     const addDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
     const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
-    const data = Object.assign({ cards: {}, days: [], newDay: "", newCount: 0 }, load());
+    const data = Object.assign({ cards: {}, last: {}, days: [], newDay: "", newCount: 0 }, load());
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ } };
     const cid = (w) => `${deckId}/${w.id}`;
     if (data.newDay !== today()) { data.newDay = today(); data.newCount = 0; }
@@ -80,10 +82,29 @@
     const markDay = () => { if (!data.days.includes(today())) { data.days.push(today()); data.days = data.days.slice(-400); save(); } };
     const streak = () => { let n = 0; const d = new Date(); while (data.days.includes(d.toISOString().slice(0, 10))) { n += 1; d.setDate(d.getDate() - 1); } return n; };
     const learnedCount = () => deck.words.filter((w) => (data.cards[cid(w)]?.reps || 0) > 0).length;
+
+    // traffic light per word: red = last answer wrong, green = right 3 reviews in a row, yellow = practiced, grey = new
+    const status = (w) => {
+        const last = data.last[cid(w)], card = data.cards[cid(w)];
+        if (!last && !card) return "grey";
+        if (last === "wrong") return "red";
+        return (card?.reps || 0) >= 3 ? "green" : "yellow";
+    };
+    const ORDER = ["green", "yellow", "red", "grey"];
+    const bar = () => {
+        const n = { green: 0, yellow: 0, red: 0, grey: 0 };
+        deck.words.forEach((w) => { n[status(w)] += 1; });
+        const total = deck.words.length;
+        return `<div class="vc-bar" role="img" aria-label="${T.barLabel}: ${ORDER.map((c) => `${n[c]} ${T.status[c]}`).join(", ")}">
+                ${ORDER.map((c) => `<span class="vc-bar-${c}" style="width:${(n[c] / total) * 100}%"></span>`).join("")}
+            </div>
+            <ul class="vc-legend">${ORDER.map((c) => `<li><i class="vc-dot vc-dot-${c}"></i><strong>${n[c]}</strong> ${T.status[c]}</li>`).join("")}</ul>`;
+    };
     root.innerHTML = `<a class="lesson-back" href="${T.backHref}">${T.back}</a>
         <p class="eyebrow">${T.eyebrow} · ${deck.level}</p>
         <h1>${esc(L(deck.title))}</h1>
         <p class="as-lead">${esc(L(deck.intro))}</p>
+        <div class="vc-progress" data-bar></div>
         <div class="vc-stats" data-stats></div>
         <div class="vc-tabs" role="tablist">${T.modes.map((m, i) => `<button type="button" role="tab" class="vc-tab" data-mode="${i}">${m}</button>`).join("")}</div>
         <div class="vc-stage" data-stage></div>
@@ -92,6 +113,7 @@
     const drawStats = () => {
         const due = deck.words.filter((w) => data.cards[cid(w)] && data.cards[cid(w)].due <= today()).length;
         const fresh = Math.min(NEW_PER_DAY - data.newCount, deck.words.filter((w) => !data.cards[cid(w)]).length);
+        root.querySelector("[data-bar]").innerHTML = bar();
         root.querySelector("[data-stats]").innerHTML = `<span>${T.due(due, Math.max(0, fresh))}</span><span>${T.learned(learnedCount(), deck.words.length)}</span>${streak() ? `<span>${T.streak(streak())}</span>` : ""}`;
     };
 
@@ -136,6 +158,7 @@
             rate.append(btn(`vc-grade vc-grade-${grade}`, `<strong>${label}</strong><small>${T.days(n.interval)}</small>`, () => {
                 if (!state) data.newCount += 1;
                 data.cards[cid(w)] = n;
+                data.last[cid(w)] = grade === 0 ? "wrong" : "right";
                 queue.shift();
                 if (grade === 0) queue.splice(Math.min(3, queue.length), 0, w); // comes back in this session
                 markDay(); save(); learn();
@@ -163,6 +186,8 @@
                 const b = btn("vc-pick", `<img src="${img(o)}" alt="${esc(o.word)}">`, () => {
                     const ok = o === w;
                     if (ok) right += 1;
+                    data.last[cid(w)] = ok ? "right" : "wrong";
+                    save(); drawStats();
                     b.classList.add(ok ? "is-right" : "is-wrong");
                     grid.querySelectorAll("button").forEach((x) => { x.disabled = true; });
                     grid.querySelector(`[data-word="${w.id}"]`)?.classList.add("is-right");
@@ -184,7 +209,7 @@
         stage.innerHTML = `<div class="vc-all" data-all></div>`;
         const box = stage.querySelector("[data-all]");
         deck.words.forEach((w) => {
-            const b = btn("vc-item", `<img src="${img(w)}" alt=""><strong>${esc(w.word)}</strong>${lang === "de" ? `<small>${esc(w.de)}</small>` : ""}`, () => speak(w.word, w.audio));
+            const b = btn("vc-item", `<i class="vc-dot vc-dot-${status(w)}" title="${T.status[status(w)]}"></i><img src="${img(w)}" alt=""><strong>${esc(w.word)}</strong>${lang === "de" ? `<small>${esc(w.de)}</small>` : ""}`, () => speak(w.word, w.audio));
             box.append(b);
         });
     };
@@ -197,7 +222,7 @@
     root.querySelectorAll(".vc-tab").forEach((t) => t.addEventListener("click", () => select(Number(t.dataset.mode))));
     root.querySelector("[data-reset]").addEventListener("click", () => {
         if (!confirm(T.resetQ)) return;
-        deck.words.forEach((w) => { delete data.cards[cid(w)]; });
+        deck.words.forEach((w) => { delete data.cards[cid(w)]; delete data.last[cid(w)]; });
         data.newCount = 0; save(); select(0);
     });
     select(0);
