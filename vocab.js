@@ -124,7 +124,7 @@
                 const k = VOCAB_DECKS[d];
                 const begun = k.words.some((w) => status(w, d) !== "grey");
                 return `<a class="vc-topic" href="${page}?deck=${d}">
-                    <img src="assets/vocab/${d}/${k.words[0].id}.svg" alt="">
+                    <img src="assets/vocab/${d}/${k.cover || k.words[0].id}.svg" alt="">
                     <div class="vc-topic-body">
                         <p class="vc-topic-meta">${esc(k.level)} · ${T.words(k.words.length)}</p>
                         <h2>${esc(L(k.title))}</h2>
