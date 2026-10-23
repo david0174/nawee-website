@@ -8653,3 +8653,335 @@ footer .footer-links .footer-heading {
         order: -1;
     }
 }
+
+/* footer navigation now has 9 links: 5 + 4 */
+footer .footer-links {
+    grid-template-rows: auto repeat(5, auto);
+}
+
+/* =========================
+   Typing games (spiele.html / games.html, games.js)
+   ========================= */
+.gm-tiles {
+    display: grid;
+    gap: 14px;
+    margin: 22px 0;
+}
+
+.gm-tile {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    background: var(--white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+}
+
+.gm-tile:hover {
+    border-color: var(--blue);
+    box-shadow: 0 10px 24px rgba(13, 47, 130, .1);
+    transform: translateY(-2px);
+}
+
+.gm-tile-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    font-size: 2rem;
+}
+
+.gm-tile-body {
+    display: grid;
+    gap: 4px;
+    color: var(--muted);
+}
+
+.gm-tile-body strong {
+    color: var(--blue-dark);
+    font-size: 1.25rem;
+}
+
+.gm-tile-best {
+    color: var(--blue);
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.gm-tile-go {
+    color: var(--blue);
+    font-weight: 800;
+}
+
+.gm-label {
+    margin: 18px 0 8px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+.gm-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gm-choice {
+    display: grid;
+    gap: 2px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.gm-choice small {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.gm-choice.is-on {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+    box-shadow: inset 0 -4px 0 var(--yellow);
+}
+
+.gm-start {
+    margin: 22px 0 8px;
+}
+
+.gm-best {
+    color: var(--blue-dark);
+}
+
+.gm-track {
+    display: grid;
+    gap: 8px;
+    margin: 12px 0 16px;
+    padding: 14px;
+    border-radius: 16px;
+    background: #2f3b4f;
+}
+
+.gm-lane {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.gm-road {
+    position: relative;
+    height: 34px;
+    border-bottom: 2px dashed rgba(255, 255, 255, .35);
+}
+
+.gm-car {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 1.7rem;
+    line-height: 1;
+    transform: scaleX(-1);
+    transition: left .15s linear;
+}
+
+.gm-flag {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    font-size: 1.3rem;
+}
+
+.gm-lane:first-child .gm-name {
+    color: var(--yellow);
+}
+
+.gm-count {
+    margin: 0 0 8px;
+    color: var(--blue);
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.gm-text {
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #f6f8fc;
+    color: #8a94a6;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.gm-done {
+    color: #1e7a48;
+}
+
+.gm-wrong {
+    background: #f8c9c9;
+    color: #8f2f2f;
+}
+
+.gm-cur {
+    border-bottom: 3px solid var(--blue);
+    color: var(--blue-dark);
+}
+
+.gm-from {
+    margin: 6px 0 12px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.gm-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--blue);
+    border-radius: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 1.15rem;
+    outline: none;
+}
+
+.gm-input:focus {
+    box-shadow: 0 0 0 4px rgba(245, 197, 66, .45);
+}
+
+.gm-input:disabled {
+    border-color: var(--line);
+    background: #f6f8fc;
+}
+
+.gm-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 14px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.gm-stats strong {
+    color: var(--blue-dark);
+    font-size: 1.4rem;
+}
+
+.gm-result,
+.gm-over {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: var(--blue-soft);
+    border-left: 5px solid var(--yellow);
+    color: var(--ink, #1c2633);
+}
+
+.gm-place {
+    margin: 0 0 6px;
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.gm-new {
+    color: #1e7a48;
+    font-weight: 800;
+}
+
+.gm-hud {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: var(--blue-dark);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.gm-sky {
+    position: relative;
+    height: 380px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #0d2f82 0%, #1554c0 70%, #3d7be0 100%);
+    transition: box-shadow .2s;
+}
+
+.gm-sky.is-hit {
+    box-shadow: inset 0 0 0 6px #d64545;
+}
+
+.gm-ground {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    background: repeating-linear-gradient(90deg, #f5c542 0 20px, #e9b52f 20px 40px);
+}
+
+.gm-drop {
+    position: absolute;
+    padding: 6px 12px;
+    border-radius: 99px;
+    background: #fff;
+    color: var(--blue-dark);
+    font-weight: 800;
+    white-space: nowrap;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .2);
+}
+
+.gm-drop.is-match {
+    background: var(--yellow);
+}
+
+.gm-drop.is-pop {
+    animation: gm-pop .3s ease forwards;
+}
+
+@keyframes gm-pop {
+    to { opacity: 0; transform: scale(1.6); }
+}
+
+.gm-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(90%, 360px);
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+.gm-missed {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+@media (max-width: 560px) {
+    .gm-tile {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .gm-tile-go {
+        display: none;
+    }
+
+    .gm-sky {
+        height: 300px;
+    }
+}

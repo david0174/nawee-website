@@ -29,6 +29,7 @@
     const PROFILE_KEY = "nawee-profile-v1"; // answers from the "get started" questions (start.html; synced inside `course.profile`)
     const VOCAB_KEY = "nawee-vocab-v1"; // picture cards (vocab.js; synced inside `course.vocab`)
     const READING_KEY = "nawee-reading-v1"; // reading texts (reading.js; synced inside `course.reading`)
+    const GAMES_KEY = "nawee-games-v1"; // typing games (games.js; synced inside `course.games`)
     const WORK_KEY = "nawee-work-course-v1"; // "English from the start" lessons (speak-lesson.js; synced inside `course.work`)
     const RELOAD_FLAG = "nawee-synced-reload";
 
@@ -194,7 +195,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), work: read(WORK_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), work: read(WORK_KEY), games: read(GAMES_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -203,7 +204,7 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, work: rw = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, work: rw = {}, games: rg = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
@@ -215,6 +216,9 @@
         write(READING_KEY, mr);
         const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed) };
         write(WORK_KEY, mw);
+        const lg = read(GAMES_KEY), best = { ...(rg.best || {}) };
+        Object.entries(lg.best || {}).forEach(([k, v]) => { best[k] = Math.max(v, best[k] || 0); });
+        write(GAMES_KEY, { best, days: union(lg.days, rg.days).sort().slice(-400) });
         const lp = read(PROFILE_KEY);
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
@@ -400,7 +404,7 @@
     };
     // all days with any learning activity (lessons/trophies, picture cards, reading)
     const activeDays = () => {
-        const days = new Set([...(read(TROPHY_KEY).days || []), ...(read(VOCAB_KEY).days || [])]);
+        const days = new Set([...(read(TROPHY_KEY).days || []), ...(read(VOCAB_KEY).days || []), ...(read(GAMES_KEY).days || [])]);
         Object.values(read(READING_KEY).done || {}).forEach((r) => r.date && days.add(r.date));
         return days;
     };
