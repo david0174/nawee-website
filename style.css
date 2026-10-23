@@ -9629,3 +9629,8 @@ footer .footer-links {
 .sl-ambience input {
     accent-color: var(--blue);
 }
+
+/* combined "Über Nawee" page: mission → who's behind it → our path */
+.mission-after {
+    padding-top: 0;
+}
