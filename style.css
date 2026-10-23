@@ -9045,3 +9045,38 @@ footer .footer-links {
 .gm-stats > .gm-words {
     flex-basis: 100%;
 }
+
+/* Word & Meaning */
+.gm-def {
+    display: grid;
+    gap: 12px;
+}
+
+.gm-def-count {
+    margin: 0;
+    color: var(--blue);
+    font-weight: 800;
+}
+
+.gm-def-bar span {
+    transition: width .3s ease;
+}
+
+.gm-def-img {
+    justify-self: center;
+    width: min(220px, 60vw);
+    border-radius: 16px;
+}
+
+.gm-def-line {
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.gm-def-de {
+    min-height: 1.5em;
+    margin: 0;
+    color: #1e7a48;
+    font-weight: 700;
+    text-align: center;
+}

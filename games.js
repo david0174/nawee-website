@@ -18,7 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        typeWord: "Wort tippen …", missed: "Verpasst:", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
+        typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key - it opens a lock“. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "GAMES", title: "Games", lead: "Type English, get faster, remember words – with texts and words from your course.",
@@ -29,7 +29,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        typeWord: "Type the word …", missed: "Missed:", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
+        typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key - it opens a lock”. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
 
@@ -48,7 +48,7 @@
     const game = new URLSearchParams(location.search).get("g");
 
     // ---------- overview ----------
-    if (game !== "race" && game !== "rain") {
+    if (!["race", "rain", "define"].includes(game)) {
         document.title = `${T.title} | Nawee`;
         const tile = (g, icon, title, text, best) => `<a class="gm-tile" href="${page}?g=${g}">
             <span class="gm-tile-icon" aria-hidden="true">${icon}</span>
@@ -60,6 +60,7 @@
             <div class="gm-tiles">
                 ${tile("race", "🏁", T.race, T.raceText, data.best.race ? `${data.best.race} ${T.wpm}` : "")}
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
+                ${tile("define", "📝", T.define, T.defineText, data.best.define ? `${data.best.define} ${T.wpm}` : "")}
             </div>
             <p class="as-disclaimer">${T.privacy}</p>`;
         return;
@@ -175,6 +176,81 @@
             }, 800);
         };
         setup();
+        return;
+    }
+
+    // ---------- Word & Meaning: type "word - short definition", 10 items ----------
+    if (game === "define") {
+        document.title = `${T.define} – ${T.title} | Nawee`;
+        const pool = typeof VOCAB_DECKS === "undefined" ? [] : Object.entries(VOCAB_DECKS).flatMap(([d, deck]) =>
+            deck.words.filter((w) => w.def).map((w) => ({ ...w, img: `assets/vocab/${d}/${w.id}.svg`, line: plain(`${w.word} - ${w.def}`) })));
+        const play = () => {
+            const items = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+            let i = 0, chars = 0, keys = 0, mistakes = 0, t0 = 0;
+            root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><h1>📝 ${T.define}</h1>
+                <div class="gm-def">
+                    <p class="gm-def-count" data-count></p>
+                    <span class="dash-bar gm-def-bar"><span data-bar style="width:0%"></span></span>
+                    <img class="gm-def-img" data-img alt="">
+                    <div class="gm-text gm-def-line" data-text></div>
+                    <input class="gm-input" data-input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}">
+                    <p class="gm-def-de" data-de></p>
+                </div>
+                <div class="gm-stats" data-stats></div>`;
+            const box = root.querySelector("[data-text]"), input = root.querySelector("[data-input]");
+            let text = "", typed = "";
+            const draw = () => {
+                let ok = 0; while (ok < typed.length && typed[ok] === text[ok]) ok += 1;
+                const bad = typed.slice(ok);
+                box.innerHTML = `<span class="gm-done">${esc(text.slice(0, ok))}</span>${bad ? `<span class="gm-wrong">${esc(text.slice(ok, ok + bad.length) || " ")}</span>` : ""}<span class="gm-cur">${esc(text.charAt(ok + bad.length))}</span>${esc(text.slice(ok + bad.length + 1))}`;
+            };
+            const show = () => {
+                const w = items[i];
+                text = w.line; typed = ""; input.value = "";
+                root.querySelector("[data-count]").textContent = T.item(i + 1, items.length);
+                root.querySelector("[data-bar]").style.width = `${(i / items.length) * 100}%`;
+                root.querySelector("[data-img]").src = w.img;
+                root.querySelector("[data-de]").innerHTML = "&nbsp;";
+                draw();
+                input.focus();
+            };
+            const finish = () => {
+                const secs = (performance.now() - t0) / 1000;
+                const wpm = Math.round((chars / 5) / (secs / 60));
+                const acc = keys ? Math.round(((keys - mistakes) / keys) * 100) : 100;
+                const newBest = wpm > (data.best.define || 0);
+                if (newBest) data.best.define = wpm;
+                save();
+                root.querySelector("[data-bar]").style.width = "100%";
+                input.disabled = true;
+                root.querySelector("[data-stats]").innerHTML = `<div class="gm-result">
+                    <p class="gm-place">${T.round} ✓</p>
+                    <p><strong>${wpm}</strong> ${T.wpmLong} · <strong>${acc}%</strong> ${T.acc} · <strong>${Math.round(secs)}</strong> ${T.sec}${newBest ? ` · <span class="gm-new">${T.newBest}</span>` : ""}</p>
+                    <button type="button" class="button primary" data-again>${T.again}</button>
+                </div>
+                <div class="gm-words"><h2>${T.typed}</h2><dl>${items.map((w) => `<div><dt>${esc(w.word)}</dt><dd>${esc(w.def)}${de ? ` · <em>${esc(w.de)}</em>` : ""}</dd></div>`).join("")}</dl></div>`;
+                root.querySelector("[data-again]").addEventListener("click", play);
+            };
+            input.addEventListener("input", () => {
+                if (!t0) t0 = performance.now();
+                const before = typed;
+                typed = input.value;
+                if (typed.length > before.length) {
+                    keys += 1;
+                    if (text.slice(0, typed.length) !== typed && text.slice(0, before.length) === before) mistakes += 1;
+                }
+                draw();
+                if (typed === text) {
+                    chars += text.length + 1;
+                    root.querySelector("[data-de]").textContent = de ? `${T.german}: ${items[i].de}` : "✓";
+                    i += 1;
+                    input.disabled = true;
+                    setTimeout(() => { input.disabled = false; if (i >= items.length) finish(); else show(); }, de ? 700 : 300);
+                }
+            });
+            show();
+        };
+        play();
         return;
     }
 
