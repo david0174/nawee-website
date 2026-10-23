@@ -8021,3 +8021,81 @@ footer .footer-links .footer-heading {
     top: 10px;
     right: 10px;
 }
+
+/* picture cards overview: one card per topic with its bar */
+.vc-overall {
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: var(--blue-soft);
+}
+
+.vc-overall-label {
+    margin: 0 0 8px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+.vc-topics {
+    display: grid;
+    gap: 14px;
+    margin: 22px 0;
+}
+
+.vc-topic {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+    padding: 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    background: var(--white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.vc-topic:hover {
+    border-color: var(--blue);
+    box-shadow: 0 10px 24px rgba(13, 47, 130, .08);
+}
+
+.vc-topic img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.vc-topic h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+}
+
+.vc-topic-meta {
+    margin: 0 0 2px;
+    color: var(--blue);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.vc-topic .vc-legend {
+    font-size: .8rem;
+}
+
+.vc-topic-go {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--blue);
+    font-weight: 700;
+}
+
+@media (max-width: 560px) {
+    .vc-topic {
+        grid-template-columns: 1fr;
+    }
+
+    .vc-topic img {
+        max-width: 220px;
+    }
+}

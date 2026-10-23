@@ -22,6 +22,8 @@
         score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird nur in diesem Browser gespeichert.",
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
         status: { green: "sicher", yellow: "geübt", red: "zuletzt falsch", grey: "neu" }, barLabel: "Dein Stand bei diesem Thema",
+        allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
+        overall: "Alle Themen zusammen", words: (n) => `${n} Wörter`, practice: "Üben", start: "Starten", topics: "← Alle Themen",
     } : {
         back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
         due: (d, n) => `Today: ${d} to review · ${n} new`, learned: (a, b) => `${a} of ${b} words learned`,
@@ -33,11 +35,15 @@
         score: (r, t) => `${r} of ${t} correct`, again: "Again", privacy: "Your progress is saved in this browser only.",
         reset: "Reset progress", resetQ: "Delete your progress for these cards?", tip: "Tip: say it out loud first, then flip – that’s what makes the word stick.",
         status: { green: "mastered", yellow: "practiced", red: "last answer wrong", grey: "new" }, barLabel: "Your progress in this topic",
+        allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
+        overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
     };
 
-    const deckId = new URLSearchParams(location.search).get("deck") || "office";
+    const deckParam = new URLSearchParams(location.search).get("deck");
+    const deckId = deckParam || "office";
     const deck = VOCAB_DECKS[deckId];
     if (!deck) { root.innerHTML = `<p><a href="${T.backHref}">${T.back}</a></p>`; return; }
+    const page = lang === "de" ? "vokabeln.html" : "vocabulary.html";
     document.title = `${L(deck.title)} – ${lang === "de" ? "Bildkarten" : "Picture cards"} | Nawee`;
     const img = (w) => `assets/vocab/${deckId}/${w.id}.svg`;
 
@@ -84,23 +90,51 @@
     const learnedCount = () => deck.words.filter((w) => (data.cards[cid(w)]?.reps || 0) > 0).length;
 
     // traffic light per word: red = last answer wrong, green = right 3 reviews in a row, yellow = practiced, grey = new
-    const status = (w) => {
-        const last = data.last[cid(w)], card = data.cards[cid(w)];
+    const status = (w, d = deckId) => {
+        const key = `${d}/${w.id}`;
+        const last = data.last[key], card = data.cards[key];
         if (!last && !card) return "grey";
         if (last === "wrong") return "red";
         return (card?.reps || 0) >= 3 ? "green" : "yellow";
     };
     const ORDER = ["green", "yellow", "red", "grey"];
-    const bar = () => {
+    const bar = (list = deck.words.map((w) => [w, deckId])) => {
         const n = { green: 0, yellow: 0, red: 0, grey: 0 };
-        deck.words.forEach((w) => { n[status(w)] += 1; });
-        const total = deck.words.length;
+        list.forEach(([w, d]) => { n[status(w, d)] += 1; });
+        const total = list.length;
         return `<div class="vc-bar" role="img" aria-label="${T.barLabel}: ${ORDER.map((c) => `${n[c]} ${T.status[c]}`).join(", ")}">
                 ${ORDER.map((c) => `<span class="vc-bar-${c}" style="width:${(n[c] / total) * 100}%"></span>`).join("")}
             </div>
             <ul class="vc-legend">${ORDER.map((c) => `<li><i class="vc-dot vc-dot-${c}"></i><strong>${n[c]}</strong> ${T.status[c]}</li>`).join("")}</ul>`;
     };
-    root.innerHTML = `<a class="lesson-back" href="${T.backHref}">${T.back}</a>
+    // ---------- overview: all topics, each with its traffic-light bar ----------
+    if (!deckParam && Object.keys(VOCAB_DECKS).length > 1) {
+        const ids = Object.keys(VOCAB_DECKS);
+        const all = ids.flatMap((d) => VOCAB_DECKS[d].words.map((w) => [w, d]));
+        document.title = `${T.allTitle} | Nawee`;
+        root.innerHTML = `<a class="lesson-back" href="${T.backHref}">${T.back}</a>
+            <p class="eyebrow">${T.eyebrow}</p>
+            <h1>${T.allTitle}</h1>
+            <p class="as-lead">${T.allLead}</p>
+            <div class="vc-progress vc-overall"><p class="vc-overall-label">${T.overall}</p>${bar(all)}</div>
+            <div class="vc-topics">${ids.map((d) => {
+                const k = VOCAB_DECKS[d];
+                const begun = k.words.some((w) => status(w, d) !== "grey");
+                return `<a class="vc-topic" href="${page}?deck=${d}">
+                    <img src="assets/vocab/${d}/${k.words[0].id}.svg" alt="">
+                    <div class="vc-topic-body">
+                        <p class="vc-topic-meta">${esc(k.level)} · ${T.words(k.words.length)}</p>
+                        <h2>${esc(L(k.title))}</h2>
+                        ${bar(k.words.map((w) => [w, d]))}
+                        <span class="vc-topic-go">${begun ? T.practice : T.start} →</span>
+                    </div>
+                </a>`;
+            }).join("")}</div>
+            <p class="as-disclaimer">${T.privacy}</p>`;
+        return;
+    }
+
+    root.innerHTML = `<a class="lesson-back" href="${Object.keys(VOCAB_DECKS).length > 1 ? page : T.backHref}">${Object.keys(VOCAB_DECKS).length > 1 ? T.topics : T.back}</a>
         <p class="eyebrow">${T.eyebrow} · ${deck.level}</p>
         <h1>${esc(L(deck.title))}</h1>
         <p class="as-lead">${esc(L(deck.intro))}</p>
