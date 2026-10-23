@@ -22,6 +22,7 @@
         score: (r, t) => `${r} von ${t} richtig`, again: "Nochmal", privacy: "Dein Lernstand wird in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto, auf allen Geräten.",
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
         status: { green: "sicher", yellow: "geübt", red: "zuletzt falsch", grey: "neu" }, barLabel: "Dein Stand bei diesem Thema",
+        weakTitle: "Meine schwächsten Wörter", weakIntro: "Deine roten und unsicheren Wörter aus allen Themen – in einer Runde. Wer hier übt, macht am schnellsten Fortschritte.", weakEmpty: "Noch keine schwachen Wörter – übe erst ein paar Bildkarten, dann sammeln sich hier die Wörter, die du noch wiederholen solltest.", weakCard: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} aus allen Themen, die du noch wiederholen solltest`, weakGo: "Jetzt wiederholen",
         allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
         overall: "Alle Themen zusammen", words: (n) => `${n} Wörter`, practice: "Üben", start: "Starten", topics: "← Alle Themen",
     } : {
@@ -35,17 +36,19 @@
         score: (r, t) => `${r} of ${t} correct`, again: "Again", privacy: "Your progress is saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too, on all your devices.",
         reset: "Reset progress", resetQ: "Delete your progress for these cards?", tip: "Tip: say it out loud first, then flip – that’s what makes the word stick.",
         status: { green: "mastered", yellow: "practiced", red: "last answer wrong", grey: "new" }, barLabel: "Your progress in this topic",
+        weakTitle: "My weakest words", weakIntro: "Your red and shaky words from all topics – in one round. Practicing here is the fastest way to make progress.", weakEmpty: "No weak words yet – practice some picture cards first, then the words you should review will collect here.", weakCard: (n) => `${n} ${n === 1 ? "word" : "words"} from all topics you should review`, weakGo: "Review now",
         allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
         overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
     };
 
     const deckParam = new URLSearchParams(location.search).get("deck");
     const deckId = deckParam || "office";
-    const deck = VOCAB_DECKS[deckId];
+    const weakMode = deckParam === "weak"; // personal deck: weakest words from all topics
+    const deck = weakMode ? { title: { de: T.weakTitle, en: T.weakTitle }, level: "★", intro: { de: T.weakIntro, en: T.weakIntro }, words: [] } : VOCAB_DECKS[deckId];
     if (!deck) { root.innerHTML = `<p><a href="${T.backHref}">${T.back}</a></p>`; return; }
     const page = lang === "de" ? "vokabeln.html" : "vocabulary.html";
     document.title = `${L(deck.title)} – ${lang === "de" ? "Bildkarten" : "Picture cards"} | Nawee`;
-    const img = (w) => `assets/vocab/${deckId}/${w.id}.svg`;
+    const img = (w) => `assets/vocab/${w._deck || deckId}/${w.id}.svg`;
 
     // ---------- storage ----------
     const today = () => new Date().toISOString().slice(0, 10);
@@ -56,7 +59,7 @@
         try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ }
         window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
     };
-    const cid = (w) => `${deckId}/${w.id}`;
+    const cid = (w) => `${w._deck || deckId}/${w.id}`;
     if (data.newDay !== today()) { data.newDay = today(); data.newCount = 0; }
 
     // ---------- scheduling (simplified SM-2, as used by Anki) ----------
@@ -94,13 +97,22 @@
 
     // traffic light per word: red = last answer wrong, green = right 3 reviews in a row, yellow = practiced, grey = new
     const status = (w, d = deckId) => {
-        const key = `${d}/${w.id}`;
+        const key = `${w._deck || d}/${w.id}`;
         const last = data.last[key], card = data.cards[key];
         if (!last && !card) return "grey";
         if (last === "wrong") return "red";
         return (card?.reps || 0) >= 3 ? "green" : "yellow";
     };
     const ORDER = ["green", "yellow", "red", "grey"];
+    // weakest words from all topics: red first, then yellow with the fewest successful reviews (max. 20)
+    const weakWords = () => Object.entries(VOCAB_DECKS)
+        .flatMap(([d, k]) => k.words.map((w) => ({ ...w, _deck: d })))
+        .filter((w) => ["red", "yellow"].includes(status(w)))
+        .sort((a, b) => (status(a) === "red" ? 0 : 1) - (status(b) === "red" ? 0 : 1)
+            || (data.cards[cid(a)]?.reps || 0) - (data.cards[cid(b)]?.reps || 0)
+            || (data.cards[cid(a)]?.ease || 2.5) - (data.cards[cid(b)]?.ease || 2.5))
+        .slice(0, 20);
+    if (weakMode) deck.words = weakWords();
     const bar = (list = deck.words.map((w) => [w, deckId])) => {
         const n = { green: 0, yellow: 0, red: 0, grey: 0 };
         list.forEach(([w, d]) => { n[status(w, d)] += 1; });
@@ -120,6 +132,18 @@
             <h1>${T.allTitle}</h1>
             <p class="as-lead">${T.allLead}</p>
             <div class="vc-progress vc-overall"><p class="vc-overall-label">${T.overall}</p>${bar(all)}</div>
+            ${(() => {
+                const weak = weakWords();
+                return weak.length ? `<a class="vc-topic vc-weak" href="${page}?deck=weak">
+                    <span class="vc-weak-icon" aria-hidden="true">🎯</span>
+                    <div class="vc-topic-body">
+                        <h2>${T.weakTitle}</h2>
+                        <p class="vc-weak-text">${T.weakCard(weak.length)}</p>
+                        ${bar(weak.map((w) => [w, w._deck]))}
+                        <span class="vc-topic-go">${T.weakGo} →</span>
+                    </div>
+                </a>` : "";
+            })()}
             <div class="vc-topics">${ids.map((d) => {
                 const k = VOCAB_DECKS[d];
                 const begun = k.words.some((w) => status(w, d) !== "grey");
@@ -147,6 +171,11 @@
         <div class="vc-stage" data-stage></div>
         <p class="as-disclaimer">${T.privacy} <button type="button" class="link-button" data-reset>${T.reset}</button></p>`;
     const stage = root.querySelector("[data-stage]");
+    if (weakMode && !deck.words.length) {
+        root.querySelector(".vc-tabs").hidden = true;
+        stage.innerHTML = `<div class="vc-done"><p class="vc-done-icon" aria-hidden="true">🎯</p><p>${T.weakEmpty}</p><a class="button primary" href="${page}">${T.topics.replace("← ", "")} →</a></div>`;
+        return;
+    }
     const drawStats = () => {
         const due = deck.words.filter((w) => data.cards[cid(w)] && data.cards[cid(w)].due <= today()).length;
         const fresh = Math.min(NEW_PER_DAY - data.newCount, deck.words.filter((w) => !data.cards[cid(w)]).length);
@@ -157,6 +186,7 @@
     // ---------- mode 1: learn (spaced repetition) ----------
     let queue = [];
     const buildQueue = () => {
+        if (weakMode) { queue = [...deck.words]; return; } // practice all weak words now, due or not
         const due = deck.words.filter((w) => data.cards[cid(w)] && data.cards[cid(w)].due <= today());
         const fresh = deck.words.filter((w) => !data.cards[cid(w)]).slice(0, Math.max(0, NEW_PER_DAY - data.newCount));
         queue = [...due, ...fresh];

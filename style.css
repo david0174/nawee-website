@@ -9634,3 +9634,26 @@ footer .footer-links {
 .mission-after {
     padding-top: 0;
 }
+
+/* picture cards: personal "weakest words" deck */
+.vc-weak {
+    grid-template-columns: 70px minmax(0, 1fr);
+    margin-top: 22px;
+    border: 2px solid #d64545;
+    background: linear-gradient(135deg, #fff, #fdf0f0);
+}
+
+.vc-weak-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: #fdf0f0;
+    font-size: 2rem;
+}
+
+.vc-weak-text {
+    margin: 0 0 10px;
+    color: var(--muted);
+}
