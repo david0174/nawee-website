@@ -220,7 +220,8 @@
     // greeting: the first name from the sign-up form or from Google; older accounts without one fall back to the username
     const firstName = () => {
         const m = (user && user.user_metadata) || {};
-        return (m.first_name || m.given_name || String(m.full_name || m.name || "").trim().split(/\s+/)[0] || "").trim();
+        const n = (m.first_name || m.given_name || String(m.full_name || m.name || "").trim().split(/\s+/)[0] || "").trim();
+        return n.charAt(0).toLocaleUpperCase() + n.slice(1); // "david" → "David"
     };
     const profileName = async () => {
         const { data } = await db.from("profiles").select("username").eq("id", user.id).maybeSingle();
