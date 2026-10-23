@@ -9275,3 +9275,26 @@ footer .footer-links {
 .theme-fall .path-chooser {
     border-top: 6px solid #e8892b;
 }
+
+/* hero subtext: bigger, darker, easier to read (and clear of the fall leaves) */
+.hero-copy .hero-text {
+    max-width: 560px;
+    color: var(--blue-dark);
+    font-size: clamp(1.08rem, 1.6vw, 1.22rem);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.theme-fall .hero-copy .hero-text {
+    padding: 14px 18px;
+    border-left: 4px solid #e8892b;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 8px 24px rgba(184, 69, 42, .08);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.theme-fall .fall-leaf {
+    opacity: .7;
+}
