@@ -8985,3 +8985,63 @@ footer .footer-links {
         height: 300px;
     }
 }
+
+/* typing race: word meanings after the race */
+.gm-words {
+    margin-top: 16px;
+    padding: 18px 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+}
+
+.gm-words h2 {
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+}
+
+.gm-words dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 18px;
+    margin: 0;
+}
+
+.gm-words dl > div {
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #f6f8fc;
+    color: var(--muted);
+}
+
+.gm-words dl > div.is-typed {
+    background: var(--blue-soft);
+    box-shadow: inset 4px 0 0 var(--yellow);
+}
+
+.gm-words dt {
+    color: var(--blue-dark);
+    font-weight: 800;
+}
+
+.gm-words dd {
+    margin: 2px 0 0;
+    font-size: .92rem;
+}
+
+.gm-read {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--blue);
+    font-weight: 700;
+}
+
+@media (max-width: 560px) {
+    .gm-words dl {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.gm-stats > .gm-words {
+    flex-basis: 100%;
+}

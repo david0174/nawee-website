@@ -18,7 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        typeWord: "Wort tippen …", missed: "Verpasst:",
+        typeWord: "Wort tippen …", missed: "Verpasst:", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "GAMES", title: "Games", lead: "Type English, get faster, remember words – with texts and words from your course.",
@@ -29,7 +29,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        typeWord: "Type the word …", missed: "Missed:",
+        typeWord: "Type the word …", missed: "Missed:", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
 
@@ -69,7 +69,7 @@
     if (game === "race") {
         document.title = `${T.race} – ${T.title} | Nawee`;
         const sentences = (typeof READINGS === "undefined" ? [] : READINGS).flatMap((r) =>
-            r.paragraphs.map((p) => ({ text: plain(p), from: r.title })).filter((x) => x.text.length >= 90 && x.text.length <= 260));
+            r.paragraphs.map((p) => ({ text: plain(p), from: r.title, reading: r })).filter((x) => x.text.length >= 90 && x.text.length <= 260));
         const BOTS = [[14, 24], [22, 36], [34, 55]]; // WPM of Tom and Ben per level
         let level = 1;
         const setup = () => {
@@ -115,8 +115,19 @@
                 const wpm = Math.round((pos / 5) / Math.max(minutes(), 0.01));
                 root.querySelector("[data-stats]").innerHTML = `<span><strong>${pos ? wpm : 0}</strong> ${T.wpm}</span><span><strong>${keys ? Math.round(((keys - mistakes) / keys) * 100) : 100}%</strong> ${T.acc}</span>`;
             };
+            // after the race: the meanings of the words from this text (the ones in the typed part first)
+            const glossary = () => {
+                const r = pick.reading;
+                if (!r || !r.glossary) return "";
+                const lower = text.toLowerCase();
+                const entries = Object.entries(r.glossary).sort(([a], [b]) => lower.includes(b.toLowerCase()) - lower.includes(a.toLowerCase()));
+                return `<div class="gm-words"><h2>${T.words}</h2>
+                    <dl>${entries.map(([w, g]) => `<div${lower.includes(w.toLowerCase()) ? ' class="is-typed"' : ""}><dt>${esc(w)}</dt><dd>${esc(de ? g.de : g.en)}</dd></div>`).join("")}</dl>
+                    <a class="gm-read" href="${T.readPage}?t=${r.id}">${T.readAll}</a></div>`;
+            };
             const end = () => {
                 clearInterval(timer);
+                move(0, 1);
                 youDone = true; input.disabled = true;
                 const wpm = Math.round((text.length / 5) / minutes());
                 const acc = keys ? Math.round(((keys - mistakes) / keys) * 100) : 100;
@@ -128,7 +139,7 @@
                     <p class="gm-place">${T.place[place]}</p>
                     <p><strong>${wpm}</strong> ${T.wpmLong} · <strong>${acc}%</strong> ${T.acc}${newBest ? ` · <span class="gm-new">${T.newBest}</span>` : ""}</p>
                     <button type="button" class="button primary" data-again>${T.again}</button>
-                </div>`;
+                </div>${glossary()}`;
                 root.querySelector("[data-again]").addEventListener("click", race);
             };
             input.addEventListener("input", () => {
