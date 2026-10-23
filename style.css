@@ -9614,3 +9614,18 @@ footer .footer-links {
 .gm-volume input {
     accent-color: var(--blue);
 }
+
+/* lesson dialogue: background sounds on/off */
+.sl-ambience {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sl-ambience input {
+    accent-color: var(--blue);
+}

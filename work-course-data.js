@@ -14,7 +14,8 @@ const WORK_MODULES = [
 
 const WORK_LESSONS = {
     "1-1": {
-        recorded: true, // all lines spoken by David (audio/work/1-1)
+        recorded: true, // Tom's lines, questions and phrases spoken by David (audio/work/1-1); Sarah = browser voice (female) until a woman records her
+        note: { de: "Gesprochen von David Nawee, Muttersprachler aus den USA – Sarahs Stimme kommt vorerst vom Browser.", en: "Spoken by David Nawee, a native speaker from the US – Sarah’s voice comes from your browser for now." },
         goal: {
             de: "Du kannst dich auf Englisch vorstellen: Name, Herkunft, Beruf – und die Frage zurückgeben.",
             en: "You can introduce yourself in English: your name, where you’re from, your job – and ask back.",
@@ -25,13 +26,14 @@ const WORK_LESSONS = {
         },
         // 1. Listen: a short dialogue (speaker A / B get different voices)
         dialogue: {
+            ambience: "office", // background sounds (ambience.js)
             situation: { de: "Erster Tag im neuen Job. Sarah begrüßt Tom in der Küche im Büro.", en: "First day at a new job. Sarah greets Tom in the office kitchen." },
             lines: [
-                { who: "Sarah", voice: "a", text: "Hi! I’m Sarah. I work in marketing.", audio: "audio/work/1-1/d1.m4a" },
+                { who: "Sarah", voice: "a", text: "Hi! I’m Sarah. I work in marketing." },
                 { who: "Tom", voice: "b", text: "Hello, Sarah. Nice to meet you. I’m Tom.", audio: "audio/work/1-1/d2.m4a" },
-                { who: "Sarah", voice: "a", text: "Nice to meet you too, Tom. Where are you from?", audio: "audio/work/1-1/d3.m4a" },
+                { who: "Sarah", voice: "a", text: "Nice to meet you too, Tom. Where are you from?" },
                 { who: "Tom", voice: "b", text: "I’m from Germany. I’m the new engineer.", audio: "audio/work/1-1/d4.m4a" },
-                { who: "Sarah", voice: "a", text: "Welcome to the team!", audio: "audio/work/1-1/d5.m4a" },
+                { who: "Sarah", voice: "a", text: "Welcome to the team!" },
                 { who: "Tom", voice: "b", text: "Thank you!", audio: "audio/work/1-1/d6.m4a" },
             ],
         },
@@ -76,13 +78,13 @@ const WORK_LESSONS = {
         roleplay: {
             situation: { de: "Du bist neu im Team. Sarah spricht dich an – antworte laut.", en: "You’re new on the team. Sarah talks to you – answer out loud." },
             turns: [
-                { voice: "a", text: "Hi! I’m Sarah. I work in marketing.", audio: "audio/work/1-1/d1.m4a" },
+                { voice: "a", text: "Hi! I’m Sarah. I work in marketing." },
                 { you: { de: "Stell dich vor + „Nice to meet you“", en: "Introduce yourself + “Nice to meet you”" }, model: "Hi, Sarah. I’m … Nice to meet you." },
-                { voice: "a", text: "Nice to meet you too! Where are you from?", audio: "audio/work/1-1/rp1.m4a" },
+                { voice: "a", text: "Nice to meet you too! Where are you from?" },
                 { you: { de: "Sag, woher du kommst", en: "Say where you’re from" }, model: "I’m from … And you?" },
-                { voice: "a", text: "I’m from London. What do you do?", audio: "audio/work/1-1/rp2.m4a" },
+                { voice: "a", text: "I’m from London. What do you do?" },
                 { you: { de: "Sag, was du beruflich machst", en: "Say what you do" }, model: "I’m a … / I work in …" },
-                { voice: "a", text: "Great! Welcome to the team!", audio: "audio/work/1-1/rp3.m4a" },
+                { voice: "a", text: "Great! Welcome to the team!" },
                 { you: { de: "Bedank dich", en: "Say thank you" }, model: "Thank you!" },
             ],
         },
@@ -102,6 +104,7 @@ const WORK_LESSONS = {
             en: "Listen to the conversation first, without reading along. Listen for three things: When? What time? Where?",
         },
         dialogue: {
+            ambience: "home", // background sounds (ambience.js)
             situation: { de: "Ben ruft am Donnerstagabend seinen Freund Tom an.", en: "Ben calls his friend Tom on Thursday evening." },
             lines: [
                 { who: "Ben", voice: "c", text: "Hi Tom! Are you free this weekend?" },
@@ -175,6 +178,7 @@ const WORK_LESSONS = {
             en: "Listen to the conversation without reading along. Listen for the letters and numbers – feel free to write them down.",
         },
         dialogue: {
+            ambience: "outdoor", // background sounds (ambience.js)
             situation: { de: "Tom macht bei Bens Fußballteam mit. Ben schreibt seine Daten für die Teamliste auf.", en: "Tom is joining Ben’s soccer team. Ben writes down his details for the team list." },
             lines: [
                 { who: "Ben", voice: "c", text: "Tom, I need your details for the team list. What’s your last name?" },
@@ -254,6 +258,7 @@ const WORK_LESSONS = {
             en: "Listen to the conversation without reading along. Listen for: Where do the families live? How many brothers and sisters do Tom and Ben have?",
         },
         dialogue: {
+            ambience: "home", // background sounds (ambience.js)
             situation: { de: "Ben besucht Tom zum ersten Mal in seiner neuen Wohnung in Chicago.", en: "Ben visits Tom in his new apartment in Chicago for the first time." },
             lines: [
                 { who: "Ben", voice: "c", text: "Nice apartment! Do you live here alone?" },

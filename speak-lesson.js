@@ -12,7 +12,7 @@
     const T = lang === "de" ? {
         back: "← Dein Lernweg", backHref: "fuer-mich.html", course: "ENGLISCH VON ANFANG AN · A1", lesson: "LEKTION",
         goal: "Ziel", steps: ["Hören", "Verstehen", "Nachsprechen", "Laute", "Antworten", "Rollenspiel"],
-        playAll: "Gespräch anhören", stop: "Stopp", showText: "Text anzeigen", hideText: "Text ausblenden",
+        playAll: "Gespräch anhören", stop: "Stopp", showText: "Text anzeigen", hideText: "Text ausblenden", ambience: "Hintergrundgeräusche",
         play: "Anhören", slow: "Langsam", record: "Aufnehmen", stopRec: "Stopp", mine: "Meine Aufnahme",
         right: "Richtig!", wrong: "Nicht ganz – hör noch einmal hin.", question: "Frage", listenQ: "Frage anhören",
         which: "Welches Wort hörst du?", again: "Nochmal", soundScore: (r, t) => `${r} von ${t} richtig`,
@@ -27,7 +27,7 @@
     } : {
         back: "← Your learning path", backHref: "for-me.html", course: "ENGLISH FROM THE START · A1", lesson: "LESSON",
         goal: "Goal", steps: ["Listen", "Understand", "Repeat", "Sounds", "Respond", "Role-play"],
-        playAll: "Play the conversation", stop: "Stop", showText: "Show text", hideText: "Hide text",
+        playAll: "Play the conversation", stop: "Stop", showText: "Show text", hideText: "Hide text", ambience: "Background sounds",
         play: "Listen", slow: "Slowly", record: "Record", stopRec: "Stop", mine: "My recording",
         right: "Correct!", wrong: "Not quite – listen again.", question: "Question", listenQ: "Play the question",
         which: "Which word do you hear?", again: "Again", soundScore: (r, t) => `${r} of ${t} correct`,
@@ -143,7 +143,7 @@
         <h1>${esc(L(meta.title))}</h1>
         <p class="lesson-goal"><strong>${T.goal}:</strong> ${esc(L(lesson.goal))}</p>
         <ol class="sl-steps">${T.steps.map((s) => `<li>${s}</li>`).join("")}</ol>
-        <p class="sl-note sl-beta">${lesson.recorded ? T.recorded : T.beta}</p>`;
+        <p class="sl-note sl-beta">${lesson.note ? esc(L(lesson.note)) : lesson.recorded ? T.recorded : T.beta}</p>`;
 
     // 1. Listen
     {
@@ -157,10 +157,13 @@
             lines.append(li);
         });
         let playing = false;
+        const scene = lesson.dialogue.ambience; // office, outdoor, street, cafe, home (ambience.js)
+        const ambienceOn = () => { try { return localStorage.getItem("nawee-ambience") !== "off"; } catch { return true; } };
         const all = button("sl-play sl-big", `<span aria-hidden="true">${ICON.play}</span> ${T.playAll}`, async () => {
-            if (playing) { playing = false; stopAudio(); return; }
+            if (playing) { playing = false; stopAudio(); window.NaweeAmbience?.stop(); return; }
             playing = true;
             all.innerHTML = `<span aria-hidden="true">${ICON.stop}</span> ${T.stop}`;
+            if (scene && ambienceOn()) window.NaweeAmbience?.start(scene); // background sounds of the place
             for (const [i, line] of lesson.dialogue.lines.entries()) {
                 if (!playing) break;
                 lines.children[i].classList.add("is-playing");
@@ -169,6 +172,7 @@
                 await new Promise((r) => setTimeout(r, 350));
             }
             playing = false;
+            window.NaweeAmbience?.stop();
             all.innerHTML = `<span aria-hidden="true">${ICON.play}</span> ${T.playAll}`;
         });
         const toggle = button("sl-link", T.showText, () => {
@@ -177,6 +181,15 @@
         });
         s.append(el("div", "sl-row"), lines);
         s.querySelector(".sl-row").append(all, toggle);
+        if (scene && window.NaweeAmbience) {
+            const label = el("label", "sl-ambience");
+            label.innerHTML = `<input type="checkbox"${ambienceOn() ? " checked" : ""}> ${T.ambience}`;
+            label.querySelector("input").addEventListener("change", (e) => {
+                try { localStorage.setItem("nawee-ambience", e.target.checked ? "on" : "off"); } catch { /* storage unavailable */ }
+                if (!e.target.checked) window.NaweeAmbience.stop(); else if (playing) window.NaweeAmbience.start(scene);
+            });
+            s.querySelector(".sl-row").append(label);
+        }
     }
 
     // 2. Understand
