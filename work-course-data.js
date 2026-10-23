@@ -7,7 +7,8 @@ const WORK_MODULES = [
     { id: 1, title: { de: "Erste Schritte", en: "First steps" }, lessons: [
         { id: "1-1", title: { de: "Sich vorstellen", en: "Introducing yourself" } },
         { id: "1-2", title: { de: "Sich verabreden", en: "Making plans" } },
-        { id: "1-3", title: { de: "Am Telefon: die ersten Sätze", en: "On the phone: the first sentences" } },
+        { id: "1-3", title: { de: "Buchstabieren, Zahlen, Telefonnummern", en: "Spelling, numbers & phone numbers" } },
+        { id: "1-4", title: { de: "Wo du wohnst und deine Familie", en: "Where you live & your family" } },
     ] },
 ];
 
@@ -161,6 +162,160 @@ const WORK_LESSONS = {
         mission: {
             de: "Mach diese Woche eine echte Verabredung auf Englisch – mit einem Freund, einer Kollegin oder per Nachricht: Tag, Uhrzeit und Ort.",
             en: "This week, make one real plan in English – with a friend, a colleague or in a message: day, time and place.",
+        },
+    },
+    "1-3": {
+        draft: true, // written, no recordings yet (browser voice); preview: ?l=1-3&preview
+        goal: {
+            de: "Du kannst deinen Namen buchstabieren und deine Telefonnummer und E-Mail-Adresse auf Englisch sagen – und nachfragen, wenn du etwas nicht verstanden hast.",
+            en: "You can spell your name and say your phone number and email address in English – and ask again when you didn’t catch something.",
+        },
+        intro: {
+            de: "Hör dir das Gespräch an, ohne mitzulesen. Achte auf die Buchstaben und Zahlen – schreib sie ruhig mit.",
+            en: "Listen to the conversation without reading along. Listen for the letters and numbers – feel free to write them down.",
+        },
+        dialogue: {
+            situation: { de: "Tom macht bei Bens Fußballteam mit. Ben schreibt seine Daten für die Teamliste auf.", en: "Tom is joining Ben’s soccer team. Ben writes down his details for the team list." },
+            lines: [
+                { who: "Ben", voice: "c", text: "Tom, I need your details for the team list. What’s your last name?" },
+                { who: "Tom", voice: "b", text: "It’s Becker." },
+                { who: "Ben", voice: "c", text: "How do you spell that?" },
+                { who: "Tom", voice: "b", text: "B, E, C, K, E, R." },
+                { who: "Ben", voice: "c", text: "Thanks. And what’s your phone number?" },
+                { who: "Tom", voice: "b", text: "It’s three one two, five five five, oh one four eight." },
+                { who: "Ben", voice: "c", text: "Sorry, can you say that again, please?" },
+                { who: "Tom", voice: "b", text: "Sure. Three one two, five five five, oh one four eight." },
+                { who: "Ben", voice: "c", text: "Got it. And your email address?" },
+                { who: "Tom", voice: "b", text: "It’s tom dot becker at example dot com." },
+                { who: "Ben", voice: "c", text: "Perfect. See you at practice on Monday!" },
+                { who: "Tom", voice: "b", text: "See you!" },
+            ],
+        },
+        listen: [
+            { say: "How do you spell Tom’s last name?", options: ["B-E-C-K-E-R", "B-A-K-E-R", "B-E-K-K-E-R"], answer: 0,
+              explain: { de: "Tom buchstabiert: B, E, C, K, E, R.", en: "Tom spells it: B, E, C, K, E, R." } },
+            { say: "What is Tom’s phone number?", options: ["312-555-0148", "312-555-0184", "213-555-0148"], answer: 0,
+              explain: { de: "„three one two, five five five, oh one four eight“ – die Null sagt man oft „oh“.", en: "“three one two, five five five, oh one four eight” – zero is often said “oh”." } },
+            { say: "When is soccer practice?", options: ["On Monday", "On Sunday", "On Friday"], answer: 0,
+              explain: { de: "Ben sagt: „See you at practice on Monday!“", en: "Ben says: “See you at practice on Monday!”" } },
+        ],
+        phrases: [
+            { text: "What’s your last name?", de: "Wie ist dein Nachname?", tip: { de: "last name = Nachname, first name = Vorname.", en: "last name = family name, first name = given name." } },
+            { text: "How do you spell that?", de: "Wie schreibt man das?", tip: { de: "Die wichtigste Frage bei Namen und Adressen.", en: "The key question for names and addresses." } },
+            { text: "It’s B, E, C, K, E, R.", de: "Das schreibt man B, E, C, K, E, R.", tip: { de: "Achtung: Das englische E klingt wie das deutsche I, das englische I wie „ei“.", en: "Careful: the English letter E sounds like the German I, and I sounds like “eye”." } },
+            { text: "What’s your phone number?", de: "Wie ist deine Telefonnummer?", tip: { de: "Telefonnummern sagt man Ziffer für Ziffer, in kleinen Gruppen.", en: "Say phone numbers digit by digit, in small groups." } },
+            { text: "Oh one four eight.", de: "Null eins vier acht.", tip: { de: "Die Null heißt in Nummern oft „oh“, manchmal „zero“.", en: "In numbers, zero is often “oh”, sometimes “zero”." } },
+            { text: "Can you say that again, please?", de: "Kannst du das bitte noch mal sagen?", tip: { de: "Ganz normal und höflich – Muttersprachler fragen das auch.", en: "Normal and polite – native speakers ask this too." } },
+            { text: "What’s your email address?", de: "Wie ist deine E-Mail-Adresse?", tip: { de: "@ = „at“, . = „dot“.", en: "@ = “at”, . = “dot”." } },
+            { text: "Got it.", de: "Verstanden. / Hab’s.", tip: { de: "Kurz und locker: Ich habe es notiert.", en: "Short and casual: I’ve written it down." } },
+        ],
+        sounds: {
+            title: { de: "Englische Buchstaben: E, I, A", en: "English letters: E, I, A" },
+            explain: {
+                de: "Diese Buchstaben klingen anders als im Deutschen: E klingt wie „i“, I wie „ei“, A wie „ej“. Welchen Buchstaben hörst du?",
+                en: "These letters sound different from German: E sounds like German “i”, I like “ei”, A like “ay”. Which letter do you hear?",
+            },
+            pairs: [["E", "I"], ["A", "E"], ["G", "J"]],
+        },
+        respond: [
+            { say: "What’s your last name? How do you spell that?", model: "It’s … – and spell it letter by letter." },
+            { say: "What’s your phone number?", model: "It’s … – digit by digit, zero as “oh”." },
+            { say: "And your email address?", model: "It’s … at … dot com." },
+        ],
+        roleplay: {
+            partner: "Ben",
+            situation: { de: "Du machst bei Bens Team mit. Er braucht deine Daten – antworte laut mit deinen echten Daten oder erfundenen.", en: "You’re joining Ben’s team. He needs your details – answer out loud with your real details or made-up ones." },
+            turns: [
+                { voice: "c", text: "Hi! I need your details for the team list. What’s your last name?" },
+                { you: { de: "Sag deinen Nachnamen", en: "Say your last name" }, model: "It’s …" },
+                { voice: "c", text: "How do you spell that?" },
+                { you: { de: "Buchstabiere ihn", en: "Spell it" }, model: "… letter by letter" },
+                { voice: "c", text: "Thanks. What’s your phone number?" },
+                { you: { de: "Sag deine Nummer, Ziffer für Ziffer", en: "Say your number, digit by digit" }, model: "It’s …" },
+                { voice: "c", text: "Sorry, can you say that again, please?" },
+                { you: { de: "Sag sie noch einmal, langsam", en: "Say it again, slowly" }, model: "Sure. …" },
+                { voice: "c", text: "Got it. See you on Monday!" },
+                { you: { de: "Verabschiede dich", en: "Say goodbye" }, model: "See you!" },
+            ],
+        },
+        mission: {
+            de: "Buchstabiere deinen Vor- und Nachnamen und sag deine Telefonnummer dreimal laut auf Englisch – einmal davon mit dem Handy aufnehmen und anhören.",
+            en: "Spell your first and last name and say your phone number out loud in English three times – record one of them on your phone and listen back.",
+        },
+    },
+    "1-4": {
+        draft: true, // written, no recordings yet (browser voice); preview: ?l=1-4&preview
+        goal: {
+            de: "Du kannst sagen, wo du wohnst und wer zu deiner Familie gehört – und andere danach fragen.",
+            en: "You can say where you live and who is in your family – and ask others about it.",
+        },
+        intro: {
+            de: "Hör dir das Gespräch an, ohne mitzulesen. Achte darauf: Wo wohnen die Familien? Wie viele Geschwister haben Tom und Ben?",
+            en: "Listen to the conversation without reading along. Listen for: Where do the families live? How many brothers and sisters do Tom and Ben have?",
+        },
+        dialogue: {
+            situation: { de: "Ben besucht Tom zum ersten Mal in seiner neuen Wohnung in Chicago.", en: "Ben visits Tom in his new apartment in Chicago for the first time." },
+            lines: [
+                { who: "Ben", voice: "c", text: "Nice apartment! Do you live here alone?" },
+                { who: "Tom", voice: "b", text: "Yes, I do. My family is in Germany." },
+                { who: "Ben", voice: "c", text: "Oh, where do they live?" },
+                { who: "Tom", voice: "b", text: "In Hamburg. My parents have a small house there." },
+                { who: "Ben", voice: "c", text: "Do you have any brothers or sisters?" },
+                { who: "Tom", voice: "b", text: "I have one sister. Her name is Anna. What about you?" },
+                { who: "Ben", voice: "c", text: "I have two brothers. They live in New York." },
+                { who: "Tom", voice: "b", text: "And your parents?" },
+                { who: "Ben", voice: "c", text: "They live here in Chicago, near the lake." },
+                { who: "Tom", voice: "b", text: "That’s nice. You can see them every week!" },
+            ],
+        },
+        listen: [
+            { say: "Where does Tom’s family live?", options: ["In Hamburg", "In Chicago", "In New York"], answer: 0,
+              explain: { de: "Tom sagt: „In Hamburg. My parents have a small house there.“", en: "Tom says: “In Hamburg. My parents have a small house there.”" } },
+            { say: "How many sisters does Tom have?", options: ["One", "Two", "None"], answer: 0,
+              explain: { de: "„I have one sister. Her name is Anna.“", en: "“I have one sister. Her name is Anna.”" } },
+            { say: "Where do Ben’s brothers live?", options: ["In New York", "In Chicago", "In Germany"], answer: 0,
+              explain: { de: "„I have two brothers. They live in New York.“", en: "“I have two brothers. They live in New York.”" } },
+        ],
+        phrases: [
+            { text: "Where do you live?", de: "Wo wohnst du?", tip: { de: "„live“ = wohnen und leben.", en: "“Live” is for both your home and your life." } },
+            { text: "I live in Hamburg.", de: "Ich wohne in Hamburg.", tip: { de: "Städte und Länder mit „in“: in Hamburg, in Germany.", en: "Cities and countries take “in”: in Hamburg, in Germany." } },
+            { text: "I live alone.", de: "Ich wohne allein.", tip: { de: "Oder: „I live with my partner / my family.“", en: "Or: “I live with my partner / my family.”" } },
+            { text: "Do you have any brothers or sisters?", de: "Hast du Geschwister?", tip: { de: "Für „Geschwister“ sagt man im Gespräch meist „brothers or sisters“.", en: "In conversation, people say “brothers or sisters”." } },
+            { text: "I have one sister.", de: "Ich habe eine Schwester.", tip: { de: "I have – he/she has: „She has two kids.“", en: "I have – he/she has: “She has two kids.”" } },
+            { text: "I don’t have any brothers.", de: "Ich habe keine Brüder.", tip: { de: "Verneinen mit „don’t have any“.", en: "Say no with “don’t have any”." } },
+            { text: "My parents live in Hamburg.", de: "Meine Eltern wohnen in Hamburg.", tip: { de: "parents = Eltern (nicht „Verwandte“ – das ist relatives).", en: "parents = mother and father (relatives = the wider family)." } },
+            { text: "What about you?", de: "Und du? / Wie ist es bei dir?", tip: { de: "Gibt die Frage zurück – wie „And you?“.", en: "Asks back – like “And you?”." } },
+        ],
+        sounds: {
+            title: { de: "Kurzes i oder langes ii?", en: "Short i or long ee?" },
+            explain: {
+                de: "„live“ (wohnen) hat ein kurzes i, „leave“ (gehen) ein langes. Der Unterschied verändert das Wort! Welches hörst du?",
+                en: "“Live” has a short i, “leave” a long ee. The difference changes the word! Which one do you hear?",
+            },
+            pairs: [["live", "leave"], ["it", "eat"], ["ship", "sheep"]],
+        },
+        respond: [
+            { say: "Where do you live?", model: "I live in … " },
+            { say: "Do you have any brothers or sisters?", model: "I have … / I don’t have any brothers or sisters." },
+            { say: "Where does your family live?", model: "My family lives in … " },
+        ],
+        roleplay: {
+            partner: "Ben",
+            situation: { de: "Ben besucht dich zu Hause und fragt nach deiner Familie – antworte laut.", en: "Ben visits you at home and asks about your family – answer out loud." },
+            turns: [
+                { voice: "c", text: "Nice place! Do you live here alone?" },
+                { you: { de: "Sag, ob du allein wohnst oder mit wem", en: "Say if you live alone or who with" }, model: "Yes, I do. / No, I live with …" },
+                { voice: "c", text: "Where does your family live?" },
+                { you: { de: "Sag, wo deine Familie wohnt", en: "Say where your family lives" }, model: "My family lives in …" },
+                { voice: "c", text: "Do you have any brothers or sisters?" },
+                { you: { de: "Antworte und frag zurück", en: "Answer and ask back" }, model: "I have … What about you?" },
+                { voice: "c", text: "I have two brothers. They live in New York." },
+                { you: { de: "Reagiere freundlich", en: "React in a friendly way" }, model: "That’s nice!" },
+            ],
+        },
+        mission: {
+            de: "Erzähl jemandem auf Englisch in vier Sätzen, wo du wohnst und wer zu deiner Familie gehört – oder nimm es mit dem Handy auf.",
+            en: "Tell someone in four English sentences where you live and who is in your family – or record it on your phone.",
         },
     },
 };
