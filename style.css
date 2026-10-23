@@ -8099,3 +8099,249 @@ footer .footer-links .footer-heading {
         max-width: 220px;
     }
 }
+
+/* =========================
+   Reading practice (lesen.html / reading.html, reading.js)
+   ========================= */
+.rd-group {
+    margin: 28px 0 12px;
+    font-size: 1.35rem;
+}
+
+.rd-list {
+    display: grid;
+    gap: 12px;
+}
+
+.rd-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    background: var(--white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.rd-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 8px 20px rgba(13, 47, 130, .08);
+}
+
+.rd-card.is-done {
+    border-left: 5px solid #1e9e5a;
+}
+
+.rd-card-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #fff6d6;
+    font-size: 1.7rem;
+}
+
+.rd-card-body {
+    display: grid;
+    gap: 2px;
+}
+
+.rd-card-meta {
+    color: var(--blue);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.rd-card strong {
+    color: var(--blue-dark);
+    font-size: 1.1rem;
+}
+
+.rd-card-status {
+    color: var(--muted);
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.rd-card.is-done .rd-card-status {
+    color: #1e7a48;
+}
+
+.rd-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0 4px;
+}
+
+.rd-slow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.rd-text {
+    margin: 18px 0;
+    color: var(--ink, #1c2633);
+    font-size: 1.2rem;
+    line-height: 1.75;
+}
+
+.rd-text p {
+    margin: 0 0 16px;
+}
+
+.rd-s {
+    border-radius: 6px;
+    transition: background .2s;
+}
+
+.rd-s.is-reading {
+    background: #fff1bf;
+    box-shadow: 0 0 0 3px #fff1bf;
+}
+
+.rd-word {
+    padding: 0;
+    border: 0;
+    border-bottom: 2px dotted var(--blue);
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.rd-word:hover,
+.rd-word.is-open {
+    color: var(--blue);
+    border-bottom-style: solid;
+}
+
+.rd-gloss {
+    display: inline-block;
+    margin: 4px 0 4px 6px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: var(--blue-dark);
+    color: var(--white);
+    font-size: .9rem;
+    line-height: 1.4;
+}
+
+.rd-gloss strong {
+    color: var(--yellow);
+}
+
+.rd-source {
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.rd-source a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.rd-section {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+}
+
+.rd-section h2 {
+    margin: 0 0 14px;
+    font-size: 1.4rem;
+}
+
+.rd-q {
+    margin-bottom: 18px;
+}
+
+.rd-q-text {
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+
+.rd-options {
+    display: grid;
+    gap: 8px;
+}
+
+.rd-option {
+    padding: 11px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--ink, #1c2633);
+    font: inherit;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.rd-option:hover:not(:disabled) {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+}
+
+.rd-option:disabled {
+    cursor: default;
+}
+
+.rd-option.is-right {
+    border-color: #1e9e5a;
+    background: #e3f5ea;
+    color: #145c36;
+}
+
+.rd-option.is-wrong {
+    border-color: #e5a3a3;
+    background: #fdf0f0;
+    color: #8f2f2f;
+}
+
+.rd-fb {
+    margin: 6px 0 0;
+    font-weight: 700;
+}
+
+.rd-fb.is-right { color: #145c36; }
+.rd-fb.is-wrong { color: #8f2f2f; }
+
+.rd-result {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #e3f5ea;
+    color: #145c36;
+    font-weight: 700;
+}
+
+.rd-speak-q {
+    margin: 0 0 6px;
+    color: var(--blue-dark);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.rd-model {
+    padding: 12px 16px;
+    border-left: 4px solid var(--yellow);
+    border-radius: 8px;
+    background: var(--blue-soft);
+    font-style: italic;
+}
+
+.rd-next {
+    margin-top: 26px;
+}

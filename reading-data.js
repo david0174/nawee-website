@@ -1,0 +1,161 @@
+// Reading practice (lesen.html / reading.html): short English texts – simple news about real events and
+// stories with Tom and Ben. Each text: paragraphs, a small glossary (tap a word), three questions and one
+// question to answer out loud. News is written in our own words; `source` links to the original report.
+// `audio` (optional, later): David's recording of the whole text; until then the browser voice reads it.
+
+const READINGS = [
+    {
+        id: "mars-rover-record", kind: "news", level: "A2", date: "2026-10-21",
+        title: "A Mars rover breaks a record",
+        source: { name: "ScienceDaily / NASA", url: "https://www.sciencedaily.com/releases/2026/10/261020084818.htm" },
+        image: "🚙",
+        paragraphs: [
+            "NASA’s Perseverance rover is on Mars. It is a robot car with six wheels. It takes pictures and looks for signs of old life.",
+            "In October 2026, Perseverance broke a record. It has now driven 45.22 kilometers – about 28 miles. No vehicle has ever driven farther on another world.",
+            "The old record belonged to another NASA rover, Opportunity. Opportunity drove 45.16 kilometers between 2004 and 2018. That took almost 15 years. Perseverance did it in five and a half years.",
+            "How? Perseverance can drive by itself. A system called AutoNav helps it find a safe way, so it doesn’t have to wait for instructions from Earth every time. On a good day, it can drive more than 400 meters. Now Perseverance is on its way to a new place on Mars.",
+        ],
+        glossary: {
+            rover: { de: "Fahrzeug, das einen Planeten erkundet", en: "a vehicle that explores a planet" },
+            wheels: { de: "Räder", en: "the round parts a car drives on" },
+            record: { de: "Rekord", en: "the best result ever" },
+            vehicle: { de: "Fahrzeug", en: "a car, bus, truck …" },
+            farther: { de: "weiter (Entfernung)", en: "a longer distance" },
+            belonged: { de: "gehörte", en: "was owned by" },
+            instructions: { de: "Anweisungen", en: "information about what to do" },
+        },
+        questions: [
+            { q: "How far has Perseverance driven?", options: ["About 45 kilometers", "About 15 kilometers", "About 400 kilometers"], answer: 0 },
+            { q: "Which rover had the old record?", options: ["Opportunity", "Curiosity", "AutoNav"], answer: 0 },
+            { q: "Why was Perseverance so fast?", options: ["It can drive by itself.", "It has bigger wheels.", "A person drives it."], answer: 0 },
+        ],
+        speak: { q: "Would you like to drive a car on Mars? Why or why not?", model: "Yes, I would, because it’s exciting. / No, I wouldn’t, because it’s too far away." },
+    },
+    {
+        id: "green-star", kind: "news", level: "A2", date: "2026-10-19",
+        title: "Scientists find a green star",
+        source: { name: "ScienceDaily / University of Warwick", url: "https://www.sciencedaily.com/releases/2026/10/261017230018.htm" },
+        image: "🌟",
+        paragraphs: [
+            "Most stars look white, yellow, orange or red. But astronomers at the University of Warwick in England found something new: a star that looks green to human eyes. It is the first star like this that we know.",
+            "The star has a long name: WD J1330+6435. It is a white dwarf – a small, old star at the end of its life.",
+            "Why is it green? The star pulled in rocks from its old planets. The rocks put sodium, calcium and lithium into the air around the star. The sodium takes away the orange light, so the star looks green.",
+            "The scientists looked at 151 white dwarfs near our Sun. Five of them had unusual colors. So maybe the night sky has more colorful surprises!",
+        ],
+        glossary: {
+            astronomers: { de: "Astronomen (Sternforscher)", en: "scientists who study stars and planets" },
+            "human eyes": { de: "menschliche Augen", en: "the eyes of people" },
+            dwarf: { de: "Zwerg", en: "something very small" },
+            pulled: { de: "zog", en: "moved something toward itself" },
+            unusual: { de: "ungewöhnlich", en: "not normal, strange" },
+            surprises: { de: "Überraschungen", en: "things you don’t expect" },
+        },
+        questions: [
+            { q: "What color does the new star look?", options: ["Green", "Red", "Blue"], answer: 0 },
+            { q: "What is a white dwarf?", options: ["A small, old star", "A new planet", "A big, young star"], answer: 0 },
+            { q: "Why does the star look green?", options: ["Sodium takes away the orange light.", "It is very hot.", "It is near our Sun."], answer: 0 },
+        ],
+        speak: { q: "What is your favorite color – and why?", model: "My favorite color is … because …" },
+    },
+    {
+        id: "fewer-gas-cars", kind: "news", level: "A2", date: "2026-10-05",
+        title: "Fewer people buy gas-only cars",
+        source: { name: "Electrek", url: "https://electrek.co/2026/10/05/gas-cars-fall-below-50-percent-global-new-car-sales/" },
+        image: "🚗",
+        paragraphs: [
+            "For many years, most new cars in the world used only gasoline. That is changing.",
+            "In the first half of 2026, gas-only cars were 49 percent of all new cars sold in the world. It is the first time that they are under half. In 2021, they were 73 percent.",
+            "More people now buy electric cars and hybrids. A hybrid car uses gasoline and electricity. Electric cars were 17 percent of new cars, and hybrids were 18 percent.",
+            "Why? One reason is money: gas prices went up this year, so many buyers want a car that is cheaper to drive. The biggest change was in China. There, sales of gas-only cars went down by 26 percent.",
+        ],
+        glossary: {
+            gasoline: { de: "Benzin (kurz: gas)", en: "fuel for cars (short: gas)" },
+            "first half": { de: "erste Hälfte (Januar bis Juni)", en: "January to June" },
+            percent: { de: "Prozent", en: "out of 100" },
+            electricity: { de: "Strom", en: "electric power" },
+            cheaper: { de: "billiger", en: "costs less money" },
+            sales: { de: "Verkäufe", en: "how many are sold" },
+        },
+        questions: [
+            { q: "How many new cars were gas-only in the first half of 2026?", options: ["49 percent", "73 percent", "17 percent"], answer: 0 },
+            { q: "What is a hybrid car?", options: ["It uses gasoline and electricity.", "It uses only electricity.", "It has no engine."], answer: 0 },
+            { q: "Where was the biggest change?", options: ["In China", "In Europe", "In the US"], answer: 0 },
+        ],
+        speak: { q: "What kind of car do you have – or what kind would you like?", model: "I have a … / I’d like an electric car, because …" },
+    },
+    {
+        id: "toms-new-city", kind: "story", level: "A1",
+        title: "Tom’s new city",
+        image: "🏙️",
+        paragraphs: [
+            "Tom is 29 years old. He is from Hamburg in Germany. Now he lives in Chicago. He has a new job there. He is an engineer.",
+            "Tom has a small apartment near Lake Michigan. It has one bedroom, a kitchen and a big window. From the window, he can see the water.",
+            "Every morning, Tom takes the train to work. In Chicago, people call the train the “L”. The ride is twenty minutes. Tom reads or listens to music.",
+            "Chicago is very big, and Tom doesn’t know many people yet. But his colleague Ben is very friendly. On Friday, they have lunch together. Tom is happy in his new city.",
+        ],
+        glossary: {
+            engineer: { de: "Ingenieur", en: "a person who designs machines or buildings" },
+            apartment: { de: "Wohnung", en: "a home in a bigger building" },
+            "takes the train": { de: "fährt mit dem Zug", en: "goes by train" },
+            ride: { de: "Fahrt", en: "a trip in a car, bus or train" },
+            yet: { de: "noch (nicht)", en: "until now" },
+            colleague: { de: "Kollege", en: "a person you work with" },
+        },
+        questions: [
+            { q: "Where is Tom from?", options: ["Hamburg", "Chicago", "Berlin"], answer: 0 },
+            { q: "How does Tom go to work?", options: ["By train", "By car", "By bike"], answer: 0 },
+            { q: "Who is Ben?", options: ["Tom’s colleague", "Tom’s brother", "Tom’s neighbor"], answer: 0 },
+        ],
+        speak: { q: "Where do you live? Say two things about your home.", model: "I live in … My apartment has … / I can see … from my window." },
+    },
+    {
+        id: "saturday-with-ben", kind: "story", level: "A1",
+        title: "Saturday with Ben",
+        image: "☕",
+        paragraphs: [
+            "On Saturday, Tom meets Ben at three o’clock. They go to the café next to the station. Tom orders a coffee, and Ben orders a tea and a piece of cake.",
+            "After the café, they walk in the park. It is sunny but cold. There are many people with dogs. Ben tells Tom about his family. He has two brothers in New York.",
+            "In the evening, they are hungry. Ben says, “Let’s get pizza! Chicago pizza is famous.” The pizza is very big and very good.",
+            "At nine o’clock, Tom goes home. He is tired, but happy. Now he has a friend in Chicago.",
+        ],
+        glossary: {
+            orders: { de: "bestellt", en: "asks for food or a drink" },
+            "a piece of cake": { de: "ein Stück Kuchen", en: "one part of a cake" },
+            walk: { de: "spazieren gehen", en: "go on foot" },
+            hungry: { de: "hungrig", en: "you want to eat" },
+            famous: { de: "berühmt", en: "many people know it" },
+            tired: { de: "müde", en: "you want to sleep" },
+        },
+        questions: [
+            { q: "What does Ben order at the café?", options: ["A tea and a piece of cake", "A coffee", "A pizza"], answer: 0 },
+            { q: "What is the weather like?", options: ["Sunny but cold", "Rainy and warm", "Snowy"], answer: 0 },
+            { q: "What do they eat in the evening?", options: ["Pizza", "Cake", "Burgers"], answer: 0 },
+        ],
+        speak: { q: "What do you like to do on Saturday?", model: "On Saturday, I like to … with …" },
+    },
+    {
+        id: "email-from-anna", kind: "story", level: "A2",
+        title: "An email from Anna",
+        image: "✉️",
+        paragraphs: [
+            "Hi Tom! How are you? How is Chicago? Mom and Dad say hello. They miss you, and so do I!",
+            "I have news: I passed my driving test last week! Now I can drive Dad’s car. Yesterday I drove to Lübeck and visited Grandma. She was very happy.",
+            "Is it cold in Chicago? Here in Hamburg it rained all week. Typical!",
+            "I want to visit you next summer. Can I stay in your apartment? I can sleep on the sofa. Please send me some photos of the city. Write back soon! Love, Anna",
+        ],
+        glossary: {
+            "miss you": { de: "vermissen dich", en: "are sad that you are not here" },
+            passed: { de: "bestanden", en: "had a good result in a test" },
+            "driving test": { de: "Führerscheinprüfung", en: "the test you need to drive a car" },
+            visited: { de: "besuchte", en: "went to see" },
+            typical: { de: "typisch", en: "what usually happens" },
+            "write back": { de: "antworte", en: "send an answer" },
+        },
+        questions: [
+            { q: "What is Anna’s news?", options: ["She passed her driving test.", "She has a new job.", "She moved to Chicago."], answer: 0 },
+            { q: "Who did Anna visit in Lübeck?", options: ["Her grandma", "Her mom", "Tom"], answer: 0 },
+            { q: "When does Anna want to visit Tom?", options: ["Next summer", "Next week", "At Christmas"], answer: 0 },
+        ],
+        speak: { q: "Imagine you are Tom. Answer Anna out loud: say how you are and what you think of her visit.", model: "Hi Anna! I’m good, thanks. Congratulations! Yes, you can stay with me next summer …" },
+    },
+];
