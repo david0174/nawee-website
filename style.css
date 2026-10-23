@@ -9177,3 +9177,33 @@ footer .footer-links {
     margin-top: 34px;
     font-size: 1.5rem;
 }
+
+/* account overview: finished tasks keep their place with a green check */
+.dash-task.is-done .dash-task-text {
+    color: var(--muted);
+}
+
+.dash-task.is-done .dash-task-icon {
+    background: #e3f5ea;
+}
+
+.dash-task-check {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #1e9e5a;
+    color: #fff;
+    font-weight: 800;
+}
+
+.dash-alldone {
+    margin: 14px 0 0;
+    padding: 12px;
+    border-radius: 12px;
+    background: #e3f5ea;
+    color: #145c36;
+    font-weight: 800;
+    text-align: center;
+}

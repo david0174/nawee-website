@@ -194,6 +194,7 @@
             const n = next(state, grade);
             rate.append(btn(`vc-grade vc-grade-${grade}`, `<strong>${label}</strong><small>${T.days(n.interval)}</small>`, () => {
                 if (!state) data.newCount += 1;
+                else data.reviewDay = today(); // reviewed a known card today (account page: "today" tasks)
                 data.cards[cid(w)] = n;
                 data.last[cid(w)] = grade === 0 ? "wrong" : "right";
                 queue.shift();

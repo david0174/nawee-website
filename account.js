@@ -181,6 +181,7 @@
             days: union(local.days, remote.days).sort().slice(-400),
             newDay: localDay ? local.newDay || "" : remote.newDay,
             newCount: localDay ? local.newCount || 0 : remote.newCount || 0,
+            reviewDay: [local.reviewDay || "", remote.reviewDay || ""].sort().pop(),
         };
     };
     const vocabSig = (v) => Object.entries(v.cards || {}).map(([k, c]) => `${k}:${c.reps || 0}`).sort().join(",") + "|" + Object.keys(v.last || {}).length;
@@ -214,7 +215,7 @@
         write(VOCAB_KEY, mv);
         const lr = read(READING_KEY), mr = { done: { ...(rr.done || {}), ...(lr.done || {}) } };
         write(READING_KEY, mr);
-        const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed) };
+        const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed), dates: { ...(rw.dates || {}), ...(lw.dates || {}) } };
         write(WORK_KEY, mw);
         const lg = read(GAMES_KEY), best = { ...(rg.best || {}) };
         Object.entries(lg.best || {}).forEach(([k, v]) => { best[k] = Math.max(v, best[k] || 0); });
@@ -349,7 +350,7 @@
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
         activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
         week: ["M", "T", "W", "T", "F", "S", "S"],
-        today: "Today", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due",
+        today: "Today", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
         words: (n) => `${n} ${n === 1 ? "word" : "words"}`, texts: (n) => `${n} new ${n === 1 ? "text" : "texts"}`, min: (n) => `${n} min`, go: "Let’s go",
         cards: "Picture cards", allTopics: "All topics", practice: "Practice",
         status: { green: "mastered", yellow: "practiced", red: "wrong", grey: "new" },
@@ -360,7 +361,7 @@
         level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
         activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
         week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-        today: "Heute", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig",
+        today: "Heute", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
         words: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"}`, texts: (n) => `${n} neue ${n === 1 ? "Text" : "Texte"}`, min: (n) => `${n} Min.`, go: "Los geht’s",
         cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
         status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
@@ -439,18 +440,28 @@
         const fresh = Math.min(unseen, Math.max(0, 10 - (v.newDay === today ? v.newCount || 0 : 0)));
         const doneTexts = read(READING_KEY).done || {};
         const unread = typeof READINGS === "undefined" ? [] : READINGS.filter((r) => !doneTexts[r.id]);
+        const readToday = typeof READINGS === "undefined" ? null : READINGS.find((r) => doneTexts[r.id] && doneTexts[r.id].date === today);
+        const work = read(WORK_KEY), lessonToday = workLessons().find((l) => (work.dates || {})[l.id] === today);
+        const learnedToday = v.newDay === today ? v.newCount || 0 : 0;
         const next = nextWork();
+        const title = (l) => esc(isEnglish ? l.title.en : l.title.de);
+        // finished tasks stay in the list with a check; open tasks show the time
         const tasks = [
-            due ? { icon: "🔁", title: D.repeat, sub: D.words(due), min: Math.max(1, Math.round(due / 3)), href: D.cardsPage } : null,
-            fresh ? { icon: "💡", title: D.learnNew, sub: D.words(fresh), min: 5, href: D.cardsPage } : null,
-            unread.length ? { icon: "📰", title: D.read, sub: D.texts(unread.length), min: 5, href: `${D.readPage}?t=${unread[0].id}` } : null,
-            next ? { icon: "🎧", title: D.lesson, sub: esc(isEnglish ? next.title.en : next.title.de), min: 10, href: `${D.workPage}?l=${next.id}` } : null,
+            due ? { icon: "🔁", title: D.repeat, sub: D.words(due), min: Math.max(1, Math.round(due / 3)), href: D.cardsPage }
+                : v.reviewDay === today ? { icon: "🔁", title: D.repeat, sub: D.reviewed, done: true, href: D.cardsPage } : null,
+            learnedToday && (learnedToday >= 10 || !unseen) ? { icon: "💡", title: D.learnNew, sub: D.learned(learnedToday), done: true, href: D.cardsPage }
+                : fresh ? { icon: "💡", title: D.learnNew, sub: learnedToday ? `${learnedToday}/10 · ${D.words(fresh)}` : D.words(fresh), min: 5, href: D.cardsPage } : null,
+            readToday ? { icon: "📰", title: D.read, sub: `${D.readDone} ${esc(readToday.title)}`, done: true, href: `${D.readPage}?t=${readToday.id}` }
+                : unread.length ? { icon: "📰", title: D.read, sub: D.texts(unread.length), min: 5, href: `${D.readPage}?t=${unread[0].id}` } : null,
+            lessonToday ? { icon: "🎧", title: D.lesson, sub: `${D.lessonDone} ${title(lessonToday)}`, done: true, href: `${D.workPage}?l=${lessonToday.id}` }
+                : next ? { icon: "🎧", title: D.lesson, sub: title(next), min: 10, href: `${D.workPage}?l=${next.id}` } : null,
         ].filter(Boolean);
+        const open = tasks.filter((t) => !t.done);
         return `<section class="dash-card dash-today">
             <h2 class="dash-h">${D.today}</h2>
-            ${tasks.length ? tasks.map((t) => `<a class="dash-task" href="${t.href}"><span class="dash-task-icon" aria-hidden="true">${t.icon}</span><span class="dash-task-text"><small>${t.sub}</small>${t.title}</span><span class="dash-task-min">${D.min(t.min)}</span></a>`).join("")
+            ${tasks.length ? tasks.map((t) => `<a class="dash-task${t.done ? " is-done" : ""}" href="${t.href}"><span class="dash-task-icon" aria-hidden="true">${t.icon}</span><span class="dash-task-text"><small>${t.sub}</small>${t.title}</span>${t.done ? `<span class="dash-task-check" aria-label="${D.doneLabel}">✓</span>` : `<span class="dash-task-min">${D.min(t.min)}</span>`}</a>`).join("")
                 : `<p class="dash-sub">✓ ${D.nothingDue}</p>`}
-            ${tasks.length ? `<a class="button primary dash-go" href="${tasks[0].href}">${D.go} →</a>` : ""}
+            ${open.length ? `<a class="button primary dash-go" href="${open[0].href}">${D.go} →</a>` : tasks.length ? `<p class="dash-alldone">${D.allDone}</p>` : ""}
         </section>`;
     };
     const dashCards = () => {

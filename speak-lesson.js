@@ -328,6 +328,7 @@
             }
             finish.replaceChildren(button("button primary", `${T.complete} ✓`, () => {
                 progress.completed.push(id);
+                progress.dates = { ...(progress.dates || {}), [id]: new Date().toISOString().slice(0, 10) }; // for "today" on the account page
                 try { localStorage.setItem(KEY, JSON.stringify(progress)); } catch { /* storage unavailable */ }
                 draw();
             }));
