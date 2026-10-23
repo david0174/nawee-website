@@ -18,6 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
+        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
         typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key - it opens a lock“. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
@@ -29,6 +30,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
+        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
         typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key - it opens a lock”. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
@@ -60,7 +62,7 @@
     const game = new URLSearchParams(location.search).get("g");
 
     // ---------- overview ----------
-    if (!["race", "rain", "define"].includes(game)) {
+    if (!["race", "rain", "define", "rhyme"].includes(game)) {
         document.title = `${T.title} | Nawee`;
         const tile = (g, icon, title, text, best) => `<a class="gm-tile" href="${page}?g=${g}">
             <span class="gm-tile-icon" aria-hidden="true">${icon}</span>
@@ -73,6 +75,7 @@
                 ${tile("race", "🏁", T.race, T.raceText, data.best.race ? `${data.best.race} ${T.wpm}` : "")}
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
                 ${tile("define", "📝", T.define, T.defineText, data.best.define ? `${data.best.define} ${T.wpm}` : "")}
+                ${tile("rhyme", "🎤", T.rhyme, T.rhymeText, data.best.rhyme ? T.words2(data.best.rhyme) : "")}
             </div>
             <p class="as-disclaimer">${T.privacy}</p>`;
         return;
@@ -267,6 +270,89 @@
             show();
         };
         play();
+        return;
+    }
+
+    // ---------- Rhyme Time: a word + rhymes for exposure; speak or rap; optional timer ----------
+    if (game === "rhyme") {
+        document.title = `${T.rhyme} – ${T.title} | Nawee`;
+        const RHYMES = [
+            ["cat", "hat", "bat", "mat", "sat", "that", "flat"], ["day", "say", "play", "way", "stay", "pay"], ["night", "light", "right", "bright", "white", "write"],
+            ["time", "rhyme", "lime", "climb", "dime"], ["car", "star", "far", "bar", "jar"], ["cake", "make", "take", "lake", "bake", "wake"],
+            ["rain", "train", "brain", "main", "plain", "chain"], ["blue", "you", "new", "true", "two", "shoe"], ["sun", "fun", "run", "one", "done", "won"],
+            ["bed", "red", "said", "head", "bread"], ["book", "look", "cook", "took", "hook"], ["go", "no", "so", "show", "know", "slow"],
+            ["tree", "me", "see", "free", "three", "tea"], ["ring", "sing", "king", "thing", "spring", "bring"], ["cold", "old", "gold", "told", "hold", "sold"],
+            ["door", "four", "more", "floor", "store"], ["boat", "coat", "note", "goat", "wrote"], ["feet", "meet", "street", "eat", "sweet", "seat"],
+            ["cool", "school", "pool", "rule", "tool"], ["sleep", "keep", "deep", "sheep", "cheap"], ["friend", "end", "send", "spend", "bend"],
+            ["phone", "alone", "own", "bone", "stone", "known"], ["dog", "frog", "log", "fog", "jog"], ["hand", "land", "stand", "band", "sand"],
+            ["name", "game", "same", "came", "frame"], ["bike", "like", "hike", "Mike"], ["ball", "all", "call", "tall", "wall", "small"],
+            ["green", "seen", "clean", "mean", "queen"], ["fast", "last", "past", "cast"], ["best", "rest", "test", "west", "guest", "nest"],
+            ["moon", "soon", "spoon", "noon", "June"], ["hot", "not", "lot", "got", "spot"], ["heart", "start", "part", "art", "smart"],
+            ["fish", "dish", "wish"], ["love", "above", "glove"], ["house", "mouse"],
+        ];
+        let secs = 20;
+        const setup = () => {
+            root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🎤 ${T.rhyme}</h1>
+                <p class="as-lead">${T.rhymeText}</p>
+                <p class="gm-label">${T.timer}</p>
+                <div class="gm-choices">${[0, 10, 20, 30].map((t) => `<button type="button" class="gm-choice${t === secs ? " is-on" : ""}" data-secs="${t}">${t ? `${t} s` : T.off}</button>`).join("")}</div>
+                <button type="button" class="button primary gm-start" data-start>${T.start} →</button>
+                <p class="as-disclaimer">${T.privacy}</p>`;
+            root.querySelectorAll("[data-secs]").forEach((b) => b.addEventListener("click", () => {
+                secs = Number(b.dataset.secs);
+                root.querySelectorAll("[data-secs]").forEach((x) => x.classList.toggle("is-on", x === b));
+            }));
+            root.querySelector("[data-start]").addEventListener("click", play);
+        };
+        const play = () => {
+            const order = [...RHYMES].sort(() => Math.random() - 0.5);
+            let i = 0, done = 0, timer = null, left = 0;
+            root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><h1>🎤 ${T.rhyme}</h1>
+                <div class="gm-rhyme">
+                    <span class="dash-bar gm-rhyme-bar" ${secs ? "" : "hidden"}><span data-time style="width:100%"></span></span>
+                    <button type="button" class="gm-rhyme-word" data-word></button>
+                    <p class="gm-rhyme-label">${T.rhymesWith}</p>
+                    <div class="gm-rhyme-list" data-list></div>
+                    <p class="gm-rhyme-task">🗣️ ${T.rhymeTask}</p>
+                    <div class="gm-rhyme-actions"><button type="button" class="button primary" data-next>${T.nextWord} →</button><button type="button" class="button secondary" data-stop>${T.stop}</button></div>
+                    <p class="gm-rhyme-count" data-count></p>
+                </div>`;
+            const show = () => {
+                const [word, ...rhymes] = order[i % order.length];
+                const wordBtn = root.querySelector("[data-word]");
+                wordBtn.innerHTML = `🔊 ${esc(word)}`;
+                wordBtn.onclick = () => say(word);
+                const list = root.querySelector("[data-list]");
+                list.innerHTML = [...rhymes].sort(() => Math.random() - 0.5).map((r) => `<button type="button" class="gm-rhyme-chip">${esc(r)}</button>`).join("");
+                list.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => say(b.textContent)));
+                root.querySelector("[data-count]").textContent = done ? T.words2(done) : "";
+                say(word); // hear the word when it appears
+                clearInterval(timer);
+                if (secs) {
+                    left = secs * 10;
+                    const bar = root.querySelector("[data-time]");
+                    bar.style.width = "100%";
+                    timer = setInterval(() => {
+                        left -= 1;
+                        bar.style.width = `${(left / (secs * 10)) * 100}%`;
+                        if (left <= 0) next();
+                    }, 100);
+                }
+            };
+            const next = () => { done += 1; i += 1; show(); };
+            const stop = () => {
+                clearInterval(timer);
+                if (done > (data.best.rhyme || 0)) data.best.rhyme = done;
+                save();
+                root.querySelector(".gm-rhyme").innerHTML = `<div class="gm-result"><p class="gm-place">${T.words2(done)} 🎤</p><button type="button" class="button primary" data-again>${T.again}</button></div>`;
+                root.querySelector("[data-again]").addEventListener("click", play);
+            };
+            root.querySelector("[data-next]").addEventListener("click", next);
+            root.querySelector("[data-stop]").addEventListener("click", stop);
+            window.addEventListener("pagehide", () => clearInterval(timer));
+            show();
+        };
+        setup();
         return;
     }
 

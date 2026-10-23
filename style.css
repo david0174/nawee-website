@@ -9513,3 +9513,91 @@ footer .footer-links {
 .ss-video {
     aspect-ratio: 21 / 9;
 }
+
+/* Rhyme Time */
+.gm-rhyme {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 26px 18px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, var(--blue-soft), #fff);
+    text-align: center;
+}
+
+.gm-rhyme-bar {
+    justify-self: stretch;
+    height: 10px;
+}
+
+.gm-rhyme-bar span {
+    background: var(--yellow);
+    transition: width .1s linear;
+}
+
+.gm-rhyme-word {
+    padding: 14px 30px;
+    border: 0;
+    border-radius: 22px;
+    background: var(--blue);
+    color: var(--white);
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--yellow);
+}
+
+.gm-rhyme-label {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: .8rem;
+}
+
+.gm-rhyme-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.gm-rhyme-chip {
+    padding: 8px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.gm-rhyme-chip:hover {
+    border-color: var(--blue);
+    background: #fff6d6;
+}
+
+.gm-rhyme-task {
+    max-width: 480px;
+    margin: 6px 0 0;
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.gm-rhyme-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.gm-rhyme-count {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 700;
+}
