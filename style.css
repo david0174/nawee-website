@@ -10586,3 +10586,41 @@ footer .footer-links {
         text-align: left;
     }
 }
+
+/* carousel: "who's behind Nawee" slide */
+.cs-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 20px;
+}
+
+.cs-link2 {
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--yellow);
+    text-underline-offset: 4px;
+}
+
+.cs-david {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+}
+
+.cs-david img {
+    width: 170px;
+    height: 170px;
+    border: 5px solid var(--white);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 10px 0 var(--yellow), 0 18px 40px rgba(0, 0, 0, .25);
+}
+
+.cs-david span {
+    padding: 4px 14px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, .15);
+    font-size: 1.1rem;
+}

@@ -18,6 +18,14 @@
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🪑🪑🪑🪑🪑<small>${de ? "5 Plätze" : "5 seats"}</small></div>`,
         },
         {
+            tag: de ? "👋 WER HINTER NAWEE STEHT" : "👋 WHO’S BEHIND NAWEE",
+            title: de ? "Hi, ich bin David." : "Hi, I’m David.",
+            text: de ? "Muttersprachler aus den USA. Ich habe Nawee gebaut und spreche die Lektionen selbst ein. Du möchtest mehr über mich wissen oder Stunden bei mir buchen?" : "A native speaker from the US. I built Nawee and record the lessons myself. Want to know more about me or book lessons with me?",
+            cta: de ? "Mehr über David" : "More about David", href: P("ueber-nawee.html", "about.html"),
+            cta2: de ? "Unterricht & Coaching buchen" : "Book lessons & coaching", href2: de ? "https://davidnawee.com/" : "https://davidnawee.com/index-en.html",
+            visual: `<div class="cs-david"><img src="assets/david-avatar.jpg" alt=""><span>🇺🇸 → 🇩🇪</span></div>`,
+        },
+        {
             tag: de ? "🎧 LEKTIONEN" : "🎧 LESSONS",
             title: de ? "Hören, nachsprechen, selbst sprechen" : "Listen, repeat, speak",
             text: de ? "Kurze Lektionen mit echten Gesprächen zwischen Tom und Ben – vom ersten Wort bis A2, mit Hintergrundgeräuschen wie im echten Leben." : "Short lessons with real conversations between Tom and Ben – from your first word to A2, with background sounds like in real life.",
@@ -60,7 +68,10 @@
                     <p class="cs-tag">${s.tag}</p>
                     <h2>${s.title}</h2>
                     <p>${s.text}</p>
-                    <a class="button primary" href="${s.href}" ${i ? 'tabindex="-1"' : ""}>${s.cta} <span aria-hidden="true">→</span></a>
+                    <div class="cs-actions">
+                        <a class="button primary" href="${s.href}" ${i ? 'tabindex="-1"' : ""}>${s.cta} <span aria-hidden="true">→</span></a>
+                        ${s.cta2 ? `<a class="cs-link2" href="${s.href2}" target="_blank" rel="noopener" ${i ? 'tabindex="-1"' : ""}>${s.cta2} <span aria-hidden="true">↗</span></a>` : ""}
+                    </div>
                 </div>
                 <div class="cs-visual" aria-hidden="true">${s.visual}</div>
             </article>`).join("")}</div></div>
