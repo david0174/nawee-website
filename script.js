@@ -167,18 +167,11 @@ backToTop.addEventListener("click", () => {
         copy.prepend(sw);
     }
 
-    // compact switch in the header too: "🌐 EN" / "🌐 DE" left of the login / username
-    const otherLink = menuLinks.find((a) => a.lang === other);
-    const headerCta = document.querySelector(".site-header nav > .nav-cta");
-    if (otherLink && headerCta) {
-        const h = document.createElement("a");
-        h.className = "nav-lang";
-        h.href = otherLink.getAttribute("href");
-        h.lang = other;
-        h.title = other === "en" ? "English" : "Deutsch";
-        h.innerHTML = `<span aria-hidden="true">🌐</span> ${other.toUpperCase()}`;
-        h.addEventListener("click", () => setPref(other));
-        headerCta.before(h);
+    // header dropdown: "🌐 DE ▾" – lists all languages (more can be added to the menu later)
+    const toggle = document.querySelector(".site-header .language-toggle");
+    if (toggle) {
+        toggle.innerHTML = `<span aria-hidden="true">🌐</span> ${lang.toUpperCase()} <span class="lang-caret" aria-hidden="true">▾</span>`;
+        toggle.setAttribute("aria-label", lang === "de" ? "Sprache wählen" : "Choose language");
     }
 
     const alternate = document.querySelector(`link[rel="alternate"][hreflang="${other}"]`);
@@ -390,8 +383,6 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
         if (location.pathname.endsWith(accountPage)) btn.classList.add("is-current");
         cta.replaceWith(wrap);
-        const lang = document.querySelector(".site-header nav > .nav-lang");
-        if (lang) wrap.after(lang); // globe on the far right, after the username
     } else if (cta) {
         const login = document.createElement("a");
         login.className = "nav-account";
@@ -399,8 +390,6 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         login.innerHTML = `${icon}<span>${en ? "Log in" : "Anmelden"}</span>`;
         if (location.pathname.endsWith(accountPage)) login.setAttribute("aria-current", "page");
         cta.before(login);
-        const lang = document.querySelector(".site-header nav > .nav-lang");
-        if (lang) cta.after(lang); // globe on the far right, after "Create account"
     }
     const mobileLanguages = document.querySelector(".mobile-menu .mobile-menu-languages");
     if (mobileLanguages) {

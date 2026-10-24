@@ -10826,3 +10826,37 @@ footer .footer-links {
 .hx-timeline.is-slider .hx-era {
     padding-left: 0;
 }
+
+/* header language dropdown "🌐 DE ▾" – always the last item on the right (desktop) */
+@media (min-width: 901px) {
+    .site-header nav > .language-switch {
+        display: block;
+    }
+}
+
+.site-header .language-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    cursor: pointer;
+}
+
+.site-header .language-toggle:hover,
+.site-header .language-toggle[aria-expanded="true"] {
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+.lang-caret {
+    color: var(--muted);
+    font-size: .7rem;
+}
