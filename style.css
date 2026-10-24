@@ -10624,3 +10624,43 @@ footer .footer-links {
     background: rgba(255, 255, 255, .15);
     font-size: 1.1rem;
 }
+
+/* header language switch (compact) */
+.site-header nav > a.nav-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+}
+
+.site-header nav > a.nav-lang:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+@media (max-width: 900px) {
+    .site-header nav > a.nav-lang {
+        display: none;
+    }
+}
+
+/* keep menu items on one line; tighter spacing on mid-size screens */
+.site-header nav > a {
+    white-space: nowrap;
+}
+
+@media (min-width: 901px) and (max-width: 1150px) {
+    .site-header nav {
+        gap: 16px;
+    }
+
+    .site-header nav > a:not(.nav-cta):not(.nav-lang) {
+        font-size: .78rem;
+        letter-spacing: .08em;
+    }
+}

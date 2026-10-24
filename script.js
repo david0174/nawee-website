@@ -167,6 +167,20 @@ backToTop.addEventListener("click", () => {
         copy.prepend(sw);
     }
 
+    // compact switch in the header too: "🌐 EN" / "🌐 DE" left of the login / username
+    const otherLink = menuLinks.find((a) => a.lang === other);
+    const headerCta = document.querySelector(".site-header nav > .nav-cta");
+    if (otherLink && headerCta) {
+        const h = document.createElement("a");
+        h.className = "nav-lang";
+        h.href = otherLink.getAttribute("href");
+        h.lang = other;
+        h.title = other === "en" ? "English" : "Deutsch";
+        h.innerHTML = `<span aria-hidden="true">🌐</span> ${other.toUpperCase()}`;
+        h.addEventListener("click", () => setPref(other));
+        headerCta.before(h);
+    }
+
     const alternate = document.querySelector(`link[rel="alternate"][hreflang="${other}"]`);
     if (!alternate) return; // page exists in one language only
     const go = () => location.replace((new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.search + location.hash);
@@ -436,7 +450,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
                 <span>⏱️ <strong>${timeText}</strong> ${en ? "learned" : "gelernt"}</span>
                 <span>📚 <strong>${words}</strong> ${en ? "words" : "Wörter"}</span>
                 <span class="cb-fact">💡 ${fact}</span>
-            </span> <a href="${en ? "account.html" : "konto.html"}">${en ? "Continue →" : "Weiter →"}</a>`;
+            </span> <a href="${en ? "account.html" : "konto.html"}">${en ? "Continue learning →" : "Weiter lernen →"}</a>`;
     }
 
     // announcement bar (not on the account, learning hub and course pages themselves)
