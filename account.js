@@ -242,7 +242,9 @@
     };
     const profileName = async () => {
         const { data } = await db.from("profiles").select("username").eq("id", user.id).maybeSingle();
-        return (data && data.username) || (user.user_metadata && user.user_metadata.username) || user.email;
+        const name = (data && data.username) || (user.user_metadata && user.user_metadata.username) || user.email;
+        try { localStorage.setItem("nawee-username", name); } catch { /* ignore */ } // shown in the header (script.js)
+        return name;
     };
 
     // ---------- small account hint in the course overview ----------
@@ -685,7 +687,7 @@
             if (nextPage) { location.href = nextPage; return; } // back to the course page the visitor wanted
             setTimeout(() => views.profile().then(celebrate), 0);
         }
-        if (event === "SIGNED_OUT") views.login();
+        if (event === "SIGNED_OUT") { try { localStorage.removeItem("nawee-username"); } catch { /* ignore */ } views.login(); }
     });
 
     db.auth.getSession().then(async ({ data }) => {
@@ -714,6 +716,7 @@
         }
         fillHint();
         window.NaweeUser = user;
+        if (user) { let cached = ""; try { cached = localStorage.getItem("nawee-username") || ""; } catch { /* ignore */ } if (!cached) profileName(); }
         window.dispatchEvent(new CustomEvent("nawee:session", { detail: { user } })); // e.g. webinar.js
         // get-started page: say whether the answers are saved in an account (synced answers may have arrived, too)
         if (document.querySelector("[data-onboarding]")) {

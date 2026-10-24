@@ -156,11 +156,25 @@ backToTop.addEventListener("click", () => {
         a.addEventListener("click", () => setPref(a.lang));
     });
 
+    // language switch in the footer (the header stays clean; on phones it is also in the burger menu)
+    const menuLinks = [...document.querySelectorAll(".language-menu a[lang]")];
+    const copy = document.querySelector(".footer-copy");
+    if (copy && menuLinks.length) {
+        const sw = document.createElement("p");
+        sw.className = "footer-lang";
+        sw.innerHTML = `<span aria-hidden="true">🌐</span> ${menuLinks.map((a) => `<a href="${a.getAttribute("href")}" lang="${a.lang}"${a.lang === lang ? ' aria-current="true"' : ""}>${a.lang === "de" ? "Deutsch" : "English"}</a>`).join(" · ")}`;
+        sw.querySelectorAll("a[lang]").forEach((a) => a.addEventListener("click", () => setPref(a.lang)));
+        copy.prepend(sw);
+    }
+
     const alternate = document.querySelector(`link[rel="alternate"][hreflang="${other}"]`);
     if (!alternate) return; // page exists in one language only
-    if (getPref() === other) {
-        location.replace((new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.hash);
-    }
+    const go = () => location.replace((new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.search + location.hash);
+    if (getPref() === other) { go(); return; }
+    // first visit without a choice: browsers not set to German get the English page (not for search engine bots)
+    const bot = /bot|crawl|spider|slurp|google|bing|yandex|duckduck|baidu|facebookexternalhit|preview/i.test(navigator.userAgent);
+    const wantsGerman = (navigator.languages || [navigator.language || ""]).some((l) => /^de/i.test(l));
+    if (!getPref() && lang === "de" && !wantsGerman && !bot && !navigator.webdriver) go();
 })();
 
 // Homepage: underline "Über mich" / "About Me" in the menu while the About Me section is on screen
@@ -316,28 +330,44 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
 (() => {
     const en = document.documentElement.lang === "en";
     const accountPage = en ? "account.html" : "konto.html";
-    let loggedIn = false;
+    let loggedIn = false, session = null;
     try {
-        const session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
+        session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
         loggedIn = Boolean(session && session.user && session.refresh_token);
     } catch { /* storage unavailable */ }
-    const label = loggedIn ? (en ? "My account" : "Mein Konto") : (en ? "Log in" : "Anmelden");
+    // username: cached by account.js, otherwise from the sign-up data
+    let username = "";
+    if (loggedIn) {
+        try { username = localStorage.getItem("nawee-username") || ""; } catch { /* ignore */ }
+        const m = session.user.user_metadata || {};
+        username = username || m.username || m.first_name || m.given_name || String(session.user.email || "").split("@")[0];
+    }
+    const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>';
 
-    const languageSwitch = document.querySelector(".site-header nav > .language-switch");
-    if (languageSwitch) {
-        const link = document.createElement("a");
-        link.className = "nav-account";
-        link.href = accountPage;
-        link.innerHTML = `${icon}<span>${label}</span>`;
-        if (location.pathname.endsWith(accountPage)) link.setAttribute("aria-current", "page");
-        languageSwitch.before(link);
+    // header, right side – logged out: "Log in" + button "Create account"; logged in: the username (→ account page)
+    const cta = document.querySelector(".site-header nav > .nav-cta");
+    if (cta && loggedIn) {
+        const user = document.createElement("a");
+        user.className = "nav-user";
+        user.href = accountPage;
+        user.title = en ? "My account" : "Mein Konto";
+        user.innerHTML = `<span class="nav-user-badge" aria-hidden="true">${esc(username.charAt(0).toUpperCase() || "?")}</span><span class="nav-user-name">${esc(username)}</span>`;
+        if (location.pathname.endsWith(accountPage)) user.setAttribute("aria-current", "page");
+        cta.replaceWith(user);
+    } else if (cta) {
+        const login = document.createElement("a");
+        login.className = "nav-account";
+        login.href = accountPage;
+        login.innerHTML = `${icon}<span>${en ? "Log in" : "Anmelden"}</span>`;
+        if (location.pathname.endsWith(accountPage)) login.setAttribute("aria-current", "page");
+        cta.before(login);
     }
     const mobileLanguages = document.querySelector(".mobile-menu .mobile-menu-languages");
     if (mobileLanguages) {
         const link = document.createElement("a");
         link.href = accountPage;
-        link.textContent = label;
+        link.textContent = loggedIn ? `${en ? "My account" : "Mein Konto"} (${username})` : (en ? "Log in" : "Anmelden");
         mobileLanguages.before(link);
     }
 
