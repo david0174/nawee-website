@@ -10867,3 +10867,18 @@ footer .footer-links {
     font-size: .9rem;
     font-weight: 700;
 }
+
+/* history words: word + meaning on the button */
+.hx-word {
+    display: grid;
+    justify-items: start;
+    gap: 2px;
+    border-radius: 14px;
+    text-align: left;
+}
+
+.hx-word small {
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 600;
+}
