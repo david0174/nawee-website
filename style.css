@@ -10860,3 +10860,10 @@ footer .footer-links {
     color: var(--muted);
     font-size: .7rem;
 }
+
+.hx-words-label {
+    margin: 14px 0 8px !important;
+    color: var(--blue-dark);
+    font-size: .9rem;
+    font-weight: 700;
+}
