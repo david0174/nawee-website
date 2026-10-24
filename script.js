@@ -231,7 +231,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
 // highlighted word (<mark class="hl">) gets its yellow marker stroke. Skipped for "reduce motion".
 (() => {
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const headlines = document.querySelectorAll("main h2:not(.about-heading):not(.ss-block > h2)");
+    const headlines = document.querySelectorAll("main h2:not(.about-heading):not(.ss-block > h2):not(.hire-box h2)");
     let index;
     const split = (node) => {
         [...node.childNodes].forEach((child) => {
