@@ -399,6 +399,8 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         login.innerHTML = `${icon}<span>${en ? "Log in" : "Anmelden"}</span>`;
         if (location.pathname.endsWith(accountPage)) login.setAttribute("aria-current", "page");
         cta.before(login);
+        const lang = document.querySelector(".site-header nav > .nav-lang");
+        if (lang) cta.after(lang); // globe on the far right, after "Create account"
     }
     const mobileLanguages = document.querySelector(".mobile-menu .mobile-menu-languages");
     if (mobileLanguages) {
