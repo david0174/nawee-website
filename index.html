@@ -7,7 +7,7 @@
     <meta name="description" content="Kostenlos Englisch lernen mit Nawee: Lektionen zum Hören und Sprechen, Bildkarten, Lesetexte und Spiele – vom ersten Wort an, gesprochen von einem Muttersprachler. Ohne Anmeldung.">
     <title>Nawee – Englisch lernen durch Hören und Sprechen | kostenlos</title>
     <link rel="canonical" href="https://nawee.net/">
-    <link rel="stylesheet" href="style.css?v=20261024o">
+    <link rel="stylesheet" href="style.css?v=20261024q">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
    
@@ -140,19 +140,12 @@
             </div>
 
             <div class="hero-visual hero-paths">
-                <!-- the visitor's first decision: which learning path (remembered in script.js) -->
-                <div class="path-chooser" id="wege">
-                    <p class="path-chooser-label">Dein Lernweg</p>
-                    <a class="path-card" href="fuer-mich.html" data-path-card="me">
-                        <span class="path-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5s1.3 2 3.5 2 3.5-2 3.5-2"/><path d="M9 9.5h.01M15 9.5h.01"/></svg></span>
-                        <span class="path-card-text"><strong>Englisch für dich</strong><small>Von null bis zum sicheren Gespräch – durch Hören und Sprechen</small></span>
-                        <span class="path-card-arrow" aria-hidden="true">→</span>
-                    </a>
-                    <div class="path-actions">
-                        <a class="button primary" href="start.html">Jetzt starten</a>
-                        <a class="button secondary" href="konto.html">Ich habe schon ein Konto</a>
-                    </div>
-                    <p class="path-chooser-note">Kostenlos · ohne Anmeldung</p>
+                <!-- logged out: a simple start; logged in: the learner's progress (hero-tile.js) -->
+                <div class="path-chooser" id="wege" data-hero-tile>
+                    <p class="path-chooser-label">Fang jetzt an</p>
+                    <p class="path-chooser-lead">Vom ersten Wort bis zum sicheren Gespräch – durch Hören und Sprechen. Kostenlos und ohne Anmeldung.</p>
+                    <a class="button primary path-start" href="start.html">Jetzt starten <span aria-hidden="true">→</span></a>
+                    <a class="path-login" href="konto.html">Ich habe schon ein Konto</a>
                 </div>
             </div>
 
@@ -374,7 +367,11 @@
             <p>© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">0511 936 76970</a> (Mo–Fr, 9–18 Uhr) · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
         </div>
     </footer>
-    <script src="script.js?v=20261024o"></script>
-    <script src="seasonal.js?v=20261024o"></script>
+    <script src="script.js?v=20261024q"></script>
+    <script src="seasonal.js?v=20261024q"></script>
+    <script src="work-course-data.js?v=20261024q"></script>
+    <script src="vocab-data.js?v=20261024q"></script>
+    <script src="reading-data.js?v=20261024q"></script>
+    <script src="hero-tile.js?v=20261024q"></script>
 </body>
 </html>

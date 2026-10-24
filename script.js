@@ -348,13 +348,34 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     // header, right side – logged out: "Log in" + button "Create account"; logged in: the username (→ account page)
     const cta = document.querySelector(".site-header nav > .nav-cta");
     if (cta && loggedIn) {
-        const user = document.createElement("a");
-        user.className = "nav-user";
-        user.href = accountPage;
-        user.title = en ? "My account" : "Mein Konto";
-        user.innerHTML = `<span class="nav-user-badge" aria-hidden="true">${esc(username.charAt(0).toUpperCase() || "?")}</span><span class="nav-user-name">${esc(username)}</span>`;
-        if (location.pathname.endsWith(accountPage)) user.setAttribute("aria-current", "page");
-        cta.replaceWith(user);
+        const wrap = document.createElement("div");
+        wrap.className = "nav-user-wrap";
+        wrap.innerHTML = `<button type="button" class="nav-user" aria-expanded="false" aria-haspopup="true">
+                <span class="nav-user-badge" aria-hidden="true">${esc(username.charAt(0).toUpperCase() || "?")}</span><span class="nav-user-name">${esc(username)}</span><span class="nav-user-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-user-menu" hidden></div>`;
+        const btn = wrap.querySelector(".nav-user"), menu = wrap.querySelector(".nav-user-menu");
+        const fill = () => {
+            const st = learnerStats();
+            menu.innerHTML = `<p class="num-name">${esc(username)}</p>
+                <ul class="num-stats">
+                    <li><strong>🔥 ${st.streak}</strong>${en ? "day streak" : "Tage in Folge"}</li>
+                    <li><strong>📚 ${st.words}</strong>${en ? "words" : "Wörter"}</li>
+                    <li><strong>🎧 ${st.lessons}</strong>${en ? "lessons" : "Lektionen"}</li>
+                    <li><strong>⏱️ ${st.timeText}</strong>${en ? "learned" : "gelernt"}</li>
+                </ul>
+                <a class="num-link" href="${accountPage}">${en ? "My account & progress" : "Mein Konto & Fortschritt"} →</a>
+                <a class="num-logout" href="${accountPage}?logout=1">${en ? "Log out" : "Abmelden"}</a>`;
+        };
+        const close = () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); };
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (menu.hidden) { fill(); menu.hidden = false; btn.setAttribute("aria-expanded", "true"); } else close();
+        });
+        document.addEventListener("click", (e) => { if (!wrap.contains(e.target)) close(); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+        if (location.pathname.endsWith(accountPage)) btn.classList.add("is-current");
+        cta.replaceWith(wrap);
     } else if (cta) {
         const login = document.createElement("a");
         login.className = "nav-account";
@@ -372,7 +393,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     }
 
     // logged in: a small stats line instead of the announcement – streak, learning time, words, a fun fact
-    function statsBar() {
+    function learnerStats() {
         const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
         const vocab = read("nawee-vocab-v1"), time = read("nawee-time-v1");
         const days = new Set([...(read("nawee-trophies-v1").days || []), ...(vocab.days || []), ...(read("nawee-games-v1").days || []), ...Object.keys(time.days || {})]);
@@ -385,6 +406,11 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         const minutes = Math.round((time.total || 0) / 60);
         const timeText = minutes >= 60 ? `${Math.floor(minutes / 60)} h ${minutes % 60} ${en ? "min" : "Min."}` : `${minutes} ${en ? "min" : "Min."}`;
         const words = Object.values(vocab.cards || {}).filter((c) => (c.reps || 0) > 0).length;
+        const lessons = (read("nawee-work-course-v1").completed || []).length + (read("nawee-course-v1").completed || []).length + (read("nawee-communication-course-v1").completed || []).length;
+        return { streak, timeText, words, lessons };
+    }
+    function statsBar() {
+        const { streak, timeText, words } = learnerStats();
         const facts = en ? ["“Goodbye” comes from “God be with ye”.", "The most common word in English is “the”.", "“Queue” sounds the same without its last four letters.", "English and German are related: house – Haus, water – Wasser.", "The verb “run” has more than 600 meanings."]
             : ["„Goodbye“ kommt von „God be with ye“.", "Das häufigste englische Wort ist „the“.", "„Queue“ klingt ohne die letzten vier Buchstaben genauso.", "Englisch und Deutsch sind verwandt: house – Haus, water – Wasser.", "Das Verb „run“ hat über 600 Bedeutungen."];
         const fact = facts[new Date().getDate() % facts.length]; // one fact per day

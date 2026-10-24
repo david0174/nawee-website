@@ -692,6 +692,13 @@
 
     db.auth.getSession().then(async ({ data }) => {
         user = data.session ? data.session.user : null;
+        // "Log out" from the header menu (script.js) lands here with ?logout=1
+        if (root && user && new URLSearchParams(location.search).has("logout")) {
+            await db.auth.signOut();
+            try { localStorage.removeItem("nawee-username"); } catch { /* ignore */ }
+            location.replace(location.pathname); // reload: header and page show the logged-out state
+            return;
+        }
         if (root) {
             if (recovering) return;
             if (user && nextPage) { location.href = nextPage; return; }
