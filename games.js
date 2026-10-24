@@ -1,5 +1,6 @@
 // Typing games (spiele.html / games.html): overview, "Typing Race" (?g=race: type a short English text and race
 // against Tom and Ben) and "Word Rain" (?g=rain: type the falling words before they land; optional German → English).
+// Also "Word & Meaning" (?g=define), "Rhyme Time" (?g=rhyme) and "Sentence Detective" (?g=parts: mark the word classes).
 // Texts come from reading-data.js, words from vocab-data.js. Best scores: "nawee-games-v1" (browser + account via account.js).
 
 (() => {
@@ -18,7 +19,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf – fahr mit der Maus über ein Wort für die Bedeutung", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", rhymeLine: "Merksatz", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
+        parts: "Satz-Detektiv", partsText: "Klick in einem Satz alle Nomen, Verben, Adjektive … an – so siehst du, wie ein englischer Satz gebaut ist.", partsLead: "Ein Satz, mehrere Aufgaben: Markiere jedes Mal die gesuchte Wortart und prüf deine Antwort. Am Ende siehst du den ganzen Satz in Farben zerlegt. Tipp ein Wort an, um es zu hören.", partsMark: "Markiere", partsCheck: "Prüfen", partsNext: "Weiter", partsDone: "Ergebnis", partsRight: "Richtig!", partsAlmost: "Fast! <span class=\"gm-pt-key is-right\">grün</span> = richtig, <span class=\"gm-pt-key is-wrong\">rot</span> = falsch markiert, <span class=\"gm-pt-key is-missed\">gestrichelt</span> = vergessen.", partsBreakdown: "So ist der Satz gebaut:", partsScore: (p, n) => `${p} von ${n} Aufgaben ohne Fehler ${p === n ? "– perfekt! 🏆" : ""}`, partsAnother: "Nächster Satz", partsStep: (i, n) => `Aufgabe ${i} von ${n}`, sentences: (n) => `${n} ${n === 1 ? "Satz" : "Sätze"} zerlegt`, rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf – fahr mit der Maus über ein Wort für die Bedeutung", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", rhymeLine: "Merksatz", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
         typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
@@ -30,7 +31,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with – hover over a word to see its meaning", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", rhymeLine: "Memory line", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
+        parts: "Sentence Detective", partsText: "Click all the nouns, verbs, adjectives … in a sentence – and see how an English sentence is built.", partsLead: "One sentence, several tasks: each time, mark the words of one word class and check your answer. At the end, you see the whole sentence broken down in colors. Tap a word to hear it.", partsMark: "Mark", partsCheck: "Check", partsNext: "Next", partsDone: "Result", partsRight: "Correct!", partsAlmost: "Almost! <span class=\"gm-pt-key is-right\">green</span> = correct, <span class=\"gm-pt-key is-wrong\">red</span> = marked by mistake, <span class=\"gm-pt-key is-missed\">dashed</span> = missed.", partsBreakdown: "This is how the sentence is built:", partsScore: (p, n) => `${p} of ${n} tasks without a mistake ${p === n ? "– perfect! 🏆" : ""}`, partsAnother: "Next sentence", partsStep: (i, n) => `Task ${i} of ${n}`, sentences: (n) => `${n} ${n === 1 ? "sentence" : "sentences"} broken down`, rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with – hover over a word to see its meaning", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", rhymeLine: "Memory line", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
         typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
@@ -62,7 +63,7 @@
     const game = new URLSearchParams(location.search).get("g");
 
     // ---------- overview ----------
-    if (!["race", "rain", "define", "rhyme"].includes(game)) {
+    if (!["race", "rain", "define", "rhyme", "parts"].includes(game)) {
         document.title = `${T.title} | Nawee`;
         const tile = (g, icon, title, text, best) => `<a class="gm-tile" href="${page}?g=${g}">
             <span class="gm-tile-icon" aria-hidden="true">${icon}</span>
@@ -76,8 +77,101 @@
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
                 ${tile("define", "📝", T.define, T.defineText, data.best.define ? `${data.best.define} ${T.wpm}` : "")}
                 ${tile("rhyme", "🎤", T.rhyme, T.rhymeText, data.best.rhyme ? T.words2(data.best.rhyme) : "")}
+                ${tile("parts", "🔍", T.parts, T.partsText, data.best.parts ? T.sentences(data.best.parts) : "")}
             </div>
             <p class="as-disclaimer">${T.privacy}</p>`;
+        return;
+    }
+
+    // ---------- Sentence Detective: mark the word classes in a sentence ----------
+    if (game === "parts") {
+        document.title = `${T.parts} – ${T.title} | Nawee`;
+        // word classes, in the order they are asked; main class after ":", "d|pr" = determiner, pronoun also accepted
+        const CLS = {
+            n: { de: "Nomen", en: "noun", task: de ? "alle <strong>Nomen</strong> (nouns)" : "all the <strong>nouns</strong>", hint: de ? "Dinge, Personen, Orte und Namen – z. B. shop, friend, Tom" : "things, people, places and names – e.g. shop, friend, Tom" },
+            v: { de: "Verb", en: "verb", task: de ? "alle <strong>Verben</strong> (verbs)" : "all the <strong>verbs</strong>", hint: de ? "was jemand tut oder ist – z. B. went, plays, is" : "what someone does or is – e.g. went, plays, is" },
+            adj: { de: "Adjektiv", en: "adjective", task: de ? "alle <strong>Adjektive</strong> (adjectives)" : "all the <strong>adjectives</strong>", hint: de ? "beschreiben ein Nomen – z. B. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>" : "describe a noun – e.g. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>" },
+            adv: { de: "Adverb", en: "adverb", task: de ? "alle <strong>Adverbien</strong> (adverbs)" : "all the <strong>adverbs</strong>", hint: de ? "sagen, wie, wann oder wie oft – z. B. quickly, often, very" : "say how, when or how often – e.g. quickly, often, very" },
+            pr: { de: "Pronomen", en: "pronoun", task: de ? "alle <strong>Pronomen</strong> (pronouns)" : "all the <strong>pronouns</strong>", hint: de ? "stehen für ein Nomen – z. B. I, she, it, they" : "stand for a noun – e.g. I, she, it, they" },
+            d: { de: "Begleiter", en: "determiner", task: de ? "alle <strong>Begleiter</strong> (determiners)" : "all the <strong>determiners</strong>", hint: de ? "stehen vor einem Nomen – z. B. the, a, my, his. (my, his, their nennt man auch Possessivpronomen – beides zählt.)" : "come before a noun – e.g. the, a, my, his. (my, his, their are also called possessive pronouns – both count.)" },
+            prep: { de: "Präposition", en: "preposition", task: de ? "alle <strong>Präpositionen</strong> (prepositions)" : "all the <strong>prepositions</strong>", hint: de ? "zeigen Ort, Richtung oder Zeit – z. B. to, in, under, after" : "show place, direction or time – e.g. to, in, under, after" },
+            conj: { de: "Konjunktion", en: "conjunction", task: de ? "alle <strong>Konjunktionen</strong> (conjunctions)" : "all the <strong>conjunctions</strong>", hint: de ? "verbinden Wörter oder Satzteile – z. B. and, but, because" : "join words or parts of a sentence – e.g. and, but, because" },
+        };
+        const SENTENCES = [
+            "I:pr quickly:adv went:v to:prep the:d shop:n and:conj bought:v a:d new:adj coat:n for:prep my:d|pr friend:n .",
+            "She:pr drinks:v hot:adj tea:n in:prep the:d morning:n .",
+            "We:pr often:adv eat:v lunch:n at:prep a:d small:adj café:n near:prep the:d station:n .",
+            "Tom:n is:v tired:adj , but:conj he:pr works:v very:adv hard:adv .",
+            "My:d|pr little:adj brother:n plays:v football:n with:prep his:d|pr friends:n after:prep school:n .",
+            "The:d old:adj dog:n sleeps:v quietly:adv under:prep the:d big:adj table:n .",
+            "They:pr usually:adv take:v the:d bus:n because:conj it:pr is:v cheap:adj .",
+            "Ben:n and:conj Sarah:n carefully:adv read:v the:d long:adj letter:n from:prep their:d|pr bank:n .",
+        ];
+        const parse = (s) => s.split(" ").reduce((out, t) => {
+            if (!t.includes(":")) { out[out.length - 1].punct += t; return out; }
+            const [w, tag] = t.split(":"), [main, alt = ""] = tag.split("|");
+            out.push({ w, main, alt, punct: "" });
+            return out;
+        }, []);
+        let si = Math.floor(Math.random() * SENTENCES.length);
+
+        const play = () => {
+            const words = parse(SENTENCES[si % SENTENCES.length]);
+            const steps = Object.keys(CLS).filter((c) => words.some((x) => x.main === c));
+            let step = 0, perfect = 0, checked = false;
+            root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🔍 ${T.parts}</h1>
+                <p class="as-lead">${T.partsLead}</p>
+                <div class="gm-parts" data-box></div>
+                <p class="as-disclaimer">${T.privacy}</p>`;
+            const box = root.querySelector("[data-box]");
+            const sentence = (cls) => `<p class="gm-pt-sentence">${words.map((x, k) => `<button type="button" class="gm-pt-word${cls ? ` is-${x.main}` : ""}" data-k="${k}" aria-pressed="false">${esc(x.w)}${cls ? `<small>${de ? CLS[x.main].de : CLS[x.main].en}</small>` : ""}</button>${x.punct ? `<span class="gm-pt-punct">${esc(x.punct)}</span>` : ""}`).join(" ")}</p>`;
+
+            const show = () => {
+                checked = false;
+                const c = steps[step];
+                box.innerHTML = `<div class="gm-pt-steps" aria-label="${T.partsStep(step + 1, steps.length)}">${steps.map((s, k) => `<span class="${k < step ? "is-done" : k === step ? "is-on" : ""}"></span>`).join("")}</div>
+                    <p class="gm-pt-task">${T.partsMark} ${CLS[c].task}</p>
+                    <p class="gm-pt-hint">💡 ${CLS[c].hint}</p>
+                    ${sentence(false)}
+                    <div class="gm-pt-actions"><button type="button" class="button primary" data-check>✓ ${T.partsCheck}</button></div>
+                    <p class="gm-pt-feedback" data-fb aria-live="polite"></p>`;
+                box.querySelectorAll(".gm-pt-word").forEach((b) => b.addEventListener("click", () => {
+                    say(words[b.dataset.k].w);
+                    if (checked) return;
+                    b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+                }));
+                box.querySelector("[data-check]").addEventListener("click", (e) => {
+                    if (checked) { step += 1; return step < steps.length ? show() : finish(); }
+                    checked = true;
+                    let ok = true;
+                    box.querySelectorAll(".gm-pt-word").forEach((b) => {
+                        const x = words[b.dataset.k], on = b.getAttribute("aria-pressed") === "true";
+                        if (x.main === c) { b.classList.add(on ? "is-right" : "is-missed"); if (!on) ok = false; }
+                        else if (on && x.alt === c) b.classList.add("is-right");
+                        else if (on) { b.classList.add("is-wrong"); ok = false; }
+                    });
+                    if (ok) perfect += 1;
+                    box.querySelector("[data-fb]").innerHTML = ok ? `🎉 ${T.partsRight}` : T.partsAlmost;
+                    box.querySelector("[data-fb]").className = `gm-pt-feedback ${ok ? "is-ok" : "is-no"}`;
+                    e.currentTarget.textContent = step + 1 < steps.length ? `${T.partsNext} →` : `${T.partsDone} →`;
+                });
+            };
+
+            const finish = () => {
+                data.best.parts = (data.best.parts || 0) + 1; // number of sentences broken down so far
+                save();
+                const used = Object.keys(CLS).filter((c) => words.some((x) => x.main === c));
+                box.innerHTML = `<p class="gm-pt-task">${T.partsBreakdown}</p>
+                    ${sentence(true)}
+                    <ul class="gm-pt-legend">${used.map((c) => `<li class="is-${c}">${de ? `${CLS[c].de} <em>(${CLS[c].en})</em>` : CLS[c].en}</li>`).join("")}</ul>
+                    <p class="gm-pt-score">${T.partsScore(perfect, steps.length)}</p>
+                    <div class="gm-pt-actions"><button type="button" class="button primary" data-again>${T.partsAnother} →</button></div>`;
+                box.querySelectorAll(".gm-pt-word").forEach((b) => b.addEventListener("click", () => say(words[b.dataset.k].w)));
+                box.querySelector("[data-again]").addEventListener("click", () => { si += 1; play(); });
+            };
+            show();
+        };
+        play();
         return;
     }
 
