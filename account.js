@@ -344,10 +344,10 @@
         const chips = p.level === undefined ? "" : [
             T.planGoal[p.goal], T.planLevel[p.level], T.planFocus[p.focus], p.minutes ? T.planMinutes(p.minutes) : "",
         ].filter(Boolean).map((c) => `<li>${esc(c)}</li>`).join("");
+        if (!chips) return ""; // no questions answered: nothing to offer here
         return `<section class="account-plan">
                     <h2 class="lesson-h">${T.plan}</h2>
-                    ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}?edit">${T.planEdit} →</a>`
-                        : `<p>${T.planNone} <a href="${T.startPage}?edit">${T.planStart} →</a></p>`}
+                    ${chips ? `<ul class="ob-summary">${chips}</ul><a href="${T.startPage}?edit">${T.planEdit} →</a>` : ""}
                 </section>`;
     };
 

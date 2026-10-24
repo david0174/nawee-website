@@ -226,7 +226,7 @@
     } catch { /* storage unavailable */ }
     const saved = load();
     const answered = (p) => p && p.level !== undefined;
-    if (loggedIn && answered(saved) && !editing) { location.replace(accountPage); return; }
+    if (loggedIn && !editing) { location.replace(accountPage); return; } // logged in: no plan offer, straight to the progress
     // answers saved in the account (another device) arrive after account.js has synced
     window.addEventListener("nawee:account", (e) => {
         if (e.detail && e.detail.name && answered(load()) && !editing && !started) location.replace(accountPage);

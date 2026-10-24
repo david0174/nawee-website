@@ -392,6 +392,23 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         mobileLanguages.before(link);
     }
 
+    // logged in: no "start your journey / get your plan" offers anymore – point to the learner's own progress
+    if (loggedIn) {
+        const startLink = (el) => /(^|\/)(start|get-started)\.html(?!\?edit)|#wege$/.test(el.getAttribute("href") || "");
+        document.querySelectorAll(".as-cta").forEach((box) => {
+            if (![...box.querySelectorAll("a")].some(startLink)) return;
+            box.innerHTML = `<h2>${en ? "Let’s keep going!" : "Weiter geht’s!"}</h2>
+                <p>${en ? "Pick up where you left off – your progress is saved in your account." : "Mach da weiter, wo du aufgehört hast – dein Fortschritt ist in deinem Konto gespeichert."}</p>
+                <a class="button primary" href="${accountPage}">${en ? "Go to my progress" : "Zu meinem Fortschritt"} <span aria-hidden="true">→</span></a>`;
+        });
+        document.querySelectorAll("a[href]").forEach((a) => {
+            if (!startLink(a) || a.closest(".site-header nav > .nav-user-wrap")) return;
+            if (a.closest(".mobile-menu")) { a.remove(); return; }
+            a.href = accountPage;
+            if (a.classList.contains("button")) a.innerHTML = `${en ? "Continue learning" : "Weiter lernen"} <span aria-hidden="true">→</span>`;
+        });
+    }
+
     // logged in: a small stats line instead of the announcement – streak, learning time, words, a fun fact
     function learnerStats() {
         const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
