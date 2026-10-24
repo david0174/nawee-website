@@ -57,6 +57,10 @@
         root.innerHTML = `<p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="as-lead">${T.lead}</p>
             <h2 class="rd-group">📰 ${T.news}</h2><div class="rd-list">${news.map(card).join("")}</div>
             <h2 class="rd-group">📖 ${T.stories}</h2><div class="rd-list">${stories.map(card).join("")}</div>
+            <a class="rd-card rd-special" href="${de ? "geschichte-englisch.html" : "history-of-english.html"}">
+                <span class="rd-card-icon" aria-hidden="true">📜</span>
+                <span class="rd-card-body"><span class="rd-card-meta">${de ? "SPEZIAL" : "SPECIAL"}</span><strong>${de ? "Die Geschichte des Englischen" : "The history of English"}</strong><span class="rd-card-status">${de ? "2000 Jahre in einem Zeitstrahl →" : "2,000 years on one timeline →"}</span></span>
+            </a>
             <p class="as-disclaimer">${T.privacy}</p>`;
         return;
     }

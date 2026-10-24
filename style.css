@@ -10430,3 +10430,159 @@ footer .footer-links {
     min-width: 0;
     overflow: hidden;
 }
+
+/* =========================
+   History of English (geschichte-englisch.html / history-of-english.html)
+   ========================= */
+.hx {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 64px) 16px 48px;
+}
+
+.hx h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 18px;
+}
+
+.hx-tip {
+    padding: 14px 18px;
+    border-left: 4px solid var(--yellow);
+    border-radius: 12px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.hx-timeline {
+    position: relative;
+    margin: 34px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hx-timeline::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 118px;
+    width: 4px;
+    border-radius: 99px;
+    background: linear-gradient(var(--blue), var(--yellow));
+}
+
+.hx-era {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 40px;
+    margin-bottom: 22px;
+}
+
+.hx-era::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 112px;
+    width: 16px;
+    height: 16px;
+    border: 4px solid var(--white);
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 2px var(--blue);
+}
+
+.hx-year {
+    margin: 12px 0 0;
+    color: var(--blue);
+    font-weight: 800;
+    text-align: right;
+}
+
+.hx-card {
+    padding: 18px 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    background: var(--white);
+}
+
+.hx-card h2 {
+    margin: 2px 0 8px;
+    font-size: 1.35rem;
+}
+
+.hx-card > p {
+    margin: 0 0 10px;
+    line-height: 1.65;
+}
+
+.hx-from {
+    color: var(--muted);
+    font-size: .82rem;
+    letter-spacing: .04em;
+}
+
+.hx-from strong {
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: #fff6d6;
+    color: var(--blue-dark);
+}
+
+.hx-quote {
+    padding: 8px 12px;
+    border-left: 3px solid var(--blue);
+    color: var(--blue-dark);
+    font-family: var(--display);
+    font-style: italic;
+}
+
+.hx-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hx-word {
+    padding: 6px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 99px;
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.hx-word:hover {
+    border-color: var(--blue);
+    background: #fff6d6;
+}
+
+.rd-special {
+    margin-top: 22px;
+    border: 2px solid var(--yellow);
+}
+
+@media (max-width: 640px) {
+    .hx-timeline::before {
+        left: 8px;
+    }
+
+    .hx-era {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 6px;
+        padding-left: 30px;
+    }
+
+    .hx-era::before {
+        top: 2px;
+        left: 2px;
+    }
+
+    .hx-year {
+        margin: 0;
+        text-align: left;
+    }
+}
