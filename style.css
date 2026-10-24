@@ -11081,3 +11081,34 @@ footer .footer-links {
     letter-spacing: .08em;
     text-transform: uppercase;
 }
+
+/* Rhyme Time: meaning under each rhyme word, hidden until hover (computer) or tap (phone) */
+.gm-rhyme-chip {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.gm-rhyme-chip small {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    color: var(--muted);
+    font-size: .74rem;
+    font-weight: 600;
+    transition: opacity .2s, max-height .2s;
+}
+
+.gm-rhyme-chip.is-shown small {
+    max-height: 3em;
+    opacity: 1;
+}
+
+@media (hover: hover) {
+    .gm-rhyme-chip:hover small,
+    .gm-rhyme-chip:focus-visible small {
+        max-height: 3em;
+        opacity: 1;
+    }
+}
