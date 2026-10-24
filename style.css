@@ -10882,3 +10882,45 @@ footer .footer-links {
     font-size: .78rem;
     font-weight: 600;
 }
+
+/* history words: meaning hidden until hover (computer) or tap (phone) – guess first */
+.hx-word {
+    position: relative;
+}
+
+.hx-word small {
+    transition: opacity .2s;
+}
+
+.hx-word:not(.is-shown) small {
+    opacity: 0;
+}
+
+.hx-word:not(.is-shown)::after {
+    content: "?";
+    position: absolute;
+    left: 12px;
+    bottom: 6px;
+    color: var(--blue);
+    font-weight: 800;
+    font-size: .8rem;
+    transition: opacity .2s;
+}
+
+@media (hover: hover) {
+    .hx-word:hover small,
+    .hx-word:focus-visible small {
+        opacity: 1;
+    }
+
+    .hx-word:hover::after,
+    .hx-word:focus-visible::after {
+        opacity: 0;
+    }
+}
+
+.hx-hint {
+    margin: -2px 0 10px;
+    color: var(--muted);
+    font-size: .82rem;
+}
