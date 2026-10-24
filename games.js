@@ -322,6 +322,7 @@
             boombap: { name: "Boom Bap", bpm: 90, kick: [0, 7, 10], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14], bass: [[0, 41], [7, 41], [10, 44]], chords: null },
             lofi: { name: "Lo-fi", bpm: 75, kick: [0, 8, 11], snare: [4, 12], hat: [0, 2, 4, 6, 8, 10, 12, 14], bass: [[0, 45], [8, 41]], chords: [[57, 60, 64, 67], [53, 57, 60, 64]] },
             trap: { name: "Trap", bpm: 140, kick: [0, 3, 10], snare: [8], hat: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], bass: [[0, 36], [3, 36], [10, 39]], chords: null, halfTime: true },
+            jazzhop: { name: "Jazz Hop", bpm: 85, kick: [0, 6, 10], snare: [4, 12], hat: [0, 3, 4, 7, 8, 11, 12, 15], bass: [[0, 43], [6, 46], [10, 41]], chords: [[55, 59, 62, 65], [53, 57, 60, 64], [52, 55, 59, 62], [50, 53, 57, 60]] },
         };
         let ctx = null, master = null, beatTimer = null, nextTime = 0, stepNo = 0;
         const noiseBuffer = () => {
@@ -433,7 +434,13 @@
                     <div class="gm-rhyme-list" data-list></div>
                     <p class="gm-rhyme-task">🗣️ ${T.rhymeTask}</p>
                     <div class="gm-rhyme-actions"><button type="button" class="button primary" data-next>${T.nextWord} →</button><button type="button" class="button secondary" data-stop>${T.stop}</button></div>
-                    ${beatId !== "off" ? `<label class="gm-volume">🎧 ${BEATS[beatId].name} · ${T.volume} <input type="range" min="0" max="1" step="0.05" value="${volume}" data-volume></label>` : ""}
+                    <div class="gm-player" data-player>
+                        <button type="button" class="gm-pl-btn" data-pl-prev aria-label="${de ? "Vorheriger Beat" : "Previous beat"}">⏮</button>
+                        <button type="button" class="gm-pl-play" data-pl-play aria-label="Play/Pause"></button>
+                        <button type="button" class="gm-pl-btn" data-pl-next aria-label="${de ? "Nächster Beat" : "Next beat"}">⏭</button>
+                        <span class="gm-pl-info"><span class="gm-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong data-pl-name></strong><small data-pl-bpm></small></span>
+                        <label class="gm-pl-vol">🔊 <input type="range" min="0" max="1" step="0.05" value="${volume}" data-volume aria-label="${T.volume}"></label>
+                    </div>
                     <p class="gm-rhyme-count" data-count></p>
                 </div>`;
             const show = () => {
@@ -470,6 +477,21 @@
             root.querySelector("[data-next]").addEventListener("click", next);
             root.querySelector("[data-stop]").addEventListener("click", stop);
             root.querySelector("[data-volume]")?.addEventListener("input", (e) => { volume = Number(e.target.value); if (master) master.gain.value = volume * 0.7; });
+            // player bar: play/pause, previous/next beat
+            const ids = Object.keys(BEATS);
+            let current = beatId === "off" ? ids[0] : beatId, playingBeat = beatId !== "off";
+            const player = root.querySelector("[data-player]");
+            const drawPlayer = () => {
+                player.querySelector("[data-pl-play]").textContent = playingBeat ? "⏸" : "▶";
+                player.querySelector("[data-pl-name]").textContent = BEATS[current].name;
+                player.querySelector("[data-pl-bpm]").textContent = `${BEATS[current].bpm} BPM`;
+                player.classList.toggle("is-playing", playingBeat);
+            };
+            const go = () => { beatId = playingBeat ? current : "off"; if (playingBeat) startBeat(); else stopBeat(); drawPlayer(); };
+            player.querySelector("[data-pl-play]").addEventListener("click", () => { playingBeat = !playingBeat; go(); });
+            player.querySelector("[data-pl-next]").addEventListener("click", () => { current = ids[(ids.indexOf(current) + 1) % ids.length]; playingBeat = true; go(); });
+            player.querySelector("[data-pl-prev]").addEventListener("click", () => { current = ids[(ids.indexOf(current) - 1 + ids.length) % ids.length]; playingBeat = true; go(); });
+            drawPlayer();
             startBeat();
             window.addEventListener("pagehide", () => clearInterval(timer));
             show();

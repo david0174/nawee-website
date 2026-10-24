@@ -10963,3 +10963,91 @@ footer .footer-links {
     color: var(--muted);
     font-size: .85rem;
 }
+
+/* Rhyme Time: beat player bar */
+.gm-player {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 14px;
+    width: min(100%, 560px);
+    margin-top: 8px;
+    padding: 10px 16px;
+    border-radius: 99px;
+    background: var(--blue-dark);
+    color: var(--white);
+}
+
+.gm-pl-btn,
+.gm-pl-play {
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.gm-pl-btn {
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, .12);
+    color: var(--white);
+}
+
+.gm-pl-play {
+    width: 44px;
+    height: 44px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-size: 1.1rem;
+}
+
+.gm-pl-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 150px;
+}
+
+.gm-pl-info small {
+    opacity: .75;
+}
+
+.gm-eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+}
+
+.gm-eq i {
+    width: 3px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--yellow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .gm-player.is-playing .gm-eq i { animation: gm-eq .8s ease-in-out infinite alternate; }
+    .gm-player.is-playing .gm-eq i:nth-child(2) { animation-delay: .2s; }
+    .gm-player.is-playing .gm-eq i:nth-child(3) { animation-delay: .4s; }
+    .gm-player.is-playing .gm-eq i:nth-child(4) { animation-delay: .1s; }
+}
+
+@keyframes gm-eq {
+    from { height: 4px; }
+    to { height: 16px; }
+}
+
+.gm-pl-vol {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gm-pl-vol input {
+    width: 90px;
+    accent-color: var(--yellow);
+}
