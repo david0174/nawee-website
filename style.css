@@ -10924,3 +10924,42 @@ footer .footer-links {
     color: var(--muted);
     font-size: .82rem;
 }
+
+/* Rhyme Time: links to instrumentals on YouTube (links only, no embeds) */
+.gm-yt {
+    margin: 10px 0 0;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+}
+
+.gm-yt p {
+    margin: 0 0 8px;
+}
+
+.gm-yt-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gm-yt-links a {
+    padding: 6px 14px;
+    border: 1.5px solid var(--blue);
+    border-radius: 99px;
+    background: var(--white);
+    color: var(--blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.gm-yt-links a:hover {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.gm-yt-note {
+    margin: 0 !important;
+    color: var(--muted);
+    font-size: .85rem;
+}

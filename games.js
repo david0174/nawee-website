@@ -18,7 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
+        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
         typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
@@ -30,7 +30,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
+        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
         typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
@@ -404,6 +404,12 @@
                 <p class="gm-label">${T.beat}</p>
                 <div class="gm-choices">${[["off", T.off], ...Object.entries(BEATS).map(([id, b]) => [id, `${b.name} <small>${b.bpm} BPM</small>`])].map(([id, label]) => `<button type="button" class="gm-choice${id === beatId ? " is-on" : ""}" data-beat="${id}">${label}</button>`).join("")}</div>
                 <p class="as-note">🎧 ${T.beatNote}</p>
+                <div class="gm-yt">
+                    <p><strong>${T.ytTitle}</strong></p>
+                    <p class="gm-yt-links">${[["Boom Bap", "boom bap instrumental"], ["Lo-fi", "lofi hip hop instrumental"], ["Trap", "trap instrumental"], ["Old School", "old school hip hop instrumental"], ["Jazz Rap", "jazz rap instrumental"]]
+                        .map(([label, q]) => `<a href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank" rel="noopener">${label} <span aria-hidden="true">↗</span></a>`).join("")}</p>
+                    <p class="gm-yt-note">${T.ytNote}</p>
+                </div>
                 <button type="button" class="button primary gm-start" data-start>${T.start} →</button>
                 <p class="as-disclaimer">${T.privacy}</p>`;
             root.querySelectorAll("[data-beat]").forEach((b) => b.addEventListener("click", () => {
