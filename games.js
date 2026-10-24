@@ -18,7 +18,7 @@
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
-        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
+        rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", rhymeLine: "Merksatz", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
         typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
@@ -30,7 +30,7 @@
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
-        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
+        rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", rhymeLine: "Memory line", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
         typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
@@ -315,6 +315,21 @@
             ["moon", "soon", "spoon", "noon", "June"], ["hot", "not", "lot", "got", "spot"], ["heart", "start", "part", "art", "smart"],
             ["fish", "dish", "wish"], ["love", "above", "glove"], ["house", "mouse"],
         ];
+        // a memorable little rhyme for every word family (heard with the browser voice)
+        const LINES = {
+            cat: "The cat in the hat sat on a mat.", day: "Every day I like to play.", night: "Turn on the light – it’s dark at night.",
+            time: "It’s time to climb and make a rhyme.", car: "I drive my car – it isn’t far.", cake: "I bake a cake down by the lake.",
+            rain: "I take the train when there’s rain.", blue: "I have one blue shoe – and you have two.", sun: "We run in the sun and have some fun.",
+            bed: "I go to bed with a sleepy head.", book: "Come and look at my new book.", go: "When we go, it starts to snow.",
+            tree: "Come and see the big green tree.", ring: "The king can sing and wear a ring.", cold: "The night is cold – my hand you hold.",
+            door: "Close the door, then clean the floor.", boat: "Wear a coat on the boat.", feet: "Wash your feet before you eat.",
+            cool: "School is cool, and so is the pool.", sleep: "Count the sheep and go to sleep.", friend: "A good friend is there till the end.",
+            phone: "I’m all alone with my phone.", dog: "The dog in the fog sat on a log.", hand: "Give me a hand – let’s start a band.",
+            name: "What’s your name? Let’s play a game.", bike: "I like to ride my bike.", ball: "The tall boy threw the ball at the wall.",
+            green: "The grass is green and clean.", fast: "He ran so fast – he wasn’t last.", best: "You did your best – now take a rest.",
+            moon: "See you soon under the moon.", hot: "It’s hot – I like it a lot!", heart: "Follow your heart and make a start.",
+            fish: "I make a wish for a fish on a dish.", love: "The stars above are full of love.", house: "There’s a mouse in my house!",
+        };
         let secs = 20, beatId = "boombap", volume = 0.6;
 
         // ---- own beats, synthesized live with the Web Audio API (no audio files, no licenses) ----
@@ -432,6 +447,7 @@
                     <button type="button" class="gm-rhyme-word" data-word></button>
                     <p class="gm-rhyme-label">${T.rhymesWith}</p>
                     <div class="gm-rhyme-list" data-list></div>
+                    <button type="button" class="gm-rhyme-line" data-line hidden></button>
                     <p class="gm-rhyme-task">🗣️ ${T.rhymeTask}</p>
                     <div class="gm-rhyme-actions"><button type="button" class="button primary" data-next>${T.nextWord} →</button><button type="button" class="button secondary" data-stop>${T.stop}</button></div>
                     <div class="gm-player" data-player>
@@ -451,6 +467,9 @@
                 const list = root.querySelector("[data-list]");
                 list.innerHTML = [...rhymes].sort(() => Math.random() - 0.5).map((r) => `<button type="button" class="gm-rhyme-chip">${esc(r)}</button>`).join("");
                 list.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => say(b.textContent)));
+                const lineBtn = root.querySelector("[data-line]"), line = LINES[word];
+                lineBtn.hidden = !line;
+                if (line) { lineBtn.innerHTML = `<small>💡 ${T.rhymeLine}</small>🔊 ${esc(line)}`; lineBtn.onclick = () => say(line); }
                 root.querySelector("[data-count]").textContent = done ? T.words2(done) : "";
                 say(word); // hear the word when it appears
                 clearInterval(timer);

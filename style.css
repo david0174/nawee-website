@@ -11051,3 +11051,33 @@ footer .footer-links {
     width: 90px;
     accent-color: var(--yellow);
 }
+
+/* Rhyme Time: memorable rhyme line */
+.gm-rhyme-line {
+    display: grid;
+    gap: 2px;
+    max-width: 520px;
+    padding: 12px 18px;
+    border: 0;
+    border-left: 5px solid var(--yellow);
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-style: italic;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(13, 47, 130, .08);
+}
+
+.gm-rhyme-line small {
+    color: var(--blue);
+    font-family: var(--sans, inherit);
+    font-size: .75rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
