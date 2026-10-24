@@ -390,6 +390,8 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
         if (location.pathname.endsWith(accountPage)) btn.classList.add("is-current");
         cta.replaceWith(wrap);
+        const lang = document.querySelector(".site-header nav > .nav-lang");
+        if (lang) wrap.after(lang); // globe on the far right, after the username
     } else if (cta) {
         const login = document.createElement("a");
         login.className = "nav-account";
