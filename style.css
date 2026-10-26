@@ -11287,3 +11287,80 @@ footer .footer-links {
 .learn-be .text-link {
     align-self: flex-start;
 }
+
+/* account dashboard: personal coaching with David (davidnawee.com) */
+.dash-coach {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.dash-coach-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dash-coach .dash-h {
+    margin-bottom: 6px;
+}
+
+.dash-coach p:last-child {
+    margin: 0;
+    color: var(--muted);
+}
+
+@media (max-width: 700px) {
+    .dash-coach {
+        grid-template-columns: auto 1fr;
+    }
+
+    .dash-coach .button {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
+
+/* carousel: "learn with David" slide visual */
+.cs-coach {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 24px 28px;
+    border-radius: 22px;
+    background: var(--white);
+    box-shadow: 0 12px 30px rgba(15, 40, 90, .12);
+    text-align: center;
+}
+
+.cs-coach img {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 8px;
+    border: 4px solid var(--yellow);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cs-coach strong {
+    color: var(--blue-dark);
+    font-size: 1.1rem;
+}
+
+.cs-coach small {
+    color: var(--muted);
+}
+
+.cs-coach span {
+    margin-top: 10px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .8rem;
+    font-weight: 700;
+}

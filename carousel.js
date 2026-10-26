@@ -32,6 +32,13 @@
             visual: `<div class="cs-chat"><p class="b">Hi Tom! Are you free this weekend?</p><p class="t">I’m free on Saturday. Why?</p><span class="cs-play">▶</span></div>`,
         },
         {
+            tag: de ? "👋 PERSÖNLICH MIT DAVID" : "👋 LEARN WITH DAVID",
+            title: de ? "Schneller weiter mit einem Coach" : "Go further, faster, with a coach",
+            text: de ? "Englisch-Coaching, Englischunterricht und Workshops – eins zu eins mit David, online oder in Hannover. Bald auch kostenlose Kurse zu Selbstvertrauen, Kommunikation und Stress." : "English coaching, English lessons and workshops – one-on-one with David, online or in Hannover. Coming soon: free courses on confidence, communication and stress.",
+            cta: de ? "Zu davidnawee.com" : "Visit davidnawee.com", href: de ? "https://davidnawee.com/" : "https://davidnawee.com/index-en.html", external: true,
+            visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${de ? "Coach · Muttersprachler aus den USA" : "Coach · native speaker from the US"}</small><span>${de ? "Erstgespräch kostenlos" : "Free intro call"}</span></div>`,
+        },
+        {
             tag: de ? "🖼️ BILDKARTEN" : "🖼️ PICTURE CARDS",
             title: de ? "100 Wörter mit Bild und Ton" : "100 words with pictures and sound",
             text: de ? "Bild ansehen, Wort laut sagen, anhören – mit Wiederholung im richtigen Abstand. Die Ampel zeigt dir, wie sicher du schon bist." : "Look at the picture, say the word, listen – with spaced repetition. The traffic light shows how well you know each word.",
@@ -68,7 +75,7 @@
                     <h2>${s.title}</h2>
                     <p>${s.text}</p>
                     <div class="cs-actions">
-                        <a class="button primary" href="${s.href}" ${i ? 'tabindex="-1"' : ""}>${s.cta} <span aria-hidden="true">→</span></a>
+                        <a class="button primary" href="${s.href}" ${s.external ? 'target="_blank" rel="noopener"' : ""} ${i ? 'tabindex="-1"' : ""}>${s.cta} <span aria-hidden="true">${s.external ? "↗" : "→"}</span></a>
                         ${s.cta2 ? `<a class="cs-link2" href="${s.href2}" target="_blank" rel="noopener" ${i ? 'tabindex="-1"' : ""}>${s.cta2} <span aria-hidden="true">↗</span></a>` : ""}
                     </div>
                 </div>
