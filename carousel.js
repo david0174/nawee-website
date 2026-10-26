@@ -18,6 +18,13 @@
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🪑🪑🪑🪑🪑<small>${de ? "5 Plätze" : "5 seats"}</small></div>`,
         },
         {
+            tag: de ? "💼 BALD VERFÜGBAR" : "💼 COMING SOON",
+            title: de ? "Business English für echte Situationen" : "Business English for real situations",
+            text: de ? "Vorstellungsgespräch, Small Talk, Messen, Meetings und Präsentationen: Du übst die Momente, in denen es im Beruf zählt – mit Rollenspielen und Feedback zu deinem Fortschritt." : "Job interviews, small talk, trade fairs, meetings and presentations: practice the moments that matter at work – with role-plays and feedback on your progress.",
+            cta: de ? "Mehr erfahren" : "Learn more", href: P("lernen.html#business-english", "learn.html#business-english"),
+            visual: `<div class="cs-icons"><span>🤝</span><span>☕</span><span>🏛️</span><span>📋</span><span>🎤</span><span>⭐</span></div>`,
+        },
+        {
             tag: de ? "🎧 LEKTIONEN" : "🎧 LESSONS",
             title: de ? "Hören, nachsprechen, selbst sprechen" : "Listen, repeat, speak",
             text: de ? "Kurze Lektionen mit echten Gesprächen zwischen Tom und Ben – vom ersten Wort bis A2, mit Hintergrundgeräuschen wie im echten Leben." : "Short lessons with real conversations between Tom and Ben – from your first word to A2, with background sounds like in real life.",

@@ -11236,3 +11236,54 @@ footer .footer-links {
     .gm-pt-word, .gm-pt-punct { font-size: 1.1rem; }
     .gm-pt-word { padding: 5px 9px; }
 }
+
+/* Lernen page: Business English course (coming soon, .learn-be*) under the two course cards */
+.learn-be {
+    max-width: 1100px;
+    margin: 20px auto 0;
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.learn-be-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.learn-be-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--blue-dark);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.learn-be-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 14px;
+    padding: 0;
+    list-style: none;
+}
+
+.learn-be-list li {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    font-weight: 600;
+}
+
+.learn-be .text-link {
+    align-self: flex-start;
+}
