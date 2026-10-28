@@ -416,7 +416,7 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         });
     }
 
-    // logged in: a small stats line instead of the announcement – streak, learning time, words, a fun fact
+    // logged in: a small stats line instead of the announcement – streak, learning time, words
     function learnerStats() {
         const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
         const vocab = read("nawee-vocab-v1"), time = read("nawee-time-v1");
@@ -435,14 +435,10 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     }
     function statsBar() {
         const { streak, timeText, words } = learnerStats();
-        const facts = en ? ["“Goodbye” comes from “God be with ye”.", "The most common word in English is “the”.", "“Queue” sounds the same without its last four letters.", "English and German are related: house – Haus, water – Wasser.", "The verb “run” has more than 600 meanings."]
-            : ["„Goodbye“ kommt von „God be with ye“.", "Das häufigste englische Wort ist „the“.", "„Queue“ klingt ohne die letzten vier Buchstaben genauso.", "Englisch und Deutsch sind verwandt: house – Haus, water – Wasser.", "Das Verb „run“ hat über 600 Bedeutungen."];
-        const fact = facts[new Date().getDate() % facts.length]; // one fact per day
         return `<span class="cb-stats">
                 <span>🔥 <strong>${streak}</strong> ${en ? (streak === 1 ? "day in a row" : "days in a row") : (streak === 1 ? "Tag in Folge" : "Tage in Folge")}</span>
                 <span>⏱️ <strong>${timeText}</strong> ${en ? "learned" : "gelernt"}</span>
                 <span>📚 <strong>${words}</strong> ${en ? "words" : "Wörter"}</span>
-                <span class="cb-fact">💡 ${fact}</span>
             </span> <a href="${en ? "account.html" : "konto.html"}">${en ? "Continue learning →" : "Weiter lernen →"}</a>`;
     }
 
