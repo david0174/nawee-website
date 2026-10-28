@@ -240,7 +240,7 @@
             all.innerHTML = `<span aria-hidden="true">${ICON.play}</span> ${T.playAll}`;
         });
         const textLabel = (hidden) => `<span aria-hidden="true">📄</span> ${hidden ? T.showText : T.hideText}`;
-        // text is shown first; whoever wants to train the ear hides it (remembered in this browser)
+        // listen first: the text starts hidden, the learner can show it (remembered in this browser)
         const tip = el("p", "sl-word-tip", T.wordTip);
         const toggle = button("sl-text-toggle", "", () => setHidden(!lines.classList.contains("is-hidden-text"), true));
         const setHidden = (hidden, save) => {
@@ -250,7 +250,7 @@
             lines.querySelectorAll(".sl-word").forEach((w) => { w.tabIndex = hidden ? -1 : 0; });
             if (save) try { localStorage.setItem("nawee-dialogue-text", hidden ? "hidden" : "shown"); } catch { /* storage unavailable */ }
         };
-        setHidden((() => { try { return localStorage.getItem("nawee-dialogue-text") === "hidden"; } catch { return false; } })(), false);
+        setHidden((() => { try { return localStorage.getItem("nawee-dialogue-text") !== "shown"; } catch { return true; } })(), false);
         s.append(el("div", "sl-row"), tempo, tip, lines);
         s.querySelector(".sl-row").append(all, toggle);
         if (scene && window.NaweeAmbience) {
