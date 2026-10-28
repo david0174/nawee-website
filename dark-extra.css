@@ -2,3 +2,5 @@
 body { background: var(--dm-bg); color: var(--ink); }
 /* light-mode logo is swapped for the dark logo (cream + gold) by script.js; this only softens the hover glow */
 .brand:hover img, .brand:focus-visible img { filter: drop-shadow(0 6px 10px rgba(120, 170, 255, .3)); }
+/* round photo in the hero: yellow ring in dark mode */
+.hero-person img { border-color: var(--yellow); }

@@ -518,6 +518,7 @@
     html:not([data-theme="light"]) .withdraw-frame { background: #1b1e24; }
     html:not([data-theme="light"]) body { background: var(--dm-bg); color: var(--ink); }
     html:not([data-theme="light"]) .brand:hover img, html:not([data-theme="light"]) .brand:focus-visible img { filter: drop-shadow(0 6px 10px rgba(120, 170, 255, .3)); }
+    html:not([data-theme="light"]) .hero-person img { border-color: var(--yellow); }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1036,6 +1037,7 @@ html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e
 html[data-theme="dark"] .withdraw-frame { background: #1b1e24; }
 html[data-theme="dark"] body { background: var(--dm-bg); color: var(--ink); }
 html[data-theme="dark"] .brand:hover img, html[data-theme="dark"] .brand:focus-visible img { filter: drop-shadow(0 6px 10px rgba(120, 170, 255, .3)); }
+html[data-theme="dark"] .hero-person img { border-color: var(--yellow); }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
