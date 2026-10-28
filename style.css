@@ -6400,6 +6400,33 @@ mark.hl {
     margin: 4px 0 0;
 }
 
+/* dialogue tempo */
+.sl-tempo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 12px 0 0;
+}
+
+.sl-tempo-label {
+    margin-right: 4px;
+    color: var(--muted, #5b6675);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.sl-btn.sl-tempo-btn {
+    padding: 6px 12px;
+    font-size: .85rem;
+}
+
+.sl-btn.sl-tempo-btn[aria-pressed="true"] {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+}
+
 /* dialogue */
 .sl-dialogue {
     display: grid;

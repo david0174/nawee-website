@@ -12,7 +12,7 @@
     const T = lang === "de" ? {
         back: "← Dein Lernweg", backHref: "fuer-mich.html", course: "ENGLISCH VON ANFANG AN · A1", lesson: "LEKTION",
         goal: "Ziel", steps: ["Hören", "Verstehen", "Nachsprechen", "Laute", "Antworten", "Rollenspiel"],
-        playAll: "Gespräch anhören", stop: "Stopp", showText: "Text anzeigen", hideText: "Text ausblenden", ambience: "Hintergrundgeräusche",
+        playAll: "Gespräch anhören", stop: "Stopp", speed: "Tempo", speeds: ["Langsam", "Etwas langsamer", "Normal"], showText: "Text anzeigen", hideText: "Text ausblenden", ambience: "Hintergrundgeräusche",
         play: "Anhören", slow: "Langsam", record: "Aufnehmen", stopRec: "Stopp", mine: "Meine Aufnahme",
         right: "Richtig!", wrong: "Nicht ganz – hör noch einmal hin.", question: "Frage", listenQ: "Frage anhören",
         which: "Welches Wort hörst du?", again: "Nochmal", soundScore: (r, t) => `${r} von ${t} richtig`,
@@ -27,7 +27,7 @@
     } : {
         back: "← Your learning path", backHref: "for-me.html", course: "ENGLISH FROM THE START · A1", lesson: "LESSON",
         goal: "Goal", steps: ["Listen", "Understand", "Repeat", "Sounds", "Respond", "Role-play"],
-        playAll: "Play the conversation", stop: "Stop", showText: "Show text", hideText: "Hide text", ambience: "Background sounds",
+        playAll: "Play the conversation", stop: "Stop", speed: "Speed", speeds: ["Slow", "A bit slower", "Normal"], showText: "Show text", hideText: "Hide text", ambience: "Background sounds",
         play: "Listen", slow: "Slowly", record: "Record", stopRec: "Stop", mine: "My recording",
         right: "Correct!", wrong: "Not quite – listen again.", question: "Question", listenQ: "Play the question",
         which: "Which word do you hear?", again: "Again", soundScore: (r, t) => `${r} of ${t} correct`,
@@ -70,11 +70,12 @@
     };
     let currentAudio = null;
     const stopAudio = () => { synth?.cancel(); if (currentAudio) { currentAudio.pause(); currentAudio = null; } };
-    const speak = (item, { voice = "a", rate = 0.95 } = {}) => new Promise((resolve) => {
+    // speed: dialogue tempo chosen by the learner (1 = normal); otherwise only the "slowly" button slows recordings down
+    const speak = (item, { voice = "a", rate = 0.95, speed } = {}) => new Promise((resolve) => {
         stopAudio();
         if (item.audio) {
             currentAudio = new Audio(item.audio);
-            currentAudio.playbackRate = rate <= 0.75 ? 0.8 : 1; // recordings: only the "slowly" button slows down
+            currentAudio.playbackRate = speed || (rate <= 0.75 ? 0.8 : 1);
             currentAudio.onended = resolve; currentAudio.onerror = resolve;
             currentAudio.play().catch(resolve);
             return;
@@ -84,7 +85,7 @@
         u.lang = "en-US";
         const v = pickVoice(voice);
         if (v) u.voice = v;
-        u.rate = rate;
+        u.rate = rate * (speed || 1);
         u.pitch = voice === "c" && v === pickVoice("b") ? 1.15 : voice === "b" && v === pickVoice("a") ? 0.8 : 1; // same voice for both: make B a little deeper
         u.onend = resolve; u.onerror = resolve;
         synth.speak(u);
@@ -150,10 +151,28 @@
         const s = section(1, T.steps[0]);
         s.append(el("p", "", esc(L(lesson.intro))));
         s.append(el("p", "sl-situation", esc(L(lesson.dialogue.situation))));
+        // tempo for the whole dialogue (also the single-line buttons), remembered in this browser
+        const SPEEDS = [0.7, 0.85, 1];
+        let speed = (() => { try { const v = Number(localStorage.getItem("nawee-dialogue-speed")); return SPEEDS.includes(v) ? v : 1; } catch { return 1; } })();
+        const tempo = el("div", "sl-tempo");
+        tempo.setAttribute("role", "group");
+        tempo.setAttribute("aria-label", T.speed);
+        tempo.append(el("span", "sl-tempo-label", `<span aria-hidden="true">${ICON.slow}</span> ${T.speed}:`));
+        SPEEDS.forEach((v, i) => {
+            const b = button("sl-tempo-btn", T.speeds[i], () => {
+                speed = v;
+                try { localStorage.setItem("nawee-dialogue-speed", String(v)); } catch { /* storage unavailable */ }
+                tempo.querySelectorAll(".sl-tempo-btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+                if (currentAudio) currentAudio.playbackRate = v; // a recording that is playing right now changes at once
+            });
+            b.setAttribute("aria-pressed", String(v === speed));
+            tempo.append(b);
+        });
         const lines = el("ol", "sl-dialogue is-hidden-text");
         lesson.dialogue.lines.forEach((line) => {
             const li = el("li", `sl-line sl-voice-${line.voice}`);
-            li.append(el("span", "sl-who", esc(line.who)), el("span", "sl-text", esc(line.text)), playButton(line, { voice: line.voice }, ""));
+            const one = button("sl-play", `<span aria-hidden="true">${ICON.play}</span> `, () => speak(line, { voice: line.voice, speed }));
+            li.append(el("span", "sl-who", esc(line.who)), el("span", "sl-text", esc(line.text)), one);
             lines.append(li);
         });
         let playing = false;
@@ -167,9 +186,9 @@
             for (const [i, line] of lesson.dialogue.lines.entries()) {
                 if (!playing) break;
                 lines.children[i].classList.add("is-playing");
-                await speak(line, { voice: line.voice });
+                await speak(line, { voice: line.voice, speed });
                 lines.children[i].classList.remove("is-playing");
-                await new Promise((r) => setTimeout(r, 350));
+                await new Promise((r) => setTimeout(r, 350 / speed)); // slower tempo: a little more pause between lines
             }
             playing = false;
             window.NaweeAmbience?.stop();
@@ -179,7 +198,7 @@
             const hidden = lines.classList.toggle("is-hidden-text");
             toggle.textContent = hidden ? T.showText : T.hideText;
         });
-        s.append(el("div", "sl-row"), lines);
+        s.append(el("div", "sl-row"), tempo, lines);
         s.querySelector(".sl-row").append(all, toggle);
         if (scene && window.NaweeAmbience) {
             const label = el("label", "sl-ambience");
