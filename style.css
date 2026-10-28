@@ -6400,6 +6400,59 @@ mark.hl {
     margin: 4px 0 0;
 }
 
+.sl-question {
+    display: block;
+    margin: 4px 0 12px;
+    color: var(--blue-dark);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+/* show-text button + clickable words */
+.sl-btn.sl-text-toggle {
+    border-color: var(--blue);
+    color: var(--blue-dark);
+}
+
+.sl-word-tip {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.sl-word {
+    display: inline;
+    margin: 0;
+    padding: 0 1px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+
+.sl-word:hover,
+.sl-word:focus-visible {
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    text-decoration: underline dotted;
+    outline: none;
+}
+
+.sl-word.is-spoken {
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+    text-decoration: underline 2px var(--blue);
+    text-underline-offset: 3px;
+}
+
+.is-hidden-text .sl-word {
+    color: transparent;
+    pointer-events: none;
+}
+
 /* dialogue tempo */
 .sl-tempo {
     display: flex;

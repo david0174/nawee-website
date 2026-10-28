@@ -39,11 +39,11 @@ const WORK_LESSONS = {
         },
         // 2. Understand: listening questions (the question is read aloud, answers are short)
         listen: [
-            { say: "What does Sarah do?", audio: "audio/work/1-1/q1.m4a", options: ["She works in marketing.", "She is an engineer.", "She works in sales."], answer: 0,
+            { say: "What does Sarah do?", audio: "audio/work/1-1/q1.m4a", options: ["Sarah works in marketing.", "Sarah is an engineer.", "Sarah works in sales."], answer: 0,
               explain: { de: "Sarah sagt: „I work in marketing.“", en: "Sarah says: “I work in marketing.”" } },
-            { say: "Where is Tom from?", audio: "audio/work/1-1/q2.m4a", options: ["Germany", "England", "Spain"], answer: 0,
+            { say: "Where is Tom from?", audio: "audio/work/1-1/q2.m4a", options: ["Tom is from Germany.", "Tom is from England.", "Tom is from Spain."], answer: 0,
               explain: { de: "Tom sagt: „I’m from Germany.“", en: "Tom says: “I’m from Germany.”" } },
-            { say: "What is Tom’s job?", audio: "audio/work/1-1/q3.m4a", options: ["Engineer", "Teacher", "Manager"], answer: 0,
+            { say: "What is Tom’s job?", audio: "audio/work/1-1/q3.m4a", options: ["Tom is an engineer.", "Tom is a teacher.", "Tom is a manager."], answer: 0,
               explain: { de: "„I’m the new engineer.“ – engineer heißt Ingenieur.", en: "“I’m the new engineer.”" } },
         ],
         // 3. Repeat: key phrases – listen, say it out loud, record and compare
@@ -118,11 +118,11 @@ const WORK_LESSONS = {
             ],
         },
         listen: [
-            { say: "When is Tom free?", options: ["On Saturday", "On Sunday", "On Friday"], answer: 0,
+            { say: "When is Tom free?", options: ["Tom is free on Saturday.", "Tom is free on Sunday.", "Tom is free on Friday."], answer: 0,
               explain: { de: "Tom sagt: „I’m free on Saturday.“", en: "Tom says: “I’m free on Saturday.”" } },
-            { say: "What time do they meet?", options: ["At three o’clock", "At two o’clock", "At four o’clock"], answer: 0,
+            { say: "What time do they meet?", options: ["They meet at three o’clock.", "They meet at two o’clock.", "They meet at four o’clock."], answer: 0,
               explain: { de: "„How about three o’clock?“ – „Three is perfect.“", en: "“How about three o’clock?” – “Three is perfect.”" } },
-            { say: "Where do they meet?", options: ["At the café next to the station", "At the office", "At the park"], answer: 0,
+            { say: "Where do they meet?", options: ["They meet at the café next to the station.", "They meet at the office.", "They meet at the park."], answer: 0,
               explain: { de: "„At the café next to the station“ – im Café neben dem Bahnhof.", en: "“At the café next to the station.”" } },
         ],
         phrases: [
@@ -196,11 +196,11 @@ const WORK_LESSONS = {
             ],
         },
         listen: [
-            { say: "How do you spell Tom’s last name?", options: ["B-E-C-K-E-R", "B-A-K-E-R", "B-E-K-K-E-R"], answer: 0,
+            { say: "How do you spell Tom’s last name?", options: ["You spell it B-E-C-K-E-R.", "You spell it B-A-K-E-R.", "You spell it B-E-K-K-E-R."], answer: 0,
               explain: { de: "Tom buchstabiert: B, E, C, K, E, R.", en: "Tom spells it: B, E, C, K, E, R." } },
-            { say: "What is Tom’s phone number?", options: ["312-555-0148", "312-555-0184", "213-555-0148"], answer: 0,
+            { say: "What is Tom’s phone number?", options: ["His number is 312-555-0148.", "His number is 312-555-0184.", "His number is 213-555-0148."], answer: 0,
               explain: { de: "„three one two, five five five, oh one four eight“ – die Null sagt man oft „oh“.", en: "“three one two, five five five, oh one four eight” – zero is often said “oh”." } },
-            { say: "When is soccer practice?", options: ["On Monday", "On Sunday", "On Friday"], answer: 0,
+            { say: "When is soccer practice?", options: ["Soccer practice is on Monday.", "Soccer practice is on Sunday.", "Soccer practice is on Friday."], answer: 0,
               explain: { de: "Ben sagt: „See you at practice on Monday!“", en: "Ben says: “See you at practice on Monday!”" } },
         ],
         phrases: [
@@ -274,11 +274,11 @@ const WORK_LESSONS = {
             ],
         },
         listen: [
-            { say: "Where does Tom’s family live?", options: ["In Hamburg", "In Chicago", "In New York"], answer: 0,
+            { say: "Where does Tom’s family live?", options: ["Tom’s family lives in Hamburg.", "Tom’s family lives in Chicago.", "Tom’s family lives in New York."], answer: 0,
               explain: { de: "Tom sagt: „In Hamburg. My parents have a small house there.“", en: "Tom says: “In Hamburg. My parents have a small house there.”" } },
-            { say: "How many sisters does Tom have?", options: ["One", "Two", "None"], answer: 0,
+            { say: "How many sisters does Tom have?", options: ["Tom has one sister.", "Tom has two sisters.", "Tom has no sisters."], answer: 0,
               explain: { de: "„I have one sister. Her name is Anna.“", en: "“I have one sister. Her name is Anna.”" } },
-            { say: "Where do Ben’s brothers live?", options: ["In New York", "In Chicago", "In Germany"], answer: 0,
+            { say: "Where do Ben’s brothers live?", options: ["Ben’s brothers live in New York.", "Ben’s brothers live in Chicago.", "Ben’s brothers live in Germany."], answer: 0,
               explain: { de: "„I have two brothers. They live in New York.“", en: "“I have two brothers. They live in New York.”" } },
         ],
         phrases: [
