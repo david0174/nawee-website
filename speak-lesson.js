@@ -126,6 +126,27 @@
         u.onend = resolve; u.onerror = resolve;
         synth.speak(u);
     });
+    // short "right" / "wrong" sounds, same as in the course (trophies.js); off if the learner switched sounds off there
+    let tones = null;
+    const ding = (ok) => {
+        try { if (localStorage.getItem("nawee-sound") === "off") return; } catch { /* storage unavailable */ }
+        try {
+            tones = tones || new (window.AudioContext || window.webkitAudioContext)();
+            if (tones.state === "suspended") tones.resume();
+            const tone = (freq, start, length, type, volume) => {
+                const t0 = tones.currentTime + start, o = tones.createOscillator(), g = tones.createGain();
+                o.type = type; o.frequency.value = freq;
+                g.gain.setValueAtTime(0.0001, t0);
+                g.gain.exponentialRampToValueAtTime(volume, t0 + 0.012);
+                g.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
+                o.connect(g).connect(tones.destination);
+                o.start(t0); o.stop(t0 + length + 0.05);
+            };
+            if (ok) { tone(880, 0, 0.12, "sine", 0.26); tone(1318.5, 0.09, 0.2, "sine", 0.26); }
+            else { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
+        } catch { /* audio not available – stay silent */ }
+    };
+
     // one word cut out of a recording (a little padding so it doesn't sound clipped)
     const playPiece = (audio, [from, to]) => {
         stopAudio();
@@ -285,6 +306,7 @@
 
     // 2. Understand
     {
+        let answerTurn = 0;
         const s = section(2, T.steps[1]);
         lesson.listen.forEach((q, n) => {
             const card = el("div", "sl-card");
@@ -299,6 +321,9 @@
             q.options.map((o, i) => [o, i]).sort(() => Math.random() - 0.5).forEach(([o, i]) => {
                 opts.append(button("sl-option", esc(o), (e) => {
                     const ok = i === q.answer;
+                    // hear the chosen answer as a sentence, then the right/wrong sound (only for the latest click)
+                    const turn = ++answerTurn;
+                    speak({ text: o }, { voice: "a" }).then(() => { if (turn === answerTurn) ding(ok); });
                     e.currentTarget.classList.add(ok ? "is-right" : "is-wrong");
                     if (ok) opts.querySelectorAll("button").forEach((b) => { b.disabled = true; });
                     fb.className = `exercise-feedback ${ok ? "is-right" : "is-wrong"}`;
