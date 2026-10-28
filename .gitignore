@@ -7,3 +7,6 @@ fonts/CormorantGaramond-VariableFont_wght.ttf
 # hiring page drafts – not published yet (remove these lines to publish)
 karriere.html
 careers.html
+
+# dark.css generator (output dark.css is published)
+drafts/
