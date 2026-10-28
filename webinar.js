@@ -1,5 +1,5 @@
 // Free live web seminar (webseminar.html / web-seminar.html): reserve a seat with a Nawee account.
-// Seats are limited in the database (05-webinar.sql); the Zoom link is only shown on the account page to
+// Seats are limited in the database (05-webinar.sql); the Meet link is only shown on the account page to
 // people who signed up. Uses the Supabase client from account.js (window.NaweeDB).
 
 (() => {
@@ -16,14 +16,14 @@
         left: (n) => (n === 1 ? "Noch 1 Platz frei" : `Noch ${n} von ${SEATS} Plätzen frei`), full: "Leider ausgebucht – alle Plätze sind vergeben.",
         needAccount: "Für die Anmeldung brauchst du ein kostenloses Nawee-Konto.", signup: "Konto erstellen und Platz sichern", login: "Ich habe schon ein Konto",
         reserve: "Platz reservieren", reserving: "Einen Moment …", inTitle: "✓ Du bist dabei!",
-        inText: "Den Zoom-Link findest du in „Mein Konto“ – spätestens am Tag vorher.", toAccount: "Zu meinem Konto", calendar: "In den Kalender eintragen",
+        inText: "Den Meet-Link findest du in „Mein Konto“ – spätestens am Tag vorher.", toAccount: "Zu meinem Konto", calendar: "In den Kalender eintragen",
         cancel: "Anmeldung zurückziehen", cancelQ: "Möchtest du deinen Platz wirklich freigeben?", error: "Das hat leider nicht geklappt. Bitte versuch es noch einmal.",
         past: "Dieses Web-Seminar hat schon stattgefunden. Danke an alle, die dabei waren!",
     } : {
         left: (n) => (n === 1 ? "1 seat left" : `${n} of ${SEATS} seats left`), full: "Fully booked – all seats are taken.",
         needAccount: "To sign up, you need a free Nawee account.", signup: "Create an account and save your seat", login: "I already have an account",
         reserve: "Reserve my seat", reserving: "One moment …", inTitle: "✓ You’re in!",
-        inText: "You’ll find the Zoom link on “My account” – at the latest the day before.", toAccount: "Go to my account", calendar: "Add to calendar",
+        inText: "You’ll find the Meet link on “My account” – at the latest the day before.", toAccount: "Go to my account", calendar: "Add to calendar",
         cancel: "Cancel my sign-up", cancelQ: "Do you really want to give up your seat?", error: "That didn’t work. Please try again.",
         past: "This web seminar has already taken place. Thanks to everyone who joined!",
     };
@@ -35,7 +35,7 @@
             "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Nawee//Web Seminar//EN", "BEGIN:VEVENT",
             `UID:${WEBINAR}@nawee.net`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(START)}`, `DTEND:${f(END)}`,
             `SUMMARY:${de ? "Nawee Live-Web-Seminar: Englisch selbst lernen" : "Nawee live web seminar: Learn English on your own"}`,
-            `DESCRIPTION:${de ? "Zoom-Link: https://nawee.net/konto.html" : "Zoom link: https://nawee.net/account.html"}`,
+            `DESCRIPTION:${de ? "Meet-Link: https://nawee.net/konto.html" : "Meet link: https://nawee.net/account.html"}`,
             "END:VEVENT", "END:VCALENDAR"].join("\r\n");
         return URL.createObjectURL(new Blob([text], { type: "text/calendar" }));
     };
