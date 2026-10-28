@@ -499,12 +499,19 @@
         const w = upcoming[0];
         const { data: link } = await db.from("webinar_links").select("zoom_url").eq("webinar", w).maybeSingle();
         const safe = link && /^https:\/\/meet\.google\.com\/[a-z0-9-]+(\?[^\s"<>]*)?$/i.test(link.zoom_url) ? link.zoom_url : "";
+        // Google Calendar "new event" link with the Meet link inside (19:00–19:30 German time)
+        const day = w.replace(/-/g, "");
+        const gcal = `https://calendar.google.com/calendar/render?dates=${day}T190000/${day}T193000&` + new URLSearchParams({
+            action: "TEMPLATE", text: isEnglish ? "Nawee live web seminar: Learn English on your own" : "Nawee Live-Web-Seminar: Englisch selbst lernen",
+            ctz: "Europe/Berlin", details: safe, location: safe,
+        });
         const when = new Date(`${w}T12:00:00`).toLocaleDateString(isEnglish ? "en-US" : "de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
         slot.innerHTML = `<section class="dash-card dash-webinar">
             <p class="dash-webinar-tag">🎙️ ${isEnglish ? "LIVE WEB SEMINAR" : "LIVE-WEB-SEMINAR"}</p>
             <h2 class="dash-h">${isEnglish ? "You’re signed up!" : "Du bist angemeldet!"}</h2>
             <p>${esc(when)} · ${isEnglish ? "7:00–7:30 pm (German time)" : "19:00–19:30 Uhr (deutsche Zeit)"} · Google Meet</p>
-            ${safe ? `<a class="button primary" href="${esc(safe)}" target="_blank" rel="noopener">${isEnglish ? "Join on Google Meet" : "Mit Google Meet teilnehmen"} →</a>`
+            ${safe ? `<div class="wb-actions"><a class="button primary" href="${esc(safe)}" target="_blank" rel="noopener">${isEnglish ? "Join on Google Meet" : "Mit Google Meet teilnehmen"} →</a>
+                <a class="button secondary" href="${esc(gcal)}" target="_blank" rel="noopener">📅 ${isEnglish ? "Add to Google Calendar" : "Zu Google Kalender hinzufügen"}</a></div>`
                 : `<p class="dash-sub">${isEnglish ? "Your Meet link will appear here as soon as it’s ready – at the latest the day before." : "Dein Meet-Link erscheint hier, sobald er bereit ist – spätestens am Tag vorher."}</p>`}
             <a class="dash-link" href="${isEnglish ? "web-seminar.html" : "webseminar.html"}">${isEnglish ? "Details" : "Details"} →</a>
         </section>`;
