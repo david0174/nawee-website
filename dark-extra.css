@@ -1,7 +1,4 @@
-/* hand-written dark-mode fixes (appended to dark.css by drafts/build-dark-css.py) */
-@media (prefers-color-scheme: dark) {
-    body { background: var(--dm-bg); color: var(--ink); }
-    /* blue logo on the dark header: lighter, with a soft glow so it stays readable */
-    .brand img, .footer-logo { filter: brightness(1.9) saturate(.85) drop-shadow(0 0 6px rgba(120, 170, 255, .25)); }
-    .brand:hover img, .brand:focus-visible img { filter: brightness(1.9) saturate(.85) drop-shadow(0 6px 10px rgba(120, 170, 255, .35)); }
-}
+/* hand-written dark-mode fixes – plain rules, the generator scopes them to dark mode (device setting + theme button) */
+body { background: var(--dm-bg); color: var(--ink); }
+/* light-mode logo is swapped for the dark logo (cream + gold) by script.js; this only softens the hover glow */
+.brand:hover img, .brand:focus-visible img { filter: drop-shadow(0 6px 10px rgba(120, 170, 255, .3)); }

@@ -11444,3 +11444,30 @@ footer .footer-links {
     font-size: .8rem;
     font-weight: 700;
 }
+
+/* THEME BUTTON (sun/moon) – added to the header by script.js */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--blue-dark);
+    cursor: pointer;
+    flex: none;
+    transition: transform .2s, border-color .2s;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    transform: rotate(-15deg);
+    border-color: var(--blue);
+}
+
+.site-header > .theme-toggle {
+    margin-left: auto;
+}
