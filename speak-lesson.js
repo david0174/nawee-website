@@ -12,7 +12,7 @@
     const T = lang === "de" ? {
         back: "← Dein Lernweg", backHref: "fuer-mich.html", course: "ENGLISCH VON ANFANG AN · A1", lesson: "LEKTION",
         goal: "Ziel", steps: ["Hören", "Verstehen", "Nachsprechen", "Laute", "Antworten", "Rollenspiel"],
-        playAll: "Gespräch anhören", stop: "Stopp", speed: "Tempo", speeds: ["Langsam", "Etwas langsamer", "Normal"], showText: "Text anzeigen", hideText: "Text ausblenden", wordTip: "Tipp: Klick auf ein Wort, um es noch einmal zu hören.", hearWord: "Wort anhören", ambience: "Hintergrundgeräusche",
+        playAll: "Gespräch anhören", stop: "Stopp", speed: "Tempo", speeds: ["Langsam", "Etwas langsamer", "Normal"], showText: "Text anzeigen", hideText: "Text ausblenden", wordTip: "Tipp: Klick auf ein Wort, um es noch einmal zu hören.", hearWord: "Wort anhören",
         play: "Anhören", slow: "Langsam", record: "Aufnehmen", stopRec: "Stopp", mine: "Meine Aufnahme",
         right: "Richtig!", wrong: "Nicht ganz – hör noch einmal hin.", question: "Frage", listenQ: "Frage anhören",
         which: "Welches Wort hörst du?", again: "Nochmal", soundScore: (r, t) => `${r} von ${t} richtig`,
@@ -27,7 +27,7 @@
     } : {
         back: "← Your learning path", backHref: "for-me.html", course: "ENGLISH FROM THE START · A1", lesson: "LESSON",
         goal: "Goal", steps: ["Listen", "Understand", "Repeat", "Sounds", "Respond", "Role-play"],
-        playAll: "Play the conversation", stop: "Stop", speed: "Speed", speeds: ["Slow", "A bit slower", "Normal"], showText: "Show text", hideText: "Hide text", wordTip: "Tip: click any word to hear it again.", hearWord: "Hear the word", ambience: "Background sounds",
+        playAll: "Play the conversation", stop: "Stop", speed: "Speed", speeds: ["Slow", "A bit slower", "Normal"], showText: "Show text", hideText: "Hide text", wordTip: "Tip: click any word to hear it again.", hearWord: "Hear the word",
         play: "Listen", slow: "Slowly", record: "Record", stopRec: "Stop", mine: "My recording",
         right: "Correct!", wrong: "Not quite – listen again.", question: "Question", listenQ: "Play the question",
         which: "Which word do you hear?", again: "Again", soundScore: (r, t) => `${r} of ${t} correct`,
@@ -69,7 +69,12 @@
         return matches[0] || pool[key === "b" ? 1 : 0] || pool[0] || null;
     };
     let currentAudio = null, follow = null;
-    // highlight the word being spoken: browser voice reports each word; for recordings the position is estimated from the time
+    // word timings of David's recordings (audio/work/timings.json, made with Nawee_Kurs/tools/word-timings.py)
+    let TIMES = {};
+    fetch("audio/work/timings.json").then((r) => (r.ok ? r.json() : {})).then((t) => { TIMES = t; }).catch(() => {});
+    const wordTimes = (audio, n) => { const w = audio && TIMES[audio]?.words; return w && w.length === n ? w : null; };
+
+    // highlight the word being spoken: browser voice reports each word; recordings use their word timings (else an estimate)
     const follower = (box) => {
         const words = [...box.querySelectorAll(".sl-word")];
         const total = box.textContent.length || 1;
@@ -79,7 +84,9 @@
         return {
             atChar,
             atShare: (f) => atChar(Math.floor(Math.min(1, Math.max(0, f)) * total)),
-            loop(share) { const tick = () => { this.atShare(share()); raf = requestAnimationFrame(tick); }; tick(); },
+            atMs: (ms, times) => mark(words.filter((w) => times[w.dataset.n][0] <= ms).pop()),
+            loop(step) { const tick = () => { step(); raf = requestAnimationFrame(tick); }; tick(); },
+            count: words.length,
             stop() { cancelAnimationFrame(raf); mark(null); },
         };
     };
@@ -95,7 +102,10 @@
             const a = currentAudio = new Audio(item.audio);
             a.playbackRate = speed || (rate <= 0.75 ? 0.8 : 1);
             a.onended = resolve; a.onerror = resolve;
-            if (f) a.onplaying = () => f.loop(() => (a.duration ? a.currentTime / a.duration : 0));
+            if (f) {
+                const times = wordTimes(item.audio, f.count);
+                a.onplaying = () => f.loop(() => (times ? f.atMs(a.currentTime * 1000, times) : f.atShare(a.duration ? a.currentTime / a.duration : 0)));
+            }
             a.play().catch(resolve);
             return;
         }
@@ -111,15 +121,29 @@
             // some voices (e.g. Google's online voices) report no word positions – then estimate (~14 letters per second)
             let reported = false, start = 0;
             u.onboundary = (e) => { if (e.name === "word") { reported = true; f.stop(); f.atChar(e.charIndex); } };
-            u.onstart = () => { start = performance.now(); setTimeout(() => { if (!reported && follow === f) f.loop(() => (performance.now() - start) / 1000 / (text.length / (14 * u.rate))); }, 400); };
+            u.onstart = () => { start = performance.now(); setTimeout(() => { if (!reported && follow === f) f.loop(() => f.atShare((performance.now() - start) / 1000 / (text.length / (14 * u.rate)))); }, 400); };
         }
         u.onend = resolve; u.onerror = resolve;
         synth.speak(u);
     });
-    // a sentence as clickable words: each word is spoken again on click (browser voice, a little slower)
-    const wordText = (text, voice, cls = "sl-text") => {
+    // one word cut out of a recording (a little padding so it doesn't sound clipped)
+    const playPiece = (audio, [from, to]) => {
+        stopAudio();
+        const a = currentAudio = new Audio(audio);
+        a.addEventListener("loadedmetadata", () => {
+            a.currentTime = Math.max(0, from - 80) / 1000;
+            a.play().catch(() => {});
+            const end = (to + 120) / 1000;
+            const check = () => { if (currentAudio !== a) return; if (a.currentTime >= end || a.ended) a.pause(); else requestAnimationFrame(check); };
+            requestAnimationFrame(check);
+        }, { once: true });
+    };
+    // a sentence as clickable words: each word is spoken again on click – from David's recording if there is one,
+    // otherwise by the browser voice (a little slower)
+    const wordText = (text, voice, cls = "sl-text", audio = "") => {
         const box = el("span", cls);
-        let pos = 0;
+        let pos = 0, n = 0;
+        const count = text.split(/\s+/).filter((p) => p.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, "")).length;
         text.split(/(\s+)/).forEach((part) => {
             const say = part.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, "");
             if (say) {
@@ -127,7 +151,12 @@
                 w.type = "button";
                 w.title = T.hearWord;
                 w.dataset.i = pos;
-                w.addEventListener("click", () => speak({ text: say }, { voice, rate: 0.8 }));
+                w.dataset.n = n;
+                const k = n++;
+                w.addEventListener("click", () => {
+                    const times = wordTimes(audio, count);
+                    if (times) playPiece(audio, times[k]); else speak({ text: say }, { voice, rate: 0.8 });
+                });
                 box.append(w);
             } else box.append(part);
             pos += part.length;
@@ -215,19 +244,18 @@
         const lines = el("ol", "sl-dialogue");
         lesson.dialogue.lines.forEach((line) => {
             const li = el("li", `sl-line sl-voice-${line.voice}`);
-            const words = wordText(line.text, line.voice);
+            const words = wordText(line.text, line.voice, "sl-text", line.audio);
             const one = button("sl-play", `<span aria-hidden="true">${ICON.play}</span> `, () => speak(line, { voice: line.voice, speed, track: words }));
             li.append(el("span", "sl-who", esc(line.who)), words, one);
             lines.append(li);
         });
         let playing = false;
         const scene = lesson.dialogue.ambience; // office, outdoor, street, cafe, home (ambience.js)
-        const ambienceOn = () => { try { return localStorage.getItem("nawee-ambience") !== "off"; } catch { return true; } };
         const all = button("sl-play sl-big", `<span aria-hidden="true">${ICON.play}</span> ${T.playAll}`, async () => {
             if (playing) { playing = false; stopAudio(); window.NaweeAmbience?.stop(); return; }
             playing = true;
             all.innerHTML = `<span aria-hidden="true">${ICON.stop}</span> ${T.stop}`;
-            if (scene && ambienceOn()) window.NaweeAmbience?.start(scene); // background sounds of the place
+            if (scene) window.NaweeAmbience?.start(scene); // background sounds of the place
             for (const [i, line] of lesson.dialogue.lines.entries()) {
                 if (!playing) break;
                 lines.children[i].classList.add("is-playing");
@@ -253,15 +281,6 @@
         setHidden((() => { try { return localStorage.getItem("nawee-dialogue-text") !== "shown"; } catch { return true; } })(), false);
         s.append(el("div", "sl-row"), tempo, tip, lines);
         s.querySelector(".sl-row").append(all, toggle);
-        if (scene && window.NaweeAmbience) {
-            const label = el("label", "sl-ambience");
-            label.innerHTML = `<input type="checkbox"${ambienceOn() ? " checked" : ""}> ${T.ambience}`;
-            label.querySelector("input").addEventListener("change", (e) => {
-                try { localStorage.setItem("nawee-ambience", e.target.checked ? "on" : "off"); } catch { /* storage unavailable */ }
-                if (!e.target.checked) window.NaweeAmbience.stop(); else if (playing) window.NaweeAmbience.start(scene);
-            });
-            s.querySelector(".sl-row").append(label);
-        }
     }
 
     // 2. Understand
@@ -270,7 +289,7 @@
         lesson.listen.forEach((q, n) => {
             const card = el("div", "sl-card");
             // the question is written out too (clickable words, highlighted while it's spoken)
-            const qText = wordText(q.say, "a", "sl-question");
+            const qText = wordText(q.say, "a", "sl-question", q.audio);
             const qItem = { text: q.say, audio: q.audio };
             card.append(el("p", "exercise-number", `${T.question} ${n + 1}`), qText,
                 button("sl-play", `<span aria-hidden="true">${ICON.play}</span> ${T.listenQ}`, () => speak(qItem, { track: qText })));
@@ -391,7 +410,7 @@
                 stage.append(li);
                 ctrl.replaceChildren(button("sl-play", `${T.next} →`, advance));
             } else {
-                const said = wordText(t.text, t.voice, "sl-text-visible");
+                const said = wordText(t.text, t.voice, "sl-text-visible", t.audio);
                 li.append(el("p", "sl-who", esc(lesson.roleplay.partner || "Sarah")), said, button("sl-play", `<span aria-hidden="true">${ICON.play}</span> `, () => speak(t, { voice: t.voice, track: said })));
                 stage.append(li);
                 ctrl.replaceChildren();
