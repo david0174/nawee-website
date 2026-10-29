@@ -20,7 +20,7 @@
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
         parts: "Satz-Detektiv", partsText: "Klick in einem Satz alle Nomen, Verben, Adjektive … an – so siehst du, wie ein englischer Satz gebaut ist.", partsLead: "Ein Satz, mehrere Aufgaben: Markiere jedes Mal die gesuchte Wortart und prüf deine Antwort. Am Ende siehst du den ganzen Satz in Farben zerlegt. Tipp ein Wort an, um es zu hören.", partsMark: "Markiere", partsCheck: "Prüfen", partsNext: "Weiter", partsDone: "Ergebnis", partsRight: "Richtig!", partsAlmost: "Fast! <span class=\"gm-pt-key is-right\">grün</span> = richtig, <span class=\"gm-pt-key is-wrong\">rot</span> = falsch markiert, <span class=\"gm-pt-key is-missed\">gestrichelt</span> = vergessen.", partsBreakdown: "So ist der Satz gebaut:", partsScore: (p, n) => `${p} von ${n} Aufgaben ohne Fehler ${p === n ? "– perfekt! 🏆" : ""}`, partsAnother: "Nächster Satz", partsStep: (i, n) => `Aufgabe ${i} von ${n}`, sentences: (n) => `${n} ${n === 1 ? "Satz" : "Sätze"} zerlegt`, rhyme: "Reim-Zeit", rhymeText: "Ein Wort, ein paar Reime – und du sprichst: Bau laut einen Satz oder rap ein paar Zeilen. Mit Timer, wenn du willst.", timer: "Timer pro Wort", off: "Aus", beat: "Beat", volume: "Lautstärke", beatNote: "Die Beats werden live in deinem Browser erzeugt – eigene Beats, frei von Lizenzen.", ytTitle: "Lieber andere Beats? Instrumentals auf YouTube:", ytNote: "Öffnet YouTube in einem neuen Tab – starte den Beat dort, wähl hier beim Beat „Aus“ und leg los.", nextWord: "Nächstes Wort", rhymesWith: "Reimt sich auf – fahr mit der Maus über ein Wort für die Bedeutung", rhymeTask: "Sag laut einen Satz mit dem Wort und einem Reim – oder rap ein paar Zeilen!", rhymeLine: "Merksatz", words2: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} geschafft`, stop: "Beenden",
-        typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
+        typeWord: "Wort tippen …", missed: "Verpasst:", define: "Wort & Bedeutung", defineText: "Tippe ein Wort und seine kurze englische Bedeutung, z. B. „key it opens a lock“ – den Strich setzt das Spiel für dich. 10 schnelle Runden – so lernst du Wörter auf Englisch zu erklären.", item: (i, n) => `${i} / ${n}`, round: "Runde geschafft!", time: "Zeit", sec: "Sek.", typed: "Getippt", german: "Deutsch", words: "Wörter aus diesem Text", wordsLive: "Wörter in diesem Text", wordsTap: "Tipp auf ein Wort, um es zu hören.", readAll: "Ganzen Text lesen →", readPage: "lesen.html",
         privacy: "Deine Bestwerte werden in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "GAMES", title: "Games", lead: "Type English, get faster, remember words – with texts and words from your course.",
@@ -32,7 +32,7 @@
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
         parts: "Sentence Detective", partsText: "Click all the nouns, verbs, adjectives … in a sentence – and see how an English sentence is built.", partsLead: "One sentence, several tasks: each time, mark the words of one word class and check your answer. At the end, you see the whole sentence broken down in colors. Tap a word to hear it.", partsMark: "Mark", partsCheck: "Check", partsNext: "Next", partsDone: "Result", partsRight: "Correct!", partsAlmost: "Almost! <span class=\"gm-pt-key is-right\">green</span> = correct, <span class=\"gm-pt-key is-wrong\">red</span> = marked by mistake, <span class=\"gm-pt-key is-missed\">dashed</span> = missed.", partsBreakdown: "This is how the sentence is built:", partsScore: (p, n) => `${p} of ${n} tasks without a mistake ${p === n ? "– perfect! 🏆" : ""}`, partsAnother: "Next sentence", partsStep: (i, n) => `Task ${i} of ${n}`, sentences: (n) => `${n} ${n === 1 ? "sentence" : "sentences"} broken down`, rhyme: "Rhyme Time", rhymeText: "One word, a few rhymes – and you speak: make a sentence out loud or rap a few lines. With a timer if you like.", timer: "Timer per word", off: "Off", beat: "Beat", volume: "Volume", beatNote: "The beats are generated live in your browser – our own beats, free of any licenses.", ytTitle: "Prefer other beats? Instrumentals on YouTube:", ytNote: "Opens YouTube in a new tab – start the beat there, choose “Off” for the beat here and go.", nextWord: "Next word", rhymesWith: "Rhymes with – hover over a word to see its meaning", rhymeTask: "Say a sentence out loud with the word and a rhyme – or rap a few lines!", rhymeLine: "Memory line", words2: (n) => `${n} ${n === 1 ? "word" : "words"} done`, stop: "Stop",
-        typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", readAll: "Read the whole text →", readPage: "reading.html",
+        typeWord: "Type the word …", missed: "Missed:", define: "Word & Meaning", defineText: "Type a word and its short English meaning, e.g. “key it opens a lock” – the game adds the dash for you. 10 quick rounds – learn to explain words in English.", item: (i, n) => `${i} / ${n}`, round: "Round complete!", time: "Time", sec: "sec", typed: "Typed", german: "German", words: "Words from this text", wordsLive: "Words in this text", wordsTap: "Tap a word to hear it.", readAll: "Read the whole text →", readPage: "reading.html",
         privacy: "Your best scores are saved in this browser – and with a <a href=\"account.html\">free account</a> in your account too.",
     };
 
@@ -200,15 +200,23 @@
         const race = () => {
             const pick = sentences[Math.floor(Math.random() * sentences.length)] || { text: "The quick brown fox jumps over the lazy dog.", from: "" };
             const text = pick.text;
-            const racers = [{ name: T.you, car: "🚗", you: true }, { name: "Tom", car: "🚙", wpm: BOTS[level][0] }, { name: "Ben", car: "🏎️", wpm: BOTS[level][1] }];
+            const racers = [{ name: T.you, car: "🚴", you: true }, { name: "Tom", car: "🚵", wpm: BOTS[level][0] }, { name: "Ben", car: "🚴‍♂️", wpm: BOTS[level][1] }]; // bikes, not cars
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><h1>🏁 ${T.race}</h1>
                 <div class="gm-track">${racers.map((r, i) => `<div class="gm-lane"><span class="gm-name">${r.name}</span><span class="gm-road"><span class="gm-car" data-car="${i}">${r.car}</span><span class="gm-flag" aria-hidden="true">🏁</span></span></div>`).join("")}</div>
                 <p class="gm-count" data-count>${T.countdown} 3</p>
                 <div class="gm-text" data-text aria-live="off"></div>
                 <p class="gm-from">${T.from}: ${esc(pick.from)}</p>
                 <input class="gm-input" data-input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}" disabled>
-                <div class="gm-stats" data-stats></div>`;
+                <div class="gm-stats" data-stats></div>
+                <div data-live-words>${glossary(true)}</div>`;
             const box = root.querySelector("[data-text]"), input = root.querySelector("[data-input]");
+            // tap a word in the list to hear it – then straight back to typing
+            root.querySelector("[data-live-words]").addEventListener("click", (e) => {
+                const w = e.target.closest("[data-say]");
+                if (!w) return;
+                say(w.dataset.say);
+                if (!youDone) input.focus();
+            });
             let pos = 0, wrong = "", keys = 0, mistakes = 0, t0 = 0, timer = null, finishedBots = [], youDone = false;
             const draw = () => {
                 box.innerHTML = `<span class="gm-done">${esc(text.slice(0, pos))}</span>${wrong ? `<span class="gm-wrong">${esc(text.slice(pos, pos + wrong.length) || " ")}</span>` : ""}<span class="gm-cur">${esc(text.charAt(pos + wrong.length) || "")}</span>${esc(text.slice(pos + wrong.length + 1))}`;
@@ -226,15 +234,21 @@
                 root.querySelector("[data-stats]").innerHTML = `<span><strong>${pos ? wpm : 0}</strong> ${T.wpm}</span><span><strong>${keys ? Math.round(((keys - mistakes) / keys) * 100) : 100}%</strong> ${T.acc}</span>`;
             };
             // after the race: the meanings of the words from this text (the ones in the typed part first)
-            const glossary = () => {
+            function glossary(live) {
                 const r = pick.reading;
                 if (!r || !r.glossary) return "";
                 const lower = text.toLowerCase();
+                if (live) {  // while racing: only the words that are in this text, tap to hear
+                    const inText = Object.entries(r.glossary).filter(([w]) => lower.includes(w.toLowerCase()));
+                    if (!inText.length) return "";
+                    return `<div class="gm-words gm-words-live"><h2>${T.wordsLive}</h2><p class="gm-words-tap">🔊 ${T.wordsTap}</p>
+                        <dl>${inText.map(([w, g]) => `<div><dt><button type="button" data-say="${esc(w)}">${esc(w)}</button></dt><dd>${esc(de ? g.de : g.en)}</dd></div>`).join("")}</dl></div>`;
+                }
                 const entries = Object.entries(r.glossary).sort(([a], [b]) => lower.includes(b.toLowerCase()) - lower.includes(a.toLowerCase()));
                 return `<div class="gm-words"><h2>${T.words}</h2>
                     <dl>${entries.map(([w, g]) => `<div${lower.includes(w.toLowerCase()) ? ' class="is-typed"' : ""}><dt>${esc(w)}</dt><dd>${esc(de ? g.de : g.en)}</dd></div>`).join("")}</dl>
                     <a class="gm-read" href="${T.readPage}?t=${r.id}">${T.readAll}</a></div>`;
-            };
+            }
             const end = () => {
                 clearInterval(timer);
                 move(0, 1);
@@ -250,6 +264,7 @@
                     <p><strong>${wpm}</strong> ${T.wpmLong} · <strong>${acc}%</strong> ${T.acc}${newBest ? ` · <span class="gm-new">${T.newBest}</span>` : ""}</p>
                     <button type="button" class="button primary" data-again>${T.again}</button>
                 </div>${glossary()}`;
+                root.querySelector("[data-live-words]").innerHTML = "";  // the full list (above) replaces the live one
                 root.querySelector("[data-again]").addEventListener("click", race);
             };
             input.addEventListener("input", () => {

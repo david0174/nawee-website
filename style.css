@@ -11542,3 +11542,8 @@ footer .footer-links {
 .avatar-opt.is-on { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
 .avatar-none { background: var(--blue); color: var(--white); font: inherit; font-weight: 800; }
 .avatar-msg { margin: 8px 0 0; min-height: 1.2em; font-size: .9rem; color: var(--blue); font-weight: 600; }
+
+/* Typing Race: word list under the text while racing (tap to hear) */
+.gm-words-tap { margin: -6px 0 10px; color: var(--muted); font-size: .9rem; }
+.gm-words-live dt button { border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--blue-dark); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.gm-words-live dt button:hover { color: var(--blue); }
