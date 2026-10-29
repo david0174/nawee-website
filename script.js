@@ -572,3 +572,36 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     }
     render();
 })();
+
+// Newsletter box: "Satz der Woche" changes every Monday (same order as the newsletter issues – week 1 = issue #1)
+(() => {
+    const box = document.querySelector(".newsletter-form .nl-preview:not(.nl-preview-flat)");
+    if (!box) return;
+    const PHRASES = [
+        ["Let me get back to you on that.", "Ich melde mich dazu noch mal bei dir."],
+        ["Could you say that again, please?", "Könntest du das bitte noch einmal sagen?"],
+        ["What do you mean by that?", "Was meinst du damit?"],
+        ["I see what you mean.", "Ich verstehe, was du meinst."],
+        ["Sorry to interrupt, but …", "Entschuldige, dass ich unterbreche, aber …"],
+        ["Could you speak a bit more slowly?", "Könntest du etwas langsamer sprechen?"],
+        ["How do you say … in English?", "Wie sagt man … auf Englisch?"],
+        ["Just to be clear …", "Nur damit es klar ist …"],
+        ["That's a good point.", "Das ist ein guter Punkt."],
+        ["Let me think about it.", "Lass mich darüber nachdenken."],
+        ["Can you give me an example?", "Kannst du mir ein Beispiel geben?"],
+        ["I'll keep you posted.", "Ich halte dich auf dem Laufenden."],
+        ["That makes sense.", "Das ergibt Sinn."],
+        ["I'm not sure I follow.", "Ich bin nicht sicher, ob ich folgen kann."],
+        ["What's the best way to reach you?", "Wie erreiche ich dich am besten?"],
+        ["I'm looking forward to it.", "Ich freue mich darauf."],
+        ["No worries.", "Kein Problem."],
+        ["That sounds great!", "Das klingt super!"],
+        ["Nice to meet you.", "Schön, dich kennenzulernen."],
+        ["Let's keep in touch.", "Lass uns in Kontakt bleiben."],
+    ];
+    const start = new Date(2026, 9, 26); // Monday of week 1 (Oct 26, 2026)
+    const week = Math.max(0, Math.floor((Date.now() - start) / (7 * 864e5)));
+    const [en, de] = PHRASES[week % PHRASES.length];
+    box.querySelector(".nl-preview-phrase").textContent = `“${en}”`;
+    box.querySelector(".nl-preview-de").textContent = `🇩🇪 „${de}“`;
+})();
