@@ -606,6 +606,8 @@
     html:not([data-theme="light"]) .supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
     html:not([data-theme="light"]) .supporter-list .supporter-empty { background: transparent; }
     html:not([data-theme="light"]) .primary:hover, html:not([data-theme="light"]) .primary:focus-visible, html:not([data-theme="light"]) .newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
+    html:not([data-theme="light"]) .account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
+    html:not([data-theme="light"]) .account-google:hover, html:not([data-theme="light"]) .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1212,6 +1214,8 @@ html[data-theme="dark"] .fb-error, html[data-theme="dark"] .review-status.is-err
 html[data-theme="dark"] .supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
 html[data-theme="dark"] .supporter-list .supporter-empty { background: transparent; }
 html[data-theme="dark"] .primary:hover, html[data-theme="dark"] .primary:focus-visible, html[data-theme="dark"] .newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
+html[data-theme="dark"] .account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
+html[data-theme="dark"] .account-google:hover, html[data-theme="dark"] .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }

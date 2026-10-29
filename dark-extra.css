@@ -29,3 +29,8 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* primary buttons: hover turns yellow with dark-blue text (the generated near-black hover was hard to see) */
 .primary:hover, .primary:focus-visible,
 .newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
+
+/* "Continue with Google": Google's light style (white) so it stands out on the dark page; Google's brand rules
+   allow only white / dark / neutral buttons, so the hover adds a yellow ring instead of changing the color */
+.account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
+.account-google:hover, .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
