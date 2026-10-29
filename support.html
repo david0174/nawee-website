@@ -6,8 +6,8 @@
     <meta name="description" content="Nawee is free and should stay free. With a voluntary amount you help create new lessons, recordings and exercises.">
     <title>Support Nawee | Nawee</title>
     <link rel="canonical" href="https://nawee.net/support.html">
-    <link rel="stylesheet" href="style.css?v=20261029z">
-    <link rel="stylesheet" href="dark.css?v=20261029z">
+    <link rel="stylesheet" href="style.css?v=20261030a">
+    <link rel="stylesheet" href="dark.css?v=20261030a">
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -134,6 +134,7 @@
             <a href="learn-on-your-own.html">Learn on your own</a>
             <a href="about.html">About Nawee</a>
             <a href="reviews.html">Reviews</a>
+            <a aria-current="page" href="support.html">🌱 Support Nawee</a>
             <a href="report-a-bug.html">Report a bug</a>
             <a href="account.html">My account</a>
             <a href="https://davidnawee.com/index-en.html" target="_blank" rel="noopener">Coaching with David ↗</a>
@@ -147,11 +148,11 @@
             <p>© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">+49 511 936 76970</a> (Mon–Fri, 9 am–6 pm) · <a href="imprint.html">Legal Notice</a> · <a href="privacy-policy.html">Privacy Policy</a></p>
         </div>
     </footer>
-    <script src="script.js?v=20261029z"></script>
+    <script src="script.js?v=20261030a"></script>
     <script>
         // Stripe payment link ("customers choose what to pay"); empty = not live yet
         (() => {
-            const SUPPORT_URL = "";
+            const SUPPORT_URL = "https://buy.stripe.com/6oU00jfHpgZe93FdgwgjC0c";
             const link = document.querySelector("[data-support-link]");
             if (SUPPORT_URL) { link.href = SUPPORT_URL; link.hidden = false; document.querySelector("[data-support-soon]").hidden = true; }
             // thank-you list: names David adds in Supabase (table supporters, read-only for the website)

@@ -12146,3 +12146,13 @@ footer .footer-links {
     background: transparent;
     color: var(--muted);
 }
+
+/* About page: small support line under the closing call to action */
+.mission-support {
+    margin: 18px 0 0;
+    font-size: .95rem;
+}
+
+.mission-support a {
+    font-weight: 700;
+}
