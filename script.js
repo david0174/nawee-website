@@ -634,6 +634,18 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     document.querySelectorAll("[data-app-installed]").forEach((el) => { el.hidden = !standalone; });
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     document.querySelectorAll("[data-app-os]").forEach((el) => { if (el.dataset.appOs === (ios ? "ios" : "other")) el.classList.add("is-yours"); });
+    // phones: "📲 Nawee als App" in the burger menu (not shown once Nawee runs as the installed app)
+    const menu = document.querySelector(".mobile-menu");
+    if (menu && !standalone && !menu.querySelector("[data-app-link]")) {
+        const de = document.documentElement.lang.startsWith("de");
+        const a = document.createElement("a");
+        a.href = de ? "app.html" : "app-en.html";
+        a.dataset.appLink = "";
+        a.className = "mobile-menu-app";
+        a.textContent = de ? "📲 Nawee als App" : "📲 Get the app";
+        const langs = menu.querySelector(".mobile-menu-languages");
+        if (langs) langs.before(a); else menu.append(a);
+    }
     let deferred = null;
     window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();

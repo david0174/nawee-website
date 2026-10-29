@@ -18,6 +18,14 @@
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🎙️<small>${de ? "Live & kostenlos" : "Live & free"}</small></div>`,
         },
         {
+            desktopOnly: true, // on phones the app link sits in the burger menu instead
+            tag: de ? "📲 NEU · NAWEE ALS APP" : "📲 NEW · NAWEE AS AN APP",
+            title: de ? "Nawee als App – auch auf dem Computer" : "Nawee as an app – on your computer too",
+            text: de ? "Ein Klick im Browser, und Nawee öffnet sich wie ein eigenes Programm – mit eigenem Symbol, im Vollbild und auch offline. Kostenlos, ohne App Store." : "One click in your browser and Nawee opens like its own program – with its own icon, full screen and also offline. Free, no app store.",
+            cta: de ? "So geht’s" : "How it works", href: P("app.html", "app-en.html"),
+            visual: `<div class="cs-icons"><span>💻</span><span>📲</span><span>✈️</span><span>🎧</span><span>🖼️</span><span>🆓</span></div>`,
+        },
+        {
             tag: de ? "💼 BALD VERFÜGBAR" : "💼 COMING SOON",
             title: de ? "Business English für echte Situationen" : "Business English for real situations",
             text: de ? "Vorstellungsgespräch, Small Talk, Messen, Meetings und Präsentationen: Du übst die Momente, in denen es im Beruf zählt – mit Rollenspielen und Feedback zu deinem Fortschritt." : "Job interviews, small talk, trade fairs, meetings and presentations: practice the moments that matter at work – with role-plays and feedback on your progress.",
@@ -66,7 +74,8 @@
             cta: de ? "Zum Guide" : "Read the guide", href: P("selbst-lernen.html", "learn-on-your-own.html"),
             visual: `<div class="cs-icons"><span>🏠</span><span>📝</span><span>🏙️</span><span>📱</span><span>🤖</span><span>⏱️</span></div>`,
         },
-    ].filter((s) => !s.until || new Date() < new Date(s.until));
+    ].filter((s) => (!s.until || new Date() < new Date(s.until))
+        && (!s.desktopOnly || (window.matchMedia("(min-width: 1001px) and (hover: hover)").matches && !window.matchMedia("(display-mode: standalone)").matches)));
 
     root.innerHTML = `<div class="cs-viewport"><div class="cs-track" aria-live="off">${slides.map((s, i) => `
             <article class="cs-slide" role="group" aria-roledescription="${de ? "Folie" : "slide"}" aria-label="${i + 1} / ${slides.length}" ${i ? 'aria-hidden="true"' : ""}>
