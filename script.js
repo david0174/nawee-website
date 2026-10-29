@@ -588,13 +588,13 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     render();
 })();
 
-// Newsletter box: "Satz der Woche" changes every Monday (same order as the newsletter issues – week 1 = issue #1)
+// Newsletter box: "Satz der Woche" changes every Monday (same order as the newsletter issues – week 1 = issue #1;
+// "Could you say that again" is last because the welcome email already uses it)
 (() => {
     const box = document.querySelector(".newsletter-form .nl-preview:not(.nl-preview-flat)");
     if (!box) return;
     const PHRASES = [
         ["Let me get back to you on that.", "Ich melde mich dazu noch mal bei dir.", "I’ll answer you later, when I know more."],
-        ["Could you say that again, please?", "Könntest du das bitte noch einmal sagen?", "A polite way to ask someone to repeat."],
         ["What do you mean by that?", "Was meinst du damit?", "Ask this when you want someone to explain."],
         ["I see what you mean.", "Ich verstehe, was du meinst.", "I understand your idea."],
         ["Sorry to interrupt, but …", "Entschuldige, dass ich unterbreche, aber …", "A polite way to start talking while someone else speaks."],
@@ -613,6 +613,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         ["That sounds great!", "Das klingt super!", "A friendly way to say yes to an idea."],
         ["Nice to meet you.", "Schön, dich kennenzulernen.", "What you say when you meet someone for the first time."],
         ["Let's keep in touch.", "Lass uns in Kontakt bleiben.", "Let’s stay in contact."],
+        ["Could you say that again, please?", "Könntest du das bitte noch einmal sagen?", "A polite way to ask someone to repeat."],
     ];
     const start = new Date(2026, 9, 26); // Monday of week 1 (Oct 26, 2026)
     const week = Math.max(0, Math.floor((Date.now() - start) / (7 * 864e5)));
