@@ -107,12 +107,15 @@ document.querySelectorAll(".nl-form").forEach((form) => {
         button.disabled = true;
         button.textContent = form.dataset.sending;
         try {
-            const response = await fetch(form.action, {
-                method: "POST",
-                body: new URLSearchParams(new FormData(form)),
-            });
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error("not saved");
+            const send = (data) => fetch(form.action, { method: "POST", body: new URLSearchParams(data) })
+                .then(async (r) => ({ ok: r.ok, result: await r.json().catch(() => ({})) }));
+            let { ok, result } = await send(new FormData(form));
+            if ((!ok || !result.success) && form.VORNAME && form.VORNAME.value) {
+                // safety net: if Brevo rejects the optional first name, sign up with the email address only
+                const data = new FormData(form); data.delete("VORNAME");
+                ({ ok, result } = await send(data));
+            }
+            if (!ok || !result.success) throw new Error("not saved");
             form.reset();
             show(form.dataset.success, true);
         } catch {
