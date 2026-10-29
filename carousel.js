@@ -12,8 +12,8 @@
         {
             until: "2026-11-23T19:30:00+01:00",
             tag: de ? "🎙️ LIVE-EVENT · KOSTENLOS" : "🎙️ LIVE EVENT · FREE",
-            title: de ? "Web-Seminar: Englisch selbst lernen" : "Web seminar: learn English on your own",
-            text: de ? "Montag, 23. November, 19:00–19:30 Uhr auf Google Meet – live mit David. Anmeldung mit kostenlosem Konto." : "Monday, November 23, 7:00–7:30 pm (German time) on Google Meet – live with David. Sign up with a free account.",
+            title: de ? "Wie du dir selbst Englisch beibringst" : "How to Teach Yourself English",
+            text: de ? "Mit den Werkzeugen, die du schon hast. Montag, 23. November, 19:00–19:30 Uhr auf Google Meet – live mit David. Anmeldung mit kostenlosem Konto." : "Using the tools you already have. Monday, November 23, 7:00–7:30 pm (German time) on Google Meet – live with David. Sign up with a free account.",
             cta: de ? "Platz sichern" : "Save your seat", href: P("webseminar.html", "web-seminar.html"),
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🎙️<small>${de ? "Live & kostenlos" : "Live & free"}</small></div>`,
         },

@@ -9299,7 +9299,7 @@ footer .footer-links {
         linear-gradient(180deg, #fffaf2 0%, #fff 100%);
 }
 
-.theme-fall .hero > :not(.fall-leaves) {
+.theme-fall .hero > :not(.fall-leaves):not(.hw-layer) {
     position: relative;
     z-index: 1;
 }
@@ -9377,6 +9377,141 @@ footer .footer-links {
 
 .theme-fall .fall-leaf {
     opacity: .7;
+}
+
+/* Halloween (seasonal.js adds .theme-halloween Oct 25–31): bats, a waving skeleton, pumpkins among the leaves, word chips */
+.theme-halloween .hero {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .24), transparent 45%),
+        radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .14), transparent 42%),
+        linear-gradient(180deg, #fff7ee 0%, #fff 100%);
+}
+
+.theme-halloween .path-chooser {
+    border-top-color: #f08c2e;
+    box-shadow: 0 -2px 0 #7c4dbf inset, 0 18px 40px rgba(13, 47, 130, .1);
+}
+
+.hw-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hw-bat {
+    position: absolute;
+    left: -60px;
+    width: var(--size, 40px);
+    color: #4a3a6b;
+}
+
+.hw-bat svg {
+    display: block;
+    width: 100%;
+    fill: currentColor;
+}
+
+.hw-wing {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.hw-skeleton {
+    position: absolute;
+    top: 0;
+    right: 4%;
+    width: 58px;
+    transform-origin: 50% 0;
+}
+
+.hw-skeleton svg {
+    display: block;
+    width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hw-bat {
+        animation: bat-fly 16s linear var(--delay, 0s) infinite;
+    }
+
+    .hw-wing {
+        animation: bat-flap .32s ease-in-out infinite alternate;
+    }
+
+    .hw-skeleton {
+        animation: skeleton-swing 3.2s ease-in-out infinite alternate;
+    }
+}
+
+@keyframes bat-fly {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(30vw, -26px); }
+    50% { transform: translate(60vw, 18px); }
+    75% { transform: translate(90vw, -14px); }
+    100% { transform: translate(calc(100vw + 120px), 10px); }
+}
+
+@keyframes bat-flap {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(.35); }
+}
+
+@keyframes skeleton-swing {
+    from { transform: rotate(-7deg); }
+    to { transform: rotate(7deg); }
+}
+
+.hw-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 560px;
+    margin: 14px 0 4px;
+}
+
+.hw-words p {
+    flex-basis: 100%;
+    margin: 0 0 2px;
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.hw-words p strong {
+    color: #c4621a;
+}
+
+.hw-words button {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 7px 12px;
+    border: 1.5px solid #f2b47a;
+    border-radius: 999px;
+    background: #fff4e8;
+    color: var(--blue-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.hw-words button:hover,
+.hw-words button:focus-visible {
+    border-color: #7c4dbf;
+    background: #f6efff;
+}
+
+.hw-words small {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+@media (max-width: 700px) {
+    .hw-skeleton {
+        width: 34px;
+        right: 2%;
+    }
 }
 
 /* footer navigation: 11 links → 6 + 5 */

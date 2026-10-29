@@ -408,6 +408,14 @@
         linear-gradient(180deg, #2c200d 0%, #14181f 100%); }
     html:not([data-theme="light"]) .hero-copy .hero-text { color: var(--dm-head); }
     html:not([data-theme="light"]) .theme-fall .hero-copy .hero-text { background: rgba(20, 24, 31, .88); }
+    html:not([data-theme="light"]) .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .24), transparent 45%),
+        radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .14), transparent 42%),
+        linear-gradient(180deg, #2d1e0d 0%, #14181f 100%); }
+    html:not([data-theme="light"]) .hw-bat { color: #cfccd6; }
+    html:not([data-theme="light"]) .hw-words p { color: var(--dm-head); }
+    html:not([data-theme="light"]) .hw-words p strong { color: #eeaf81; }
+    html:not([data-theme="light"]) .hw-words button { border: 1.5px solid #553920; background: #301f0e; color: var(--dm-head); }
+    html:not([data-theme="light"]) .hw-words button:hover, html:not([data-theme="light"]) .hw-words button:focus-visible { background: #1b0d2d; }
     html:not([data-theme="light"]) .ss-toc a { color: var(--dm-head); }
     html:not([data-theme="light"]) .ss-video { background: linear-gradient(135deg, var(--blue), var(--dm-band)); }
     html:not([data-theme="light"]) .ss-video-play { background: rgba(20, 24, 31, .18); }
@@ -566,6 +574,11 @@
     html:not([data-theme="light"]) .tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
     html:not([data-theme="light"]) .tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
     html:not([data-theme="light"]) .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }
+    html:not([data-theme="light"]) .hw-bat { color: #b9a3e6; }
+    html:not([data-theme="light"]) .hw-words p strong { color: #f5a65b; }
+    html:not([data-theme="light"]) .hw-words button { background: #2a2118; border-color: #8a5a2c; color: #f1ece4; }
+    html:not([data-theme="light"]) .hw-words button:hover, html:not([data-theme="light"]) .hw-words button:focus-visible { background: #2a2140; border-color: #b9a3e6; }
+    html:not([data-theme="light"]) .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .16), transparent 45%), radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .18), transparent 42%), #14181f; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -974,6 +987,14 @@ html[data-theme="dark"] .theme-fall .hero { background: radial-gradient(circle a
         linear-gradient(180deg, #2c200d 0%, #14181f 100%); }
 html[data-theme="dark"] .hero-copy .hero-text { color: var(--dm-head); }
 html[data-theme="dark"] .theme-fall .hero-copy .hero-text { background: rgba(20, 24, 31, .88); }
+html[data-theme="dark"] .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .24), transparent 45%),
+        radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .14), transparent 42%),
+        linear-gradient(180deg, #2d1e0d 0%, #14181f 100%); }
+html[data-theme="dark"] .hw-bat { color: #cfccd6; }
+html[data-theme="dark"] .hw-words p { color: var(--dm-head); }
+html[data-theme="dark"] .hw-words p strong { color: #eeaf81; }
+html[data-theme="dark"] .hw-words button { border: 1.5px solid #553920; background: #301f0e; color: var(--dm-head); }
+html[data-theme="dark"] .hw-words button:hover, html[data-theme="dark"] .hw-words button:focus-visible { background: #1b0d2d; }
 html[data-theme="dark"] .ss-toc a { color: var(--dm-head); }
 html[data-theme="dark"] .ss-video { background: linear-gradient(135deg, var(--blue), var(--dm-band)); }
 html[data-theme="dark"] .ss-video-play { background: rgba(20, 24, 31, .18); }
@@ -1132,6 +1153,11 @@ html[data-theme="dark"] .tk-key, html[data-theme="dark"] [class^="f-text-"], htm
 html[data-theme="dark"] .tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
 html[data-theme="dark"] .tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
 html[data-theme="dark"] .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }
+html[data-theme="dark"] .hw-bat { color: #b9a3e6; }
+html[data-theme="dark"] .hw-words p strong { color: #f5a65b; }
+html[data-theme="dark"] .hw-words button { background: #2a2118; border-color: #8a5a2c; color: #f1ece4; }
+html[data-theme="dark"] .hw-words button:hover, html[data-theme="dark"] .hw-words button:focus-visible { background: #2a2140; border-color: #b9a3e6; }
+html[data-theme="dark"] .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .16), transparent 45%), radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .18), transparent 42%), #14181f; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
