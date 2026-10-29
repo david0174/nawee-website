@@ -454,8 +454,8 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
         ? statsBar()
         : new Date() < new Date("2026-11-23T19:30:00+01:00") // web seminar announcement until it has taken place
             ? (en
-                ? `<span aria-hidden="true">🎙️</span> <strong>Free live web seminar</strong> on Nov 23 – learn English on your own, with David. Only 5 seats. <a href="web-seminar.html">Save your seat →</a>`
-                : `<span aria-hidden="true">🎙️</span> <strong>Kostenloses Live-Web-Seminar</strong> am 23.11. – Englisch selbst lernen, mit David. Nur 5 Plätze. <a href="webseminar.html">Platz sichern →</a>`)
+                ? `<span aria-hidden="true">🎙️</span> <strong>Free live web seminar</strong> on Nov 23 – learn English on your own, with David. <a href="web-seminar.html">Save your seat →</a>`
+                : `<span aria-hidden="true">🎙️</span> <strong>Kostenloses Live-Web-Seminar</strong> am 23.11. – Englisch selbst lernen, mit David. <a href="webseminar.html">Platz sichern →</a>`)
             : (en
                 ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
                 : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);

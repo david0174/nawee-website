@@ -8,19 +8,19 @@
 
     const de = document.documentElement.lang === "de";
     const WEBINAR = "2026-11-23";
-    const SEATS = 5; // same number as in 05-webinar.sql
+    const SEATS = 100; // same number as in 06-webinar-100-seats.sql – not shown on the page, only "few seats left" / "fully booked"
     const START = new Date("2026-11-23T19:00:00+01:00"), END = new Date("2026-11-23T19:30:00+01:00");
     const page = de ? "webseminar.html" : "web-seminar.html";
     const account = de ? "konto.html" : "account.html";
     const T = de ? {
-        left: (n) => (n === 1 ? "Noch 1 Platz frei" : `Noch ${n} von ${SEATS} Plätzen frei`), full: "Leider ausgebucht – alle Plätze sind vergeben.",
+        left: (n) => (n === 1 ? "Nur noch 1 Platz frei" : `Nur noch ${n} Plätze frei`), full: "Leider ausgebucht – alle Plätze sind vergeben.",
         needAccount: "Für die Anmeldung brauchst du ein kostenloses Nawee-Konto.", signup: "Konto erstellen und Platz sichern", login: "Ich habe schon ein Konto",
         reserve: "Platz reservieren", reserving: "Einen Moment …", inTitle: "✓ Du bist dabei!",
         inText: "Den Meet-Link findest du in „Mein Konto“ – spätestens am Tag vorher.", toAccount: "Zu meinem Konto", gcal: "Zu Google Kalender hinzufügen", calendar: "Apple / Outlook (.ics)",
         cancel: "Anmeldung zurückziehen", cancelQ: "Möchtest du deinen Platz wirklich freigeben?", error: "Das hat leider nicht geklappt. Bitte versuch es noch einmal.",
         past: "Dieses Web-Seminar hat schon stattgefunden. Danke an alle, die dabei waren!",
     } : {
-        left: (n) => (n === 1 ? "1 seat left" : `${n} of ${SEATS} seats left`), full: "Fully booked – all seats are taken.",
+        left: (n) => (n === 1 ? "Only 1 seat left" : `Only ${n} seats left`), full: "Fully booked – all seats are taken.",
         needAccount: "To sign up, you need a free Nawee account.", signup: "Create an account and save your seat", login: "I already have an account",
         reserve: "Reserve my seat", reserving: "One moment …", inTitle: "✓ You’re in!",
         inText: "You’ll find the Meet link on “My account” – at the latest the day before.", toAccount: "Go to my account", gcal: "Add to Google Calendar", calendar: "Apple / Outlook (.ics)",
@@ -61,7 +61,7 @@
         const db = window.NaweeDB, user = window.NaweeUser;
         if (!db) return;
         const left = await seatsLeft(db);
-        const seatsLine = left === null ? "" : `<p class="wb-seats${left === 0 ? " is-full" : ""}">${left === 0 ? T.full : `🪑 ${T.left(left)}`}</p>`;
+        const seatsLine = left === null || left > 10 ? "" : `<p class="wb-seats${left === 0 ? " is-full" : ""}">${left === 0 ? T.full : `🪑 ${T.left(left)}`}</p>`; // only when it gets tight
         let mine = false;
         if (user) {
             const { data } = await db.from("webinar_registrations").select("webinar").eq("webinar", WEBINAR).eq("user_id", user.id).maybeSingle();
