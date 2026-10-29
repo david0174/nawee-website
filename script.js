@@ -89,6 +89,15 @@ document.addEventListener("keydown", (event) => {
 
 // Newsletter: send the form to Brevo in the background and show the result in place.
 // Nothing is loaded from Brevo until someone actually clicks "Abonnieren".
+// addresses signed up from this browser – only a scrambled fingerprint is kept, never the address itself
+const fingerprint = (email) => {
+    let h = 5381;
+    for (const c of String(email).trim().toLowerCase()) h = ((h * 33) ^ c.codePointAt(0)) >>> 0;
+    return h.toString(36);
+};
+const subscribed = () => { try { return JSON.parse(localStorage.getItem("nawee-nl-done")) || []; } catch { return []; } };
+const remember = (email) => { try { localStorage.setItem("nawee-nl-done", JSON.stringify([...new Set([...subscribed(), fingerprint(email)])].slice(-5))); } catch { /* ignore */ } };
+
 document.querySelectorAll(".nl-form").forEach((form) => {
     const button = form.querySelector('button[type="submit"]');
     const status = form.querySelector(".nl-status");
@@ -105,6 +114,8 @@ document.querySelectorAll(".nl-form").forEach((form) => {
         // spam trap (a field humans never see; its name is chosen so browsers don't autofill it)
         if (form.nl_zx_hp && form.nl_zx_hp.value) { show(form.dataset.error, false); return; }
         if (form.email_address_check) form.email_address_check.value = ""; // Brevo's own check field: always empty
+        // already signed up from this browser? (Brevo itself answers "success" again and resends the confirmation email)
+        if (subscribed().includes(fingerprint(form.EMAIL.value))) { show(form.dataset.already, false); return; }
 
         button.disabled = true;
         button.textContent = form.dataset.sending;
@@ -124,6 +135,7 @@ document.querySelectorAll(".nl-form").forEach((form) => {
                 if (/already|bereits|exist|déjà/.test(text)) { show(form.dataset.already, false); return; }
                 throw new Error("not saved");
             }
+            remember(form.EMAIL.value);
             form.reset();
             show(form.dataset.success, true);
         } catch {
