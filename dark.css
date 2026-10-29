@@ -523,6 +523,7 @@
     html:not([data-theme="light"]) .lv-bar i { background: linear-gradient(90deg, var(--blue), #1e365c); }
     html:not([data-theme="light"]) .lv-check.is-done { color: #ffffff; }
     html:not([data-theme="light"]) .lv-go { color: var(--dm-link); }
+    html:not([data-theme="light"]) .trophy-toggle { background: var(--dm-bg); color: var(--dm-link); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) .withdraw-frame { background: #1b1e24; }
@@ -1052,6 +1053,7 @@ html[data-theme="dark"] .lv-module:hover .lv-mtitle { color: var(--dm-link); }
 html[data-theme="dark"] .lv-bar i { background: linear-gradient(90deg, var(--blue), #1e365c); }
 html[data-theme="dark"] .lv-check.is-done { color: #ffffff; }
 html[data-theme="dark"] .lv-go { color: var(--dm-link); }
+html[data-theme="dark"] .trophy-toggle { background: var(--dm-bg); color: var(--dm-link); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] .withdraw-frame { background: #1b1e24; }

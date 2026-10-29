@@ -11521,3 +11521,7 @@ footer .footer-links {
     .lv-themes { padding: 14px; }
     .lv-module { grid-template-areas: "t p" "m m" "b b"; grid-template-columns: 1fr auto; }
 }
+
+/* trophy cabinet: fold / unfold (trophies.js) */
+.trophy-toggle { display: block; margin: 0 auto 12px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 99px; background: var(--white); color: var(--blue); font: inherit; font-weight: 700; cursor: pointer; }
+.trophy-toggle:hover { border-color: var(--blue); }

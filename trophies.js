@@ -150,19 +150,46 @@
     };
 
     // ---------- trophy cabinet (course overview) ----------
+    // trophy cabinet on the account page: unlocked trophies first; folded to two rows, "show all" opens the rest
+    const COLLAPSED = 6;
     const renderCabinet = (grid, counter) => {
         const done = TROPHIES.filter((t) => state.unlocked[t.id]).length;
         if (counter) counter.textContent = isEnglish ? `${done} of ${TROPHIES.length} trophies` : `${done} von ${TROPHIES.length} Trophäen`;
-        grid.replaceChildren(...TROPHIES.map((t) => {
-            const date = state.unlocked[t.id];
-            const item = document.createElement("div");
-            item.className = `trophy is-${t.level}${date ? " is-unlocked" : ""}`;
-            const when = date ? new Date(date).toLocaleDateString(isEnglish ? "en-US" : "de-DE") : "";
-            item.innerHTML = `<span class="trophy-medal">${trophyIcon}</span>
-                <span class="trophy-text"><strong>${t.name}</strong>
-                <small>${date ? `${LEVEL_NAMES[t.level]} · ${when}` : `${LEVEL_NAMES[t.level]} · ${t.hint}`}</small></span>`;
-            return item;
-        }));
+        const sorted = [...TROPHIES.filter((t) => state.unlocked[t.id]).sort((a, b) => String(state.unlocked[b.id]).localeCompare(String(state.unlocked[a.id]))),
+            ...TROPHIES.filter((t) => !state.unlocked[t.id])];
+        let open = false;
+        try { open = localStorage.getItem("nawee-trophies-open") === "1"; } catch { /* ignore */ }
+        const draw = () => {
+            const shown = open ? sorted : sorted.slice(0, Math.max(COLLAPSED, Math.min(done, 12)));
+            grid.replaceChildren(...shown.map((t) => {
+                const date = state.unlocked[t.id];
+                const item = document.createElement("div");
+                item.className = `trophy is-${t.level}${date ? " is-unlocked" : ""}`;
+                const when = date ? new Date(date).toLocaleDateString(isEnglish ? "en-US" : "de-DE") : "";
+                item.innerHTML = `<span class="trophy-medal">${trophyIcon}</span>
+                    <span class="trophy-text"><strong>${t.name}</strong>
+                    <small>${date ? `${LEVEL_NAMES[t.level]} · ${when}` : `${LEVEL_NAMES[t.level]} · ${t.hint}`}</small></span>`;
+                return item;
+            }));
+            let toggle = grid.nextElementSibling && grid.nextElementSibling.matches("[data-trophy-toggle]") ? grid.nextElementSibling : null;
+            if (shown.length === sorted.length && !open) { if (toggle) toggle.remove(); return; }
+            if (!toggle) {
+                toggle = document.createElement("button");
+                toggle.type = "button";
+                toggle.className = "trophy-toggle";
+                toggle.dataset.trophyToggle = "";
+                toggle.addEventListener("click", () => {
+                    open = !open;
+                    try { localStorage.setItem("nawee-trophies-open", open ? "1" : "0"); } catch { /* ignore */ }
+                    draw();
+                });
+                grid.after(toggle);
+            }
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.textContent = open ? (isEnglish ? "Show less ▴" : "Weniger anzeigen ▴")
+                : (isEnglish ? `Show all ${TROPHIES.length} trophies ▾` : `Alle ${TROPHIES.length} Trophäen anzeigen ▾`);
+        };
+        draw();
     };
 
     window.NaweeTrophies = { record, check, reload, renderCabinet, total: TROPHIES.length, play, soundToggle };
