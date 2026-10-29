@@ -593,30 +593,31 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     const box = document.querySelector(".newsletter-form .nl-preview:not(.nl-preview-flat)");
     if (!box) return;
     const PHRASES = [
-        ["Let me get back to you on that.", "Ich melde mich dazu noch mal bei dir."],
-        ["Could you say that again, please?", "Könntest du das bitte noch einmal sagen?"],
-        ["What do you mean by that?", "Was meinst du damit?"],
-        ["I see what you mean.", "Ich verstehe, was du meinst."],
-        ["Sorry to interrupt, but …", "Entschuldige, dass ich unterbreche, aber …"],
-        ["Could you speak a bit more slowly?", "Könntest du etwas langsamer sprechen?"],
-        ["How do you say … in English?", "Wie sagt man … auf Englisch?"],
-        ["Just to be clear …", "Nur damit es klar ist …"],
-        ["That's a good point.", "Das ist ein guter Punkt."],
-        ["Let me think about it.", "Lass mich darüber nachdenken."],
-        ["Can you give me an example?", "Kannst du mir ein Beispiel geben?"],
-        ["I'll keep you posted.", "Ich halte dich auf dem Laufenden."],
-        ["That makes sense.", "Das ergibt Sinn."],
-        ["I'm not sure I follow.", "Ich bin nicht sicher, ob ich folgen kann."],
-        ["What's the best way to reach you?", "Wie erreiche ich dich am besten?"],
-        ["I'm looking forward to it.", "Ich freue mich darauf."],
-        ["No worries.", "Kein Problem."],
-        ["That sounds great!", "Das klingt super!"],
-        ["Nice to meet you.", "Schön, dich kennenzulernen."],
-        ["Let's keep in touch.", "Lass uns in Kontakt bleiben."],
+        ["Let me get back to you on that.", "Ich melde mich dazu noch mal bei dir.", "I’ll answer you later, when I know more."],
+        ["Could you say that again, please?", "Könntest du das bitte noch einmal sagen?", "A polite way to ask someone to repeat."],
+        ["What do you mean by that?", "Was meinst du damit?", "Ask this when you want someone to explain."],
+        ["I see what you mean.", "Ich verstehe, was du meinst.", "I understand your idea."],
+        ["Sorry to interrupt, but …", "Entschuldige, dass ich unterbreche, aber …", "A polite way to start talking while someone else speaks."],
+        ["Could you speak a bit more slowly?", "Könntest du etwas langsamer sprechen?", "Ask this when someone talks too fast for you."],
+        ["How do you say … in English?", "Wie sagt man … auf Englisch?", "Ask this when you don’t know a word."],
+        ["Just to be clear …", "Nur damit es klar ist …", "Use it to check that everyone understands the same thing."],
+        ["That's a good point.", "Das ist ein guter Punkt.", "I agree – that is an important idea."],
+        ["Let me think about it.", "Lass mich darüber nachdenken.", "I need a little time before I decide."],
+        ["Can you give me an example?", "Kannst du mir ein Beispiel geben?", "Ask for an example to understand better."],
+        ["I'll keep you posted.", "Ich halte dich auf dem Laufenden.", "I’ll tell you when there is news."],
+        ["That makes sense.", "Das ergibt Sinn.", "I understand – it’s logical."],
+        ["I'm not sure I follow.", "Ich bin nicht sicher, ob ich folgen kann.", "I don’t fully understand what you’re saying."],
+        ["What's the best way to reach you?", "Wie erreiche ich dich am besten?", "How can I contact you – phone, email …?"],
+        ["I'm looking forward to it.", "Ich freue mich darauf.", "I’m happy because it will happen soon."],
+        ["No worries.", "Kein Problem.", "It’s okay – no problem."],
+        ["That sounds great!", "Das klingt super!", "A friendly way to say yes to an idea."],
+        ["Nice to meet you.", "Schön, dich kennenzulernen.", "What you say when you meet someone for the first time."],
+        ["Let's keep in touch.", "Lass uns in Kontakt bleiben.", "Let’s stay in contact."],
     ];
     const start = new Date(2026, 9, 26); // Monday of week 1 (Oct 26, 2026)
     const week = Math.max(0, Math.floor((Date.now() - start) / (7 * 864e5)));
-    const [en, de] = PHRASES[week % PHRASES.length];
+    const [en, de, meaning] = PHRASES[week % PHRASES.length];
     box.querySelector(".nl-preview-phrase").textContent = `“${en}”`;
-    box.querySelector(".nl-preview-de").textContent = `🇩🇪 „${de}“`;
+    // German page: the German translation; English page: a short meaning in simple English
+    box.querySelector(".nl-preview-de").textContent = document.documentElement.lang === "de" ? `🇩🇪 „${de}“` : `💡 ${meaning}`;
 })();
