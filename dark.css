@@ -592,6 +592,7 @@
     html:not([data-theme="light"]) .app-step { border: 1px solid #19212f; background: var(--dm-bg); }
     html:not([data-theme="light"]) .app-key { border: 1px solid #1e2735; }
     html:not([data-theme="light"]) .app-tip a { color: var(--dm-link); }
+    html:not([data-theme="light"]) .fb-more { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -1214,6 +1215,7 @@ html[data-theme="dark"] .app-installed { background: #192b20; color: #8ae6b5; }
 html[data-theme="dark"] .app-step { border: 1px solid #19212f; background: var(--dm-bg); }
 html[data-theme="dark"] .app-key { border: 1px solid #1e2735; }
 html[data-theme="dark"] .app-tip a { color: var(--dm-link); }
+html[data-theme="dark"] .fb-more { color: var(--dm-link); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }

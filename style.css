@@ -12288,3 +12288,40 @@ footer .footer-links {
 .app-page [hidden] {
     display: none;
 }
+
+/* feedback box (2026-10-29): direct question + text field + send button */
+.fb {
+    text-align: left;
+}
+
+.fb-q {
+    margin-bottom: 4px;
+}
+
+.fb-lead {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: .95rem;
+    line-height: 1.55;
+}
+
+.fb-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+}
+
+.fb-actions .fb-hint {
+    font-size: .85rem;
+}
+
+.fb-more {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--blue);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
