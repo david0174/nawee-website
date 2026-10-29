@@ -69,7 +69,7 @@
         planLevel: ["New", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `${m} min a day`, startPage: "get-started.html",
         noLevel: "not determined yet", trophies: "Your trophies", syncNote: "Your progress and trophies are saved in your account and synced across your devices.",
         deleteTitle: "Delete account", deleteText: "Deletes your account, username and saved progress on our servers. Progress stored in this browser stays here.",
-        deleteBtn: "Delete my account", deleteConfirm: "Do you really want to delete your account? This cannot be undone.", deleted: "Your account has been deleted.",
+        deleteBtn: "Delete my account", deleteConfirm: "Do you really want to delete your account? This cannot be undone.", deleteWord: "DELETE", deleteType: (w) => `To confirm, type <strong>${w}</strong>:`, deleteFinal: "Delete my account for good", deleteCancel: "Cancel", deleted: "Your account has been deleted.",
         hint: (n) => `Logged in as <strong>${n}</strong> · <a href="account.html">My account</a>`,
         google: "Continue with Google", or: "or with your email",
         confirmedTitle: "Your email is confirmed!",
@@ -108,7 +108,7 @@
         planLevel: ["Neu", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `${m} Min. am Tag`, startPage: "start.html",
         noLevel: "noch nicht ermittelt", trophies: "Deine Trophäen", syncNote: "Dein Fortschritt und deine Trophäen sind in deinem Konto gespeichert und auf allen Geräten verfügbar.",
         deleteTitle: "Konto löschen", deleteText: "Löscht dein Konto, deinen Benutzernamen und deinen gespeicherten Fortschritt auf unseren Servern. Der Fortschritt in diesem Browser bleibt erhalten.",
-        deleteBtn: "Mein Konto löschen", deleteConfirm: "Möchtest du dein Konto wirklich löschen? Das kann nicht rückgängig gemacht werden.", deleted: "Dein Konto wurde gelöscht.",
+        deleteBtn: "Mein Konto löschen", deleteConfirm: "Möchtest du dein Konto wirklich löschen? Das kann nicht rückgängig gemacht werden.", deleteWord: "LÖSCHEN", deleteType: (w) => `Zur Bestätigung tippe <strong>${w}</strong>:`, deleteFinal: "Konto endgültig löschen", deleteCancel: "Abbrechen", deleted: "Dein Konto wurde gelöscht.",
         hint: (n) => `Angemeldet als <strong>${n}</strong> · <a href="konto.html">Mein Konto</a>`,
         google: "Weiter mit Google", or: "oder mit deiner E-Mail-Adresse",
         confirmedTitle: "Deine E-Mail ist bestätigt!",
@@ -671,6 +671,15 @@
                     <summary>${T.deleteTitle}</summary>
                     <p>${T.deleteText}</p>
                     <button type="button" class="button secondary" data-delete>${T.deleteBtn}</button>
+                    <div class="account-delete-confirm" data-delete-confirm hidden>
+                        <p><strong>${T.deleteConfirm}</strong></p>
+                        <label for="delete-word">${T.deleteType(T.deleteWord)}</label>
+                        <input id="delete-word" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" data-delete-word>
+                        <div class="as-actions">
+                            <button type="button" class="button account-delete-final" data-delete-final disabled>${T.deleteFinal}</button>
+                            <button type="button" class="button secondary" data-delete-cancel>${T.deleteCancel}</button>
+                        </div>
+                    </div>
                 </details>
             </div>`;
             fillWebinar();
@@ -702,10 +711,20 @@
                 msg.textContent = error ? (isEnglish ? "Saved on this device." : "Auf diesem Gerät gespeichert.") : (isEnglish ? "✓ Saved" : "✓ Gespeichert");
                 setTimeout(() => { picker.hidden = true; avBtn.setAttribute("aria-expanded", "false"); msg.textContent = ""; }, 900);
             });
-            root.querySelector("[data-delete]").addEventListener("click", async () => {
-                if (!window.confirm(T.deleteConfirm)) return;
+            // deleting needs two steps: open the confirm box, then type the confirm word – so it can't happen by a misclick
+            const delStart = root.querySelector("[data-delete]"), delBox = root.querySelector("[data-delete-confirm]");
+            const delWord = root.querySelector("[data-delete-word]"), delFinal = root.querySelector("[data-delete-final]");
+            delStart.addEventListener("click", () => { delBox.hidden = false; delStart.hidden = true; delWord.focus(); });
+            root.querySelector("[data-delete-cancel]").addEventListener("click", () => {
+                delBox.hidden = true; delStart.hidden = false; delWord.value = ""; delFinal.disabled = true;
+                root.querySelector(".account-danger").open = false;
+            });
+            delWord.addEventListener("input", () => { delFinal.disabled = delWord.value.trim().toUpperCase() !== T.deleteWord; });
+            delFinal.addEventListener("click", async () => {
+                if (delWord.value.trim().toUpperCase() !== T.deleteWord) return;
+                delFinal.disabled = true;
                 const { error } = await db.rpc("delete_my_account");
-                if (error) { window.alert(T.errors.generic); return; }
+                if (error) { window.alert(T.errors.generic); delFinal.disabled = false; return; }
                 await db.auth.signOut();
                 views.login(message(T.deleted, "success"));
             });

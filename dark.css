@@ -208,6 +208,10 @@
     html:not([data-theme="light"]) .account-message.is-success { background: #18291f; color: #8be4b4; }
     html:not([data-theme="light"]) .account-stats strong { color: var(--dm-head); }
     html:not([data-theme="light"]) .account-danger summary { color: #dd9292; }
+    html:not([data-theme="light"]) .account-delete-confirm { border: 1.5px solid #3d2222; background: #281111; }
+    html:not([data-theme="light"]) .account-delete-confirm p { color: #dd9292; }
+    html:not([data-theme="light"]) .account-delete-confirm input { border: 1.5px solid #3d2222; background: var(--dm-bg); }
+    html:not([data-theme="light"]) .account-delete-final { color: #ffffff; }
     html:not([data-theme="light"]) .account-hint a { color: var(--dm-link); }
     html:not([data-theme="light"]) .cc-account-note a { color: var(--dm-link); }
     html:not([data-theme="light"]) .account-stats a { color: var(--dm-link); }
@@ -608,6 +612,9 @@
     html:not([data-theme="light"]) .primary:hover, html:not([data-theme="light"]) .primary:focus-visible, html:not([data-theme="light"]) .newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
     html:not([data-theme="light"]) .account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
     html:not([data-theme="light"]) .account-google:hover, html:not([data-theme="light"]) .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
+    html:not([data-theme="light"]) .account-delete-confirm { background: #2a1717; border-color: #6e3434; }
+    html:not([data-theme="light"]) .account-delete-confirm p { color: #f0b4b4; }
+    html:not([data-theme="light"]) .account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -816,6 +823,10 @@ html[data-theme="dark"] .account-message.is-error { background: #2c1111; color: 
 html[data-theme="dark"] .account-message.is-success { background: #18291f; color: #8be4b4; }
 html[data-theme="dark"] .account-stats strong { color: var(--dm-head); }
 html[data-theme="dark"] .account-danger summary { color: #dd9292; }
+html[data-theme="dark"] .account-delete-confirm { border: 1.5px solid #3d2222; background: #281111; }
+html[data-theme="dark"] .account-delete-confirm p { color: #dd9292; }
+html[data-theme="dark"] .account-delete-confirm input { border: 1.5px solid #3d2222; background: var(--dm-bg); }
+html[data-theme="dark"] .account-delete-final { color: #ffffff; }
 html[data-theme="dark"] .account-hint a { color: var(--dm-link); }
 html[data-theme="dark"] .cc-account-note a { color: var(--dm-link); }
 html[data-theme="dark"] .account-stats a { color: var(--dm-link); }
@@ -1216,6 +1227,9 @@ html[data-theme="dark"] .supporter-list .supporter-empty { background: transpare
 html[data-theme="dark"] .primary:hover, html[data-theme="dark"] .primary:focus-visible, html[data-theme="dark"] .newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
 html[data-theme="dark"] .account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
 html[data-theme="dark"] .account-google:hover, html[data-theme="dark"] .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
+html[data-theme="dark"] .account-delete-confirm { background: #2a1717; border-color: #6e3434; }
+html[data-theme="dark"] .account-delete-confirm p { color: #f0b4b4; }
+html[data-theme="dark"] .account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }

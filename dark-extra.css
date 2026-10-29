@@ -34,3 +34,8 @@ body { background: var(--dm-bg); color: var(--ink); }
    allow only white / dark / neutral buttons, so the hover adds a yellow ring instead of changing the color */
 .account-google { background: #ffffff; color: #1f1f1f; border-color: #dadce0; }
 .account-google:hover, .account-google:focus-visible { background: #f2f2f2; border-color: #dadce0; box-shadow: 0 0 0 3px #f5c542; }
+
+/* account deletion confirm box */
+.account-delete-confirm { background: #2a1717; border-color: #6e3434; }
+.account-delete-confirm p { color: #f0b4b4; }
+.account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }

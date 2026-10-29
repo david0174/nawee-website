@@ -5029,7 +5029,7 @@ footer .footer-copy p {
 }
 
 .account-danger {
-    margin-top: 36px;
+    margin-top: 96px; /* far away from "Log out", so nobody opens it by a misclick */
     padding-top: 18px;
     border-top: 1px solid var(--line);
     font-size: .92rem;
@@ -5037,9 +5037,48 @@ footer .footer-copy p {
 }
 
 .account-danger summary {
+    display: inline-block;
     cursor: pointer;
     color: #8c2b2b;
+    font-size: .88rem;
     font-weight: 600;
+}
+
+.account-delete-confirm {
+    display: grid;
+    gap: 8px;
+    max-width: 460px;
+    margin-top: 14px;
+    padding: 16px 18px;
+    border: 1.5px solid #e7b4b4;
+    border-radius: 14px;
+    background: #fdf3f3;
+}
+
+.account-delete-confirm p {
+    margin: 0;
+    color: #8c2b2b;
+}
+
+.account-delete-confirm input {
+    padding: 9px 12px;
+    border: 1.5px solid #e7b4b4;
+    border-radius: 10px;
+    background: var(--white);
+    font: inherit;
+    letter-spacing: .06em;
+}
+
+.account-delete-final {
+    border: 0;
+    background: #b42318;
+    color: #fff;
+}
+
+.account-delete-final:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* course overview: small hint about saving progress in an account */
@@ -12155,4 +12194,12 @@ footer .footer-links {
 
 .mission-support a {
     font-weight: 700;
+}
+
+.account-danger summary::before {
+    content: "▸ ";
+}
+
+.account-danger[open] summary::before {
+    content: "▾ ";
 }
