@@ -12117,3 +12117,32 @@ footer .footer-links {
 .reviews-home-more a {
     color: var(--blue);
 }
+
+/* support page: thank-you list (names David adds in Supabase) */
+.supporter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 8px;
+    padding: 0;
+    list-style: none;
+}
+
+.supporter-list li {
+    padding: 8px 14px;
+    border: 1px solid #f1dc9a;
+    border-radius: 999px;
+    background: #fffaf0;
+    color: var(--blue-dark);
+}
+
+.supporter-list li small {
+    margin-left: 4px;
+    color: var(--muted);
+}
+
+.supporter-list .supporter-empty {
+    border-style: dashed;
+    background: transparent;
+    color: var(--muted);
+}

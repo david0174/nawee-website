@@ -6,8 +6,8 @@
     <meta name="description" content="Nawee is free and should stay free. With a voluntary amount you help create new lessons, recordings and exercises.">
     <title>Support Nawee | Nawee</title>
     <link rel="canonical" href="https://nawee.net/support.html">
-    <link rel="stylesheet" href="style.css?v=20261029y">
-    <link rel="stylesheet" href="dark.css?v=20261029y">
+    <link rel="stylesheet" href="style.css?v=20261029z">
+    <link rel="stylesheet" href="dark.css?v=20261029z">
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -94,6 +94,9 @@
                 <p class="support-small">Pay securely via Stripe – by card, Apple Pay or Google Pay. You choose the amount.</p>
             </div>
             <p class="support-small">The payment is voluntary and nothing is given in return: you don’t get extra content – everything stays free for everyone. It is not a tax-deductible donation, and we can’t issue a donation receipt. More about paying via Stripe in the <a href="privacy-policy.html">privacy policy</a>.</p>
+            <h2 class="support-h" id="danke">Thank you to everyone who supports Nawee 💛</h2>
+            <p class="support-small">If you enter a name for the thank-you list when you pay, it appears here – without the amount. Leave the field empty to stay anonymous. If you later want your name removed, write to <a href="mailto:david@nawee.net">david@nawee.net</a>.</p>
+            <ul class="supporter-list" data-supporters><li class="supporter-empty">Nobody on the list yet – maybe you’ll be the first?</li></ul>
             <h2 class="support-h">You can also help without money</h2>
             <ul class="support-list">
                 <li><span aria-hidden="true">💬</span>Tell friends, colleagues or your class about Nawee.</li>
@@ -144,13 +147,22 @@
             <p>© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">+49 511 936 76970</a> (Mon–Fri, 9 am–6 pm) · <a href="imprint.html">Legal Notice</a> · <a href="privacy-policy.html">Privacy Policy</a></p>
         </div>
     </footer>
-    <script src="script.js?v=20261029y"></script>
+    <script src="script.js?v=20261029z"></script>
     <script>
         // Stripe payment link ("customers choose what to pay"); empty = not live yet
         (() => {
             const SUPPORT_URL = "";
             const link = document.querySelector("[data-support-link]");
             if (SUPPORT_URL) { link.href = SUPPORT_URL; link.hidden = false; document.querySelector("[data-support-soon]").hidden = true; }
+            // thank-you list: names David adds in Supabase (table supporters, read-only for the website)
+            const list = document.querySelector("[data-supporters]");
+            const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+            fetch("https://sphhbjfyreugpuzbwird.supabase.co/rest/v1/supporters?select=name,created_at&order=created_at.desc&limit=500", { headers: { apikey: "sb_publishable_jhaV37RIZUZph1S5bikzYQ_RKtDrHvF" } })
+                .then((r) => (r.ok ? r.json() : []))
+                .catch(() => [])
+                .then((rows) => {
+                    if (rows.length) list.innerHTML = rows.map((r) => `<li><span aria-hidden="true">🌱</span> <strong>${esc(r.name)}</strong> <small>${new Date(r.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</small></li>`).join("");
+                });
             if (new URLSearchParams(location.search).has("danke")) document.querySelector("[data-thanks]").hidden = false;
         })();
     </script>

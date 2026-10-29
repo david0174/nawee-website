@@ -6,8 +6,8 @@
     <meta name="description" content="Nawee ist kostenlos und soll es bleiben. Mit einem freiwilligen Betrag hilfst du, dass neue Lektionen, Aufnahmen und Übungen entstehen.">
     <title>Nawee unterstützen | Nawee</title>
     <link rel="canonical" href="https://nawee.net/unterstuetzen.html">
-    <link rel="stylesheet" href="style.css?v=20261029y">
-    <link rel="stylesheet" href="dark.css?v=20261029y">
+    <link rel="stylesheet" href="style.css?v=20261029z">
+    <link rel="stylesheet" href="dark.css?v=20261029z">
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -94,6 +94,9 @@
                 <p class="support-small">Sicher bezahlen über Stripe – mit Karte, Apple Pay oder Google Pay. Du wählst den Betrag selbst.</p>
             </div>
             <p class="support-small">Die Zahlung ist freiwillig und ohne Gegenleistung: Du bekommst dafür keine zusätzlichen Inhalte – alles bleibt für alle kostenlos. Es handelt sich nicht um eine steuerlich absetzbare Spende; eine Spendenquittung können wir nicht ausstellen. Mehr zur Zahlung über Stripe in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+            <h2 class="support-h" id="danke">Danke an alle, die Nawee unterstützen 💛</h2>
+            <p class="support-small">Wenn du beim Bezahlen einen Namen für die Dankesliste angibst, steht er hier – ohne Betrag. Feld leer lassen = anonym. Möchtest du später doch nicht auf der Liste stehen, schreib an <a href="mailto:david@nawee.net">david@nawee.net</a>.</p>
+            <ul class="supporter-list" data-supporters><li class="supporter-empty">Noch niemand auf der Liste – vielleicht bist du die erste Person?</li></ul>
             <h2 class="support-h">Auch ohne Geld kannst du helfen</h2>
             <ul class="support-list">
                 <li><span aria-hidden="true">💬</span>Erzähl Freunden, Kolleginnen oder deiner Klasse von Nawee.</li>
@@ -144,13 +147,22 @@
             <p>© 2026 Nawee · David Nawee · <a href="tel:+4951193676970">0511 936 76970</a> (Mo–Fr, 9–18 Uhr) · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></p>
         </div>
     </footer>
-    <script src="script.js?v=20261029y"></script>
+    <script src="script.js?v=20261029z"></script>
     <script>
         // Stripe payment link ("customers choose what to pay"); empty = not live yet
         (() => {
             const SUPPORT_URL = "";
             const link = document.querySelector("[data-support-link]");
             if (SUPPORT_URL) { link.href = SUPPORT_URL; link.hidden = false; document.querySelector("[data-support-soon]").hidden = true; }
+            // thank-you list: names David adds in Supabase (table supporters, read-only for the website)
+            const list = document.querySelector("[data-supporters]");
+            const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+            fetch("https://sphhbjfyreugpuzbwird.supabase.co/rest/v1/supporters?select=name,created_at&order=created_at.desc&limit=500", { headers: { apikey: "sb_publishable_jhaV37RIZUZph1S5bikzYQ_RKtDrHvF" } })
+                .then((r) => (r.ok ? r.json() : []))
+                .catch(() => [])
+                .then((rows) => {
+                    if (rows.length) list.innerHTML = rows.map((r) => `<li><span aria-hidden="true">🌱</span> <strong>${esc(r.name)}</strong> <small>${new Date(r.created_at).toLocaleDateString("de-DE", { month: "long", year: "numeric" })}</small></li>`).join("");
+                });
             if (new URLSearchParams(location.search).has("danke")) document.querySelector("[data-thanks]").hidden = false;
         })();
     </script>

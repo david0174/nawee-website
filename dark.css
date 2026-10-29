@@ -583,6 +583,7 @@
     html:not([data-theme="light"]) .review-status { color: #8ae6b5; }
     html:not([data-theme="light"]) .review-status.is-error { color: #ee8981; }
     html:not([data-theme="light"]) .reviews-home-more a { color: var(--dm-link); }
+    html:not([data-theme="light"]) .supporter-list li { border: 1px solid #493e1e; background: #2d220d; color: var(--dm-head); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) .withdraw-frame { background: #1b1e24; }
@@ -602,6 +603,8 @@
     html:not([data-theme="light"]) .fb-votes button { background: #1b212b; border-color: #354052; color: #eef2f8; }
     html:not([data-theme="light"]) .fb-sent, html:not([data-theme="light"]) .review-status { color: #7fd4a3; }
     html:not([data-theme="light"]) .fb-error, html:not([data-theme="light"]) .review-status.is-error { color: #ff9b8f; }
+    html:not([data-theme="light"]) .supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
+    html:not([data-theme="light"]) .supporter-list .supporter-empty { background: transparent; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1185,6 +1188,7 @@ html[data-theme="dark"] .review-consent a { color: var(--dm-link); }
 html[data-theme="dark"] .review-status { color: #8ae6b5; }
 html[data-theme="dark"] .review-status.is-error { color: #ee8981; }
 html[data-theme="dark"] .reviews-home-more a { color: var(--dm-link); }
+html[data-theme="dark"] .supporter-list li { border: 1px solid #493e1e; background: #2d220d; color: var(--dm-head); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] .withdraw-frame { background: #1b1e24; }
@@ -1204,6 +1208,8 @@ html[data-theme="dark"] .fb-form textarea, html[data-theme="dark"] .review-form 
 html[data-theme="dark"] .fb-votes button { background: #1b212b; border-color: #354052; color: #eef2f8; }
 html[data-theme="dark"] .fb-sent, html[data-theme="dark"] .review-status { color: #7fd4a3; }
 html[data-theme="dark"] .fb-error, html[data-theme="dark"] .review-status.is-error { color: #ff9b8f; }
+html[data-theme="dark"] .supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
+html[data-theme="dark"] .supporter-list .supporter-empty { background: transparent; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }

@@ -23,3 +23,5 @@ body { background: var(--dm-bg); color: var(--ink); }
 .fb-votes button { background: #1b212b; border-color: #354052; color: #eef2f8; }
 .fb-sent, .review-status { color: #7fd4a3; }
 .fb-error, .review-status.is-error { color: #ff9b8f; }
+.supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
+.supporter-list .supporter-empty { background: transparent; }
