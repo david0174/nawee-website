@@ -651,15 +651,6 @@
                     <div class="trophy-grid" data-trophies></div>
                     <p class="as-note">${T.syncNote}</p>
                 </section>
-                <section class="dash-card dash-coach">
-                    <img src="assets/david-avatar.jpg" alt="" class="dash-coach-img" width="72" height="72">
-                    <div>
-                        <p class="dash-webinar-tag">👋 ${isEnglish ? "LEARN WITH DAVID" : "PERSÖNLICH MIT DAVID"}</p>
-                        <h2 class="dash-h">${isEnglish ? "Want to go further, faster?" : "Schneller weiter mit einem Coach"}</h2>
-                        <p>${isEnglish ? "You're already putting in the work. In 1:1 coaching we focus on your own situations – conversations, presentations, pronunciation. The first call is free." : "Du übst schon fleißig. Im 1:1-Coaching arbeiten wir gezielt an deinen eigenen Situationen – Gespräche, Präsentationen, Aussprache. Das Erstgespräch ist kostenlos."}</p>
-                    </div>
-                    <a class="button secondary" href="https://davidnawee.com/${isEnglish ? "index-en.html" : ""}" target="_blank" rel="noopener">davidnawee.com ↗</a>
-                </section>
                 <div class="as-actions">
                     <button type="button" class="button secondary" data-logout>${T.logout}</button>
                 </div>
