@@ -11471,3 +11471,9 @@ footer .footer-links {
 .site-header > .theme-toggle {
     margin-left: auto;
 }
+
+/* web seminar sign-up: which language can you follow? */
+.wb-lang { border: 0; margin: 0 0 16px; padding: 0; display: grid; gap: 8px; }
+.wb-lang legend { font-weight: 700; margin-bottom: 8px; padding: 0; }
+.wb-lang label { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; cursor: pointer; }
+.wb-lang input[type="text"] { flex: 1; min-width: 160px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--white); color: var(--ink); }

@@ -16,6 +16,9 @@
         left: (n) => (n === 1 ? "Nur noch 1 Platz frei" : `Nur noch ${n} Plätze frei`), full: "Leider ausgebucht – alle Plätze sind vergeben.",
         needAccount: "Für die Anmeldung brauchst du ein kostenloses Nawee-Konto.", signup: "Konto erstellen und Platz sichern", login: "Ich habe schon ein Konto",
         reserve: "Platz reservieren", reserving: "Einen Moment …", inTitle: "✓ Du bist dabei!",
+        langQ: "In welcher Sprache kannst du dem Seminar folgen?", langEn: "Englisch – ich verstehe und spreche einfaches Englisch",
+        langDe: "Nur Deutsch", langOther: "Eine andere Sprache:", langOtherPh: "z. B. Türkisch, Arabisch …",
+        langMissing: "Bitte wähle aus, welche Sprache du verstehst.", langOtherMissing: "Bitte schreib, welche Sprache du sprichst.",
         inText: "Den Meet-Link findest du in „Mein Konto“ – spätestens am Tag vorher.", toAccount: "Zu meinem Konto", gcal: "Zu Google Kalender hinzufügen", calendar: "Apple / Outlook (.ics)",
         cancel: "Anmeldung zurückziehen", cancelQ: "Möchtest du deinen Platz wirklich freigeben?", error: "Das hat leider nicht geklappt. Bitte versuch es noch einmal.",
         past: "Dieses Web-Seminar hat schon stattgefunden. Danke an alle, die dabei waren!",
@@ -23,6 +26,9 @@
         left: (n) => (n === 1 ? "Only 1 seat left" : `Only ${n} seats left`), full: "Fully booked – all seats are taken.",
         needAccount: "To sign up, you need a free Nawee account.", signup: "Create an account and save your seat", login: "I already have an account",
         reserve: "Reserve my seat", reserving: "One moment …", inTitle: "✓ You’re in!",
+        langQ: "Which language can you follow in the seminar?", langEn: "English – I understand and speak basic English",
+        langDe: "Only German", langOther: "Another language:", langOtherPh: "e.g. Turkish, Arabic …",
+        langMissing: "Please choose which language you understand.", langOtherMissing: "Please write which language you speak.",
         inText: "You’ll find the Meet link on “My account” – at the latest the day before.", toAccount: "Go to my account", gcal: "Add to Google Calendar", calendar: "Apple / Outlook (.ics)",
         cancel: "Cancel my sign-up", cancelQ: "Do you really want to give up your seat?", error: "That didn’t work. Please try again.",
         past: "This web seminar has already taken place. Thanks to everyone who joined!",
@@ -90,11 +96,27 @@
                 <a class="button secondary" href="${account}?next=${next}">${T.login}</a></div>`;
             return;
         }
-        box.innerHTML = `${seatsLine}<button type="button" class="button primary" data-reserve>${T.reserve} →</button><p class="wb-msg" data-msg></p>`;
-        const btn = box.querySelector("[data-reserve]");
+        // which language can the person follow? (helps David plan how much German to use)
+        box.innerHTML = `${seatsLine}<fieldset class="wb-lang"><legend>${T.langQ}</legend>
+                <label><input type="radio" name="wb-lang" value="en"> ${T.langEn}</label>
+                <label><input type="radio" name="wb-lang" value="de"> ${T.langDe}</label>
+                <label class="wb-lang-other"><input type="radio" name="wb-lang" value="other"> ${T.langOther}
+                    <input type="text" data-lang-other maxlength="60" placeholder="${T.langOtherPh}" aria-label="${T.langOther}"></label>
+            </fieldset>
+            <button type="button" class="button primary" data-reserve>${T.reserve} →</button><p class="wb-msg" data-msg></p>`;
+        const btn = box.querySelector("[data-reserve]"), msg = box.querySelector("[data-msg]");
+        const other = box.querySelector("[data-lang-other]");
+        other.addEventListener("focus", () => { box.querySelector('input[value="other"]').checked = true; });
         btn.addEventListener("click", async () => {
+            const picked = box.querySelector('input[name="wb-lang"]:checked');
+            if (!picked) { msg.textContent = T.langMissing; return; }
+            const language = picked.value === "other" ? other.value.trim() : picked.value;
+            if (!language) { msg.textContent = T.langOtherMissing; other.focus(); return; }
             btn.disabled = true; btn.textContent = T.reserving;
-            const { error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR });
+            let { error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR, language });
+            if (error && /language/i.test(error.message || "")) {  // database without the language column yet (07-webinar-language.sql)
+                ({ error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR }));
+            }
             if (error) { btn.disabled = false; btn.textContent = `${T.reserve} →`; box.querySelector("[data-msg]").textContent = T.error; render(); return; }
             render();
         });
