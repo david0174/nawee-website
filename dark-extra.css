@@ -43,3 +43,8 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* app page */
 .app-installed { background: #16301f; color: #9fe0b8; }
 .app-key { border-color: #3a4658; }
+
+/* carousel: the seminar date card stays a white "calendar sheet" in dark mode */
+.cs-date { background: #ffffff; color: #0d2f82; }
+.cs-date span { color: #d64545; }
+.cs-date em { color: #5a6476; }

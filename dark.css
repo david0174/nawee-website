@@ -623,6 +623,9 @@
     html:not([data-theme="light"]) .account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }
     html:not([data-theme="light"]) .app-installed { background: #16301f; color: #9fe0b8; }
     html:not([data-theme="light"]) .app-key { border-color: #3a4658; }
+    html:not([data-theme="light"]) .cs-date { background: #ffffff; color: #0d2f82; }
+    html:not([data-theme="light"]) .cs-date span { color: #d64545; }
+    html:not([data-theme="light"]) .cs-date em { color: #5a6476; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1246,6 +1249,9 @@ html[data-theme="dark"] .account-delete-confirm p { color: #f0b4b4; }
 html[data-theme="dark"] .account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }
 html[data-theme="dark"] .app-installed { background: #16301f; color: #9fe0b8; }
 html[data-theme="dark"] .app-key { border-color: #3a4658; }
+html[data-theme="dark"] .cs-date { background: #ffffff; color: #0d2f82; }
+html[data-theme="dark"] .cs-date span { color: #d64545; }
+html[data-theme="dark"] .cs-date em { color: #5a6476; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
