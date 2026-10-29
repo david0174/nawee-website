@@ -19,6 +19,9 @@
         langQ: "In welcher Sprache kannst du dem Seminar folgen?", langEn: "Englisch – ich verstehe und spreche einfaches Englisch",
         langDe: "Nur Deutsch", langOther: "Eine andere Sprache:", langOtherPh: "z. B. Türkisch, Arabisch …",
         langMissing: "Bitte wähle aus, welche Sprache du verstehst.", langOtherMissing: "Bitte schreib, welche Sprache du sprichst.",
+        confirmH: "Bitte bestätige deine Anmeldung", confirmWhen: "Montag, 23. November · 19:00–19:30 Uhr (deutsche Zeit) · live über Google Meet",
+        confirmCheck: "Ich nehme live zu dieser Zeit teil – oder ich ziehe meine Anmeldung in meinem Konto zurück, falls ich nicht kann.",
+        confirmMissing: "Bitte bestätige, dass du teilnimmst.", confirmYes: "Ja, Platz verbindlich reservieren", confirmBack: "Zurück",
         inText: "Den Meet-Link findest du in „Mein Konto“ – spätestens am Tag vorher.", toAccount: "Zu meinem Konto", gcal: "Zu Google Kalender hinzufügen", calendar: "Apple / Outlook (.ics)",
         cancel: "Anmeldung zurückziehen", cancelQ: "Möchtest du deinen Platz wirklich freigeben?", error: "Das hat leider nicht geklappt. Bitte versuch es noch einmal.",
         past: "Dieses Web-Seminar hat schon stattgefunden. Danke an alle, die dabei waren!",
@@ -29,6 +32,9 @@
         langQ: "Which language can you follow in the seminar?", langEn: "English – I understand and speak basic English",
         langDe: "Only German", langOther: "Another language:", langOtherPh: "e.g. Turkish, Arabic …",
         langMissing: "Please choose which language you understand.", langOtherMissing: "Please write which language you speak.",
+        confirmH: "Please confirm your sign-up", confirmWhen: "Monday, November 23 · 7:00–7:30 pm (German time) · live on Google Meet",
+        confirmCheck: "I’ll attend live at this time – or I’ll cancel my sign-up in my account if I can’t make it.",
+        confirmMissing: "Please confirm that you’ll attend.", confirmYes: "Yes, confirm my seat", confirmBack: "Back",
         inText: "You’ll find the Meet link on “My account” – at the latest the day before.", toAccount: "Go to my account", gcal: "Add to Google Calendar", calendar: "Apple / Outlook (.ics)",
         cancel: "Cancel my sign-up", cancelQ: "Do you really want to give up your seat?", error: "That didn’t work. Please try again.",
         past: "This web seminar has already taken place. Thanks to everyone who joined!",
@@ -107,18 +113,29 @@
         const btn = box.querySelector("[data-reserve]"), msg = box.querySelector("[data-msg]");
         const other = box.querySelector("[data-lang-other]");
         other.addEventListener("focus", () => { box.querySelector('input[value="other"]').checked = true; });
-        btn.addEventListener("click", async () => {
+        // step 1: language → step 2: confirm date + commitment (only then the seat is saved)
+        btn.addEventListener("click", () => {
             const picked = box.querySelector('input[name="wb-lang"]:checked');
             if (!picked) { msg.textContent = T.langMissing; return; }
             const language = picked.value === "other" ? other.value.trim() : picked.value;
             if (!language) { msg.textContent = T.langOtherMissing; other.focus(); return; }
-            btn.disabled = true; btn.textContent = T.reserving;
-            let { error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR, language });
-            if (error && /language/i.test(error.message || "")) {  // database without the language column yet (07-webinar-language.sql)
-                ({ error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR }));
-            }
-            if (error) { btn.disabled = false; btn.textContent = `${T.reserve} →`; box.querySelector("[data-msg]").textContent = T.error; render(); return; }
-            render();
+            box.innerHTML = `${seatsLine}<div class="wb-confirm"><p class="wb-confirm-h">${T.confirmH}</p>
+                <p class="wb-confirm-when">📅 ${T.confirmWhen}</p>
+                <label class="wb-confirm-check"><input type="checkbox" data-commit> ${T.confirmCheck}</label></div>
+                <div class="wb-actions"><button type="button" class="button primary" data-confirm>${T.confirmYes} →</button>
+                <button type="button" class="button secondary" data-back>${T.confirmBack}</button></div><p class="wb-msg" data-msg></p>`;
+            box.querySelector("[data-back]").addEventListener("click", () => render());
+            const yes = box.querySelector("[data-confirm]");
+            yes.addEventListener("click", async () => {
+                if (!box.querySelector("[data-commit]").checked) { box.querySelector("[data-msg]").textContent = T.confirmMissing; return; }
+                yes.disabled = true; yes.textContent = T.reserving;
+                let { error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR, language });
+                if (error && /language/i.test(error.message || "")) {  // database without the language column yet (07-webinar-language.sql)
+                    ({ error } = await db.from("webinar_registrations").insert({ webinar: WEBINAR }));
+                }
+                if (error) { yes.disabled = false; yes.textContent = `${T.confirmYes} →`; box.querySelector("[data-msg]").textContent = T.error; return; }
+                render();
+            });
         });
     };
 

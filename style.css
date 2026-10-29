@@ -11598,3 +11598,10 @@ footer .footer-links {
     .tk-space { width: 170px; }
     .tk-line { font-size: 1.2rem; }
 }
+
+/* web seminar: step 2 – confirm date and commitment */
+.wb-confirm { margin: 0 0 16px; padding: 16px 18px; border: 1px solid var(--line); border-left: 4px solid var(--yellow); border-radius: 12px; background: var(--soft); }
+.wb-confirm-h { margin: 0 0 8px; font-weight: 800; color: var(--blue-dark); }
+.wb-confirm-when { margin: 0 0 12px; }
+.wb-confirm-check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; line-height: 1.45; }
+.wb-confirm-check input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
