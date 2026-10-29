@@ -8,3 +8,5 @@ body { background: var(--dm-bg); color: var(--ink); }
 .tk-key, [class^="f-text-"], .tk-cur { color: #14213d; }
 .tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
 .tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+/* race tracks keep their own colours */
+.gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }

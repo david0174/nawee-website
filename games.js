@@ -15,7 +15,7 @@
         best: "Bestwert", none: "Noch nicht gespielt", play: "Spielen →", back: "← Alle Spiele",
         race: "Typing Race", raceText: "Tippe einen kurzen englischen Text so schnell und genau wie möglich – und fahr gegen Tom und Ben um die Wette.",
         rain: "Word Rain", rainText: "Englische Wörter fallen vom Himmel. Tipp sie ab, bevor sie unten ankommen. Es wird immer schneller!",
-        level: "Gegner", levels: ["Gemütlich", "Normal", "Schnell"], start: "Start", you: "Du", countdown: "Los in",
+        level: "Gegner", levels: ["Gemütlich", "Normal", "Schnell"], track: "Strecke", tracks: { random: "Zufall", mountains: "Berge", park: "Park", underwater: "Unter Wasser" }, start: "Start", you: "Du", countdown: "Los in",
         typeHere: "Hier tippen …", from: "Text aus", wpm: "WPM", wpmLong: "Wörter pro Minute", acc: "Genauigkeit", place: ["1. Platz! 🏆", "2. Platz 🥈", "3. Platz 🥉"],
         again: "Nochmal", newBest: "Neuer Bestwert!", tipRace: "Tipp: Fehler musst du korrigieren, bevor es weitergeht. Genau ist schneller als hektisch.",
         mode: "Modus", modes: ["Abtippen", "Übersetzen (DE → EN)"], score: "Punkte", lives: "Leben", over: "Spiel vorbei!", rainTip: "Wort eintippen – Enter oder Leertaste ist nicht nötig.",
@@ -27,7 +27,7 @@
         best: "Best", none: "Not played yet", play: "Play →", back: "← All games",
         race: "Typing Race", raceText: "Type a short English text as fast and accurately as you can – and race against Tom and Ben.",
         rain: "Word Rain", rainText: "English words fall from the sky. Type them before they reach the bottom. It keeps getting faster!",
-        level: "Opponents", levels: ["Relaxed", "Normal", "Fast"], start: "Start", you: "You", countdown: "Starting in",
+        level: "Opponents", levels: ["Relaxed", "Normal", "Fast"], track: "Track", tracks: { random: "Random", mountains: "Mountains", park: "Park", underwater: "Underwater" }, start: "Start", you: "You", countdown: "Starting in",
         typeHere: "Type here …", from: "Text from", wpm: "WPM", wpmLong: "words per minute", acc: "Accuracy", place: ["1st place! 🏆", "2nd place 🥈", "3rd place 🥉"],
         again: "Play again", newBest: "New best!", tipRace: "Tip: fix a mistake before you can go on. Accurate is faster than rushed.",
         mode: "Mode", modes: ["Copy", "Translate (DE → EN)"], score: "Score", lives: "Lives", over: "Game over!", rainTip: "Type the word – no need to press Enter or space.",
@@ -211,11 +211,21 @@
             r.paragraphs.map((p) => ({ text: plain(p), from: r.title, reading: r })).filter((x) => x.text.length >= 90 && x.text.length <= 260));
         const BOTS = [[14, 24], [22, 36], [34, 55]]; // WPM of Tom and Ben per level
         let level = 1;
+        // race tracks: scenery along the road; under water everyone wears a diving mask
+        const TRACKS = {
+            mountains: { icon: "🏔️", deco: ["🌲", "⛰️", "🌲", "🌲"] },
+            park: { icon: "🌳", deco: ["🌳", "🌷", "🌼", "🌳"] },
+            underwater: { icon: "🌊", deco: ["🫧", "🐟", "🐠", "🫧"], mask: true },
+        };
+        let track = "random";
+        try { track = localStorage.getItem("nawee-race-track") || "random"; } catch { /* ignore */ }
         const setup = () => {
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🏁 ${T.race}</h1>
                 <p class="as-lead">${T.raceText}</p>
                 <p class="gm-label">${T.level}</p>
                 <div class="gm-choices">${T.levels.map((l, i) => `<button type="button" class="gm-choice${i === level ? " is-on" : ""}" data-level="${i}">${l}<small>${BOTS[i][0]}–${BOTS[i][1]} ${T.wpm}</small></button>`).join("")}</div>
+                <p class="gm-label">${T.track}</p>
+                <div class="gm-choices gm-tracks">${["random", ...Object.keys(TRACKS)].map((k) => `<button type="button" class="gm-choice${k === track ? " is-on" : ""}" data-track="${k}">${k === "random" ? "🎲" : TRACKS[k].icon} ${T.tracks[k]}</button>`).join("")}</div>
                 <button type="button" class="button primary gm-start" data-start>${T.start} →</button>
                 <p class="as-note">${T.tipRace}</p>
                 ${data.best.race ? `<p class="gm-best">🏅 ${T.best}: <strong>${data.best.race} ${T.wpm}</strong></p>` : ""}
@@ -224,14 +234,21 @@
                 level = Number(b.dataset.level);
                 root.querySelectorAll("[data-level]").forEach((x) => x.classList.toggle("is-on", x === b));
             }));
+            root.querySelectorAll("[data-track]").forEach((b) => b.addEventListener("click", () => {
+                track = b.dataset.track;
+                try { localStorage.setItem("nawee-race-track", track); } catch { /* ignore */ }
+                root.querySelectorAll("[data-track]").forEach((x) => x.classList.toggle("is-on", x === b));
+            }));
             root.querySelector("[data-start]").addEventListener("click", race);
         };
         const race = () => {
             const pick = sentences[Math.floor(Math.random() * sentences.length)] || { text: "The quick brown fox jumps over the lazy dog.", from: "" };
             const text = pick.text;
-            const racers = [{ name: T.you, car: "🚴", you: true }, { name: "Tom", car: "🚵", wpm: BOTS[level][0] }, { name: "Ben", car: "🚴‍♂️", wpm: BOTS[level][1] }]; // bikes, not cars
+            const racers = [{ name: T.you, car: "🚴", you: true }, { name: "Tom", car: "🚴🏻‍♂️", wpm: BOTS[level][0] }, { name: "Ben", car: "🚴🏽‍♂️", wpm: BOTS[level][1] }]; // plain bikers (no 🚵 – it has a background)
+            const trackIds = Object.keys(TRACKS), tk = track === "random" ? trackIds[Math.floor(Math.random() * trackIds.length)] : track, TK = TRACKS[tk];
+            const deco = (lane) => [12, 34, 58, 80].map((x, j) => `<span class="gm-deco" style="left:${x + ((lane * 7 + j * 3) % 9)}%">${TK.deco[(lane + j) % TK.deco.length]}</span>`).join("");
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><h1>🏁 ${T.race}</h1>
-                <div class="gm-track">${racers.map((r, i) => `<div class="gm-lane"><span class="gm-name">${r.name}</span><span class="gm-road"><span class="gm-car" data-car="${i}">${r.car}</span><span class="gm-flag" aria-hidden="true">🏁</span></span></div>`).join("")}</div>
+                <div class="gm-track trk-${tk}" aria-label="${T.tracks[tk]}">${racers.map((r, i) => `<div class="gm-lane"><span class="gm-name">${r.name}</span><span class="gm-road">${deco(i)}<span class="gm-car" data-car="${i}">${r.car}${TK.mask ? '<i class="gm-mask" aria-hidden="true">🤿</i>' : ""}</span><span class="gm-flag" aria-hidden="true">🏁</span></span></div>`).join("")}</div>
                 <p class="gm-count" data-count>${T.countdown} 3</p>
                 <div class="gm-text" data-text aria-live="off"></div>
                 <p class="gm-from">${T.from}: ${esc(pick.from)}</p>

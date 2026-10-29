@@ -543,6 +543,8 @@
     html:not([data-theme="light"]) .tk-key { color: #d5d9e2; }
     html:not([data-theme="light"]) [class^="f-text-"] { color: #d5d9e2; }
     html:not([data-theme="light"]) .wb-confirm-h { color: var(--dm-head); }
+    html:not([data-theme="light"]) .gm-track[class*="trk-"] .gm-name { color: #ffffff; }
+    html:not([data-theme="light"]) .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(20, 24, 31, .7); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) .withdraw-frame { background: #1b1e24; }
@@ -552,6 +554,7 @@
     html:not([data-theme="light"]) .tk-key, html:not([data-theme="light"]) [class^="f-text-"], html:not([data-theme="light"]) .tk-cur { color: #14213d; }
     html:not([data-theme="light"]) .tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
     html:not([data-theme="light"]) .tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+    html:not([data-theme="light"]) .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1095,6 +1098,8 @@ html[data-theme="dark"] .tk-hear { background: var(--dm-bg); color: var(--dm-lin
 html[data-theme="dark"] .tk-key { color: #d5d9e2; }
 html[data-theme="dark"] [class^="f-text-"] { color: #d5d9e2; }
 html[data-theme="dark"] .wb-confirm-h { color: var(--dm-head); }
+html[data-theme="dark"] .gm-track[class*="trk-"] .gm-name { color: #ffffff; }
+html[data-theme="dark"] .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(20, 24, 31, .7); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] .withdraw-frame { background: #1b1e24; }
@@ -1104,6 +1109,7 @@ html[data-theme="dark"] .hero-person img { border-color: var(--yellow); }
 html[data-theme="dark"] .tk-key, html[data-theme="dark"] [class^="f-text-"], html[data-theme="dark"] .tk-cur { color: #14213d; }
 html[data-theme="dark"] .tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
 html[data-theme="dark"] .tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+html[data-theme="dark"] .gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }

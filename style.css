@@ -11605,3 +11605,16 @@ footer .footer-links {
 .wb-confirm-when { margin: 0 0 12px; }
 .wb-confirm-check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; line-height: 1.45; }
 .wb-confirm-check input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
+
+/* Typing Race tracks: mountains, park, underwater (each with an SVG scenery layer, so dark mode keeps the colours) */
+.gm-track[class*="trk-"] { position: relative; overflow: hidden; }
+.gm-track[class*="trk-"] .gm-name { justify-self: start; padding: 2px 8px; border-radius: 99px; background: rgba(10, 20, 40, .45); color: #fff; }
+.gm-track[class*="trk-"] .gm-lane:first-child .gm-name { color: var(--yellow); }
+.gm-track[class*="trk-"] .gm-road { border-bottom-color: rgba(255, 255, 255, .7); }
+.gm-deco { position: absolute; bottom: 4px; font-size: 1rem; opacity: .7; pointer-events: none; }
+.gm-car { z-index: 1; }
+.gm-mask { position: absolute; top: -6px; left: 50%; transform: translateX(-30%); font-size: .95rem; font-style: normal; }
+.trk-mountains { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 80' preserveAspectRatio='none'%3E%3Cpath d='M0 80 L45 30 L80 55 L135 8 L185 50 L235 20 L295 58 L345 25 L400 52 L400 80Z' fill='%237d9cc4'/%3E%3Cpath d='M135 8 L150 22 L120 22Z M235 20 L247 31 L223 31Z M345 25 L356 35 L334 35Z' fill='%23ffffff'/%3E%3C/svg%3E") bottom / 100% 70% no-repeat, linear-gradient(#8fc0ec, #d7ecfb); }
+.trk-park { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20'%3E%3Cpath d='M4 20 L6 12 L8 20 M18 20 L20 10 L22 20 M31 20 L33 13 L35 20' fill='%235fa64f'/%3E%3C/svg%3E") bottom / 40px 20px repeat-x, linear-gradient(#bfe8ff 0%, #bfe8ff 18%, #9bd486 18%, #6fb85e 100%); }
+.trk-underwater { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.35'%3E%3Ccircle cx='20' cy='30' r='4'/%3E%3Ccircle cx='90' cy='15' r='3'/%3E%3Ccircle cx='60' cy='80' r='5'/%3E%3Ccircle cx='105' cy='95' r='2.5'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 120px 120px, linear-gradient(#0e6aa3, #063a5e); }
+.gm-tracks .gm-choice { font-weight: 700; }
