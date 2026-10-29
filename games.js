@@ -217,15 +217,12 @@
             park: { icon: "🌳", deco: ["🌳", "🌷", "🌼", "🌳"] },
             underwater: { icon: "🌊", deco: ["🫧", "🐟", "🐠", "🫧"], mask: true },
         };
-        let track = "random";
-        try { track = localStorage.getItem("nawee-race-track") || "random"; } catch { /* ignore */ }
+        const track = "random"; // every race gets a surprise track (David)
         const setup = () => {
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🏁 ${T.race}</h1>
                 <p class="as-lead">${T.raceText}</p>
                 <p class="gm-label">${T.level}</p>
                 <div class="gm-choices">${T.levels.map((l, i) => `<button type="button" class="gm-choice${i === level ? " is-on" : ""}" data-level="${i}">${l}<small>${BOTS[i][0]}–${BOTS[i][1]} ${T.wpm}</small></button>`).join("")}</div>
-                <p class="gm-label">${T.track}</p>
-                <div class="gm-choices gm-tracks">${["random", ...Object.keys(TRACKS)].map((k) => `<button type="button" class="gm-choice${k === track ? " is-on" : ""}" data-track="${k}">${k === "random" ? "🎲" : TRACKS[k].icon} ${T.tracks[k]}</button>`).join("")}</div>
                 <button type="button" class="button primary gm-start" data-start>${T.start} →</button>
                 <p class="as-note">${T.tipRace}</p>
                 ${data.best.race ? `<p class="gm-best">🏅 ${T.best}: <strong>${data.best.race} ${T.wpm}</strong></p>` : ""}
@@ -233,11 +230,6 @@
             root.querySelectorAll("[data-level]").forEach((b) => b.addEventListener("click", () => {
                 level = Number(b.dataset.level);
                 root.querySelectorAll("[data-level]").forEach((x) => x.classList.toggle("is-on", x === b));
-            }));
-            root.querySelectorAll("[data-track]").forEach((b) => b.addEventListener("click", () => {
-                track = b.dataset.track;
-                try { localStorage.setItem("nawee-race-track", track); } catch { /* ignore */ }
-                root.querySelectorAll("[data-track]").forEach((x) => x.classList.toggle("is-on", x === b));
             }));
             root.querySelector("[data-start]").addEventListener("click", race);
         };
