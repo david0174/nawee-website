@@ -58,6 +58,27 @@
         if (v) u.voice = v;
         synth.speak(u);
     };
+    // short sounds for right / wrong / done – the same tones and the same on/off setting as the lessons (trophies.js)
+    let tones = null;
+    const sfx = (kind) => {
+        try { if (localStorage.getItem("nawee-sound") === "off") return; } catch { /* ignore */ }
+        try {
+            tones = tones || new (window.AudioContext || window.webkitAudioContext)();
+            if (tones.state === "suspended") tones.resume();
+            const tone = (freq, start, length, type = "sine", volume = 0.22) => {
+                const t0 = tones.currentTime + start, osc = tones.createOscillator(), gain = tones.createGain();
+                osc.type = type; osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.0001, t0);
+                gain.gain.exponentialRampToValueAtTime(volume, t0 + 0.012);
+                gain.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
+                osc.connect(gain).connect(tones.destination);
+                osc.start(t0); osc.stop(t0 + length + 0.05);
+            };
+            if (kind === "correct") { tone(880, 0, 0.12); tone(1318.5, 0.09, 0.2); }
+            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
+            if (kind === "complete") { tone(659.3, 0, 0.16); tone(784, 0.12, 0.16); tone(1046.5, 0.24, 0.32); }
+        } catch { /* audio not available – stay silent */ }
+    };
     const plain = (s) => s.replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...");
 
     const game = new URLSearchParams(location.search).get("g");
@@ -157,6 +178,7 @@
                         else if (on) { b.classList.add("is-wrong"); ok = false; }
                     });
                     if (ok) perfect += 1;
+                    sfx(ok ? "correct" : "wrong");
                     box.querySelector("[data-fb]").innerHTML = ok ? `🎉 ${T.partsRight}` : T.partsAlmost;
                     box.querySelector("[data-fb]").className = `gm-pt-feedback ${ok ? "is-ok" : "is-no"}`;
                     e.currentTarget.textContent = step + 1 < steps.length ? `${T.partsNext} →` : `${T.partsDone} →`;
@@ -165,6 +187,7 @@
 
             const finish = () => {
                 data.best.parts = (data.best.parts || 0) + 1; // number of sentences broken down so far
+                sfx("complete"); // the whole sentence is done
                 save();
                 const used = Object.keys(CLS).filter((c) => words.some((x) => x.main === c));
                 box.innerHTML = `<p class="gm-pt-task">${T.partsBreakdown}</p>
