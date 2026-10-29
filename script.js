@@ -102,17 +102,20 @@ document.querySelectorAll(".nl-form").forEach((form) => {
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        if (form.email_address_check.value) return; // spam trap filled in: ignore
+        // spam trap (a field humans never see; its name is chosen so browsers don't autofill it)
+        if (form.nl_zx_hp && form.nl_zx_hp.value) { show(form.dataset.error, false); return; }
+        if (form.email_address_check) form.email_address_check.value = ""; // Brevo's own check field: always empty
 
         button.disabled = true;
         button.textContent = form.dataset.sending;
         try {
             const send = (data) => fetch(form.action, { method: "POST", body: new URLSearchParams(data) })
                 .then(async (r) => ({ ok: r.ok, result: await r.json().catch(() => ({})) }));
-            let { ok, result } = await send(new FormData(form));
+            const fields = new FormData(form); fields.delete("nl_zx_hp");
+            let { ok, result } = await send(fields);
             if ((!ok || !result.success) && form.VORNAME && form.VORNAME.value) {
                 // safety net: if Brevo rejects the optional first name, sign up with the email address only
-                const data = new FormData(form); data.delete("VORNAME");
+                const data = new FormData(form); data.delete("VORNAME"); data.delete("nl_zx_hp");
                 ({ ok, result } = await send(data));
             }
             if (!ok || !result.success) {
