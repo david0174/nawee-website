@@ -9618,9 +9618,9 @@ footer .footer-links {
     }
 }
 
-/* footer navigation: 11 links → 6 + 5 */
+/* footer navigation: 13 links (incl. reviews, support, app) → 7 + 6 */
 footer .footer-links {
-    grid-template-rows: auto repeat(6, auto);
+    grid-template-rows: auto repeat(7, auto);
 }
 
 /* =========================
@@ -12202,4 +12202,89 @@ footer .footer-links {
 
 .account-danger[open] summary::before {
     content: "▾ ";
+}
+
+/* =========================
+   Nawee as an app (app.html / app-en.html; install logic in script.js)
+   ========================= */
+.app-page {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.app-page h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.app-install {
+    margin: 4px 0 8px;
+    font-size: 1.05rem;
+}
+
+.app-installed {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #e3f5ea;
+    color: #145c36;
+    font-weight: 700;
+}
+
+.app-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+}
+
+.app-step {
+    padding: 18px 18px 8px;
+    border: 1px solid #dbe5f5;
+    border-radius: 18px;
+    background: var(--white);
+}
+
+.app-step.is-yours {
+    border: 2px solid var(--blue);
+    box-shadow: 0 0 0 4px rgba(245, 197, 66, .45);
+    order: -1;
+}
+
+.app-step h3 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+}
+
+.app-step ol {
+    margin: 0;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+.app-step li {
+    margin-bottom: 8px;
+}
+
+.app-key {
+    display: inline-block;
+    min-width: 1.6em;
+    padding: 0 4px;
+    border: 1px solid #c9d7ee;
+    border-radius: 6px;
+    text-align: center;
+    font-size: .9em;
+}
+
+.app-tip a {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+@media (max-width: 760px) {
+    .app-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+.app-page [hidden] {
+    display: none;
 }

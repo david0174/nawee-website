@@ -39,3 +39,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .account-delete-confirm { background: #2a1717; border-color: #6e3434; }
 .account-delete-confirm p { color: #f0b4b4; }
 .account-delete-confirm input { background: #1b212b; border-color: #6e3434; color: #eef2f8; }
+
+/* app page */
+.app-installed { background: #16301f; color: #9fe0b8; }
+.app-key { border-color: #3a4658; }

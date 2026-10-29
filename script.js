@@ -622,3 +622,34 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     // German page: the German translation; English page: a short meaning in simple English
     box.querySelector(".nl-preview-de").textContent = document.documentElement.lang === "de" ? `🇩🇪 „${de}“` : `💡 ${meaning}`;
 })();
+
+// Nawee as an app: offline support (sw.js) and the "Install" button on app.html / app-en.html.
+// Chrome/Edge/Android fire beforeinstallprompt → our button shows; iPhone/iPad (Safari) has no such event → the page shows the steps.
+(() => {
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+        navigator.serviceWorker.register("/sw.js").catch(() => { /* the site works the same without it */ });
+    }
+    const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    if (standalone) document.documentElement.classList.add("is-app");
+    document.querySelectorAll("[data-app-installed]").forEach((el) => { el.hidden = !standalone; });
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    document.querySelectorAll("[data-app-os]").forEach((el) => { if (el.dataset.appOs === (ios ? "ios" : "other")) el.classList.add("is-yours"); });
+    let deferred = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferred = e;
+        if (!standalone) document.querySelectorAll("[data-app-install]").forEach((b) => { b.hidden = false; });
+    });
+    window.addEventListener("appinstalled", () => {
+        deferred = null;
+        document.querySelectorAll("[data-app-install]").forEach((b) => { b.hidden = true; });
+    });
+    document.addEventListener("click", async (e) => {
+        const btn = e.target.closest("[data-app-install]");
+        if (!btn || !deferred) return;
+        deferred.prompt();
+        await deferred.userChoice.catch(() => null);
+        deferred = null;
+        btn.hidden = true;
+    });
+})();
