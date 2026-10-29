@@ -74,13 +74,14 @@
     const setPref = (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
 
     const render = (box) => {
-        const data = levels();
+        let data = levels();
         // default: the level you last worked on (some progress, not finished), else the first one with lessons
         const started = data.find((l) => l.done > 0 && l.pct < 100);
         let cur = pref("nawee-level", "") || (started || data.find((l) => l.ready) || data[0]).code;
         if (!data.some((l) => l.code === cur)) cur = data[0].code;
         const open = new Set();
         const draw = () => {
+            data = levels();  // fresh progress every time (e.g. after the account synced it)
             const lv = data.find((l) => l.code === cur);
             box.innerHTML = `<div class="lv-map">
                 <ul class="lv-levels" role="tablist">${data.map((l) => `<li><button type="button" role="tab" aria-selected="${l.code === cur}" class="${l.code === cur ? "on" : ""}" data-level="${esc(l.code)}">
@@ -104,6 +105,19 @@
             if (mb) { const id = Number(mb.dataset.module); open.has(id) ? open.delete(id) : open.add(id); draw(); }
         });
         draw();
+        // account page: only for logged-in learners, redrawn when the session (and synced progress) arrives
+        const wrap = box.closest("[data-levels-account]");
+        if (wrap) {
+            const update = () => {
+                wrap.hidden = !window.NaweeUser;
+                if (!window.NaweeUser) return;
+                draw();
+                // the word-by-word heading animation (script.js) waits for scrolling – make sure the heading shows anyway
+                setTimeout(() => wrap.querySelectorAll(".reveal-words").forEach((h) => h.classList.add("is-revealed")), 1200);
+            };
+            window.addEventListener("nawee:session", update);
+            update();
+        }
     };
     boxes.forEach(render);
 })();

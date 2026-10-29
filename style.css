@@ -8435,8 +8435,8 @@ footer .footer-links .footer-heading {
 }
 
 .dash-hello span {
-    color: #9aa6b8;
-    font-weight: 600;
+    color: var(--blue); /* was light grey – David wanted the greeting more emphasized */
+    font-weight: 700;
 }
 
 .dash-grid {
