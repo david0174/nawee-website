@@ -9775,6 +9775,17 @@ footer .footer-links {
     margin-bottom: 18px;
 }
 
+.wb h1:has(+ .wb-sub) {
+    margin-bottom: 6px;
+}
+
+.wb-sub {
+    margin: 0 0 20px;
+    font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+    font-weight: 600;
+    color: var(--muted);
+}
+
 .wb h2 {
     margin-top: 36px;
     font-size: 1.6rem;

@@ -41,7 +41,7 @@
     };
 
     const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-    const title = de ? "Nawee Live-Web-Seminar: Englisch selbst lernen" : "Nawee live web seminar: Learn English on your own";
+    const title = de ? "Nawee Live-Web-Seminar: Wie du dir selbst Englisch beibringst" : "Nawee live web seminar: How to Teach Yourself English";
     // the Meet link goes into the calendar entry once it exists (only signed-up people can read it), otherwise the account page
     const details = (meet) => meet || (de ? "Meet-Link: https://nawee.net/konto.html" : "Meet link: https://nawee.net/account.html");
 

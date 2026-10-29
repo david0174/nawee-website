@@ -506,7 +506,7 @@
         // Google Calendar "new event" link with the Meet link inside (19:00–19:30 German time)
         const day = w.replace(/-/g, "");
         const gcal = `https://calendar.google.com/calendar/render?dates=${day}T190000/${day}T193000&` + new URLSearchParams({
-            action: "TEMPLATE", text: isEnglish ? "Nawee live web seminar: Learn English on your own" : "Nawee Live-Web-Seminar: Englisch selbst lernen",
+            action: "TEMPLATE", text: isEnglish ? "Nawee live web seminar: How to Teach Yourself English" : "Nawee Live-Web-Seminar: Wie du dir selbst Englisch beibringst",
             ctz: "Europe/Berlin", details: safe, location: safe,
         });
         const when = new Date(`${w}T12:00:00`).toLocaleDateString(isEnglish ? "en-US" : "de-DE", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
