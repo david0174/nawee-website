@@ -73,6 +73,12 @@
         </a>`;
         root.innerHTML = `<p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="as-lead">${T.lead}</p>
             <div class="gm-tiles">
+                <a class="gm-tile gm-tile-course" href="${de ? "tippen.html" : "typing.html"}">
+                    <span class="gm-tile-icon" aria-hidden="true">⌨️</span>
+                    <span class="gm-tile-body"><strong>${de ? "Tippen lernen – mit Englisch" : "Learn to type – with English"}</strong><span>${de ? "Das Zehnfingersystem Schritt für Schritt – und dabei englische Wörter hören und verstehen. QWERTZ oder QWERTY." : "Touch typing step by step – and hear and understand English words along the way. QWERTY or QWERTZ."}</span>
+                    <span class="gm-tile-best">${de ? "Neu · Kurs" : "New · course"}</span></span>
+                    <span class="gm-tile-go">${de ? "Starten" : "Start"}</span>
+                </a>
                 ${tile("race", "🏁", T.race, T.raceText, data.best.race ? `${data.best.race} ${T.wpm}` : "")}
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
                 ${tile("define", "📝", T.define, T.defineText, data.best.define ? `${data.best.define} ${T.wpm}` : "")}

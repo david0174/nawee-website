@@ -4,3 +4,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .brand:hover img, .brand:focus-visible img { filter: drop-shadow(0 6px 10px rgba(120, 170, 255, .3)); }
 /* round photo in the hero: yellow ring in dark mode */
 .hero-person img { border-color: var(--yellow); }
+/* typing course: keys, finger labels and the cursor keep dark letters on their pastel / yellow backgrounds */
+.tk-key, [class^="f-text-"], .tk-cur { color: #14213d; }
+.tk-key.is-next { box-shadow: 0 0 0 3px #ffffff, 0 6px 14px rgba(0, 0, 0, .4); }
+.tk-layout button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
