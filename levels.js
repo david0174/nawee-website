@@ -120,4 +120,9 @@
         }
     };
     boxes.forEach(render);
+    // learn page: the "free account" note only for visitors who aren't logged in (session kept by Supabase in the browser)
+    try {
+        const session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
+        if (session && session.refresh_token) document.querySelectorAll("[data-guest-note]").forEach((n) => { n.hidden = true; });
+    } catch { /* storage unavailable */ }
 })();
