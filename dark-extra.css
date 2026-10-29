@@ -48,3 +48,9 @@ body { background: var(--dm-bg); color: var(--ink); }
 .cs-date { background: #ffffff; color: #0d2f82; }
 .cs-date span { color: #d64545; }
 .cs-date em { color: #5a6476; }
+
+/* music section */
+.mu-chip, .mu-answers button { background: #1b212b; border-color: #354052; color: #eef2f8; }
+.mu-chip[aria-pressed="true"], .mu-answers button.is-right { background: #16301f; border-color: #3f9a64; color: #9fe0b8; }
+.mu-answers button.is-wrong { background: #3a1d1d; border-color: #a04848; color: #ffb3b3; }
+.mu-done, .mu-done-msg { color: #9fe0b8; }

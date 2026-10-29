@@ -100,6 +100,12 @@
                     <span class="gm-tile-best">${de ? "Neu · Kurs" : "New · course"}</span></span>
                     <span class="gm-tile-go">${de ? "Starten" : "Start"}</span>
                 </a>
+                <a class="gm-tile gm-tile-course" href="${de ? "musik.html" : "music.html"}">
+                    <span class="gm-tile-icon" aria-hidden="true">🎵</span>
+                    <span class="gm-tile-body"><strong>${de ? "Englisch mit Musik" : "English through music"}</strong><span>${de ? "Bekannte Songs hören, Ausdrücke auf der Satz-Jagd entdecken, nachsprechen und selbst sprechen." : "Listen to well-known songs, find phrases on a phrase hunt, repeat them and speak yourself."}</span>
+                    <span class="gm-tile-best">${de ? "Neu · Songs" : "New · songs"}</span></span>
+                    <span class="gm-tile-go">${de ? "Starten" : "Start"}</span>
+                </a>
                 ${tile("race", "🏁", T.race, T.raceText, data.best.race ? `${data.best.race} ${T.wpm}` : "")}
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
                 ${tile("define", "📝", T.define, T.defineText, data.best.define ? `${data.best.define} ${T.wpm}` : "")}

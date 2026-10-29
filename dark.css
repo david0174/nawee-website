@@ -593,6 +593,24 @@
     html:not([data-theme="light"]) .app-key { border: 1px solid #1e2735; }
     html:not([data-theme="light"]) .app-tip a { color: var(--dm-link); }
     html:not([data-theme="light"]) .fb-more { color: var(--dm-link); }
+    html:not([data-theme="light"]) .music-steps li { color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-card { border: 1px solid #19212f; background: var(--dm-bg); }
+    html:not([data-theme="light"]) .mu-emoji { background: #362d10; }
+    html:not([data-theme="light"]) .mu-card-text strong { color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-badge { color: var(--dm-link); }
+    html:not([data-theme="light"]) .mu-done, html:not([data-theme="light"]) .mu-done-msg { color: #8ae6b5; }
+    html:not([data-theme="light"]) .mu-step { border: 1px solid #19212f; background: var(--dm-bg); }
+    html:not([data-theme="light"]) .mu-chip { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-chip[aria-pressed="true"] { background: #192b20; color: #8ae6b5; }
+    html:not([data-theme="light"]) .mu-count { color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-phrases li { border-bottom: 1px solid #171e2a; }
+    html:not([data-theme="light"]) .mu-example { color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-say { border: 1px solid #1e2735; }
+    html:not([data-theme="light"]) .mu-q > p:first-child { color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-answers button { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+    html:not([data-theme="light"]) .mu-answers button.is-right { background: #192b20; color: #8ae6b5; }
+    html:not([data-theme="light"]) .mu-answers button.is-wrong { background: #2c1111; color: #dd9292; }
+    html:not([data-theme="light"]) .mu-speak li { color: var(--dm-head); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -626,6 +644,10 @@
     html:not([data-theme="light"]) .cs-date { background: #ffffff; color: #0d2f82; }
     html:not([data-theme="light"]) .cs-date span { color: #d64545; }
     html:not([data-theme="light"]) .cs-date em { color: #5a6476; }
+    html:not([data-theme="light"]) .mu-chip, html:not([data-theme="light"]) .mu-answers button { background: #1b212b; border-color: #354052; color: #eef2f8; }
+    html:not([data-theme="light"]) .mu-chip[aria-pressed="true"], html:not([data-theme="light"]) .mu-answers button.is-right { background: #16301f; border-color: #3f9a64; color: #9fe0b8; }
+    html:not([data-theme="light"]) .mu-answers button.is-wrong { background: #3a1d1d; border-color: #a04848; color: #ffb3b3; }
+    html:not([data-theme="light"]) .mu-done, html:not([data-theme="light"]) .mu-done-msg { color: #9fe0b8; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1219,6 +1241,24 @@ html[data-theme="dark"] .app-step { border: 1px solid #19212f; background: var(-
 html[data-theme="dark"] .app-key { border: 1px solid #1e2735; }
 html[data-theme="dark"] .app-tip a { color: var(--dm-link); }
 html[data-theme="dark"] .fb-more { color: var(--dm-link); }
+html[data-theme="dark"] .music-steps li { color: var(--dm-head); }
+html[data-theme="dark"] .mu-card { border: 1px solid #19212f; background: var(--dm-bg); }
+html[data-theme="dark"] .mu-emoji { background: #362d10; }
+html[data-theme="dark"] .mu-card-text strong { color: var(--dm-head); }
+html[data-theme="dark"] .mu-badge { color: var(--dm-link); }
+html[data-theme="dark"] .mu-done, html[data-theme="dark"] .mu-done-msg { color: #8ae6b5; }
+html[data-theme="dark"] .mu-step { border: 1px solid #19212f; background: var(--dm-bg); }
+html[data-theme="dark"] .mu-chip { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+html[data-theme="dark"] .mu-chip[aria-pressed="true"] { background: #192b20; color: #8ae6b5; }
+html[data-theme="dark"] .mu-count { color: var(--dm-head); }
+html[data-theme="dark"] .mu-phrases li { border-bottom: 1px solid #171e2a; }
+html[data-theme="dark"] .mu-example { color: var(--dm-head); }
+html[data-theme="dark"] .mu-say { border: 1px solid #1e2735; }
+html[data-theme="dark"] .mu-q > p:first-child { color: var(--dm-head); }
+html[data-theme="dark"] .mu-answers button { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+html[data-theme="dark"] .mu-answers button.is-right { background: #192b20; color: #8ae6b5; }
+html[data-theme="dark"] .mu-answers button.is-wrong { background: #2c1111; color: #dd9292; }
+html[data-theme="dark"] .mu-speak li { color: var(--dm-head); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }
@@ -1252,6 +1292,10 @@ html[data-theme="dark"] .app-key { border-color: #3a4658; }
 html[data-theme="dark"] .cs-date { background: #ffffff; color: #0d2f82; }
 html[data-theme="dark"] .cs-date span { color: #d64545; }
 html[data-theme="dark"] .cs-date em { color: #5a6476; }
+html[data-theme="dark"] .mu-chip, html[data-theme="dark"] .mu-answers button { background: #1b212b; border-color: #354052; color: #eef2f8; }
+html[data-theme="dark"] .mu-chip[aria-pressed="true"], html[data-theme="dark"] .mu-answers button.is-right { background: #16301f; border-color: #3f9a64; color: #9fe0b8; }
+html[data-theme="dark"] .mu-answers button.is-wrong { background: #3a1d1d; border-color: #a04848; color: #ffb3b3; }
+html[data-theme="dark"] .mu-done, html[data-theme="dark"] .mu-done-msg { color: #9fe0b8; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
