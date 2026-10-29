@@ -11870,3 +11870,250 @@ footer .footer-links {
 .learn-top .section-heading .learn-top-sub { margin: 0; color: var(--blue); font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 600; }
 .lv-guest-note { max-width: 680px; margin: 16px auto 0; text-align: center; color: var(--muted); font-size: .95rem; }
 .lv-guest-note a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+
+/* =========================
+   Feedback box at the end of content pages (feedback.js)
+   ========================= */
+.fb {
+    max-width: 640px;
+    margin: 48px auto 24px;
+    padding: 20px 22px;
+    border: 1px solid #dbe5f5;
+    border-radius: 18px;
+    background: var(--blue-soft);
+    text-align: center;
+}
+
+.fb-q {
+    margin: 0 0 12px;
+    color: var(--blue-dark);
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+.fb-votes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.fb-votes button {
+    padding: 9px 18px;
+    border: 1.5px solid #c9d7ee;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--blue-dark);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.fb-votes button:hover,
+.fb-votes button:focus-visible {
+    border-color: var(--blue);
+    box-shadow: 0 3px 0 var(--yellow);
+}
+
+.fb-form {
+    display: grid;
+    gap: 8px;
+    text-align: left;
+}
+
+.fb-form label {
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.fb-form textarea,
+.review-form input:not([type="checkbox"]),
+.review-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #c9d7ee;
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--text, #14213d);
+    font: inherit;
+    resize: vertical;
+}
+
+.fb-form .button {
+    justify-self: start;
+}
+
+.fb-hint,
+.fb-review,
+.fb-sent,
+.fb-error {
+    margin: 0;
+    font-size: .9rem;
+}
+
+.fb-hint {
+    color: var(--muted);
+}
+
+.fb-review {
+    margin-top: 12px;
+}
+
+.fb-review a {
+    color: var(--blue);
+    font-weight: 700;
+}
+
+.fb-sent {
+    color: #145c36;
+    font-weight: 700;
+}
+
+.fb-error {
+    color: #b42318;
+}
+
+/* =========================
+   Reviews (reviews.js): list, homepage strip, form
+   ========================= */
+.reviews {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.reviews h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.review-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 20px 0 12px;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #dbe5f5;
+    border-left: 5px solid var(--yellow);
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: 0 8px 22px rgba(13, 47, 130, .06);
+}
+
+.review-card blockquote {
+    margin: 0;
+    color: var(--blue-dark);
+    font-size: 1.02rem;
+    line-height: 1.6;
+}
+
+.review-card figcaption {
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.review-card figcaption strong {
+    color: var(--blue-dark);
+}
+
+.review-card figcaption span {
+    display: block;
+    font-size: .82rem;
+}
+
+.review-empty {
+    grid-column: 1 / -1;
+    color: var(--muted);
+}
+
+.review-form {
+    max-width: 640px;
+}
+
+.review-form fieldset {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.review-form label {
+    margin-top: 6px;
+    color: var(--blue-dark);
+    font-weight: 600;
+}
+
+.review-form label span {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.review-form .review-consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.review-consent input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+}
+
+.review-consent a {
+    color: var(--blue);
+}
+
+.review-form .button {
+    justify-self: start;
+    margin-top: 8px;
+}
+
+.review-form fieldset:disabled {
+    opacity: .6;
+}
+
+.review-status {
+    min-height: 1.2em;
+    color: #145c36;
+    font-weight: 700;
+}
+
+.review-status.is-error {
+    color: #b42318;
+}
+
+.review-trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.reviews-home {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.reviews-home .review-list {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.reviews-home-more {
+    font-weight: 700;
+}
+
+.reviews-home-more a {
+    color: var(--blue);
+}

@@ -567,6 +567,22 @@
     html:not([data-theme="light"]) .nl-start strong { color: var(--dm-head); }
     html:not([data-theme="light"]) .learn-top .section-heading .learn-top-sub { color: var(--dm-link); }
     html:not([data-theme="light"]) .lv-guest-note a { color: var(--dm-link); }
+    html:not([data-theme="light"]) .fb { border: 1px solid #19212f; }
+    html:not([data-theme="light"]) .fb-q { color: var(--dm-head); }
+    html:not([data-theme="light"]) .fb-votes button { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+    html:not([data-theme="light"]) .fb-form label { color: var(--dm-head); }
+    html:not([data-theme="light"]) .fb-form textarea, html:not([data-theme="light"]) .review-form input:not([type="checkbox"]), html:not([data-theme="light"]) .review-form textarea { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--text, #d5d9e2); }
+    html:not([data-theme="light"]) .fb-review a { color: var(--dm-link); }
+    html:not([data-theme="light"]) .fb-sent { color: #8ae6b5; }
+    html:not([data-theme="light"]) .fb-error { color: #ee8981; }
+    html:not([data-theme="light"]) .review-card { border: 1px solid #19212f; background: var(--dm-bg); }
+    html:not([data-theme="light"]) .review-card blockquote { color: var(--dm-head); }
+    html:not([data-theme="light"]) .review-card figcaption strong { color: var(--dm-head); }
+    html:not([data-theme="light"]) .review-form label { color: var(--dm-head); }
+    html:not([data-theme="light"]) .review-consent a { color: var(--dm-link); }
+    html:not([data-theme="light"]) .review-status { color: #8ae6b5; }
+    html:not([data-theme="light"]) .review-status.is-error { color: #ee8981; }
+    html:not([data-theme="light"]) .reviews-home-more a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) .withdraw-frame { background: #1b1e24; }
@@ -582,6 +598,10 @@
     html:not([data-theme="light"]) .hw-words button { background: #2a2118; border-color: #8a5a2c; color: #f1ece4; }
     html:not([data-theme="light"]) .hw-words button:hover, html:not([data-theme="light"]) .hw-words button:focus-visible { background: #2a2140; border-color: #b9a3e6; }
     html:not([data-theme="light"]) .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .16), transparent 45%), radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .18), transparent 42%), #14181f; }
+    html:not([data-theme="light"]) .fb-form textarea, html:not([data-theme="light"]) .review-form input:not([type="checkbox"]), html:not([data-theme="light"]) .review-form textarea { background: #1b212b; border-color: #354052; color: #eef2f8; }
+    html:not([data-theme="light"]) .fb-votes button { background: #1b212b; border-color: #354052; color: #eef2f8; }
+    html:not([data-theme="light"]) .fb-sent, html:not([data-theme="light"]) .review-status { color: #7fd4a3; }
+    html:not([data-theme="light"]) .fb-error, html:not([data-theme="light"]) .review-status.is-error { color: #ff9b8f; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1149,6 +1169,22 @@ html[data-theme="dark"] .nl-start a { background: var(--dm-bg); }
 html[data-theme="dark"] .nl-start strong { color: var(--dm-head); }
 html[data-theme="dark"] .learn-top .section-heading .learn-top-sub { color: var(--dm-link); }
 html[data-theme="dark"] .lv-guest-note a { color: var(--dm-link); }
+html[data-theme="dark"] .fb { border: 1px solid #19212f; }
+html[data-theme="dark"] .fb-q { color: var(--dm-head); }
+html[data-theme="dark"] .fb-votes button { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--dm-head); }
+html[data-theme="dark"] .fb-form label { color: var(--dm-head); }
+html[data-theme="dark"] .fb-form textarea, html[data-theme="dark"] .review-form input:not([type="checkbox"]), html[data-theme="dark"] .review-form textarea { border: 1.5px solid #1e2735; background: var(--dm-bg); color: var(--text, #d5d9e2); }
+html[data-theme="dark"] .fb-review a { color: var(--dm-link); }
+html[data-theme="dark"] .fb-sent { color: #8ae6b5; }
+html[data-theme="dark"] .fb-error { color: #ee8981; }
+html[data-theme="dark"] .review-card { border: 1px solid #19212f; background: var(--dm-bg); }
+html[data-theme="dark"] .review-card blockquote { color: var(--dm-head); }
+html[data-theme="dark"] .review-card figcaption strong { color: var(--dm-head); }
+html[data-theme="dark"] .review-form label { color: var(--dm-head); }
+html[data-theme="dark"] .review-consent a { color: var(--dm-link); }
+html[data-theme="dark"] .review-status { color: #8ae6b5; }
+html[data-theme="dark"] .review-status.is-error { color: #ee8981; }
+html[data-theme="dark"] .reviews-home-more a { color: var(--dm-link); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] .withdraw-frame { background: #1b1e24; }
@@ -1164,6 +1200,10 @@ html[data-theme="dark"] .hw-words p strong { color: #f5a65b; }
 html[data-theme="dark"] .hw-words button { background: #2a2118; border-color: #8a5a2c; color: #f1ece4; }
 html[data-theme="dark"] .hw-words button:hover, html[data-theme="dark"] .hw-words button:focus-visible { background: #2a2140; border-color: #b9a3e6; }
 html[data-theme="dark"] .theme-halloween .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 140, 46, .16), transparent 45%), radial-gradient(circle at 90% 18%, rgba(124, 77, 191, .18), transparent 42%), #14181f; }
+html[data-theme="dark"] .fb-form textarea, html[data-theme="dark"] .review-form input:not([type="checkbox"]), html[data-theme="dark"] .review-form textarea { background: #1b212b; border-color: #354052; color: #eef2f8; }
+html[data-theme="dark"] .fb-votes button { background: #1b212b; border-color: #354052; color: #eef2f8; }
+html[data-theme="dark"] .fb-sent, html[data-theme="dark"] .review-status { color: #7fd4a3; }
+html[data-theme="dark"] .fb-error, html[data-theme="dark"] .review-status.is-error { color: #ff9b8f; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
