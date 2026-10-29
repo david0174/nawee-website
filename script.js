@@ -332,6 +332,17 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
     window.addEventListener("resize", setOffset);
 })();
 
+// Avatars a learner can choose on the account page (saved in profiles.avatar, cached as "nawee-avatar").
+window.NaweeAvatars = [
+    { id: "fox", e: "🦊", bg: "#ffe1c7" }, { id: "panda", e: "🐼", bg: "#e6ebf2" }, { id: "owl", e: "🦉", bg: "#f0e3cf" },
+    { id: "turtle", e: "🐢", bg: "#dcf2e2" }, { id: "dolphin", e: "🐬", bg: "#d8ecff" }, { id: "lion", e: "🦁", bg: "#ffefc0" },
+    { id: "penguin", e: "🐧", bg: "#e1e7f6" }, { id: "koala", e: "🐨", bg: "#e8e8ee" }, { id: "bee", e: "🐝", bg: "#fff5bf" },
+    { id: "butterfly", e: "🦋", bg: "#e4ddff" }, { id: "octopus", e: "🐙", bg: "#ffdfe9" }, { id: "frog", e: "🐸", bg: "#e0f5d2" },
+    { id: "sunflower", e: "🌻", bg: "#fff2c2" }, { id: "rocket", e: "🚀", bg: "#dfe6ff" }, { id: "headphones", e: "🎧", bg: "#dbf3f3" },
+    { id: "books", e: "📚", bg: "#f3e5da" },
+];
+window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || null;
+
 // Header: "Anmelden" / "Mein Konto" on every page, and a course announcement bar at the top.
 // The login state is read from the session Supabase keeps in the browser (no extra library needed here).
 (() => {
@@ -362,6 +373,17 @@ document.querySelectorAll(".hero-audience").forEach((tab) => {
             </button>
             <div class="nav-user-menu" hidden></div>`;
         const btn = wrap.querySelector(".nav-user"), menu = wrap.querySelector(".nav-user-menu");
+        // chosen avatar instead of the initial letter (updates live when it's changed on the account page)
+        const badge = wrap.querySelector(".nav-user-badge");
+        const showAvatar = () => {
+            let id = ""; try { id = localStorage.getItem("nawee-avatar") || ""; } catch { /* ignore */ }
+            const av = window.NaweeAvatar(id);
+            badge.classList.toggle("has-avatar", Boolean(av));
+            badge.style.background = av ? av.bg : "";
+            badge.textContent = av ? av.e : (username.charAt(0).toUpperCase() || "?");
+        };
+        showAvatar();
+        window.addEventListener("nawee:avatar", showAvatar);
         const fill = () => {
             const st = learnerStats();
             menu.innerHTML = `<p class="num-name">${esc(username)}</p>

@@ -11525,3 +11525,20 @@ footer .footer-links {
 /* trophy cabinet: fold / unfold (trophies.js) */
 .trophy-toggle { display: block; margin: 0 auto 12px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 99px; background: var(--white); color: var(--blue); font: inherit; font-weight: 700; cursor: pointer; }
 .trophy-toggle:hover { border-color: var(--blue); }
+
+/* AVATARS (account page picker + header badge) */
+.nav-user-badge.has-avatar { box-shadow: none; font-size: 1.05rem; }
+.dash-top { display: flex; align-items: center; gap: 16px; }
+.dash-top .dash-hello { margin: 0; }
+.dash-avatar { flex: none; width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--white); background: var(--blue); color: var(--white); font: inherit; font-size: 1.6rem; font-weight: 800; display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 18px rgba(11, 46, 131, .18); position: relative; transition: transform .2s; }
+.dash-avatar.has-avatar { font-size: 2.1rem; }
+.dash-avatar:hover { transform: scale(1.06); }
+.dash-avatar::after { content: "✎"; position: absolute; right: -4px; bottom: -4px; width: 24px; height: 24px; border-radius: 50%; background: var(--yellow); color: var(--ink); font-size: .8rem; display: grid; place-items: center; box-shadow: 0 2px 6px rgba(0, 0, 0, .15); }
+.avatar-picker { margin: 14px 0 6px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--soft); }
+.avatar-picker-h { margin: 0 0 10px; font-weight: 700; color: var(--blue-dark); }
+.avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 8px; }
+.avatar-opt { width: 48px; height: 48px; border-radius: 50%; border: 2px solid transparent; font-size: 1.5rem; display: grid; place-items: center; cursor: pointer; transition: transform .15s; }
+.avatar-opt:hover { transform: scale(1.1); }
+.avatar-opt.is-on { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+.avatar-none { background: var(--blue); color: var(--white); font: inherit; font-weight: 800; }
+.avatar-msg { margin: 8px 0 0; min-height: 1.2em; font-size: .9rem; color: var(--blue); font-weight: 600; }

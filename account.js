@@ -241,7 +241,11 @@
         return n.charAt(0).toLocaleUpperCase() + n.slice(1); // "david" → "David"
     };
     const profileName = async () => {
-        const { data } = await db.from("profiles").select("username").eq("id", user.id).maybeSingle();
+        let { data, error } = await db.from("profiles").select("username, avatar").eq("id", user.id).maybeSingle();
+        if (error) ({ data } = await db.from("profiles").select("username").eq("id", user.id).maybeSingle()); // before 08-avatar.sql
+        if (data && typeof data.avatar === "string") {
+            try { if (data.avatar) localStorage.setItem("nawee-avatar", data.avatar); else localStorage.removeItem("nawee-avatar"); } catch { /* ignore */ }
+        }
         const name = (data && data.username) || (user.user_metadata && user.user_metadata.username) || user.email;
         try { localStorage.setItem("nawee-username", name); } catch { /* ignore */ } // shown in the header (script.js)
         return name;
@@ -636,7 +640,16 @@
             const level = course.level ? (levelLabels[course.level] || course.level) : T.noLevel;
             const ccDone = (read(CC_KEY).completed || []).length;
             root.innerHTML = `<div class="dash">
-                <h1 class="dash-hello"><span>${D.welcome}</span> ${esc(firstName() || name)}!</h1>${note}
+                <div class="dash-top">
+                    <button type="button" class="dash-avatar" data-avatar-open aria-expanded="false" title="${isEnglish ? "Choose your avatar" : "Avatar wählen"}" aria-label="${isEnglish ? "Choose your avatar" : "Avatar wählen"}"></button>
+                    <h1 class="dash-hello"><span>${D.welcome}</span> ${esc(firstName() || name)}!</h1>
+                </div>
+                <div class="avatar-picker" data-avatar-picker hidden>
+                    <p class="avatar-picker-h">${isEnglish ? "Choose your avatar" : "Wähle deinen Avatar"}</p>
+                    <div class="avatar-grid">${window.NaweeAvatars.map((a) => `<button type="button" class="avatar-opt" data-avatar="${a.id}" style="background:${a.bg}" aria-label="${a.id}">${a.e}</button>`).join("")}
+                        <button type="button" class="avatar-opt avatar-none" data-avatar="" aria-label="${isEnglish ? "No avatar – show my initial" : "Kein Avatar – Anfangsbuchstabe"}">${esc((firstName() || name).charAt(0).toUpperCase())}</button></div>
+                    <p class="avatar-msg" data-avatar-msg></p>
+                </div>${note}
                 <p class="account-meta">${T.loggedInAs} <strong>${esc(user.email)}</strong></p>
                 <div class="dash-grid">
                     <div class="dash-main">
@@ -666,6 +679,29 @@
                 window.NaweeTrophies.renderCabinet(root.querySelector("[data-trophies]"), root.querySelector("[data-trophy-count]"));
             }
             root.querySelector("[data-logout]").addEventListener("click", async () => { await db.auth.signOut(); });
+            // avatar: big circle next to the greeting; click → picker; saved in the profile (and cached for the header)
+            const avBtn = root.querySelector("[data-avatar-open]"), picker = root.querySelector("[data-avatar-picker]");
+            const drawAvatar = () => {
+                let id = ""; try { id = localStorage.getItem("nawee-avatar") || ""; } catch { /* ignore */ }
+                const av = window.NaweeAvatar(id);
+                avBtn.textContent = av ? av.e : (firstName() || name).charAt(0).toUpperCase();
+                avBtn.style.background = av ? av.bg : "";
+                avBtn.classList.toggle("has-avatar", Boolean(av));
+                picker.querySelectorAll("[data-avatar]").forEach((b) => b.classList.toggle("is-on", b.dataset.avatar === (av ? av.id : "")));
+            };
+            drawAvatar();
+            avBtn.addEventListener("click", () => { picker.hidden = !picker.hidden; avBtn.setAttribute("aria-expanded", String(!picker.hidden)); });
+            picker.addEventListener("click", async (e) => {
+                const opt = e.target.closest("[data-avatar]");
+                if (!opt) return;
+                const id = opt.dataset.avatar, msg = picker.querySelector("[data-avatar-msg]");
+                try { if (id) localStorage.setItem("nawee-avatar", id); else localStorage.removeItem("nawee-avatar"); } catch { /* ignore */ }
+                drawAvatar();
+                window.dispatchEvent(new CustomEvent("nawee:avatar"));
+                const { error } = await db.from("profiles").update({ avatar: id }).eq("id", user.id);
+                msg.textContent = error ? (isEnglish ? "Saved on this device." : "Auf diesem Gerät gespeichert.") : (isEnglish ? "✓ Saved" : "✓ Gespeichert");
+                setTimeout(() => { picker.hidden = true; avBtn.setAttribute("aria-expanded", "false"); msg.textContent = ""; }, 900);
+            });
             root.querySelector("[data-delete]").addEventListener("click", async () => {
                 if (!window.confirm(T.deleteConfirm)) return;
                 const { error } = await db.rpc("delete_my_account");
