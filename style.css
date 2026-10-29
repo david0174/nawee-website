@@ -11477,3 +11477,47 @@ footer .footer-links {
 .wb-lang legend { font-weight: 700; margin-bottom: 8px; padding: 0; }
 .wb-lang label { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; cursor: pointer; }
 .wb-lang input[type="text"] { flex: 1; min-width: 160px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--white); color: var(--ink); }
+
+/* ENGLISH BY LEVEL (levels.js) – Khan-Academy-style map: levels left, themes with % right */
+.lv-box { max-width: 1080px; margin: 0 auto; }
+.lv-map { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px rgba(11, 46, 131, .08); }
+.lv-levels { list-style: none; margin: 0; padding: 12px; border-right: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+.lv-levels button { width: 100%; display: grid; grid-template-columns: auto 1fr auto; gap: 4px 12px; align-items: center; text-align: left; padding: 12px 14px; border: 0; border-radius: 12px; background: none; color: var(--ink); font: inherit; cursor: pointer; }
+.lv-levels button:hover { background: var(--soft); }
+.lv-levels button.on { background: var(--blue-soft); }
+.lv-code { grid-row: span 1; min-width: 52px; text-align: center; padding: 4px 8px; border-radius: 8px; background: var(--blue); color: #fff; font-weight: 800; font-size: .9rem; }
+.lv-name { font-weight: 600; line-height: 1.3; }
+.lv-pct { padding: 2px 9px; border-radius: 8px; background: var(--soft); border: 1px solid var(--line); font-weight: 700; font-size: .85rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lv-pct.lv-full { background: #e3f5ec; border-color: #9fd8b9; color: #17734a; }
+.lv-pct.lv-soon { color: var(--muted); font-weight: 600; }
+.lv-themes { padding: 18px 22px 22px; min-width: 0; }
+.lv-head { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; background: var(--blue-soft); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; }
+.lv-head strong { color: var(--blue-dark); letter-spacing: .02em; }
+.lv-head span { color: var(--muted); font-size: .9rem; }
+.lv-note { margin: 0 0 10px; color: var(--muted); font-size: .95rem; }
+.lv-modules { list-style: none; margin: 0; padding: 0; }
+.lv-modules > li { border-bottom: 1px solid var(--line); }
+.lv-module { width: 100%; display: grid; grid-template-columns: 1fr auto auto; grid-template-areas: "t m p" "b b b"; gap: 6px 12px; align-items: center; padding: 12px 4px; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.lv-module:hover .lv-mtitle { color: var(--blue); }
+.lv-mtitle { grid-area: t; font-size: 1.08rem; font-weight: 600; }
+.lv-mmeta { grid-area: m; color: var(--muted); font-size: .85rem; white-space: nowrap; }
+.lv-module .lv-pct { grid-area: p; }
+.lv-bar { grid-area: b; height: 5px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.lv-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), #4f8ff7); border-radius: 99px; }
+.lv-lessons { list-style: none; margin: 0 0 12px; padding: 0 0 0 4px; display: grid; gap: 2px; }
+.lv-lessons a, .lv-lessons .lv-later { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; color: var(--ink); }
+.lv-lessons a:hover { background: var(--soft); }
+.lv-later { color: var(--muted); }
+.lv-later em { font-size: .85rem; }
+.lv-check { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: .75rem; font-weight: 800; }
+.lv-check.is-done { background: #2e9d63; border-color: #2e9d63; color: #fff; }
+.lv-go { margin-left: auto; color: var(--blue); font-weight: 600; font-size: .9rem; white-space: nowrap; }
+@media (max-width: 760px) {
+    .lv-map { grid-template-columns: minmax(0, 1fr); }
+    .lv-levels { border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lv-levels button { grid-template-columns: auto 1fr; padding: 10px; }
+    .lv-levels .lv-name { display: none; }
+    .lv-levels .lv-pct { justify-self: end; }
+    .lv-themes { padding: 14px; }
+    .lv-module { grid-template-areas: "t p" "m m" "b b"; grid-template-columns: 1fr auto; }
+}
