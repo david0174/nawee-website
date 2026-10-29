@@ -25,3 +25,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .fb-error, .review-status.is-error { color: #ff9b8f; }
 .supporter-list li { background: #231f14; border-color: #5c4d22; color: #eef2f8; }
 .supporter-list .supporter-empty { background: transparent; }
+
+/* primary buttons: hover turns yellow with dark-blue text (the generated near-black hover was hard to see) */
+.primary:hover, .primary:focus-visible,
+.newsletter-form #sib-form-container .sib-form-block__button.button.primary:hover { background: #f5c542; color: #0d2f82; }
