@@ -9184,7 +9184,7 @@ footer .footer-links {
 
 /* support page (unterstuetzen.html / support.html) */
 .support {
-    max-width: 760px;
+    max-width: 880px;
     margin: 0 auto;
 }
 
@@ -9240,6 +9240,10 @@ footer .footer-links {
     text-align: center;
 }
 
+.support-box [hidden] {
+    display: none;
+}
+
 .support-box .button {
     box-shadow: 0 5px 0 var(--yellow);
 }
@@ -9256,6 +9260,67 @@ footer .footer-links {
 .support-h {
     margin-top: 34px;
     font-size: 1.5rem;
+}
+
+/* support page: the three planned projects the money goes to */
+.support-projects {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 16px 0 10px;
+}
+
+.support-project {
+    padding: 20px 18px;
+    border: 1px solid #dbe5f5;
+    border-top: 5px solid var(--yellow);
+    border-radius: 18px;
+    background: var(--white);
+    box-shadow: 0 10px 26px rgba(13, 47, 130, .07);
+}
+
+.support-project-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #fff6d6;
+    font-size: 1.5rem;
+}
+
+.support-badge {
+    display: inline-block;
+    margin: 12px 0 4px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .74rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.support-project h3 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+}
+
+.support-project p:last-child {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.support-running {
+    margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+    .support-projects {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* account overview: finished tasks keep their place with a green check */
