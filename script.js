@@ -115,7 +115,12 @@ document.querySelectorAll(".nl-form").forEach((form) => {
                 const data = new FormData(form); data.delete("VORNAME");
                 ({ ok, result } = await send(data));
             }
-            if (!ok || !result.success) throw new Error("not saved");
+            if (!ok || !result.success) {
+                // Brevo says the address is already on the list → short red note instead of the general error
+                const text = JSON.stringify(result || {}).toLowerCase();
+                if (/already|bereits|exist|déjà/.test(text)) { show(form.dataset.already, false); return; }
+                throw new Error("not saved");
+            }
             form.reset();
             show(form.dataset.success, true);
         } catch {
