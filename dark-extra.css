@@ -54,3 +54,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .mu-chip[aria-pressed="true"], .mu-answers button.is-right { background: #16301f; border-color: #3f9a64; color: #9fe0b8; }
 .mu-answers button.is-wrong { background: #3a1d1d; border-color: #a04848; color: #ffb3b3; }
 .mu-done, .mu-done-msg { color: #9fe0b8; }
+
+/* harvest */
+.theme-harvest .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 177, 52, .14), transparent 45%), radial-gradient(circle at 88% 90%, rgba(201, 122, 45, .14), transparent 45%), #14181f; }
+.hv-cornucopia { filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .4)); }

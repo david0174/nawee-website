@@ -12611,3 +12611,49 @@ footer .footer-links {
     color: var(--muted);
     font-size: .85rem;
 }
+
+/* Harvest (seasonal.js adds .theme-harvest Nov 1–30): cornucopia at the bottom right of the hero, acorns among the leaves */
+.theme-harvest .hero {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(242, 177, 52, .24), transparent 45%),
+        radial-gradient(circle at 88% 90%, rgba(201, 122, 45, .16), transparent 45%),
+        linear-gradient(180deg, #fff8ec 0%, #fff 100%);
+}
+
+.hv-cornucopia {
+    position: absolute;
+    right: 3%;
+    bottom: 10px;
+    width: clamp(220px, 26vw, 330px);
+    filter: drop-shadow(0 10px 18px rgba(122, 74, 28, .18));
+}
+
+.hv-cornucopia svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hv-cornucopia {
+        animation: hv-sway 6s ease-in-out infinite alternate;
+        transform-origin: 60% 100%;
+    }
+}
+
+@keyframes hv-sway {
+    from { transform: rotate(-1.5deg); }
+    to { transform: rotate(1.5deg); }
+}
+
+@media (max-width: 900px) {
+    .theme-harvest .hero {
+        padding-bottom: 120px; /* room for the cornucopia below the start card */
+    }
+
+    .hv-cornucopia {
+        width: 150px;
+        right: 12px;
+        bottom: 8px;
+    }
+}
