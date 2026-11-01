@@ -58,3 +58,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* harvest */
 .theme-harvest .hero { background: radial-gradient(circle at 12% 0%, rgba(242, 177, 52, .14), transparent 45%), radial-gradient(circle at 88% 90%, rgba(201, 122, 45, .14), transparent 45%), #14181f; }
 .hv-cornucopia { filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .4)); }
+
+/* winter */
+.theme-winter .hero { background: radial-gradient(circle at 15% 0%, rgba(77, 143, 224, .2), transparent 45%), radial-gradient(circle at 90% 85%, rgba(230, 57, 70, .1), transparent 40%), #111823; }
+.xm-tree { filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .45)); }

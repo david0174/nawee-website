@@ -3,7 +3,9 @@
 // a waving skeleton and a row of Halloween words (click = spoken).
 // Harvest (Nov 1 – 30): a cornucopia full of fruit and vegetables, acorns among the leaves and harvest words;
 // in Thanksgiving week (Thanksgiving = 4th Thursday of November) the words say "Happy Thanksgiving!".
-// Switches itself on and off by date; ?season=fall / halloween / harvest / thanksgiving / off to preview. Decoration is aria-hidden, takes no clicks
+// Winter (Dec 1 – Jan 6): snowflakes instead of leaves, fairy lights along the top, a decorated Christmas tree with
+// presents and winter words – "Merry Christmas!" Dec 24–26, "Happy New Year!" Dec 27 – Jan 6.
+// Switches itself on and off by date; ?season=fall / halloween / harvest / thanksgiving / christmas / newyear / off to preview. Decoration is aria-hidden, takes no clicks
 // and stays still for visitors who turned off animations.
 
 (() => {
@@ -19,7 +21,11 @@
     const nov1 = new Date(d.getFullYear(), 10, 1).getDay();
     const thanksgiving = 1 + ((4 - nov1 + 7) % 7) + 21;
     const isThanksgivingWeek = forced === "thanksgiving" || (auto && m === 11 && day >= thanksgiving - 3 && day <= thanksgiving + 3);
-    if (forced === "off" || (!isFall && !["fall", "halloween", "harvest", "thanksgiving"].includes(forced))) return;
+    const isWinter = ["christmas", "newyear"].includes(forced) || (auto && (m === 12 || (m === 1 && day <= 6)));
+    const isChristmasDays = forced === "christmas" || (auto && m === 12 && day >= 24 && day <= 26);
+    const isNewYear = forced === "newyear" || (auto && ((m === 12 && day >= 27) || m === 1));
+    if (forced === "off" || (!isFall && !isWinter && !["fall", "halloween", "harvest", "thanksgiving"].includes(forced))) return;
+    if (isWinter) return winter();
 
     document.body.classList.add("theme-fall");
     if (isHalloween) document.body.classList.add("theme-halloween");
@@ -49,7 +55,8 @@
 
     // tap-to-hear word chips under the hero text (German page: German meaning; English page: meaning on hover)
     const de = document.documentElement.lang.startsWith("de");
-    const wordChips = (title, words) => {
+    function wordChips(title, words) { // a function declaration, so winter() can use it too
+        const de = document.documentElement.lang.startsWith("de");
         const box = document.createElement("div");
         box.className = "hw-words";
         box.innerHTML = `<p><strong>${title}</strong> ${de ? "Tipp ein Wort an und hör es dir an:" : "Tap a word to hear it:"}</p>`
@@ -68,7 +75,7 @@
         });
         const text = hero.querySelector(".hero-text");
         if (text) text.after(box);
-    };
+    }
 
     if (isHarvest) {
         // a woven cornucopia (horn of plenty) spilling pumpkin, apples, grapes, a pear, corn and wheat
@@ -150,4 +157,72 @@
         ]);
     }
     hero.prepend(layer);
+
+    function winter() {
+        document.body.classList.add("theme-winter");
+        const de = document.documentElement.lang.startsWith("de");
+        const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const flake = `<svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M20 4v32M6 12l28 16M6 28l28-16"/><path d="M16 7l4 4 4-4M16 33l4-4 4 4M7 17l5-1-2-5M33 23l-5 1 2 5M7 23l5 1-2 5M33 17l-5-1 2-5"/></g></svg>`;
+        const layer = document.createElement("div");
+        layer.className = "fall-leaves";
+        layer.setAttribute("aria-hidden", "true");
+        const n = window.innerWidth < 700 ? 10 : 18;
+        for (let i = 0; i < n; i += 1) {
+            const sp = document.createElement("span");
+            sp.className = "fall-leaf snow-flake";
+            sp.innerHTML = flake;
+            sp.style.left = `${Math.round((i / n) * 100 + Math.random() * 5)}%`;
+            sp.style.setProperty("--size", `${10 + Math.round(Math.random() * 14)}px`);
+            sp.style.setProperty("--dur", `${10 + Math.random() * 10}s`);
+            sp.style.setProperty("--delay", `${-Math.random() * 18}s`);
+            sp.style.setProperty("--sway", `${15 + Math.round(Math.random() * 30)}px`);
+            sp.style.setProperty("--spin", `${Math.random() < 0.5 ? -0.4 : 0.4}`);
+            if (still) sp.style.top = `${8 + Math.random() * 80}%`;
+            layer.append(sp);
+        }
+        hero.prepend(layer);
+
+        // fairy lights along the top of the hero + a decorated tree with presents (bottom right)
+        const colors = ["#e63946", "#f4c542", "#2a9d8f", "#4d8fe0", "#e76fbf"];
+        const bulbs = Array.from({ length: 24 }, (_, i) => {
+            const x = 10 + i * 42, y = 14 + Math.sin(i * 0.9) * 0 + (i % 2 ? 10 : 4);
+            return `<g><path d="M${x} ${y - 6}v4" stroke="#3d4a3a" stroke-width="2"/><ellipse class="xm-bulb" style="animation-delay:${(i % 5) * 0.35}s" cx="${x}" cy="${y + 6}" rx="6" ry="9" fill="${colors[i % colors.length]}"/></g>`;
+        }).join("");
+        const lights = `<svg viewBox="0 0 1010 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 8 Q 21 22 42 10 T 84 10 T 126 10 T 168 10 T 210 10 T 252 10 T 294 10 T 336 10 T 378 10 T 420 10 T 462 10 T 504 10 T 546 10 T 588 10 T 630 10 T 672 10 T 714 10 T 756 10 T 798 10 T 840 10 T 882 10 T 924 10 T 966 10 T 1010 10" stroke="#3d4a3a" stroke-width="2" fill="none"/>${bulbs}</svg>`;
+        const tree = `<svg viewBox="0 0 220 250" aria-hidden="true">
+            <ellipse cx="110" cy="238" rx="100" ry="9" fill="rgba(20,40,60,.15)"/>
+            <rect x="98" y="196" width="24" height="30" rx="3" fill="#7a4a1c"/>
+            <path d="M110 30 L40 120 H72 L28 176 H66 L18 214 H202 L154 176 H192 L148 120 H180 Z" fill="#2f7d4a" stroke="#1f5a34" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M66 112 Q110 132 156 108 M50 166 Q110 190 172 162 M40 206 Q110 226 186 204" stroke="#f4c542" stroke-width="3" fill="none" stroke-dasharray="2 7" stroke-linecap="round"/>
+            <g class="xm-ornaments"><circle cx="86" cy="96" r="7" fill="#e63946"/><circle cx="132" cy="122" r="7" fill="#4d8fe0"/><circle cx="96" cy="150" r="7" fill="#f4c542"/><circle cx="146" cy="168" r="7" fill="#e76fbf"/><circle cx="70" cy="186" r="7" fill="#4d8fe0"/><circle cx="120" cy="196" r="7" fill="#e63946"/><circle cx="168" cy="204" r="6" fill="#f4c542"/><circle cx="52" cy="206" r="6" fill="#e63946"/></g>
+            <g fill="rgba(255,255,255,.6)"><circle cx="84" cy="94" r="2"/><circle cx="130" cy="120" r="2"/><circle cx="94" cy="148" r="2"/><circle cx="144" cy="166" r="2"/></g>
+            <path class="xm-star" d="M110 8 l7 15 16 2 -12 11 3 16 -14 -8 -14 8 3 -16 -12 -11 16 -2z" fill="#f4c542" stroke="#d9a520" stroke-width="2" stroke-linejoin="round"/>
+            <g><rect x="14" y="206" width="40" height="30" rx="3" fill="#e63946"/><rect x="30" y="206" width="8" height="30" fill="#f4c542"/><path d="M34 206c-10-10-18-2-10 0zM34 206c10-10 18-2 10 0z" fill="#f4c542"/></g>
+            <g><rect x="160" y="212" width="46" height="24" rx="3" fill="#4d8fe0"/><rect x="179" y="212" width="8" height="24" fill="#ffffff"/><path d="M183 212c-10-9-17-2-9 0zM183 212c10-9 17-2 9 0z" fill="#ffffff"/></g>
+            <g><rect x="128" y="218" width="30" height="18" rx="3" fill="#2a9d8f"/><rect x="140" y="218" width="6" height="18" fill="#e63946"/></g>
+        </svg>`;
+        const top = document.createElement("div");
+        top.className = "hw-layer";
+        top.setAttribute("aria-hidden", "true");
+        top.innerHTML = `<span class="xm-lights">${lights}</span><span class="xm-tree">${tree}</span>`;
+        hero.append(top);
+
+        const title = isChristmasDays ? "Merry Christmas! 🎄" : isNewYear ? "Happy New Year! 🎆" : (de ? "Adventszeit! 🎄" : "Holiday season! 🎄");
+        const words = isNewYear && !isChristmasDays ? [
+            ["🎆", "fireworks", "Feuerwerk", "colorful lights in the sky at midnight"],
+            ["🥂", "cheers", "Prost", "what you say when you raise your glass"],
+            ["📝", "New Year’s resolution", "guter Vorsatz", "a plan to do something better next year"],
+            ["⏰", "countdown", "Countdown", "counting down to midnight: ten, nine, eight …"],
+            ["🎉", "celebrate", "feiern", "have a party because something is special"],
+            ["❄️", "snow", "Schnee", "soft white ice that falls in winter"],
+        ] : [
+            ["🎄", "Christmas tree", "Weihnachtsbaum", "a green tree with lights and decorations"],
+            ["🎁", "present", "Geschenk", "something you give to someone you love"],
+            ["⛄", "snowman", "Schneemann", "a figure made of snow"],
+            ["🍪", "cookies", "Plätzchen", "small sweet biscuits"],
+            ["🧦", "stocking", "Strumpf (für Geschenke)", "a big sock for small presents"],
+            ["❄️", "snowflake", "Schneeflocke", "one small piece of snow"],
+        ];
+        wordChips(title, words);
+    }
 })();
