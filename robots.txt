@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nawee.net/sitemap.xml
+Sitemap: https://learn.nawee.net/sitemap.xml

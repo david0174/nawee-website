@@ -23,7 +23,7 @@
 
     const isEnglish = document.documentElement.lang === "en";
     const ACCOUNT_PAGE = isEnglish ? "account.html" : "konto.html";
-    const LIVE_ACCOUNT_URL = `https://nawee.net/${ACCOUNT_PAGE}`; // where confirmation and reset links lead
+    const LIVE_ACCOUNT_URL = `https://learn.nawee.net/${ACCOUNT_PAGE}`; // where confirmation and reset links lead
     const COURSE_KEY = "nawee-course-v1";
     const TROPHY_KEY = "nawee-trophies-v1";
     const CC_KEY = "nawee-communication-course-v1"; // free Communication Course (no account needed; synced inside `course.communication`)

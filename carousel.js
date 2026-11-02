@@ -43,7 +43,7 @@
             tag: de ? "👋 PERSÖNLICH MIT DAVID" : "👋 LEARN WITH DAVID",
             title: de ? "Schneller weiter mit einem Coach" : "Go further, faster, with a coach",
             text: de ? "Englisch-Coaching, Englischunterricht und Workshops – eins zu eins mit David, online oder in Hannover. Bald auch kostenlose Kurse zu Selbstvertrauen, Kommunikation und Stress." : "English coaching, English lessons and workshops – one-on-one with David, online or in Hannover. Coming soon: free courses on confidence, communication and stress.",
-            cta: de ? "Zu davidnawee.com" : "Visit davidnawee.com", href: de ? "https://davidnawee.com/" : "https://davidnawee.com/index-en.html", external: true,
+            cta: de ? "Zu davidnawee.com" : "Visit davidnawee.com", href: de ? "https://nawee.net/" : "https://nawee.net/index-en.html", external: true,
             visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${de ? "Coach · Muttersprachler aus den USA" : "Coach · native speaker from the US"}</small><span>${de ? "Erstgespräch kostenlos" : "Free intro call"}</span></div>`,
         },
         {

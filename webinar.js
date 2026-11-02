@@ -43,7 +43,7 @@
     const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
     const title = de ? "Nawee Live-Web-Seminar: Wie du dir selbst Englisch beibringst" : "Nawee live web seminar: How to Teach Yourself English";
     // the Meet link goes into the calendar entry once it exists (only signed-up people can read it), otherwise the account page
-    const details = (meet) => meet || (de ? "Meet-Link: https://nawee.net/konto.html" : "Meet link: https://nawee.net/account.html");
+    const details = (meet) => meet || (de ? "Meet-Link: https://learn.nawee.net/konto.html" : "Meet link: https://learn.nawee.net/account.html");
 
     // Google Calendar: opens a prefilled "new event" page, the person saves it themselves
     const gcal = (meet) => `https://calendar.google.com/calendar/render?dates=${WEBINAR.replace(/-/g, "")}T190000/${WEBINAR.replace(/-/g, "")}T193000&` + new URLSearchParams({
