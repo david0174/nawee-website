@@ -12,7 +12,7 @@
     const T = de ? {
         eyebrow: "LESEN", title: "Lesetexte", lead: "Kurze englische Texte zum Lesen und Hören: einfache Nachrichten über echte Ereignisse und Geschichten mit Tom und Ben. Tipp: Erst lesen, dann anhören – und am Ende laut antworten.",
         news: "Nachrichten", stories: "Geschichten", done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
-        back: "← Alle Texte", listen: "▶ Vorlesen", stop: "■ Stopp", slow: "Langsamer", tapHint: "Tipp: Tippe auf ein unterstrichenes Wort für die Übersetzung.",
+        back: "← Alle Texte", listen: "▶ Vorlesen", stop: "■ Stopp", slow: "Langsamer", tapHint: "Tipp: Tippe auf ein unterstrichenes Wort – du hörst es und siehst die Übersetzung.", soundOn: "Aussprache der Wörter ausschalten", soundOff: "Aussprache der Wörter einschalten",
         questions: "Hast du es verstanden?", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", speakTitle: "Sprich darüber", speakHint: "Antworte laut auf Englisch. Dann vergleich mit dem Beispiel.",
         showModel: "Beispiel zeigen", source: "Quelle", ownWords: "in unseren eigenen, einfachen Worten", result: (s, n) => `${s} von ${n} richtig – gut gemacht!`, next: "Nächster Text →",
         date: (d) => new Date(d + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" }),
@@ -20,7 +20,7 @@
     } : {
         eyebrow: "READING", title: "Reading practice", lead: "Short English texts to read and listen to: simple news about real events and stories with Tom and Ben. Tip: read first, then listen – and answer out loud at the end.",
         news: "News", stories: "Stories", done: (s, n) => `✓ Read · ${s}/${n} correct`, start: "Read →",
-        back: "← All texts", listen: "▶ Read aloud", stop: "■ Stop", slow: "Slower", tapHint: "Tip: tap an underlined word to see what it means.",
+        back: "← All texts", listen: "▶ Read aloud", stop: "■ Stop", slow: "Slower", tapHint: "Tip: tap an underlined word to hear it and see what it means.", soundOn: "Turn word pronunciation off", soundOff: "Turn word pronunciation on",
         questions: "Did you understand?", right: "Correct!", wrong: "Not quite – the answer is:", speakTitle: "Talk about it", speakHint: "Answer out loud in English. Then compare with the example.",
         showModel: "Show example", source: "Source", ownWords: "in our own simple words", result: (s, n) => `${s} of ${n} correct – well done!`, next: "Next text →",
         date: (d) => new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
@@ -85,7 +85,8 @@
     const all = text.paragraphs.flatMap(sentences);
     const nextText = READINGS[(READINGS.indexOf(text) + 1) % READINGS.length];
 
-    root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a>
+    root.innerHTML = `<button type="button" class="rd-sound" data-word-sound></button>
+        <a class="lesson-back" href="${page}">${T.back}</a>
         <p class="eyebrow">${(text.kind === "news" ? T.news : T.stories).toUpperCase()} · ${text.level}${text.date ? ` · ${T.date(text.date).toUpperCase()}` : ""}</p>
         <h1>${esc(text.title)}</h1>
         <div class="rd-controls"><button type="button" class="button primary rd-listen" data-listen>${T.listen}</button>
@@ -107,6 +108,7 @@
         root.querySelectorAll(".rd-word.is-open").forEach((x) => x.classList.remove("is-open"));
         b.classList.add("is-open");
         gloss.textContent = de ? g.de : g.en;  // only the meaning – the word itself is right next to it (David, 2026-11-05)
+        speakWord(b.textContent);
         gloss.hidden = false;
         b.after(gloss);
     }));
@@ -139,6 +141,32 @@
         synth.cancel(); readFrom(0);
     });
     window.addEventListener("pagehide", stop);
+
+    // tapping a word also speaks it (browser voice); 🔊 at the top right of the article turns that off (remembered)
+    const SOUND_KEY = "nawee-word-sound";
+    let wordSound = true;
+    try { wordSound = localStorage.getItem(SOUND_KEY) !== "off"; } catch (e) { /* private mode */ }
+    const soundBtn = root.querySelector("[data-word-sound]");
+    const paintSound = () => {
+        soundBtn.textContent = wordSound ? "🔊" : "🔇";
+        soundBtn.setAttribute("aria-pressed", String(wordSound));
+        soundBtn.setAttribute("aria-label", wordSound ? T.soundOn : T.soundOff);
+        soundBtn.title = soundBtn.getAttribute("aria-label");
+    };
+    soundBtn.addEventListener("click", () => {
+        wordSound = !wordSound;
+        try { localStorage.setItem(SOUND_KEY, wordSound ? "on" : "off"); } catch (e) { /* ignore */ }
+        paintSound();
+    });
+    paintSound();
+    function speakWord(word) {
+        if (!wordSound || !synth || playing) return;  // never interrupt "Read aloud"
+        synth.cancel();
+        const u = new SpeechSynthesisUtterance(word.trim());
+        u.lang = "en-US"; u.rate = 0.85;
+        const v = voice(); if (v) u.voice = v;
+        synth.speak(u);
+    }
 
     // questions
     const qBox = root.querySelector("[data-questions]");
