@@ -174,8 +174,15 @@ backToTop.addEventListener("click", () => {
     const getPref = () => { try { return localStorage.getItem(PREF_KEY); } catch { return null; } };
     const setPref = (value) => { try { localStorage.setItem(PREF_KEY, value); } catch { /* storage unavailable */ } };
 
+    // switching the language keeps you on the same lesson / text / topic (?l=…, ?t=…, ?deck=…, ?g=…) – David, 2026-11-04
+    const keepPlace = (a) => {
+        const href = a.getAttribute("href") || "";
+        if (!location.search || href.includes("?") || /^https?:/.test(href)) return;
+        a.setAttribute("href", href.split("#")[0] + location.search + (location.hash && !location.hash.startsWith("#nawee-migrate") ? location.hash : ""));
+    };
     // choosing a language in the menu counts as an explicit choice
     document.querySelectorAll(".language-menu a[lang], .mobile-menu-languages a[lang]").forEach((a) => {
+        keepPlace(a);
         a.addEventListener("click", () => setPref(a.lang));
     });
 
@@ -186,7 +193,7 @@ backToTop.addEventListener("click", () => {
         const sw = document.createElement("p");
         sw.className = "footer-lang";
         sw.innerHTML = `<span aria-hidden="true">🌐</span> ${menuLinks.map((a) => `<a href="${a.getAttribute("href")}" lang="${a.lang}"${a.lang === lang ? ' aria-current="true"' : ""}>${a.lang === "de" ? "Deutsch" : "English"}</a>`).join(" · ")}`;
-        sw.querySelectorAll("a[lang]").forEach((a) => a.addEventListener("click", () => setPref(a.lang)));
+        sw.querySelectorAll("a[lang]").forEach((a) => { keepPlace(a); a.addEventListener("click", () => setPref(a.lang)); });
         copy.prepend(sw);
     }
 
