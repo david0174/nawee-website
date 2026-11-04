@@ -12796,3 +12796,42 @@ footer .footer-links {
 .vc-origin p { margin: 8px 0 2px; font-size: .92rem; line-height: 1.5; color: var(--muted); }
 .vc-level { margin: 26px 0 10px; font-size: 1.05rem; letter-spacing: .12em; color: var(--muted); }
 .vc-level:first-of-type { margin-top: 8px; }
+
+/* grammar track (2026-11-04) */
+.gr-beta { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 99px; background: #f5c542; color: #0d1b3a; font-size: .7rem; letter-spacing: .08em; vertical-align: middle; }
+.gr-soon { margin: 14px 0 0; color: var(--muted); font-size: .92rem; }
+.gr-step { margin: 26px 0 0; }
+.gr-step h2 { font-size: 1.25rem; margin: 0 0 10px; }
+.gr-rule { font-size: 1.08rem; line-height: 1.6; padding: 14px 16px; border-left: 4px solid #f5c542; border-radius: 0 12px 12px 0; background: rgba(245, 197, 66, .08); }
+.gr-form { margin: 0 0 16px; }
+.gr-form h3 { margin: 0 0 8px; font-size: 1rem; }
+.gr-pairs { display: flex; flex-wrap: wrap; gap: 8px; }
+.gr-pair { display: inline-flex; gap: 8px; align-items: baseline; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.gr-pair b { color: var(--blue); }
+.gr-pair:hover, .gr-pair:focus-visible { border-color: #f5c542; }
+.gr-german { padding: 14px 16px; border-radius: 14px; border: 1.5px dashed var(--line); }
+.gr-german h2 { margin-top: 0; }
+.gr-examples { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.gr-ex { display: block; width: 100%; text-align: left; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: transparent; color: inherit; font: inherit; font-size: 1.02rem; cursor: pointer; }
+.gr-ex mark { background: rgba(245, 197, 66, .35); color: inherit; padding: 0 3px; border-radius: 4px; font-weight: 700; }
+.gr-ex:hover, .gr-ex:focus-visible { border-color: #f5c542; }
+.gr-from { display: inline-block; margin: 4px 0 0 14px; font-size: .85rem; }
+.gr-practice { padding-left: 22px; display: grid; gap: 14px; }
+.gr-q { margin: 0 0 8px; font-size: 1.02rem; }
+.gr-blank { display: inline-block; min-width: 60px; padding: 0 6px; border-bottom: 2px solid var(--line); font-weight: 700; text-align: center; }
+.gr-gap { display: flex; gap: 8px; flex-wrap: wrap; }
+.gr-gap input { flex: 1 1 200px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; font: inherit; background: transparent; color: inherit; }
+.gr-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.gr-opt { padding: 9px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.gr-opt:hover:not(:disabled) { border-color: #f5c542; }
+.gr-opt.is-answer { border-color: #1e9e5a; background: rgba(30, 158, 90, .12); }
+.gr-opt.is-picked-wrong { border-color: #d64545; background: rgba(214, 69, 69, .12); }
+.gr-fb { margin: 8px 0 0; font-weight: 600; }
+.gr-fb span { display: block; font-weight: 400; color: var(--muted); font-size: .92rem; }
+.gr-item.is-right .gr-fb { color: #1e9e5a; }
+.gr-item.is-wrong .gr-fb { color: #d64545; }
+.gr-item.is-right .gr-blank { border-color: #1e9e5a; }
+.gr-item.is-wrong .gr-blank { border-color: #d64545; }
+.gr-score { font-size: 1.1rem; font-weight: 700; }
+.gr-model { font-style: italic; }
+.rd-grammar { margin: 18px 0 0; padding: 10px 14px; border-radius: 12px; border: 1.5px solid #f5c542; }

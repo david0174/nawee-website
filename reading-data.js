@@ -5,7 +5,7 @@
 
 const READINGS = [
     {
-        id: "mars-rover-record", kind: "news", level: "A2", date: "2026-10-21",
+        id: "mars-rover-record", grammar: ["past-simple"], kind: "news", level: "A2", date: "2026-10-21",
         title: "A Mars rover breaks a record",
         source: { name: "ScienceDaily / NASA", url: "https://www.sciencedaily.com/releases/2026/10/261020084818.htm" },
         image: "🚙",
@@ -212,7 +212,7 @@ const READINGS = [
         speak: { q: "What is your favorite season? Describe it in two or three sentences.", model: "My favorite season is … because … In … I like to …" },
     },
     {
-        id: "w2026-11-02-b1-thanksgiving", kind: "weekly", week: "2026-11-02", level: "B1",
+        id: "w2026-11-02-b1-thanksgiving", grammar: ["past-simple"], kind: "weekly", week: "2026-11-02", level: "B1",
         title: "Thanksgiving: more than a big dinner",
         source: { name: "Britannica – Thanksgiving Day", url: "https://www.britannica.com/topic/Thanksgiving-Day" },
         image: "🦃",
@@ -239,7 +239,7 @@ const READINGS = [
         speak: { q: "Name three things you are grateful for this year – and say why.", model: "I’m grateful for … because … I’m also grateful that …" },
     },
     {
-        id: "w2026-11-02-b2-berlin-wall", kind: "weekly", week: "2026-11-02", level: "B2",
+        id: "w2026-11-02-b2-berlin-wall", grammar: ["past-simple"], kind: "weekly", week: "2026-11-02", level: "B2",
         title: "The night the Berlin Wall fell",
         source: { name: "Britannica – Berlin Wall", url: "https://www.britannica.com/topic/Berlin-Wall" },
         image: "🧱",
