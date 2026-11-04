@@ -23,7 +23,7 @@
         reset: "Fortschritt zurücksetzen", resetQ: "Lernstand für diese Karten löschen?", tip: "Tipp: Erst laut sagen, dann umdrehen – so bleibt das Wort hängen.",
         status: { green: "sicher", yellow: "geübt", red: "zuletzt falsch", grey: "neu" }, barLabel: "Dein Stand bei diesem Thema",
         weakTitle: "Meine schwächsten Wörter", weakIntro: "Deine roten und unsicheren Wörter aus allen Themen – in einer Runde. Wer hier übt, macht am schnellsten Fortschritte.", weakEmpty: "Noch keine schwachen Wörter – übe erst ein paar Bildkarten, dann sammeln sich hier die Wörter, die du noch wiederholen solltest.", weakCard: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} aus allen Themen, die du noch wiederholen solltest`, weakGo: "Jetzt wiederholen",
-        allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
+        levelLabel: "Niveau:", allLevels: "Alle", allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
         overall: "Alle Themen zusammen", words: (n) => `${n} Wörter`, practice: "Üben", start: "Starten", topics: "← Alle Themen",
     } : {
         back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
@@ -37,7 +37,7 @@
         reset: "Reset progress", resetQ: "Delete your progress for these cards?", tip: "Tip: say it out loud first, then flip – that’s what makes the word stick.",
         status: { green: "mastered", yellow: "practiced", red: "last answer wrong", grey: "new" }, barLabel: "Your progress in this topic",
         weakTitle: "My weakest words", weakIntro: "Your red and shaky words from all topics – in one round. Practicing here is the fastest way to make progress.", weakEmpty: "No weak words yet – practice some picture cards first, then the words you should review will collect here.", weakCard: (n) => `${n} ${n === 1 ? "word" : "words"} from all topics you should review`, weakGo: "Review now",
-        allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
+        levelLabel: "Level:", allLevels: "All", allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
         overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
     };
 
@@ -126,38 +126,53 @@
     if (!deckParam && Object.keys(VOCAB_DECKS).length > 1) {
         const ids = Object.keys(VOCAB_DECKS);
         const all = ids.flatMap((d) => VOCAB_DECKS[d].words.map((w) => [w, d]));
-        document.title = `${T.allTitle} | Nawee`;
-        root.innerHTML = `<a class="lesson-back" href="${T.backHref}">${T.back}</a>
-            <p class="eyebrow">${T.eyebrow}</p>
-            <h1>${T.allTitle}</h1>
-            <p class="as-lead">${T.allLead}</p>
-            <div class="vc-progress vc-overall"><p class="vc-overall-label">${T.overall}</p>${bar(all)}</div>
-            ${(() => {
-                const weak = weakWords();
-                return weak.length ? `<a class="vc-topic vc-weak" href="${page}?deck=weak">
-                    <span class="vc-weak-icon" aria-hidden="true">🎯</span>
-                    <div class="vc-topic-body">
-                        <h2>${T.weakTitle}</h2>
-                        <p class="vc-weak-text">${T.weakCard(weak.length)}</p>
-                        ${bar(weak.map((w) => [w, w._deck]))}
-                        <span class="vc-topic-go">${T.weakGo} →</span>
-                    </div>
-                </a>` : "";
-            })()}
-            ${[...new Set(ids.map((d) => VOCAB_DECKS[d].level))].map((lv) => `<h2 class="vc-level">${lv}</h2><div class="vc-topics">${ids.filter((d) => VOCAB_DECKS[d].level === lv).map((d) => {
-                const k = VOCAB_DECKS[d];
-                const begun = k.words.some((w) => status(w, d) !== "grey");
-                return `<a class="vc-topic" href="${page}?deck=${d}">
-                    <img src="assets/vocab/${d}/${k.cover || k.words[0].id}.svg" alt="">
-                    <div class="vc-topic-body">
-                        <p class="vc-topic-meta">${esc(k.level)} · ${T.words(k.words.length)}</p>
-                        <h2>${esc(L(k.title))}</h2>
-                        ${bar(k.words.map((w) => [w, d]))}
-                        <span class="vc-topic-go">${begun ? T.practice : T.start} →</span>
-                    </div>
-                </a>`;
-            }).join("")}</div>`).join("")}
-            <p class="as-disclaimer">${T.privacy}</p>`;
+        // level buttons at the top (David, 2026-11-04): show one level's topics without scrolling – remembered in this browser
+        const LVLS = [...new Set(ids.map((d) => VOCAB_DECKS[d].level))];
+        const LVL_KEY = "nawee-vocab-level";
+        let lvl = "";
+        try { lvl = localStorage.getItem(LVL_KEY) || ""; } catch { /* storage unavailable */ }
+        if (!LVLS.includes(lvl)) lvl = "";
+        const drawAll = () => {
+            document.title = `${T.allTitle} | Nawee`;
+            root.innerHTML = `<a class="lesson-back" href="${T.backHref}">${T.back}</a>
+                <p class="eyebrow">${T.eyebrow}</p>
+                <h1>${T.allTitle}</h1>
+                <p class="as-lead">${T.allLead}</p>
+                <div class="rd-filter vc-filter" role="group" aria-label="${T.levelLabel}"><span>${T.levelLabel}</span>${["", ...LVLS].map((l) => `<button type="button" class="rd-chip${l === lvl ? " is-on" : ""}" data-lvl="${l}" aria-pressed="${l === lvl}">${l || T.allLevels}</button>`).join("")}</div>
+                <div class="vc-progress vc-overall"><p class="vc-overall-label">${T.overall}</p>${bar(all)}</div>
+                ${(() => {
+                    const weak = weakWords();
+                    return weak.length ? `<a class="vc-topic vc-weak" href="${page}?deck=weak">
+                        <span class="vc-weak-icon" aria-hidden="true">🎯</span>
+                        <div class="vc-topic-body">
+                            <h2>${T.weakTitle}</h2>
+                            <p class="vc-weak-text">${T.weakCard(weak.length)}</p>
+                            ${bar(weak.map((w) => [w, w._deck]))}
+                            <span class="vc-topic-go">${T.weakGo} →</span>
+                        </div>
+                    </a>` : "";
+                })()}
+                ${[...new Set(ids.map((d) => VOCAB_DECKS[d].level))].filter((lv) => !lvl || lv === lvl).map((lv) => `<h2 class="vc-level">${lv}</h2><div class="vc-topics">${ids.filter((d) => VOCAB_DECKS[d].level === lv).map((d) => {
+                    const k = VOCAB_DECKS[d];
+                    const begun = k.words.some((w) => status(w, d) !== "grey");
+                    return `<a class="vc-topic" href="${page}?deck=${d}">
+                        <img src="assets/vocab/${d}/${k.cover || k.words[0].id}.svg" alt="">
+                        <div class="vc-topic-body">
+                            <p class="vc-topic-meta">${esc(k.level)} · ${T.words(k.words.length)}</p>
+                            <h2>${esc(L(k.title))}</h2>
+                            ${bar(k.words.map((w) => [w, d]))}
+                            <span class="vc-topic-go">${begun ? T.practice : T.start} →</span>
+                        </div>
+                    </a>`;
+                }).join("")}</div>`).join("")}
+                <p class="as-disclaimer">${T.privacy}</p>`;
+            root.querySelectorAll("[data-lvl]").forEach((b) => b.addEventListener("click", () => {
+                lvl = b.dataset.lvl;
+                try { if (lvl) localStorage.setItem(LVL_KEY, lvl); else localStorage.removeItem(LVL_KEY); } catch { /* ignore */ }
+                drawAll();
+            }));
+        };
+        drawAll();
         return;
     }
 
