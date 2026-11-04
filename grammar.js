@@ -48,6 +48,28 @@
         synth.speak(u);
     };
 
+    // right / wrong / done tones – the same sounds and the same on/off setting ("nawee-sound") as the lessons and games
+    let tones = null;
+    const sfx = (kind) => {
+        try { if (localStorage.getItem("nawee-sound") === "off") return; } catch { /* ignore */ }
+        try {
+            tones = tones || new (window.AudioContext || window.webkitAudioContext)();
+            if (tones.state === "suspended") tones.resume();
+            const tone = (freq, start, length, type = "sine", volume = 0.22) => {
+                const t0 = tones.currentTime + start, osc = tones.createOscillator(), gain = tones.createGain();
+                osc.type = type; osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.0001, t0);
+                gain.gain.exponentialRampToValueAtTime(volume, t0 + 0.012);
+                gain.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
+                osc.connect(gain).connect(tones.destination);
+                osc.start(t0); osc.stop(t0 + length + 0.05);
+            };
+            if (kind === "correct") { tone(880, 0, 0.12); tone(1318.5, 0.09, 0.2); }
+            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
+            if (kind === "complete") { tone(659.3, 0, 0.16); tone(784, 0.12, 0.16); tone(1046.5, 0.24, 0.32); }
+        } catch { /* audio not available – stay silent */ }
+    };
+
     const id = new URLSearchParams(location.search).get("l");
     const lesson = GRAMMAR.find((g) => g.id === id);
 
@@ -106,6 +128,7 @@
         answered += 1; if (ok) right += 1;
         if (answered < lesson.practice.length) return;
         scoreEl.hidden = false;
+        setTimeout(() => sfx("complete"), 2200);  // after the last sentence has been read
         scoreEl.innerHTML = `${right === answered ? "🎉 " : ""}${T.score(right, answered)} <button type="button" class="link-button" data-again>${T.again}</button>`;
         scoreEl.querySelector("[data-again]").addEventListener("click", build);
         const prev = data.done[lesson.id];
@@ -125,11 +148,12 @@
             const p = lesson.practice[Number(li.dataset.i)], fb = li.querySelector(".gr-fb");
             const result = (ok, shown) => {
                 li.classList.add(ok ? "is-right" : "is-wrong");
+                sfx(ok ? "correct" : "wrong");
                 fb.hidden = false;
                 fb.innerHTML = ok ? `✓ ${T.right} <span>${L(p.why)}</span>` : `✗ ${T.wrong} <strong>${esc(shown)}</strong> <span>${L(p.why)}</span>`;
                 const filled = p.type === "gap" ? p.answer[0] : p.options[p.answer];
                 const blank = li.querySelector(".gr-blank"); if (blank) blank.textContent = filled;
-                if (blank) say(p.q.replace("___", filled).replace(/\s*\([^)]*\)/, ""));  // the sentence without the hint in brackets
+                if (blank) setTimeout(() => say(p.q.replace("___", filled).replace(/\s*\([^)]*\)/, "")), 450);  // the sentence without the hint in brackets, after the tone
                 finishOne(ok);
             };
             if (p.type === "gap") {
