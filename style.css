@@ -12867,3 +12867,12 @@ footer .footer-links {
 .gr-hint span { font-style: normal; font-size: .8rem; }
 .gr-hint:hover, .gr-hint:focus-visible { border-color: #f5c542; color: inherit; }
 .gr-task { margin: 0 0 4px; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #d39b12; }
+
+/* grammar: "Your turn" speaking card – stands out (2026-11-04) */
+.gr-speak { position: relative; margin-top: 30px; padding: 22px 22px 22px 84px; border: 2px solid #f5c542; border-radius: 18px; background: linear-gradient(135deg, rgba(245, 197, 66, .12), transparent 70%); }
+.gr-speak h2 { margin: 0 0 8px; }
+.gr-speak-icon { position: absolute; left: 20px; top: 20px; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #f5c542; font-size: 1.5rem; }
+.gr-speak-q { margin: 0 0 6px; font-size: 1.15rem; font-weight: 600; }
+.gr-model-box { margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--line); }
+.gr-model { margin: 0 0 10px; font-style: italic; font-size: 1.05rem; }
+@media (max-width: 560px) { .gr-speak { padding: 18px; } .gr-speak-icon { position: static; margin-bottom: 8px; } }

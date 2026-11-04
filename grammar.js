@@ -24,7 +24,7 @@
         soon: "Bald dabei: present continuous, Steigerung (comparatives), going to / will, some & any …", start: "Lektion starten →", done: (s, n) => `✓ Abgeschlossen · ${s}/${n} richtig`, completedOnly: "✓ Abgeschlossen",
         back: "← Alle Grammatik-Lektionen", rule: "Die Regel", build: "So bildest du es", german: "Anders als im Deutschen", examples: "In unseren Texten",
         examplesHint: "Tippe auf einen Satz, um ihn zu hören.", from: "aus", practice: "Üben", check: "Prüfen", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", typeHere: "Antwort eintippen",
-        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", speak: "Selbst sprechen", showModel: "Beispiel zeigen", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
+        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
         betaNote: "Beta: Diese Lektion ist neu. Sag uns unten, was dir geholfen hat und was fehlt.", privacy: "Dein Fortschritt wird in diesem Browser gespeichert.",
     } : {
         eyebrow: "GRAMMAR", title: "Grammar", beta: "BETA",
@@ -32,7 +32,7 @@
         soon: "Coming soon: present continuous, comparatives, going to / will, some & any …", start: "Start the lesson →", done: (s, n) => `✓ Completed · ${s}/${n} correct`, completedOnly: "✓ Completed",
         back: "← All grammar lessons", rule: "The rule", build: "How to build it", german: "", examples: "In our texts",
         examplesHint: "Tap a sentence to hear it.", from: "from", practice: "Practice", check: "Check", right: "Correct!", wrong: "Not quite – the answer is:", typeHere: "Type your answer",
-        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", speak: "Say it yourself", showModel: "Show example", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
+        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
         betaNote: "Beta: this lesson is new. Tell us below what helped and what’s missing.", privacy: "Your progress is saved in this browser.",
     };
 
@@ -46,6 +46,7 @@
         const v = synth.getVoices().find((x) => /en.US/i.test(x.lang) && /samantha|alex|google us english|aaron|allison|ava/i.test(x.name)) || synth.getVoices().find((x) => /^en/i.test(x.lang));
         if (v) u.voice = v;
         synth.speak(u);
+        return u;
     };
 
     // right / wrong / done tones – the same sounds and the same on/off setting ("nawee-sound") as the lessons and games
@@ -102,14 +103,35 @@
             <ul class="gr-examples">${lesson.examples.map((e) => `<li><button type="button" class="gr-ex" data-say="${esc(e.text)}">${highlight(e.text, e.hl)}</button>
                 ${textTitle(e.from) ? `<a class="gr-from" href="${readPage}?t=${e.from}">${T.from}: ${esc(textTitle(e.from))} →</a>` : ""}</li>`).join("")}</ul></section>
         <section class="gr-step"><h2>✏️ ${T.practice}</h2><ol class="gr-practice" data-practice></ol><p class="gr-score" data-score hidden></p></section>
-        <section class="gr-step"><h2>🗣️ ${T.speak}</h2><p>${esc(L(lesson.speak.q))}</p>
-            <button type="button" class="link-button" data-model>${T.showModel}</button><p class="gr-model" data-model-text hidden>${esc(lesson.speak.model)}</p></section>
+        <section class="gr-step gr-speak"><span class="gr-speak-icon" aria-hidden="true">🎤</span><h2>${T.speak}</h2>
+            <p class="gr-speak-q">${esc(L(lesson.speak.q))}</p><p class="as-note">${T.speakHint}</p>
+            <button type="button" class="button secondary" data-model>${T.showModel}</button>
+            <div class="gr-model-box" data-model-box hidden><p class="gr-model">${esc(lesson.speak.model)}</p>
+                <button type="button" class="button secondary gr-play" data-play>${T.play}</button></div></section>
         <p class="rd-next"><button type="button" class="button primary" data-mark></button></p>
         ${lesson.beta ? `<p class="as-note gr-betanote">🧪 ${T.betaNote}</p>` : ""}
         <p class="as-disclaimer">${T.privacy}</p>`;
 
     root.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => say(b.dataset.say)));
-    root.querySelector("[data-model]").addEventListener("click", (e) => { root.querySelector("[data-model-text]").hidden = false; e.currentTarget.remove(); say(lesson.speak.model); });
+    // the example answer is longer – it gets play / pause / continue / replay (David, 2026-11-04: longer texts can always be paused)
+    const playBtn = root.querySelector("[data-play]");
+    let playState = "idle"; // idle | playing | paused | done
+    const paintPlay = () => { playBtn.textContent = { idle: T.play, playing: T.pause, paused: T.resume, done: T.replay }[playState]; };
+    const startModel = () => {
+        const u = say(lesson.speak.model);
+        if (!u) return;
+        playState = "playing"; paintPlay();
+        u.onend = () => { if (playState === "playing") { playState = "done"; paintPlay(); } };
+    };
+    playBtn.addEventListener("click", () => {
+        if (!synth) return;
+        if (playState === "playing") { synth.pause(); playState = "paused"; }
+        else if (playState === "paused") { synth.resume(); playState = "playing"; }
+        else { startModel(); return; }
+        paintPlay();
+    });
+    root.querySelector("[data-model]").addEventListener("click", (e) => { root.querySelector("[data-model-box]").hidden = false; e.currentTarget.remove(); startModel(); });
+    window.addEventListener("pagehide", () => synth && synth.cancel());
 
     // mark as completed (also set automatically when every practice item is answered)
     const markBtn = root.querySelector("[data-mark]");
