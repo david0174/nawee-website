@@ -219,7 +219,7 @@
             r.paragraphs.map((p) => ({ text: plain(p), from: r.title, reading: r })).filter((x) => x.text.length >= 90 && x.text.length <= 260));
         const BOTS = [[14, 24], [22, 36], [34, 55]]; // WPM of Tom and Ben per level
         let level = 1;
-        // race tracks: scenery along the road; under water everyone wears a diving mask
+        // race tracks: scenery along the road; under water every biker wears a round glass fishbowl helmet (David, 2026-11-05)
         const TRACKS = {
             mountains: { icon: "🏔️", deco: ["🌲", "⛰️", "🌲", "🌲"] },
             park: { icon: "🌳", deco: ["🌳", "🌷", "🌼", "🌳"] },
@@ -248,7 +248,7 @@
             const trackIds = Object.keys(TRACKS), tk = track === "random" ? trackIds[Math.floor(Math.random() * trackIds.length)] : track, TK = TRACKS[tk];
             const deco = (lane) => [12, 34, 58, 80].map((x, j) => `<span class="gm-deco" style="left:${x + ((lane * 7 + j * 3) % 9)}%">${TK.deco[(lane + j) % TK.deco.length]}</span>`).join("");
             root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><h1>🏁 ${T.race}</h1>
-                <div class="gm-track trk-${tk}" aria-label="${T.tracks[tk]}">${racers.map((r, i) => `<div class="gm-lane"><span class="gm-name">${r.name}</span><span class="gm-road">${deco(i)}<span class="gm-car" data-car="${i}">${r.car}${TK.mask ? '<i class="gm-mask" aria-hidden="true">🤿</i>' : ""}</span><span class="gm-flag" aria-hidden="true">🏁</span></span></div>`).join("")}</div>
+                <div class="gm-track trk-${tk}" aria-label="${T.tracks[tk]}">${racers.map((r, i) => `<div class="gm-lane"><span class="gm-name">${r.name}</span><span class="gm-road">${deco(i)}<span class="gm-car" data-car="${i}">${r.car}${TK.mask ? '<i class="gm-bowl" aria-hidden="true"></i>' : ""}</span><span class="gm-flag" aria-hidden="true">🏁</span></span></div>`).join("")}</div>
                 <p class="gm-count" data-count>${T.countdown} 3</p>
                 <div class="gm-text" data-text aria-live="off"></div>
                 <p class="gm-from">${T.from}: ${esc(pick.from)}</p>
