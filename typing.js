@@ -10,6 +10,26 @@
     const L = (o) => (typeof o === "string" ? o : de ? o.de : o.en);
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const KEY = "nawee-typing-v1";
+    // completion sounds – same tones and the same on/off setting ("nawee-sound") as the lessons and games
+    let tones = null;
+    const sfx = (kind) => {
+        try { if (localStorage.getItem("nawee-sound") === "off") return; } catch { /* ignore */ }
+        try {
+            tones = tones || new (window.AudioContext || window.webkitAudioContext)();
+            if (tones.state === "suspended") tones.resume();
+            const tone = (freq, start, length, type = "sine", volume = 0.22) => {
+                const t0 = tones.currentTime + start, osc = tones.createOscillator(), gain = tones.createGain();
+                osc.type = type; osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.0001, t0);
+                gain.gain.exponentialRampToValueAtTime(volume, t0 + 0.012);
+                gain.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
+                osc.connect(gain).connect(tones.destination);
+                osc.start(t0); osc.stop(t0 + length + 0.05);
+            };
+            if (kind === "ding") { tone(1318.5, 0, 1.1, "sine", 0.2); tone(2637, 0, 0.6, "sine", 0.05); }
+            if (kind === "fanfare") { [523.25, 659.25, 783.99, 1046.5].forEach((f, k) => tone(f, k * 0.09, 0.3)); tone(1046.5, 0.38, 0.9, "sine", 0.2); tone(1318.5, 0.38, 0.9, "sine", 0.12); tone(2093, 0.5, 0.4, "sine", 0.04); }
+        } catch { /* audio not available – stay silent */ }
+    };
     const load = () => { try { return Object.assign({ completed: [], stars: {} }, JSON.parse(localStorage.getItem(KEY)) || {}); } catch { return { completed: [], stars: {} }; } };
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage unavailable */ } };
     const pref = (k, d) => { try { return localStorage.getItem(k) || d; } catch { return d; } };
@@ -169,6 +189,7 @@
                 input.addEventListener("input", onInput);
             };
             const finish = () => {
+                sfx(ei === l.ex.length - 1 ? "fanfare" : "ding");  // exercise done: ding · lesson done: little fanfare
                 const min = Math.max((performance.now() - t0) / 60000, 1 / 600);
                 const wpm = Math.round((text.length / 5) / min);
                 const acc = typed ? Math.round(((typed - errors) / typed) * 100) : 100;
