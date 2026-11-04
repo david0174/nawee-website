@@ -75,7 +75,7 @@
             audio = audio || new (window.AudioContext || window.webkitAudioContext)();
             if (audio.state === "suspended") audio.resume();
             if (kind === "correct") { tone(880, 0, 0.12); tone(1318.5, 0.09, 0.2); }
-            if (kind === "wrong") { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
+            if (kind === "wrong") { tone(110, 0, 0.32, "sawtooth", 0.09); tone(116, 0, 0.32, "sawtooth", 0.07); tone(55, 0, 0.32, "square", 0.05); }  // buzzer
             if (kind === "complete") { tone(659.3, 0, 0.16); tone(784, 0.12, 0.16); tone(1046.5, 0.24, 0.32); }
             if (kind === "trophy") { [523.3, 659.3, 784, 1046.5].forEach((f, i) => tone(f, i * 0.1, 0.28, "triangle", 0.24)); tone(1318.5, 0.42, 0.45, "sine", 0.18); }
         } catch { /* audio not available – stay silent */ }

@@ -143,7 +143,7 @@
                 o.start(t0); o.stop(t0 + length + 0.05);
             };
             if (ok) { tone(880, 0, 0.12, "sine", 0.26); tone(1318.5, 0.09, 0.2, "sine", 0.26); }
-            else { tone(330, 0, 0.14, "triangle", 0.16); tone(262, 0.1, 0.2, "triangle", 0.14); }
+            else { tone(110, 0, 0.32, "sawtooth", 0.09); tone(116, 0, 0.32, "sawtooth", 0.07); tone(55, 0, 0.32, "square", 0.05); }  // buzzer
         } catch { /* audio not available – stay silent */ }
     };
 
