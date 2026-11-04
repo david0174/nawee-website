@@ -139,7 +139,7 @@
         answered = 0; right = 0; scoreEl.hidden = true;
         // the base form in brackets – "(work)" – becomes a small 🔊 button; it is never read as part of the sentence
         const hintBtn = (h) => `<button type="button" class="gr-hint" data-say="${esc(h.replace(/\s*\/\s*/g, " "))}" title="${de ? "Grundform anhören" : "Hear the base form"}"><span aria-hidden="true">🔊</span> ${esc(h)}</button>`;
-        box.innerHTML = lesson.practice.map((p, i) => `<li class="gr-item" data-i="${i}"><p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>').replace(/\(([^)]+)\)/, (m, h) => hintBtn(h))}</p>
+        box.innerHTML = lesson.practice.map((p, i) => `<li class="gr-item" data-i="${i}">${p.task ? `<p class="gr-task">${esc(L(p.task))}</p>` : ""}<p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>').replace(/\(([^)]+)\)/, (m, h) => hintBtn(h))}</p>
             ${p.type === "gap" ? `<div class="gr-gap"><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}" aria-label="${T.typeHere}"><button type="button" class="button secondary" data-check>${T.check}</button></div>`
                 : `<div class="gr-options">${p.options.map((o, k) => `<button type="button" class="gr-opt" data-k="${k}">${esc(o)}</button>`).join("")}</div>`}
             <p class="gr-fb" hidden></p></li>`).join("");

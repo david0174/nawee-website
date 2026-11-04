@@ -12866,3 +12866,4 @@ footer .footer-links {
 .gr-hint { display: inline-flex; align-items: center; gap: 4px; margin: 0 2px; padding: 1px 9px; border: 1.5px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: .9rem; font-style: italic; cursor: pointer; vertical-align: baseline; transition: border-color .15s, color .15s; }
 .gr-hint span { font-style: normal; font-size: .8rem; }
 .gr-hint:hover, .gr-hint:focus-visible { border-color: #f5c542; color: inherit; }
+.gr-task { margin: 0 0 4px; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #d39b12; }

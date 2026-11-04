@@ -2,7 +2,8 @@
 // with German (German page only), examples from Nawee's own reading texts, practice with instant feedback, one speaking task.
 // Plan: Business-documents/Grammar-Track-Plan.md (approved 2026-11-04: start with A2, German comparisons, beta).
 // Text fields are { de, en } – the German page explains in German, the English page in simple English.
-// Practice items: type "gap" (type the answer; `answer` = list of accepted answers) or "choice" (`options`, `answer` = index).
+// Practice items: type "gap" (type the answer; `answer` = list of accepted answers) or "choice" (`options`, `answer` = index);
+// optional `task` = a short instruction shown before the sentence (e.g. "Make it negative:").
 
 const GRAMMAR = [
     {
@@ -42,7 +43,7 @@ const GRAMMAR = [
             { type: "choice", q: "He ___ a bad cold last week.", options: ["had", "haved", "has"], answer: 0, why: { de: "have → had.", en: "have → had." } },
             { type: "choice", q: "Which sentence is correct?", options: ["I saw him yesterday.", "I have seen him yesterday."], answer: 0, why: { de: "Mit „yesterday“ (fester Zeitpunkt) immer past simple – nicht wie im Deutschen das Perfekt.", en: "With “yesterday” (a specific time), always use the past simple." } },
             { type: "choice", q: "Which question is correct?", options: ["Did you go to the party?", "Did you went to the party?"], answer: 0, why: { de: "Nach did kommt die Grundform: did … go.", en: "After did, use the base form: did … go." } },
-            { type: "gap", q: "She ___ (not / come) to work on Monday.", answer: ["didn't come", "didn’t come", "did not come"], why: { de: "Verneinung: didn’t + Grundform – didn’t come.", en: "Negative: didn’t + base form – didn’t come." } },
+            { type: "gap", task: { de: "Verneine den Satz:", en: "Make it negative:" }, q: "She ___ (come) to work on Monday.", answer: ["didn't come", "didn’t come", "did not come"], why: { de: "Verneinung: didn’t + Grundform – didn’t come.", en: "Negative: didn’t + base form – didn’t come." } },
         ],
         speak: {
             q: { de: "Was hast du letztes Wochenende gemacht? Sag drei Sätze auf Englisch – laut.", en: "What did you do last weekend? Say three sentences out loud." },
