@@ -11,7 +11,7 @@
     const page = de ? "lesen.html" : "reading.html";
     const T = de ? {
         eyebrow: "LESEN", title: "Lesetexte", lead: "Kurze englische Texte zum Lesen und Hören: einfache Nachrichten über echte Ereignisse und Geschichten mit Tom und Ben. Tipp: Erst lesen, dann anhören – und am Ende laut antworten.",
-        news: "Nachrichten", stories: "Geschichten", done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
+        news: "Nachrichten", stories: "Geschichten", weekly: "Lesetext der Woche", weeklyLead: "Jeden Montag neu – ein Text für jedes Niveau von A1 bis C1. Such dir dein Niveau aus (oder probier eins höher).", weeklyOld: "Frühere Wochentexte", weekOf: (d) => "Woche vom " + new Date(d + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "long" }), done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
         back: "← Alle Texte", listen: "▶ Vorlesen", stop: "■ Stopp", slow: "Langsamer", tapHint: "Tipp: Tippe auf ein unterstrichenes Wort – du hörst es und siehst die Übersetzung.", soundOn: "Aussprache der Wörter ausschalten", soundOff: "Aussprache der Wörter einschalten",
         questions: "Hast du es verstanden?", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", speakTitle: "Sprich darüber", speakHint: "Antworte laut auf Englisch. Dann vergleich mit dem Beispiel.",
         showModel: "Beispiel zeigen", source: "Quelle", ownWords: "in unseren eigenen, einfachen Worten", result: (s, n) => `${s} von ${n} richtig – gut gemacht!`, next: "Nächster Text →",
@@ -19,7 +19,7 @@
         privacy: "Dein Lesestand wird in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "READING", title: "Reading practice", lead: "Short English texts to read and listen to: simple news about real events and stories with Tom and Ben. Tip: read first, then listen – and answer out loud at the end.",
-        news: "News", stories: "Stories", done: (s, n) => `✓ Read · ${s}/${n} correct`, start: "Read →",
+        news: "News", stories: "Stories", weekly: "Weekly read", weeklyLead: "New every Monday – one text for every level from A1 to C1. Pick your level (or try one higher).", weeklyOld: "Earlier weekly reads", weekOf: (d) => "Week of " + new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" }), done: (s, n) => `✓ Read · ${s}/${n} correct`, start: "Read →",
         back: "← All texts", listen: "▶ Read aloud", stop: "■ Stop", slow: "Slower", tapHint: "Tip: tap an underlined word to hear it and see what it means.", soundOn: "Turn word pronunciation off", soundOff: "Turn word pronunciation on",
         questions: "Did you understand?", right: "Correct!", wrong: "Not quite – the answer is:", speakTitle: "Talk about it", speakHint: "Answer out loud in English. Then compare with the example.",
         showModel: "Show example", source: "Source", ownWords: "in our own simple words", result: (s, n) => `${s} of ${n} correct – well done!`, next: "Next text →",
@@ -53,10 +53,19 @@
     if (!text) {
         const news = READINGS.filter((r) => r.kind === "news").sort((a, b) => (b.date || "").localeCompare(a.date || ""));
         const stories = READINGS.filter((r) => r.kind === "story");
+        // weekly read: the newest week that has started (a set can be prepared ahead and appears on its Monday)
+        const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+        const today = new Date().toISOString().slice(0, 10);
+        const weeks = [...new Set(READINGS.filter((r) => r.kind === "weekly" && r.week <= today).map((r) => r.week))].sort().reverse();
+        const byLevel = (a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level);
+        const thisWeek = weeks[0] ? READINGS.filter((r) => r.kind === "weekly" && r.week === weeks[0]).sort(byLevel) : [];
+        const older = READINGS.filter((r) => r.kind === "weekly" && weeks.slice(1).includes(r.week)).sort((a, b) => b.week.localeCompare(a.week) || byLevel(a, b));
         document.title = `${T.title} | Nawee`;
         root.innerHTML = `<p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="as-lead">${T.lead}</p>
+            ${thisWeek.length ? `<section class="rd-weekly" id="weekly"><h2 class="rd-group">📅 ${T.weekly} <span class="rd-week">${T.weekOf(weeks[0])}</span></h2><p class="rd-weekly-lead">${T.weeklyLead}</p><div class="rd-list">${thisWeek.map(card).join("")}</div></section>` : ""}
             <h2 class="rd-group">📰 ${T.news}</h2><div class="rd-list">${news.map(card).join("")}</div>
             <h2 class="rd-group">📖 ${T.stories}</h2><div class="rd-list">${stories.map(card).join("")}</div>
+            ${older.length ? `<h2 class="rd-group">🗂️ ${T.weeklyOld}</h2><div class="rd-list">${older.map(card).join("")}</div>` : ""}
             <a class="rd-card rd-special" href="${de ? "geschichte-englisch.html" : "history-of-english.html"}">
                 <span class="rd-card-icon" aria-hidden="true">📜</span>
                 <span class="rd-card-body"><span class="rd-card-meta">${de ? "SPEZIAL" : "SPECIAL"}</span><strong>${de ? "Die Geschichte des Englischen" : "The history of English"}</strong><span class="rd-card-status">${de ? "2000 Jahre in einem Zeitstrahl →" : "2,000 years on one timeline →"}</span></span>
@@ -87,7 +96,7 @@
 
     root.innerHTML = `<button type="button" class="rd-sound" data-word-sound></button>
         <a class="lesson-back" href="${page}">${T.back}</a>
-        <p class="eyebrow">${(text.kind === "news" ? T.news : T.stories).toUpperCase()} · ${text.level}${text.date ? ` · ${T.date(text.date).toUpperCase()}` : ""}</p>
+        <p class="eyebrow">${(text.kind === "news" ? T.news : text.kind === "weekly" ? T.weekly : T.stories).toUpperCase()} · ${text.level}${text.date ? ` · ${T.date(text.date).toUpperCase()}` : ""}</p>
         <h1>${esc(text.title)}</h1>
         <div class="rd-controls"><button type="button" class="button primary rd-listen" data-listen>${T.listen}</button>
             <label class="rd-slow"><input type="checkbox" data-slow> ${T.slow}</label></div>

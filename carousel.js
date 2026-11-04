@@ -18,6 +18,13 @@
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🎙️<small>${de ? "Live & kostenlos" : "Live & free"}</small></div>`,
         },
         {
+            tag: de ? "📅 LESETEXT DER WOCHE · JEDEN MONTAG NEU" : "📅 WEEKLY READ · NEW EVERY MONDAY",
+            title: de ? "Fünf neue Texte – von A1 bis C1" : "Five new texts – from A1 to C1",
+            text: de ? "Jede Woche ein Text für jedes Niveau: zum Lesen und Anhören, mit Übersetzung per Tipp, Fragen und einer Sprechaufgabe. Such dir dein Niveau aus – oder probier eins höher." : "Every week one text for every level: read and listen, with translations on tap, questions and a speaking task. Pick your level – or try one higher.",
+            cta: de ? "Zum Lesetext der Woche" : "Read this week’s texts", href: P("lesen.html#weekly", "reading.html#weekly"),
+            visual: `<div class="cs-levels"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span></div>`,
+        },
+        {
             desktopOnly: true, // on phones the app link sits in the burger menu instead
             tag: de ? "📲 NEU · NAWEE ALS APP" : "📲 NEW · NAWEE AS AN APP",
             title: de ? "Nawee als App – auch auf dem Computer" : "Nawee as an app – on your computer too",
@@ -41,10 +48,10 @@
         },
         {
             tag: de ? "👋 PERSÖNLICH MIT DAVID" : "👋 LEARN WITH DAVID",
-            title: de ? "Schneller weiter mit einem Coach" : "Go further, faster, with a coach",
-            text: de ? "Englisch-Coaching, Englischunterricht und Workshops – eins zu eins mit David, online oder in Hannover. Bald auch kostenlose Kurse zu Selbstvertrauen, Kommunikation und Stress." : "English coaching, English lessons and workshops – one-on-one with David, online or in Hannover. Coming soon: free courses on confidence, communication and stress.",
-            cta: de ? "Zu davidnawee.com" : "Visit davidnawee.com", href: de ? "https://nawee.net/" : "https://nawee.net/index-en.html", external: true,
-            visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${de ? "Coach · Muttersprachler aus den USA" : "Coach · native speaker from the US"}</small><span>${de ? "Erstgespräch kostenlos" : "Free intro call"}</span></div>`,
+            title: de ? "Schneller weiter mit Englischunterricht" : "Go further, faster, with lessons",
+            text: de ? "Englischunterricht für jedes Niveau – eins zu eins mit David, online oder in Hannover. Allgemeines Englisch und Berufsenglisch, mit kostenlosem Kennenlerngespräch." : "English lessons for every level – one-on-one with David, online or in Hannover. General English and Professional English, with a free intro call.",
+            cta: de ? "Unterricht & Preise" : "Lessons & prices", href: de ? "https://nawee.net/" : "https://nawee.net/index-en.html", external: true,
+            visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${de ? "Englischlehrer · Muttersprachler aus den USA" : "English teacher · native speaker from the US"}</small><span>${de ? "Erstgespräch kostenlos" : "Free intro call"}</span></div>`,
         },
         {
             tag: de ? "🖼️ BILDKARTEN" : "🖼️ PICTURE CARDS",

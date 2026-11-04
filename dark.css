@@ -215,7 +215,6 @@
     html:not([data-theme="light"]) .account-hint a { color: var(--dm-link); }
     html:not([data-theme="light"]) .cc-account-note a { color: var(--dm-link); }
     html:not([data-theme="light"]) .account-stats a { color: var(--dm-link); }
-    html:not([data-theme="light"]) .nl-momentum { background: linear-gradient(90deg, rgba(91, 75, 31, 0), var(--yellow)); }
     html:not([data-theme="light"]) .linkedin-section { background: radial-gradient(ellipse 50% 90% at 100% 0%, rgba(59, 130, 246, .38), transparent 70%),
         radial-gradient(ellipse 40% 80% at 0% 100%, rgba(59, 130, 246, .2), transparent 70%),
         var(--dm-band); }
@@ -391,7 +390,6 @@
     html:not([data-theme="light"]) .gm-place { color: var(--dm-head); }
     html:not([data-theme="light"]) .gm-new { color: #8ce3b4; }
     html:not([data-theme="light"]) .gm-hud { color: var(--dm-head); }
-    html:not([data-theme="light"]) .gm-ground { background: repeating-linear-gradient(90deg, #5b4b1f 0 20px, #e9b52f 20px 40px); }
     html:not([data-theme="light"]) .gm-drop { background: #14181f; color: var(--dm-head); }
     html:not([data-theme="light"]) .gm-words { background: var(--dm-bg); }
     html:not([data-theme="light"]) .gm-words dl > div { background: #141a24; }
@@ -618,9 +616,9 @@
         radial-gradient(circle at 90% 85%, rgba(230, 57, 70, .08), transparent 40%),
         linear-gradient(180deg, #0d1a2d 0%, #14181f 100%); }
     html:not([data-theme="light"]) .rd-sound { background: var(--card, #14181f); }
-    html:not([data-theme="light"]) .rd-sound:hover, html:not([data-theme="light"]) .rd-sound:focus-visible { border-color: #5b4b1f; }
     html:not([data-theme="light"]) .gm-bowl { border: 2px solid rgba(20, 24, 31, .85); background: radial-gradient(circle at 35% 30%, rgba(20, 24, 31, .55) 0 12%, rgba(18, 49, 62, .22) 13% 60%, rgba(25, 62, 87, .32) 100%); }
     html:not([data-theme="light"]) .gm-bowl::after { background: rgba(20, 24, 31, .85); }
+    html:not([data-theme="light"]) .cs-levels span { background: #14181f; color: #d5dae4; }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -877,7 +875,6 @@ html[data-theme="dark"] .account-delete-final { color: #ffffff; }
 html[data-theme="dark"] .account-hint a { color: var(--dm-link); }
 html[data-theme="dark"] .cc-account-note a { color: var(--dm-link); }
 html[data-theme="dark"] .account-stats a { color: var(--dm-link); }
-html[data-theme="dark"] .nl-momentum { background: linear-gradient(90deg, rgba(91, 75, 31, 0), var(--yellow)); }
 html[data-theme="dark"] .linkedin-section { background: radial-gradient(ellipse 50% 90% at 100% 0%, rgba(59, 130, 246, .38), transparent 70%),
         radial-gradient(ellipse 40% 80% at 0% 100%, rgba(59, 130, 246, .2), transparent 70%),
         var(--dm-band); }
@@ -1053,7 +1050,6 @@ html[data-theme="dark"] .gm-result, html[data-theme="dark"] .gm-over { color: va
 html[data-theme="dark"] .gm-place { color: var(--dm-head); }
 html[data-theme="dark"] .gm-new { color: #8ce3b4; }
 html[data-theme="dark"] .gm-hud { color: var(--dm-head); }
-html[data-theme="dark"] .gm-ground { background: repeating-linear-gradient(90deg, #5b4b1f 0 20px, #e9b52f 20px 40px); }
 html[data-theme="dark"] .gm-drop { background: #14181f; color: var(--dm-head); }
 html[data-theme="dark"] .gm-words { background: var(--dm-bg); }
 html[data-theme="dark"] .gm-words dl > div { background: #141a24; }
@@ -1280,9 +1276,9 @@ html[data-theme="dark"] .theme-winter .hero { background: radial-gradient(circle
         radial-gradient(circle at 90% 85%, rgba(230, 57, 70, .08), transparent 40%),
         linear-gradient(180deg, #0d1a2d 0%, #14181f 100%); }
 html[data-theme="dark"] .rd-sound { background: var(--card, #14181f); }
-html[data-theme="dark"] .rd-sound:hover, html[data-theme="dark"] .rd-sound:focus-visible { border-color: #5b4b1f; }
 html[data-theme="dark"] .gm-bowl { border: 2px solid rgba(20, 24, 31, .85); background: radial-gradient(circle at 35% 30%, rgba(20, 24, 31, .55) 0 12%, rgba(18, 49, 62, .22) 13% 60%, rgba(25, 62, 87, .32) 100%); }
 html[data-theme="dark"] .gm-bowl::after { background: rgba(20, 24, 31, .85); }
+html[data-theme="dark"] .cs-levels span { background: #14181f; color: #d5dae4; }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }

@@ -12760,3 +12760,13 @@ footer .footer-links {
     box-shadow: 0 0 6px rgba(160, 225, 255, .7), inset 0 -2px 4px rgba(0, 60, 110, .25); }
 .gm-bowl::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -3px; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .85); }  /* collar */
 .gm-bowl { top: -.2em; left: -.02em; width: .72em; height: .72em; }
+
+/* reading: weekly read block (A1–C1, new every Monday) – 2026-11-05 */
+.rd-weekly { margin: 8px 0 28px; padding: 18px 20px; border: 2px solid #f5c542; border-radius: 18px; background: linear-gradient(135deg, rgba(245, 197, 66, .10), transparent 60%); }
+.rd-weekly .rd-group { margin-top: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.rd-week { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.rd-weekly-lead { margin: 0 0 14px; color: var(--muted); }
+
+.cs-levels { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-content: center; height: 100%; }
+.cs-levels span { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: #ffffff; color: #0d1b3a; font-weight: 800; font-size: 1.05rem; box-shadow: 0 6px 16px rgba(13, 27, 58, .18); }
+.cs-levels span:nth-child(odd) { background: #f5c542; }
