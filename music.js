@@ -1,5 +1,6 @@
 // English through music (musik.html / music.html): song lessons built around real songs.
-// COPYRIGHT: no lyrics, recordings or lyric videos on Nawee – the song is opened on YouTube (official video),
+// COPYRIGHT: no lyrics, recordings or lyric videos ON Nawee – the song is opened on YouTube in a lyric version
+// (lyricsUrl = a direct link to an official lyric video if there is one, otherwise a YouTube search for the lyric video),
 // everything here is Nawee's own: short phrases to listen for, meanings, our own example sentences, a quiz
 // and speaking tasks. ?s=<id> opens a song; progress in localStorage "nawee-music-v1".
 
@@ -16,7 +17,8 @@
         {
             id: "count-on-me", title: "Count on Me", artist: "Bruno Mars", year: 2010, level: "A2", emoji: "🤝",
             topic: de ? "Freundschaft" : "Friendship",
-            search: "Bruno Mars Count on Me official video",
+            search: "Bruno Mars Count on Me official lyric video",
+            lyricsUrl: "",  // paste a direct YouTube link to the official lyric video here (Bruno Mars channel) to skip the search
             intro: de ? "Ein fröhlicher Song über Freundschaft: Egal, was passiert – ein guter Freund ist für dich da. Langsames Tempo und klare Aussprache, ideal zum Mithören."
                 : "A happy song about friendship: whatever happens, a good friend is there for you. Slow and clear – great for listening.",
             phrases: [
@@ -49,7 +51,8 @@
         {
             id: "dont-worry-be-happy", title: "Don’t Worry, Be Happy", artist: "Bobby McFerrin", year: 1988, level: "A2", emoji: "😊",
             topic: de ? "Positiv bleiben" : "Staying positive",
-            search: "Bobby McFerrin Don't Worry Be Happy official video",
+            search: "Bobby McFerrin Don't Worry Be Happy lyrics",
+            lyricsUrl: "",  // no official lyric video found (Nov 2026) – paste a direct link here if one appears
             intro: de ? "Der Gute-Laune-Klassiker: Bobby McFerrin singt fast nur mit seiner Stimme – langsam und deutlich. Du hörst viel Alltagsenglisch und auch etwas Umgangssprache, die du im Film und in Serien ständig hörst."
                 : "The feel-good classic: Bobby McFerrin sings almost only with his voice – slowly and clearly. You hear a lot of everyday English and some informal language you hear all the time in films and series.",
             phrases: [
@@ -84,7 +87,8 @@
         {
             id: "abc", title: "ABC", artist: "The Jackson 5 (Michael Jackson)", year: 1970, level: "A2", emoji: "🔤",
             topic: de ? "Schule & Lernen" : "School & learning",
-            search: "The Jackson 5 ABC official",
+            search: "The Jackson 5 ABC lyrics",
+            lyricsUrl: "",  // no official lyric video found (Nov 2026) – paste a direct link here if one appears
             intro: de ? "Der Klassiker der Jackson 5 – mit dem jungen Michael Jackson als Sänger. Passt perfekt zum Englischlernen: Es geht um Schule, Buchstaben und Zahlen. Das Tempo ist schnell – hör beim ersten Mal nur zu und achte auf den Refrain."
                 : "The Jackson 5 classic – with young Michael Jackson singing lead. A perfect song for learners: it’s about school, letters and numbers. It’s fast – the first time, just listen and focus on the chorus.",
             phrases: [
@@ -119,22 +123,22 @@
     ];
 
     const T = de ? {
-        back: "← Alle Songs", listen: "1. Hören", listenTxt: "Öffne den Song und hör ihn einmal ganz – ohne Text. Worum geht es? Wie ist die Stimmung?",
-        open: "Song auf YouTube öffnen", hunt: "2. Satz-Jagd", huntTxt: "Hör den Song noch einmal. Tippe einen Ausdruck an, sobald du ihn hörst.",
+        back: "← Alle Songs", listen: "1. Hören", listenTxt: "Öffne den Song mit Text und hör ihn einmal ganz. Lies mit – worum geht es? Wie ist die Stimmung?",
+        open: "Song mit Text auf YouTube öffnen", hunt: "2. Satz-Jagd", huntTxt: "Hör den Song noch einmal. Tippe einen Ausdruck an, sobald du ihn hörst.",
         heard: "gehört", learn: "3. Verstehen & nachsprechen", learnTxt: "Tippe auf 🔊 und sprich jeden Ausdruck zweimal nach – dann das Beispiel.",
         quiz: "4. Kurz-Quiz", check: "Richtig! ✓", wrong: "Nicht ganz – versuch es noch einmal.",
         speak: "5. Selbst sprechen", speakTxt: "Sprich laut – auch wenn du allein bist. Diese Satzanfänge helfen dir:",
         done: "Song abschließen ✓", doneMsg: "Super! 🎵 Dieser Song ist abgeschlossen.", isDone: "✓ abgeschlossen",
-        start: "Song-Lektion starten", note: "Songtext und Musik gehören den Rechteinhabern. Nawee verlinkt nur auf das offizielle Video und zeigt eigene Übungen.",
+        start: "Song-Lektion starten", note: "Songtext und Musik gehören den Rechteinhabern. Nawee verlinkt nur auf YouTube und zeigt eigene Übungen.",
         sayIt: "Anhören", level: "Niveau",
     } : {
-        back: "← All songs", listen: "1. Listen", listenTxt: "Open the song and listen to it once – without the lyrics. What is it about? How does it feel?",
-        open: "Open the song on YouTube", hunt: "2. Phrase hunt", huntTxt: "Listen again. Tap a phrase as soon as you hear it.",
+        back: "← All songs", listen: "1. Listen", listenTxt: "Open the song with the lyrics and listen to it once. Read along – what is it about? How does it feel?",
+        open: "Open the song with lyrics on YouTube", hunt: "2. Phrase hunt", huntTxt: "Listen again. Tap a phrase as soon as you hear it.",
         heard: "heard", learn: "3. Understand & repeat", learnTxt: "Tap 🔊 and repeat each phrase twice – then the example.",
         quiz: "4. Quick quiz", check: "Correct! ✓", wrong: "Not quite – try again.",
         speak: "5. Speak yourself", speakTxt: "Say it out loud – even if you’re alone. These sentence starters help you:",
         done: "Finish this song ✓", doneMsg: "Great! 🎵 You finished this song.", isDone: "✓ finished",
-        start: "Start the song lesson", note: "Lyrics and music belong to their owners. Nawee only links to the official video and shows its own exercises.",
+        start: "Start the song lesson", note: "Lyrics and music belong to their owners. Nawee only links to YouTube and shows its own exercises.",
         sayIt: "Listen", level: "Level",
     };
 
@@ -164,7 +168,7 @@
 
     const lesson = (s) => {
         const done = load();
-        const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(s.search)}`;
+        const yt = s.lyricsUrl || `https://www.youtube.com/results?search_query=${encodeURIComponent(s.search)}`;
         root.innerHTML = `
             <a class="page-back" href="?">${T.back}</a>
             <div class="mu-head">
