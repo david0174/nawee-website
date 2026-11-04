@@ -62,3 +62,5 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* winter */
 .theme-winter .hero { background: radial-gradient(circle at 15% 0%, rgba(77, 143, 224, .2), transparent 45%), radial-gradient(circle at 90% 85%, rgba(230, 57, 70, .1), transparent 40%), #111823; }
 .xm-tree { filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .45)); }
+/* About Nawee icons: brand gold in dark mode */
+.about-highlights svg { color: #f5c542; }

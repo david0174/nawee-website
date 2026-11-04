@@ -12777,3 +12777,8 @@ footer .footer-links {
 .rd-list--done .rd-card { opacity: .8; }
 .rd-alldone { margin: 0 0 18px; color: var(--muted); }
 .rd-marked { margin: 8px 0 0; color: #1e7a48; font-weight: 600; }
+
+/* About Nawee: icons in gold (David, 2026-11-05) – a deeper gold in light mode for contrast */
+.about-highlights svg { color: #d39b12; }
+/* Games overview: the tile you hover gets a clear gold frame + glow (David, 2026-11-05) */
+.gm-tile:hover, .gm-tile:focus-visible { border-color: #f5c542; box-shadow: 0 0 0 1px #f5c542, 0 10px 26px rgba(245, 197, 66, .28); transform: translateY(-3px); }
