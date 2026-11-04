@@ -106,7 +106,7 @@
         const g = text.glossary[b.dataset.k];
         root.querySelectorAll(".rd-word.is-open").forEach((x) => x.classList.remove("is-open"));
         b.classList.add("is-open");
-        gloss.innerHTML = `<strong>${esc(b.textContent)}</strong> – ${esc(de ? g.de : g.en)}`;
+        gloss.textContent = de ? g.de : g.en;  // only the meaning – the word itself is right next to it (David, 2026-11-05)
         gloss.hidden = false;
         b.after(gloss);
     }));
