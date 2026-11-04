@@ -12782,3 +12782,10 @@ footer .footer-links {
 .about-highlights svg { color: #d39b12; }
 /* Games overview: the tile you hover gets a clear gold frame + glow (David, 2026-11-05) */
 .gm-tile:hover, .gm-tile:focus-visible { border-color: #f5c542; box-shadow: 0 0 0 1px #f5c542, 0 10px 26px rgba(245, 197, 66, .28); transform: translateY(-3px); }
+
+/* reading: level filter chips (2026-11-05) */
+.rd-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 22px; }
+.rd-filter span { margin-right: 4px; font-weight: 700; color: var(--muted); font-size: .9rem; }
+.rd-chip { padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: transparent; color: inherit; font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; transition: border-color .15s, background .15s; }
+.rd-chip:hover, .rd-chip:focus-visible { border-color: #f5c542; }
+.rd-chip.is-on { background: #f5c542; border-color: #f5c542; color: #0d1b3a; }
