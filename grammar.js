@@ -148,7 +148,7 @@
     let answered = 0, right = 0;
     const finishOne = (ok) => {
         answered += 1; if (ok) right += 1;
-        if (answered < lesson.practice.length) return;
+        if (answered < round.length) return;
         scoreEl.hidden = false;
         setTimeout(() => sfx("complete"), 2200);  // after the last sentence has been read
         scoreEl.innerHTML = `${right === answered ? "🎉 " : ""}${T.score(right, answered)} <button type="button" class="link-button" data-again>${T.again}</button>`;
@@ -157,11 +157,19 @@
         if (!prev || !prev.of || right >= prev.score) data.done[lesson.id] = { score: right, of: answered, date: new Date().toISOString().slice(0, 10) };
         save(); paintMark();
     };
+    // each round: `perRound` items drawn at random from the lesson's pool (David, 2026-11-04: more exercises over time)
+    let round = [];
+    const drawRound = () => {
+        const pool = lesson.practice.map((p, i) => i);
+        for (let i = pool.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+        return pool.slice(0, lesson.perRound || 10);
+    };
     function build() {
         answered = 0; right = 0; scoreEl.hidden = true;
+        round = drawRound();
         // the base form in brackets – "(work)" – becomes a small 🔊 button; it is never read as part of the sentence
         const hintBtn = (h) => `<button type="button" class="gr-hint" data-say="${esc(h.replace(/\s*\/\s*/g, " "))}" title="${de ? "Grundform anhören" : "Hear the base form"}"><span aria-hidden="true">🔊</span> ${esc(h)}</button>`;
-        box.innerHTML = lesson.practice.map((p, i) => `<li class="gr-item" data-i="${i}">${p.task ? `<p class="gr-task">${esc(L(p.task))}</p>` : ""}<p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>').replace(/\(([^)]+)\)/, (m, h) => hintBtn(h))}</p>
+        box.innerHTML = round.map((i) => [lesson.practice[i], i]).map(([p, i]) => `<li class="gr-item" data-i="${i}">${p.task ? `<p class="gr-task">${esc(L(p.task))}</p>` : ""}<p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>').replace(/\(([^)]+)\)/, (m, h) => hintBtn(h))}</p>
             ${p.type === "gap" ? `<div class="gr-gap"><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}" aria-label="${T.typeHere}"><button type="button" class="button secondary" data-check>${T.check}</button></div>`
                 : `<div class="gr-options">${p.options.map((o, k) => `<button type="button" class="gr-opt" data-k="${k}">${esc(o)}</button>`).join("")}</div>`}
             <p class="gr-fb" hidden></p></li>`).join("");

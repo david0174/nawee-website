@@ -72,3 +72,4 @@ body { background: var(--dm-bg); color: var(--ink); }
 .gr-pair b { color: #f5c542; }
 .gr-ex mark { background: #f5c542; color: #0d1b3a; } .gr-beta { background: #f5c542; color: #0d1b3a; }
 .gr-task { color: #f5c542; }
+.lv-beta { color: #f5c542; }

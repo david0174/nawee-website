@@ -4,6 +4,7 @@
 // Text fields are { de, en } – the German page explains in German, the English page in simple English.
 // Practice items: type "gap" (type the answer; `answer` = list of accepted answers) or "choice" (`options`, `answer` = index);
 // optional `task` = a short instruction shown before the sentence (e.g. "Make it negative:").
+// `practice` is a pool: each round draws `perRound` items (default 10) at random, so repeating a lesson brings new sentences.
 
 const GRAMMAR = [
     {
@@ -44,6 +45,21 @@ const GRAMMAR = [
             { type: "choice", q: "Which sentence is correct?", options: ["I saw him yesterday.", "I have seen him yesterday."], answer: 0, why: { de: "Mit „yesterday“ (fester Zeitpunkt) immer past simple – nicht wie im Deutschen das Perfekt.", en: "With “yesterday” (a specific time), always use the past simple." } },
             { type: "choice", q: "Which question is correct?", options: ["Did you go to the party?", "Did you went to the party?"], answer: 0, why: { de: "Nach did kommt die Grundform: did … go.", en: "After did, use the base form: did … go." } },
             { type: "gap", task: { de: "Verneine den Satz:", en: "Make it negative:" }, q: "She ___ (come) to work on Monday.", answer: ["didn't come", "didn’t come", "did not come"], why: { de: "Verneinung: didn’t + Grundform – didn’t come.", en: "Negative: didn’t + base form – didn’t come." } },
+            { type: "gap", q: "I ___ (try) sushi for the first time last year.", answer: ["tried"], why: { de: "Konsonant + y wird ie: try → tried.", en: "Consonant + y becomes ie: try → tried." } },
+            { type: "gap", q: "We ___ (plan) our trip in January.", answer: ["planned"], why: { de: "Kurzer Vokal + Konsonant: verdoppeln – plan → planned.", en: "Short vowel + consonant: double it – plan → planned." } },
+            { type: "gap", q: "My parents ___ (live) in Hamburg ten years ago.", answer: ["lived"], why: { de: "Endet auf -e: nur -d anhängen – live → lived.", en: "Ends in -e: just add -d – live → lived." } },
+            { type: "gap", q: "Yesterday I ___ (buy) a new phone.", answer: ["bought"], why: { de: "Unregelmäßig: buy → bought.", en: "Irregular: buy → bought." } },
+            { type: "gap", q: "We ___ (eat) pizza on Friday evening.", answer: ["ate"], why: { de: "Unregelmäßig: eat → ate.", en: "Irregular: eat → ate." } },
+            { type: "gap", q: "He ___ (take) the train to work this morning.", answer: ["took"], why: { de: "Unregelmäßig: take → took.", en: "Irregular: take → took." } },
+            { type: "gap", q: "My sister ___ (come) home late last night.", answer: ["came"], why: { de: "Unregelmäßig: come → came.", en: "Irregular: come → came." } },
+            { type: "choice", q: "She ___ “Thank you” and left.", options: ["said", "sayed", "says"], answer: 0, why: { de: "say → said (Aussprache: „sed“).", en: "say → said (pronounced “sed”)." } },
+            { type: "choice", q: "I ___ a cake for her birthday two days ago.", options: ["made", "maked", "make"], answer: 0, why: { de: "make → made; „ago“ zeigt die Vergangenheit.", en: "make → made; “ago” points to the past." } },
+            { type: "choice", q: "Which sentence is correct?", options: ["We met in 2019.", "We have met in 2019."], answer: 0, why: { de: "Bei einer Jahreszahl (in 2019) steht das past simple.", en: "With a year (in 2019), use the past simple." } },
+            { type: "choice", q: "Which question is correct?", options: ["What did you eat?", "What did you ate?", "What you ate?"], answer: 0, why: { de: "Fragewort + did + Subjekt + Grundform.", en: "Question word + did + subject + base form." } },
+            { type: "choice", q: "Which sentence is correct?", options: ["I didn’t see the email.", "I didn’t saw the email.", "I not saw the email."], answer: 0, why: { de: "didn’t + Grundform: didn’t see.", en: "didn’t + base form: didn’t see." } },
+            { type: "gap", task: { de: "Stell eine Frage:", en: "Ask a question:" }, q: "___ you call your mom yesterday?", answer: ["did"], why: { de: "Fragen im past simple beginnen mit Did.", en: "Past simple questions start with Did." } },
+            { type: "gap", task: { de: "Verneine den Satz:", en: "Make it negative:" }, q: "We ___ (go) out last weekend.", answer: ["didn't go", "didn’t go", "did not go"], why: { de: "didn’t + Grundform: didn’t go.", en: "didn’t + base form: didn’t go." } },
+            { type: "choice", q: "In October 2026, Perseverance ___ a record.", options: ["broke", "breaked", "breaks"], answer: 0, why: { de: "break → broke – wie im Lesetext über den Mars-Rover.", en: "break → broke – like in the reading text about the Mars rover." } },
         ],
         speak: {
             q: { de: "Was hast du letztes Wochenende gemacht? Sag drei Sätze auf Englisch – laut.", en: "What did you do last weekend? Say three sentences out loud." },

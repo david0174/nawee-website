@@ -72,6 +72,18 @@
         "nawee-course-v1": { 1: "🧠", 2: "❓", 3: "🔎", 4: "👂", 5: "✋", 6: "💪", 7: "🚀" },
         "nawee-communication-course-v1": { 1: "🎙️", 2: "🧱", 3: "👂", 4: "🤝", 5: "📅", 6: "📊", 7: "🌍" },
     };
+    // grammar lessons of this level (grammar-data.js, if loaded) – part of the learning path (David, 2026-11-04)
+    const grammarFor = (code) => {
+        if (typeof GRAMMAR === "undefined") return "";
+        const codes = code.split("–").length > 1 ? ["B2", "C1"] : [code];
+        const list = GRAMMAR.filter((g) => codes.includes(g.level));
+        if (!list.length) return "";
+        let done = {};
+        try { done = (JSON.parse(localStorage.getItem("nawee-grammar-v1")) || {}).done || {}; } catch { /* ignore */ }
+        const page = de ? "grammatik.html" : "grammar.html";
+        return `<div class="lv-grammar"><p class="lv-grammar-h">📐 ${de ? "Grammatik auf diesem Niveau" : "Grammar at this level"}</p><ul>${list.map((g) => `<li><a href="${page}?l=${g.id}">
+            <span class="lv-check${done[g.id] ? " is-done" : ""}">${done[g.id] ? "✓" : ""}</span>${esc(L(g.title))}${g.beta ? ` <em class="lv-beta">beta</em>` : ""}<span class="lv-go">${done[g.id] ? (de ? "Öffnen" : "Open") : (de ? "Starten" : "Start")} →</span></a></li>`).join("")}</ul></div>`;
+    };
     const T = de
         ? { soon: "Bald", lessons: (n) => `${n} Lektion${n === 1 ? "" : "en"}`, start: "Starten", open: "Öffnen", doneMark: "Geschafft", comingSoon: "bald verfügbar", allSoon: "Die Lektionen für dieses Niveau entstehen gerade – bald geht’s los.", course: "Kurs" }
         : { soon: "Soon", lessons: (n) => `${n} lesson${n === 1 ? "" : "s"}`, start: "Start", open: "Open", doneMark: "Done", comingSoon: "coming soon", allSoon: "The lessons for this level are being written – coming soon.", course: "Course" };
@@ -104,6 +116,7 @@
                             ? `<li><a href="${lv.href(l.id)}"><span class="lv-check${l.done ? " is-done" : ""}" aria-label="${l.done ? T.doneMark : ""}">${l.done ? "✓" : ""}</span>${esc(l.title)}<span class="lv-go">${l.done ? T.open : T.start} →</span></a></li>`
                             : `<li class="lv-later"><span class="lv-check"></span>${esc(l.title)} <em>${T.comingSoon}</em></li>`).join("")}</ol>` : ""}
                     </li>`).join("")}</ul>
+                    ${grammarFor(lv.code)}
                 </div></div>`;
         };
         box.addEventListener("click", (e) => {

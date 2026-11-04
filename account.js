@@ -30,6 +30,7 @@
     const PROFILE_KEY = "nawee-profile-v1"; // answers from the "get started" questions (start.html; synced inside `course.profile`)
     const VOCAB_KEY = "nawee-vocab-v1"; // picture cards (vocab.js; synced inside `course.vocab`)
     const READING_KEY = "nawee-reading-v1"; // reading texts (reading.js; synced inside `course.reading`)
+    const GRAMMAR_KEY = "nawee-grammar-v1"; // grammar lessons (grammar.js; synced inside `course.grammar`)
     const GAMES_KEY = "nawee-games-v1"; // typing games (games.js; synced inside `course.games`)
     const TIME_KEY = "nawee-time-v1"; // learning time (script.js; synced inside `course.time`)
     const WORK_KEY = "nawee-work-course-v1"; // "English from the start" lessons (speak-lesson.js; synced inside `course.work`)
@@ -198,7 +199,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), work: read(WORK_KEY), games: read(GAMES_KEY), time: read(TIME_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), grammar: read(GRAMMAR_KEY), work: read(WORK_KEY), games: read(GAMES_KEY), time: read(TIME_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -207,7 +208,7 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, work: rw = {}, games: rg = {}, time: rti = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, grammar: rgr = {}, work: rw = {}, games: rg = {}, time: rti = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
@@ -217,6 +218,8 @@
         write(VOCAB_KEY, mv);
         const lr = read(READING_KEY), mr = { done: { ...(rr.done || {}), ...(lr.done || {}) } };
         write(READING_KEY, mr);
+        const lgr = read(GRAMMAR_KEY), mgr = { done: { ...(rgr.done || {}), ...(lgr.done || {}) } };
+        write(GRAMMAR_KEY, mgr);
         const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed), dates: { ...(rw.dates || {}), ...(lw.dates || {}) } };
         write(WORK_KEY, mw);
         const lg = read(GAMES_KEY), best = { ...(rg.best || {}) };
@@ -230,7 +233,7 @@
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
         push();
-        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length || (lw.completed || []).length !== mw.completed.length; // true = progress from another device arrived
+        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length || Object.keys(lgr.done || {}).length !== Object.keys(mgr.done).length || (lw.completed || []).length !== mw.completed.length; // true = progress from another device arrived
     };
     window.addEventListener("nawee:progress", push);
 

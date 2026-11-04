@@ -628,6 +628,7 @@
     html:not([data-theme="light"]) .gr-item.is-right .gr-fb { color: #87e8b5; }
     html:not([data-theme="light"]) .gr-item.is-wrong .gr-fb { color: #e58a8a; }
     html:not([data-theme="light"]) .gr-task { color: #f1d07e; }
+    html:not([data-theme="light"]) .lv-beta { color: #f1d07e; }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -678,6 +679,7 @@
     html:not([data-theme="light"]) .gr-ex mark { background: #f5c542; color: #0d1b3a; }
     html:not([data-theme="light"]) .gr-beta { background: #f5c542; color: #0d1b3a; }
     html:not([data-theme="light"]) .gr-task { color: #f5c542; }
+    html:not([data-theme="light"]) .lv-beta { color: #f5c542; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1306,6 +1308,7 @@ html[data-theme="dark"] .gr-pair b { color: var(--dm-link); }
 html[data-theme="dark"] .gr-item.is-right .gr-fb { color: #87e8b5; }
 html[data-theme="dark"] .gr-item.is-wrong .gr-fb { color: #e58a8a; }
 html[data-theme="dark"] .gr-task { color: #f1d07e; }
+html[data-theme="dark"] .lv-beta { color: #f1d07e; }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }
@@ -1356,6 +1359,7 @@ html[data-theme="dark"] .gr-pair b { color: #f5c542; }
 html[data-theme="dark"] .gr-ex mark { background: #f5c542; color: #0d1b3a; }
 html[data-theme="dark"] .gr-beta { background: #f5c542; color: #0d1b3a; }
 html[data-theme="dark"] .gr-task { color: #f5c542; }
+html[data-theme="dark"] .lv-beta { color: #f5c542; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
