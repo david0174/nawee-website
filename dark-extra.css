@@ -64,3 +64,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .xm-tree { filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .45)); }
 /* About Nawee icons: brand gold in dark mode */
 .about-highlights svg { color: #f5c542; }
+/* section labels + small "→" links in gold – the light blue got missed too easily (David, 2026-11-05) */
+.eyebrow, p.eyebrow { color: #f5c542; }
+.learn-step-links a, a.text-link { color: #f5c542; font-weight: 700; }
+.learn-step-links a:hover, .learn-step-links a:focus-visible, a.text-link:hover { color: #ffd966; text-decoration: underline; text-underline-offset: 4px; }
