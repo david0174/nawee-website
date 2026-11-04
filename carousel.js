@@ -8,6 +8,27 @@
     const de = document.documentElement.lang === "de";
     const P = (dePage, enPage) => (de ? dePage : enPage);
 
+    // the learner's level (placement test → "get started" answers → level map choice) – set for logged-in learners
+    // and for guests who did the test; "" = unknown, then the carousel stays general
+    const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
+    const learnerLevel = (() => {
+        try {
+            const c = JSON.parse(localStorage.getItem("nawee-course-v1") || "{}");
+            if (c.level) return c.level === "below-A2" ? "A1" : LEVELS.includes(c.level) ? c.level : "";
+            const p = JSON.parse(localStorage.getItem("nawee-profile-v1") || "{}");
+            if (p.level !== undefined && p.level !== null) return ["A1", "A1", "A2", "B1", "C1"][p.level] || "";
+            const m = localStorage.getItem("nawee-level") || "";
+            return m.startsWith("B2") ? "B2" : LEVELS.includes(m) ? m : "";
+        } catch { return ""; }
+    })();
+    // this week's weekly read at the learner's level (reading-data.js is loaded before this script)
+    const myRead = (() => {
+        if (!learnerLevel || typeof READINGS === "undefined") return null;
+        const today = new Date().toISOString().slice(0, 10);
+        const week = READINGS.filter((r) => r.kind === "weekly" && r.week <= today).map((r) => r.week).sort().pop();
+        return READINGS.find((r) => r.kind === "weekly" && r.week === week && r.level === learnerLevel) || null;
+    })();
+
     const slides = [
         {
             until: "2026-11-23T19:30:00+01:00",
@@ -18,11 +39,14 @@
             visual: `<div class="cs-date"><span>${de ? "NOV" : "NOV"}</span><strong>23</strong><em>19:00</em></div><div class="cs-seats">🎙️<small>${de ? "Live & kostenlos" : "Live & free"}</small></div>`,
         },
         {
-            tag: de ? "📅 LESETEXT DER WOCHE · JEDEN MONTAG NEU" : "📅 WEEKLY READ · NEW EVERY MONDAY",
-            title: de ? "Fünf neue Texte – von A1 bis C1" : "Five new texts – from A1 to C1",
-            text: de ? "Jede Woche ein Text für jedes Niveau: zum Lesen und Anhören, mit Übersetzung per Tipp, Fragen und einer Sprechaufgabe. Such dir dein Niveau aus – oder probier eins höher." : "Every week one text for every level: read and listen, with translations on tap, questions and a speaking task. Pick your level – or try one higher.",
-            cta: de ? "Zum Lesetext der Woche" : "Read this week’s texts", href: P("lesen.html#weekly", "reading.html#weekly"),
-            visual: `<div class="cs-levels"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span></div>`,
+            weekly: true,
+            tag: myRead ? (de ? `📅 DEIN LESETEXT DER WOCHE · ${myRead.level}` : `📅 YOUR WEEKLY READ · ${myRead.level}`) : de ? "📅 LESETEXT DER WOCHE · JEDEN MONTAG NEU" : "📅 WEEKLY READ · NEW EVERY MONDAY",
+            title: myRead ? myRead.title : de ? "Fünf neue Texte – von A1 bis C1" : "Five new texts – from A1 to C1",
+            text: myRead ? (de ? "Neu diese Woche, passend zu deinem Niveau – zum Lesen und Anhören, mit Übersetzung per Tipp, Fragen und einer Sprechaufgabe." : "New this week at your level – read and listen, with translations on tap, questions and a speaking task.")
+                : de ? "Jede Woche ein Text für jedes Niveau: zum Lesen und Anhören, mit Übersetzung per Tipp, Fragen und einer Sprechaufgabe. Such dir dein Niveau aus – oder probier eins höher." : "Every week one text for every level: read and listen, with translations on tap, questions and a speaking task. Pick your level – or try one higher.",
+            cta: myRead ? (de ? "Jetzt lesen" : "Read it now") : de ? "Zum Lesetext der Woche" : "Read this week’s texts",
+            href: myRead ? P(`lesen.html?t=${myRead.id}`, `reading.html?t=${myRead.id}`) : P("lesen.html#weekly", "reading.html#weekly"),
+            visual: `<div class="cs-levels">${LEVELS.map((l) => `<span${l === learnerLevel ? ' class="is-mine"' : ""}>${l}</span>`).join("")}</div>`,
         },
         {
             desktopOnly: true, // on phones the app link sits in the burger menu instead
@@ -33,6 +57,7 @@
             visual: `<div class="cs-icons"><span>💻</span><span>📲</span><span>✈️</span><span>🎧</span><span>🖼️</span><span>🆓</span></div>`,
         },
         {
+            levels: ["B1", "B2", "C1"],
             tag: de ? "💼 BALD VERFÜGBAR" : "💼 COMING SOON",
             title: de ? "Business English für echte Situationen" : "Business English for real situations",
             text: de ? "Vorstellungsgespräch, Small Talk, Messen, Meetings und Präsentationen: Du übst die Momente, in denen es im Beruf zählt – mit Rollenspielen und Feedback zu deinem Fortschritt." : "Job interviews, small talk, trade fairs, meetings and presentations: practice the moments that matter at work – with role-plays and feedback on your progress.",
@@ -40,6 +65,7 @@
             visual: `<div class="cs-icons"><span>🤝</span><span>☕</span><span>🏛️</span><span>📋</span><span>🎤</span><span>⭐</span></div>`,
         },
         {
+            levels: ["A1", "A2"],
             tag: de ? "🎧 LEKTIONEN" : "🎧 LESSONS",
             title: de ? "Hören, nachsprechen, selbst sprechen" : "Listen, repeat, speak",
             text: de ? "Kurze Lektionen mit echten Gesprächen zwischen Tom und Ben – vom ersten Wort bis A2, mit Hintergrundgeräuschen wie im echten Leben." : "Short lessons with real conversations between Tom and Ben – from your first word to A2, with background sounds like in real life.",
@@ -54,6 +80,7 @@
             visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${de ? "Englischlehrer · Muttersprachler aus den USA" : "English teacher · native speaker from the US"}</small><span>${de ? "Erstgespräch kostenlos" : "Free intro call"}</span></div>`,
         },
         {
+            levels: ["A1", "A2"],
             tag: de ? "🖼️ BILDKARTEN" : "🖼️ PICTURE CARDS",
             title: de ? "100 Wörter mit Bild und Ton" : "100 words with pictures and sound",
             text: de ? "Bild ansehen, Wort laut sagen, anhören – mit Wiederholung im richtigen Abstand. Die Ampel zeigt dir, wie sicher du schon bist." : "Look at the picture, say the word, listen – with spaced repetition. The traffic light shows how well you know each word.",
@@ -83,6 +110,11 @@
         },
     ].filter((s) => (!s.until || new Date() < new Date(s.until))
         && (!s.desktopOnly || (window.matchMedia("(min-width: 1001px) and (hover: hover)").matches && !window.matchMedia("(display-mode: standalone)").matches)));
+    // known level: "your weekly read" first, then slides that fit the level, then the rest (nothing is hidden)
+    if (learnerLevel) {
+        const rank = (s) => (s.weekly && myRead ? 0 : s.until ? 1 : !s.levels || s.levels.includes(learnerLevel) ? 2 : 3);
+        slides.sort((a, b) => rank(a) - rank(b));
+    }
 
     root.innerHTML = `<div class="cs-viewport"><div class="cs-track" aria-live="off">${slides.map((s, i) => `
             <article class="cs-slide" role="group" aria-roledescription="${de ? "Folie" : "slide"}" aria-label="${i + 1} / ${slides.length}" ${i ? 'aria-hidden="true"' : ""}>
