@@ -362,7 +362,7 @@
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
         activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
         week: ["M", "T", "W", "T", "F", "S", "S"],
-        today: "Today", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
+        today: "Today", weekly: "Weekly read", weeklyAll: "New this week · A1–C1", weeklyDone: "Done this week:", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
         words: (n) => `${n} ${n === 1 ? "word" : "words"}`, texts: (n) => `${n} new ${n === 1 ? "text" : "texts"}`, min: (n) => `${n} min`, go: "Let’s go",
         cards: "Picture cards", allTopics: "All topics", practice: "Practice",
         status: { green: "mastered", yellow: "practiced", red: "wrong", grey: "new" },
@@ -373,7 +373,7 @@
         level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
         activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
         week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-        today: "Heute", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
+        today: "Heute", weekly: "Lesetext der Woche", weeklyAll: "Neu diese Woche · A1–C1", weeklyDone: "Diese Woche gelesen:", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
         words: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"}`, texts: (n) => `${n} neue ${n === 1 ? "Text" : "Texte"}`, min: (n) => `${n} Min.`, go: "Los geht’s",
         cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
         status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
@@ -453,6 +453,20 @@
         const doneTexts = read(READING_KEY).done || {};
         const unread = typeof READINGS === "undefined" ? [] : READINGS.filter((r) => !doneTexts[r.id]);
         const readToday = typeof READINGS === "undefined" ? null : READINGS.find((r) => doneTexts[r.id] && doneTexts[r.id].date === today);
+        // weekly read reminder (David, 2026-11-05): this week's text at the learner's level; ✓ once any text of this week is read
+        const weekSet = (() => {
+            if (typeof READINGS === "undefined") return [];
+            const wk = READINGS.filter((r) => r.kind === "weekly" && r.week <= today).map((r) => r.week).sort().pop();
+            return wk ? READINGS.filter((r) => r.kind === "weekly" && r.week === wk) : [];
+        })();
+        const myLevel = (() => {
+            const c = read(COURSE_KEY), p = read(PROFILE_KEY);
+            if (c.level) return c.level === "below-A2" ? "A1" : c.level;
+            if (p.level !== undefined && p.level !== null) return ["A1", "A1", "A2", "B1", "C1"][p.level];
+            try { return localStorage.getItem("nawee-reading-level") || ""; } catch { return ""; }
+        })();
+        const weeklyRead = weekSet.find((r) => doneTexts[r.id]);
+        const weeklyMine = weekSet.find((r) => r.level === myLevel);
         const work = read(WORK_KEY), lessonToday = workLessons().find((l) => (work.dates || {})[l.id] === today);
         const learnedToday = v.newDay === today ? v.newCount || 0 : 0;
         const next = nextWork();
@@ -463,6 +477,10 @@
                 : v.reviewDay === today ? { icon: "🔁", title: D.repeat, sub: D.reviewed, done: true, href: D.cardsPage } : null,
             learnedToday && (learnedToday >= 10 || !unseen) ? { icon: "💡", title: D.learnNew, sub: D.learned(learnedToday), done: true, href: D.cardsPage }
                 : fresh ? { icon: "💡", title: D.learnNew, sub: learnedToday ? `${learnedToday}/10 · ${D.words(fresh)}` : D.words(fresh), min: 5, href: D.cardsPage } : null,
+            !weekSet.length ? null
+                : weeklyRead ? { icon: "📅", title: D.weekly, sub: `${D.weeklyDone} ${esc(weeklyRead.title)}`, done: true, href: `${D.readPage}?t=${weeklyRead.id}` }
+                : weeklyMine ? { icon: "📅", title: D.weekly, sub: `${esc(weeklyMine.title)} · ${weeklyMine.level}`, min: 5, href: `${D.readPage}?t=${weeklyMine.id}` }
+                : { icon: "📅", title: D.weekly, sub: D.weeklyAll, min: 5, href: `${D.readPage}#weekly` },
             readToday ? { icon: "📰", title: D.read, sub: `${D.readDone} ${esc(readToday.title)}`, done: true, href: `${D.readPage}?t=${readToday.id}` }
                 : unread.length ? { icon: "📰", title: D.read, sub: D.texts(unread.length), min: 5, href: `${D.readPage}?t=${unread[0].id}` } : null,
             lessonToday ? { icon: "🎧", title: D.lesson, sub: `${D.lessonDone} ${title(lessonToday)}`, done: true, href: `${D.workPage}?l=${lessonToday.id}` }
