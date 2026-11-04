@@ -5,7 +5,7 @@
 
 const READINGS = [
     {
-        id: "mars-rover-record", grammar: ["past-simple"], kind: "news", level: "A2", date: "2026-10-21",
+        id: "mars-rover-record", grammar: ["past-simple", "comparatives"], kind: "news", level: "A2", date: "2026-10-21",
         title: "A Mars rover breaks a record",
         source: { name: "ScienceDaily / NASA", url: "https://www.sciencedaily.com/releases/2026/10/261020084818.htm" },
         image: "🚙",
@@ -58,7 +58,7 @@ const READINGS = [
         speak: { q: "What is your favorite color – and why?", model: "My favorite color is … because …" },
     },
     {
-        id: "fewer-gas-cars", kind: "news", level: "A2", date: "2026-10-05",
+        id: "fewer-gas-cars", grammar: ["comparatives"], kind: "news", level: "A2", date: "2026-10-05",
         title: "Fewer people buy gas-only cars",
         source: { name: "Electrek", url: "https://electrek.co/2026/10/05/gas-cars-fall-below-50-percent-global-new-car-sales/" },
         image: "🚗",
@@ -185,7 +185,7 @@ const READINGS = [
         speak: { q: "Do you like autumn? Say why or why not.", model: "Yes, I like autumn because the trees are beautiful. / No, I don’t like autumn because it is cold." },
     },
     {
-        id: "w2026-11-02-a2-leaves-color", kind: "weekly", week: "2026-11-02", level: "A2",
+        id: "w2026-11-02-a2-leaves-color", grammar: ["comparatives"], kind: "weekly", week: "2026-11-02", level: "A2",
         title: "Why do leaves change color?",
         source: { name: "NOAA SciJinks", url: "https://scijinks.gov/autumn-leaves/" },
         image: "🍁",
@@ -212,7 +212,7 @@ const READINGS = [
         speak: { q: "What is your favorite season? Describe it in two or three sentences.", model: "My favorite season is … because … In … I like to …" },
     },
     {
-        id: "w2026-11-02-b1-thanksgiving", grammar: ["past-simple"], kind: "weekly", week: "2026-11-02", level: "B1",
+        id: "w2026-11-02-b1-thanksgiving", grammar: ["past-simple", "comparatives"], kind: "weekly", week: "2026-11-02", level: "B1",
         title: "Thanksgiving: more than a big dinner",
         source: { name: "Britannica – Thanksgiving Day", url: "https://www.britannica.com/topic/Thanksgiving-Day" },
         image: "🦃",
@@ -268,7 +268,7 @@ const READINGS = [
         speak: { q: "Imagine you were in Berlin on November 9, 1989. Describe what you see, hear and feel.", model: "I’m standing at the checkpoint. Everyone is shouting … I feel … because …" },
     },
     {
-        id: "w2026-11-02-c1-habits", kind: "weekly", week: "2026-11-02", level: "C1",
+        id: "w2026-11-02-c1-habits", grammar: ["future"], kind: "weekly", week: "2026-11-02", level: "C1",
         title: "How long does it really take to build a habit?",
         source: { name: "Lally et al., European Journal of Social Psychology (2010)", url: "https://onlinelibrary.wiley.com/doi/10.1002/ejsp.674" },
         image: "🧠",

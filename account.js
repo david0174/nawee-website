@@ -365,22 +365,22 @@
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
         activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
         week: ["M", "T", "W", "T", "F", "S", "S"],
-        today: "Today", weekly: "Weekly read", weeklyAll: "New this week · A1–C1", weeklyDone: "Done this week:", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
+        today: "Today", gReview: "Grammar review", gDone: "Grammar practiced:", gWeak: (t, sc, of) => `${t} · last time ${sc}/${of}`, gStale: (t) => `${t} · a week ago – keep it fresh`, weekly: "Weekly read", weeklyAll: "New this week · A1–C1", weeklyDone: "Done this week:", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
         words: (n) => `${n} ${n === 1 ? "word" : "words"}`, texts: (n) => `${n} new ${n === 1 ? "text" : "texts"}`, min: (n) => `${n} min`, go: "Let’s go",
         cards: "Picture cards", allTopics: "All topics", practice: "Practice",
         status: { green: "mastered", yellow: "practiced", red: "wrong", grey: "new" },
-        workPage: "work-lesson.html", ccPage: "communication-course.html", cardsPage: "vocabulary.html", readPage: "reading.html", startPage: "get-started.html",
+        workPage: "work-lesson.html", ccPage: "communication-course.html", cardsPage: "vocabulary.html", readPage: "reading.html", grammarPage: "grammar.html", startPage: "get-started.html",
     } : {
         welcome: "Willkommen zurück,", courses: "Deine Kurse", continue: "Weiter", start: "Starten", lessons: (d, t) => `${d}/${t} Lektionen`,
         fromStart: "Englisch von Anfang an", safeSpeaking: "Sicher sprechen", cc: "Communication Course",
         level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
         activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
         week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-        today: "Heute", weekly: "Lesetext der Woche", weeklyAll: "Neu diese Woche · A1–C1", weeklyDone: "Diese Woche gelesen:", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
+        today: "Heute", gReview: "Grammatik wiederholen", gDone: "Grammatik geübt:", gWeak: (t, sc, of) => `${t} · zuletzt ${sc}/${of}`, gStale: (t) => `${t} · vor einer Woche – frisch halten`, weekly: "Lesetext der Woche", weeklyAll: "Neu diese Woche · A1–C1", weeklyDone: "Diese Woche gelesen:", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
         words: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"}`, texts: (n) => `${n} neue ${n === 1 ? "Text" : "Texte"}`, min: (n) => `${n} Min.`, go: "Los geht’s",
         cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
         status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
-        workPage: "beruf-lektion.html", ccPage: "communication-course.html", cardsPage: "vokabeln.html", readPage: "lesen.html", startPage: "start.html",
+        workPage: "beruf-lektion.html", ccPage: "communication-course.html", cardsPage: "vokabeln.html", readPage: "lesen.html", grammarPage: "grammatik.html", startPage: "start.html",
     };
     const iso = (d) => d.toISOString().slice(0, 10);
     const bar = (part, whole) => `<span class="dash-bar"><span style="width:${whole ? Math.round((part / whole) * 100) : 0}%"></span></span>`;
@@ -470,6 +470,14 @@
         })();
         const weeklyRead = weekSet.find((r) => doneTexts[r.id]);
         const weeklyMine = weekSet.find((r) => r.level === myLevel);
+        // grammar review (David, 2026-11-04): a lesson comes back when the score was under 80 % or it was done 7+ days ago
+        const gDone = read(GRAMMAR_KEY).done || {};
+        const gTitle = (g) => esc(isEnglish ? g.title.en : g.title.de);
+        const weekAgo = iso(new Date(Date.now() - 7 * 864e5));
+        const gLessons = typeof GRAMMAR === "undefined" ? [] : GRAMMAR.filter((g) => gDone[g.id]);
+        const gToday = gLessons.find((g) => gDone[g.id].date === today);
+        const gWeak = gLessons.find((g) => gDone[g.id].of && gDone[g.id].score / gDone[g.id].of < 0.8);
+        const gStale = gLessons.filter((g) => gDone[g.id].date <= weekAgo).sort((a, b) => gDone[a.id].date.localeCompare(gDone[b.id].date))[0];
         const work = read(WORK_KEY), lessonToday = workLessons().find((l) => (work.dates || {})[l.id] === today);
         const learnedToday = v.newDay === today ? v.newCount || 0 : 0;
         const next = nextWork();
@@ -486,6 +494,9 @@
                 : { icon: "📅", title: D.weekly, sub: D.weeklyAll, min: 5, href: `${D.readPage}#weekly` },
             readToday ? { icon: "📰", title: D.read, sub: `${D.readDone} ${esc(readToday.title)}`, done: true, href: `${D.readPage}?t=${readToday.id}` }
                 : unread.length ? { icon: "📰", title: D.read, sub: D.texts(unread.length), min: 5, href: `${D.readPage}?t=${unread[0].id}` } : null,
+            gToday ? { icon: "📐", title: D.gReview, sub: `${D.gDone} ${gTitle(gToday)}`, done: true, href: `${D.grammarPage}?l=${gToday.id}` }
+                : gWeak ? { icon: "📐", title: D.gReview, sub: D.gWeak(gTitle(gWeak), gDone[gWeak.id].score, gDone[gWeak.id].of), min: 5, href: `${D.grammarPage}?l=${gWeak.id}` }
+                : gStale ? { icon: "📐", title: D.gReview, sub: D.gStale(gTitle(gStale)), min: 5, href: `${D.grammarPage}?l=${gStale.id}` } : null,
             lessonToday ? { icon: "🎧", title: D.lesson, sub: `${D.lessonDone} ${title(lessonToday)}`, done: true, href: `${D.workPage}?l=${lessonToday.id}` }
                 : next ? { icon: "🎧", title: D.lesson, sub: title(next), min: 10, href: `${D.workPage}?l=${next.id}` } : null,
         ].filter(Boolean);

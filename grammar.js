@@ -21,7 +21,7 @@
     const T = de ? {
         eyebrow: "GRAMMATIK", title: "Grammatik", beta: "BETA",
         lead: "Für alle, die die Regeln hinter dem Englischen verstehen wollen: kurze Lektionen mit Beispielen aus unseren Lesetexten, einem Vergleich mit dem Deutschen und Übungen mit sofortigem Feedback.",
-        soon: "Bald dabei: present continuous, Steigerung (comparatives), going to / will, some & any …", start: "Lektion starten →", done: (s, n) => `✓ Abgeschlossen · ${s}/${n} richtig`, completedOnly: "✓ Abgeschlossen",
+        soon: "Bald dabei: some & any, much & many, Objektpronomen, Häufigkeitsadverbien – und danach B1: present perfect …", start: "Lektion starten →", done: (s, n) => `✓ Abgeschlossen · ${s}/${n} richtig`, completedOnly: "✓ Abgeschlossen",
         back: "← Alle Grammatik-Lektionen", rule: "Die Regel", build: "So bildest du es", german: "Anders als im Deutschen", examples: "In unseren Texten",
         examplesHint: "Tippe auf einen Satz, um ihn zu hören.", from: "aus", practice: "Üben", check: "Prüfen", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", typeHere: "Antwort eintippen",
         score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
@@ -29,7 +29,7 @@
     } : {
         eyebrow: "GRAMMAR", title: "Grammar", beta: "BETA",
         lead: "For everyone who wants to understand the rules behind English: short lessons with examples from our reading texts and practice with instant feedback.",
-        soon: "Coming soon: present continuous, comparatives, going to / will, some & any …", start: "Start the lesson →", done: (s, n) => `✓ Completed · ${s}/${n} correct`, completedOnly: "✓ Completed",
+        soon: "Coming soon: some & any, much & many, object pronouns, adverbs of frequency – then B1: present perfect …", start: "Start the lesson →", done: (s, n) => `✓ Completed · ${s}/${n} correct`, completedOnly: "✓ Completed",
         back: "← All grammar lessons", rule: "The rule", build: "How to build it", german: "", examples: "In our texts",
         examplesHint: "Tap a sentence to hear it.", from: "from", practice: "Practice", check: "Check", right: "Correct!", wrong: "Not quite – the answer is:", typeHere: "Type your answer",
         score: (s, n) => `${s} of ${n} correct`, again: "Practice again", speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
