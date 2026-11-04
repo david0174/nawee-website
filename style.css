@@ -12861,3 +12861,8 @@ footer .footer-links {
 /* menu got one more item (Grammar, 2026-11-04): a bit less space between items on medium screens */
 @media (min-width: 1001px) and (max-width: 1180px) { .site-header nav { gap: 16px; } .site-header .logo { max-width: 120px; } }
 @media (min-width: 1001px) and (max-width: 1180px) { .site-header { gap: 14px; } .site-header nav > a:not(.nav-cta) { letter-spacing: .04em; font-size: .78rem; } .site-header nav { gap: 12px; } }
+
+/* grammar practice: the base form in brackets as a small listen button (2026-11-04) */
+.gr-hint { display: inline-flex; align-items: center; gap: 4px; margin: 0 2px; padding: 1px 9px; border: 1.5px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: inherit; font-size: .9rem; font-style: italic; cursor: pointer; vertical-align: baseline; transition: border-color .15s, color .15s; }
+.gr-hint span { font-style: normal; font-size: .8rem; }
+.gr-hint:hover, .gr-hint:focus-visible { border-color: #f5c542; color: inherit; }

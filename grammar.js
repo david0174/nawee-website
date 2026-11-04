@@ -114,10 +114,13 @@
     };
     function build() {
         answered = 0; right = 0; scoreEl.hidden = true;
-        box.innerHTML = lesson.practice.map((p, i) => `<li class="gr-item" data-i="${i}"><p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>')}</p>
+        // the base form in brackets – "(work)" – becomes a small 🔊 button; it is never read as part of the sentence
+        const hintBtn = (h) => `<button type="button" class="gr-hint" data-say="${esc(h.replace(/\s*\/\s*/g, " "))}" title="${de ? "Grundform anhören" : "Hear the base form"}"><span aria-hidden="true">🔊</span> ${esc(h)}</button>`;
+        box.innerHTML = lesson.practice.map((p, i) => `<li class="gr-item" data-i="${i}"><p class="gr-q">${esc(p.q).replace("___", '<span class="gr-blank">___</span>').replace(/\(([^)]+)\)/, (m, h) => hintBtn(h))}</p>
             ${p.type === "gap" ? `<div class="gr-gap"><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}" aria-label="${T.typeHere}"><button type="button" class="button secondary" data-check>${T.check}</button></div>`
                 : `<div class="gr-options">${p.options.map((o, k) => `<button type="button" class="gr-opt" data-k="${k}">${esc(o)}</button>`).join("")}</div>`}
             <p class="gr-fb" hidden></p></li>`).join("");
+        box.querySelectorAll(".gr-hint").forEach((b) => b.addEventListener("click", () => say(b.dataset.say)));
         box.querySelectorAll(".gr-item").forEach((li) => {
             const p = lesson.practice[Number(li.dataset.i)], fb = li.querySelector(".gr-fb");
             const result = (ok, shown) => {
@@ -126,7 +129,7 @@
                 fb.innerHTML = ok ? `✓ ${T.right} <span>${L(p.why)}</span>` : `✗ ${T.wrong} <strong>${esc(shown)}</strong> <span>${L(p.why)}</span>`;
                 const filled = p.type === "gap" ? p.answer[0] : p.options[p.answer];
                 const blank = li.querySelector(".gr-blank"); if (blank) blank.textContent = filled;
-                if (blank) say(li.querySelector(".gr-q").textContent);
+                if (blank) say(p.q.replace("___", filled).replace(/\s*\([^)]*\)/, ""));  // the sentence without the hint in brackets
                 finishOne(ok);
             };
             if (p.type === "gap") {
