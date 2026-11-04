@@ -12849,3 +12849,12 @@ footer .footer-links {
 .pc-tip { margin: 14px 0 0; }
 .pc-say { margin-right: 6px; border: 0; background: none; cursor: pointer; font-size: 1rem; }
 .phrase-card .lesson-phrases { text-align: left; margin-bottom: 12px; }
+
+/* level map: emojis for levels and themes (2026-11-04) */
+.lv-emoji { font-size: 1.35rem; line-height: 1; margin-right: 2px; }
+.lv-micon { display: inline-block; width: 1.7em; font-size: 1.1rem; }
+.learn-card-emoji { display: block; font-size: 2.2rem; line-height: 1; margin: 0 0 10px; }
+/* level buttons now have 4 parts: emoji · code · name · badge */
+.lv-levels button { grid-template-columns: 1.6em auto minmax(0, 1fr) auto; gap: 4px 10px; }
+.lv-code { white-space: nowrap; }
+@media (max-width: 760px) { .lv-levels button { grid-template-columns: 1.6em auto; } }

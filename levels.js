@@ -65,6 +65,13 @@
         });
     };
 
+    // emojis for the levels and their themes (David, 2026-11-04: make the learning path more visual)
+    const LEVEL_ICON = { A1: "🌱", A2: "🧳", B1: "💬", "B2–C1": "🎯" };
+    const MODULE_ICON = {
+        "nawee-work-course-v1": { 1: "👋", 2: "☕", 3: "🎨", 4: "🚆", 5: "📞", 6: "🗨️" },
+        "nawee-course-v1": { 1: "🧠", 2: "❓", 3: "🔎", 4: "👂", 5: "✋", 6: "💪", 7: "🚀" },
+        "nawee-communication-course-v1": { 1: "🎙️", 2: "🧱", 3: "👂", 4: "🤝", 5: "📅", 6: "📊", 7: "🌍" },
+    };
     const T = de
         ? { soon: "Bald", lessons: (n) => `${n} Lektion${n === 1 ? "" : "en"}`, start: "Starten", open: "Öffnen", doneMark: "Geschafft", comingSoon: "bald verfügbar", allSoon: "Die Lektionen für dieses Niveau entstehen gerade – bald geht’s los.", course: "Kurs" }
         : { soon: "Soon", lessons: (n) => `${n} lesson${n === 1 ? "" : "s"}`, start: "Start", open: "Open", doneMark: "Done", comingSoon: "coming soon", allSoon: "The lessons for this level are being written – coming soon.", course: "Course" };
@@ -85,13 +92,13 @@
             const lv = data.find((l) => l.code === cur);
             box.innerHTML = `<div class="lv-map">
                 <ul class="lv-levels" role="tablist">${data.map((l) => `<li><button type="button" role="tab" aria-selected="${l.code === cur}" class="${l.code === cur ? "on" : ""}" data-level="${esc(l.code)}">
-                    <span class="lv-code">${esc(l.code)}</span><span class="lv-name">${esc(L(l.name))}</span>${badge(l.pct, l.ready)}</button></li>`).join("")}</ul>
+                    <span class="lv-emoji" aria-hidden="true">${LEVEL_ICON[l.code] || ""}</span><span class="lv-code">${esc(l.code)}</span><span class="lv-name">${esc(L(l.name))}</span>${badge(l.pct, l.ready)}</button></li>`).join("")}</ul>
                 <div class="lv-themes" role="tabpanel">
-                    <p class="lv-head"><strong>${esc(lv.code)} · ${esc(L(lv.name))}</strong><span>${T.course}: ${esc(L(lv.course))}</span></p>
+                    <p class="lv-head"><strong>${LEVEL_ICON[lv.code] || ""} ${esc(lv.code)} · ${esc(L(lv.name))}</strong><span>${T.course}: ${esc(L(lv.course))}</span></p>
                     ${lv.ready ? "" : `<p class="lv-note">${T.allSoon}</p>`}
                     <ul class="lv-modules">${lv.modules.map((m) => `<li class="${open.has(m.id) ? "is-open" : ""}">
                         <button type="button" class="lv-module" data-module="${m.id}" aria-expanded="${open.has(m.id)}">
-                            <span class="lv-mtitle">${esc(m.title)}</span><span class="lv-mmeta">${T.lessons(m.lessons.length)}</span>${badge(m.pct, m.ready)}
+                            <span class="lv-mtitle"><span class="lv-micon" aria-hidden="true">${(MODULE_ICON[lv.key] || {})[m.id] || "📘"}</span>${esc(m.title)}</span><span class="lv-mmeta">${T.lessons(m.lessons.length)}</span>${badge(m.pct, m.ready)}
                             <span class="lv-bar" aria-hidden="true"><i style="width:${m.pct}%"></i></span></button>
                         ${open.has(m.id) ? `<ol class="lv-lessons">${m.lessons.map((l) => l.ready
                             ? `<li><a href="${lv.href(l.id)}"><span class="lv-check${l.done ? " is-done" : ""}" aria-label="${l.done ? T.doneMark : ""}">${l.done ? "✓" : ""}</span>${esc(l.title)}<span class="lv-go">${l.done ? T.open : T.start} →</span></a></li>`
