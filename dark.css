@@ -619,6 +619,7 @@
     html:not([data-theme="light"]) .gm-bowl { border: 2px solid rgba(20, 24, 31, .85); background: radial-gradient(circle at 35% 30%, rgba(20, 24, 31, .55) 0 12%, rgba(18, 49, 62, .22) 13% 60%, rgba(25, 62, 87, .32) 100%); }
     html:not([data-theme="light"]) .gm-bowl::after { background: rgba(20, 24, 31, .85); }
     html:not([data-theme="light"]) .cs-levels span { background: #14181f; color: #d5dae4; }
+    html:not([data-theme="light"]) .rd-marked { color: #8ce3b4; }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -1279,6 +1280,7 @@ html[data-theme="dark"] .rd-sound { background: var(--card, #14181f); }
 html[data-theme="dark"] .gm-bowl { border: 2px solid rgba(20, 24, 31, .85); background: radial-gradient(circle at 35% 30%, rgba(20, 24, 31, .55) 0 12%, rgba(18, 49, 62, .22) 13% 60%, rgba(25, 62, 87, .32) 100%); }
 html[data-theme="dark"] .gm-bowl::after { background: rgba(20, 24, 31, .85); }
 html[data-theme="dark"] .cs-levels span { background: #14181f; color: #d5dae4; }
+html[data-theme="dark"] .rd-marked { color: #8ce3b4; }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }

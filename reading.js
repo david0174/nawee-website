@@ -11,7 +11,7 @@
     const page = de ? "lesen.html" : "reading.html";
     const T = de ? {
         eyebrow: "LESEN", title: "Lesetexte", lead: "Kurze englische Texte zum Lesen und Hören: einfache Nachrichten über echte Ereignisse und Geschichten mit Tom und Ben. Tipp: Erst lesen, dann anhören – und am Ende laut antworten.",
-        news: "Nachrichten", stories: "Geschichten", weekly: "Lesetext der Woche", weeklyLead: "Jeden Montag neu – ein Text für jedes Niveau von A1 bis C1. Such dir dein Niveau aus (oder probier eins höher).", weeklyOld: "Frühere Wochentexte", weekOf: (d) => "Woche vom " + new Date(d + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "long" }), done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
+        news: "Nachrichten", stories: "Geschichten", weekly: "Lesetext der Woche", weeklyLead: "Jeden Montag neu – ein Text für jedes Niveau von A1 bis C1. Such dir dein Niveau aus (oder probier eins höher).", weeklyOld: "Frühere Wochentexte", newReads: "Neue Lesetexte", newStories: "Neue Geschichten", doneReads: "Gelesene Texte", doneStories: "Gelesene Geschichten", allDone: "Alles gelesen 🎉 – bald kommt Neues.", completed: "✓ Gelesen", markDone: "✓ Als gelesen markieren", markUndo: "↩ Doch nicht gelesen", markedNote: "Als gelesen markiert – du findest den Text jetzt unter „Gelesen“.", weekOf: (d) => "Woche vom " + new Date(d + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "long" }), done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
         back: "← Alle Texte", listen: "▶ Vorlesen", stop: "■ Stopp", slow: "Langsamer", tapHint: "Tipp: Tippe auf ein unterstrichenes Wort – du hörst es und siehst die Übersetzung.", soundOn: "Aussprache der Wörter ausschalten", soundOff: "Aussprache der Wörter einschalten",
         questions: "Hast du es verstanden?", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", speakTitle: "Sprich darüber", speakHint: "Antworte laut auf Englisch. Dann vergleich mit dem Beispiel.",
         showModel: "Beispiel zeigen", source: "Quelle", ownWords: "in unseren eigenen, einfachen Worten", result: (s, n) => `${s} von ${n} richtig – gut gemacht!`, next: "Nächster Text →",
@@ -19,7 +19,7 @@
         privacy: "Dein Lesestand wird in diesem Browser gespeichert – mit einem <a href=\"konto.html\">kostenlosen Konto</a> auch in deinem Konto.",
     } : {
         eyebrow: "READING", title: "Reading practice", lead: "Short English texts to read and listen to: simple news about real events and stories with Tom and Ben. Tip: read first, then listen – and answer out loud at the end.",
-        news: "News", stories: "Stories", weekly: "Weekly read", weeklyLead: "New every Monday – one text for every level from A1 to C1. Pick your level (or try one higher).", weeklyOld: "Earlier weekly reads", weekOf: (d) => "Week of " + new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" }), done: (s, n) => `✓ Read · ${s}/${n} correct`, start: "Read →",
+        news: "News", stories: "Stories", weekly: "Weekly read", weeklyLead: "New every Monday – one text for every level from A1 to C1. Pick your level (or try one higher).", weeklyOld: "Earlier weekly reads", newReads: "New reads", newStories: "New stories", doneReads: "Completed reads", doneStories: "Completed stories", allDone: "All read 🎉 – new texts are on the way.", completed: "✓ Completed", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed", markedNote: "Marked as completed – you’ll find this text under “Completed” now.", weekOf: (d) => "Week of " + new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" }), done: (s, n) => `✓ Read · ${s}/${n} correct`, start: "Read →",
         back: "← All texts", listen: "▶ Read aloud", stop: "■ Stop", slow: "Slower", tapHint: "Tip: tap an underlined word to hear it and see what it means.", soundOn: "Turn word pronunciation off", soundOff: "Turn word pronunciation on",
         questions: "Did you understand?", right: "Correct!", wrong: "Not quite – the answer is:", speakTitle: "Talk about it", speakHint: "Answer out loud in English. Then compare with the example.",
         showModel: "Show example", source: "Source", ownWords: "in our own simple words", result: (s, n) => `${s} of ${n} correct – well done!`, next: "Next text →",
@@ -46,7 +46,7 @@
             <span class="rd-card-body">
                 <span class="rd-card-meta">${r.level}${r.date ? ` · ${T.date(r.date)}` : ""}</span>
                 <strong>${esc(r.title)}</strong>
-                <span class="rd-card-status">${d ? T.done(d.score, d.of) : T.start}</span>
+                <span class="rd-card-status">${d ? (d.of ? T.done(d.score, d.of) : T.completed) : T.start}</span>
             </span>
         </a>`;
     };
@@ -60,12 +60,16 @@
         const byLevel = (a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level);
         const thisWeek = weeks[0] ? READINGS.filter((r) => r.kind === "weekly" && r.week === weeks[0]).sort(byLevel) : [];
         const older = READINGS.filter((r) => r.kind === "weekly" && weeks.slice(1).includes(r.week)).sort((a, b) => b.week.localeCompare(a.week) || byLevel(a, b));
+        // "reads" = news + earlier weekly texts (this week's set stays in its own block on top)
+        const reads = [...news, ...older];
+        const list = (items) => (items.length ? `<div class="rd-list">${items.map(card).join("")}</div>` : `<p class="rd-alldone">${T.allDone}</p>`);
         document.title = `${T.title} | Nawee`;
         root.innerHTML = `<p class="eyebrow">${T.eyebrow}</p><h1>${T.title}</h1><p class="as-lead">${T.lead}</p>
             ${thisWeek.length ? `<section class="rd-weekly" id="weekly"><h2 class="rd-group">📅 ${T.weekly} <span class="rd-week">${T.weekOf(weeks[0])}</span></h2><p class="rd-weekly-lead">${T.weeklyLead}</p><div class="rd-list">${thisWeek.map(card).join("")}</div></section>` : ""}
-            <h2 class="rd-group">📰 ${T.news}</h2><div class="rd-list">${news.map(card).join("")}</div>
-            <h2 class="rd-group">📖 ${T.stories}</h2><div class="rd-list">${stories.map(card).join("")}</div>
-            ${older.length ? `<h2 class="rd-group">🗂️ ${T.weeklyOld}</h2><div class="rd-list">${older.map(card).join("")}</div>` : ""}
+            <h2 class="rd-group">📰 ${T.newReads}</h2>${list(reads.filter((r) => !data.done[r.id]))}
+            <h2 class="rd-group">📖 ${T.newStories}</h2>${list(stories.filter((r) => !data.done[r.id]))}
+            ${reads.some((r) => data.done[r.id]) ? `<h2 class="rd-group rd-group--done">✓ ${T.doneReads}</h2><div class="rd-list rd-list--done">${reads.filter((r) => data.done[r.id]).map(card).join("")}</div>` : ""}
+            ${stories.some((r) => data.done[r.id]) ? `<h2 class="rd-group rd-group--done">✓ ${T.doneStories}</h2><div class="rd-list rd-list--done">${stories.filter((r) => data.done[r.id]).map(card).join("")}</div>` : ""}
             <a class="rd-card rd-special" href="${de ? "geschichte-englisch.html" : "history-of-english.html"}">
                 <span class="rd-card-icon" aria-hidden="true">📜</span>
                 <span class="rd-card-body"><span class="rd-card-meta">${de ? "SPEZIAL" : "SPECIAL"}</span><strong>${de ? "Die Geschichte des Englischen" : "The history of English"}</strong><span class="rd-card-status">${de ? "2000 Jahre in einem Zeitstrahl →" : "2,000 years on one timeline →"}</span></span>
@@ -107,8 +111,20 @@
         <section class="rd-section"><h2>${T.questions}</h2><div data-questions></div><p class="rd-result" data-result hidden></p></section>
         <section class="rd-section rd-speak"><h2>🗣️ ${T.speakTitle}</h2><p class="rd-speak-q">${esc(text.speak.q)}</p><p class="as-note">${T.speakHint}</p>
             <button type="button" class="link-button" data-model>${T.showModel}</button><p class="rd-model" data-model-text hidden>${esc(text.speak.model)}</p></section>
-        <p class="rd-next"><a class="button secondary" href="${page}?t=${nextText.id}">${T.next}</a></p>
+        <p class="rd-next"><button type="button" class="button primary" data-mark></button> <a class="button secondary" href="${page}?t=${nextText.id}">${T.next}</a></p>
+        <p class="rd-marked" data-marked hidden>${T.markedNote}</p>
         <p class="as-disclaimer">${T.privacy}</p>`;
+
+    // mark as completed (or undo) – also set automatically after answering all questions
+    const markBtn = root.querySelector("[data-mark]");
+    const paintMark = () => { markBtn.textContent = data.done[text.id] ? T.markUndo : T.markDone; markBtn.classList.toggle("primary", !data.done[text.id]); markBtn.classList.toggle("secondary", !!data.done[text.id]); };
+    markBtn.addEventListener("click", () => {
+        const was = !!data.done[text.id];
+        if (was) delete data.done[text.id]; else data.done[text.id] = { date: new Date().toISOString().slice(0, 10) };
+        save(); paintMark();
+        root.querySelector("[data-marked]").hidden = was;
+    });
+    paintMark();
 
     // glossary
     const gloss = root.querySelector("[data-gloss]");
@@ -199,8 +215,8 @@
                 res.textContent = T.result(score, text.questions.length);
                 res.hidden = false;
                 const prev = data.done[text.id];
-                if (!prev || score >= prev.score) data.done[text.id] = { score, of: text.questions.length, date: new Date().toISOString().slice(0, 10) };
-                save();
+                if (!prev || !prev.of || score >= prev.score) data.done[text.id] = { score, of: text.questions.length, date: new Date().toISOString().slice(0, 10) };
+                save(); paintMark();
             }
         }));
         qBox.append(wrap);
