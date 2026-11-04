@@ -268,7 +268,7 @@
         parts.push(`<h1>${esc(meta.title)}</h1>`);
         parts.push(`<p class="lesson-goal"><strong>Ziel:</strong> ${esc(lesson.goal)}</p>`);
         parts.push(`<h2 class="lesson-h">Kurz erklärt</h2>${lesson.explanation.map((p) => `<p>${p}</p>`).join("")}`);
-        parts.push(`<h2 class="lesson-h">Phrases</h2><ul class="lesson-phrases">${lesson.phrases.map((p) => `<li><span lang="en">${esc(p.en)}</span><small>${esc(p.de)}</small></li>`).join("")}</ul>`);
+        parts.push(`<h2 class="lesson-h">Phrases</h2><div class="phrase-card" data-phrases></div>`);
         parts.push(`<h2 class="lesson-h">Übungen</h2><div class="lesson-exercises" data-exercises></div>`);
         parts.push(`<div class="lesson-mistake"><p class="lesson-mistake-label">Typischer Fehler</p><p><s lang="en">${esc(lesson.mistake.wrong)}</s> → <strong lang="en">${esc(lesson.mistake.right)}</strong></p><p>${esc(lesson.mistake.explain)}</p></div>`);
         parts.push(`<div class="lesson-mission"><p class="lesson-mistake-label">Deine Mission</p><p>${esc(lesson.mission)}</p></div>`);
@@ -278,6 +278,45 @@
             const toggle = window.NaweeTrophies.soundToggle();
             toggle.classList.add("is-floating");
             document.body.append(toggle);
+        }
+
+        // ----- phrases: one at a time (David, 2026-11-04: eight at once was too many) -----
+        // big phrase + German meaning + 🔊 (browser voice), Back / Next, "Phrase 3 of 8"; after the last one all can be shown for review
+        {
+            const pbox = lessonRoot.querySelector("[data-phrases]"), list = lesson.phrases;
+            const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
+            const sayPhrase = (t) => {
+                if (!synth) return;
+                synth.cancel();
+                const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.9;
+                const v = synth.getVoices().find((x) => /en.US/i.test(x.lang) && /samantha|alex|google us english|aaron|allison|ava/i.test(x.name)) || synth.getVoices().find((x) => /^en/i.test(x.lang));
+                if (v) u.voice = v;
+                synth.speak(u);
+            };
+            let pi = 0;
+            const showAll = () => {
+                pbox.innerHTML = `<ul class="lesson-phrases">${list.map((p) => `<li><button type="button" class="pc-say" data-say="${esc(p.en)}" aria-label="Anhören">🔊</button><span lang="en">${esc(p.en)}</span><small>${esc(p.de)}</small></li>`).join("")}</ul>
+                    <button type="button" class="link-button" data-one>Wieder einzeln üben</button>`;
+                pbox.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => sayPhrase(b.dataset.say)));
+                pbox.querySelector("[data-one]").addEventListener("click", () => { pi = 0; draw(); });
+            };
+            const draw = () => {
+                const p = list[pi], last = pi === list.length - 1;
+                pbox.innerHTML = `<p class="pc-count">Phrase ${pi + 1} von ${list.length}</p>
+                    <div class="pc-dots" aria-hidden="true">${list.map((_, k) => `<i class="${k < pi ? "is-done" : k === pi ? "is-now" : ""}"></i>`).join("")}</div>
+                    <p class="pc-en" lang="en">${esc(p.en)}</p>
+                    <p class="pc-de">${esc(p.de)}</p>
+                    <div class="pc-actions">
+                        <button type="button" class="button secondary" data-prev ${pi === 0 ? "disabled" : ""}>← Zurück</button>
+                        <button type="button" class="button secondary pc-listen" data-listen>🔊 Anhören</button>
+                        <button type="button" class="button primary" data-next>${last ? "Alle Phrasen ansehen ✓" : "Nächste Phrase →"}</button>
+                    </div>
+                    <p class="as-note pc-tip">Tipp: Hör sie dir an und sag sie zweimal laut nach.</p>`;
+                pbox.querySelector("[data-listen]").addEventListener("click", () => sayPhrase(p.en));
+                pbox.querySelector("[data-prev]").addEventListener("click", () => { pi = Math.max(0, pi - 1); draw(); });
+                pbox.querySelector("[data-next]").addEventListener("click", () => { if (last) showAll(); else { pi += 1; draw(); sayPhrase(list[pi].en); } });
+            };
+            draw();
         }
 
         // ----- exercises -----
