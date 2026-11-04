@@ -12789,3 +12789,10 @@ footer .footer-links {
 .rd-chip { padding: 6px 14px; border: 1.5px solid var(--line); border-radius: 999px; background: transparent; color: inherit; font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; transition: border-color .15s, background .15s; }
 .rd-chip:hover, .rd-chip:focus-visible { border-color: #f5c542; }
 .rd-chip.is-on { background: #f5c542; border-color: #f5c542; color: #0d1b3a; }
+
+/* picture cards: optional word origin on the back of a card (2026-11-05) */
+.vc-origin { margin: 4px auto 12px; max-width: 460px; text-align: left; border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; }
+.vc-origin summary { cursor: pointer; font-weight: 700; font-size: .9rem; color: var(--blue); }
+.vc-origin p { margin: 8px 0 2px; font-size: .92rem; line-height: 1.5; color: var(--muted); }
+.vc-level { margin: 26px 0 10px; font-size: 1.05rem; letter-spacing: .12em; color: var(--muted); }
+.vc-level:first-of-type { margin-top: 8px; }

@@ -15,7 +15,7 @@
         back: "← Dein Lernweg", backHref: "fuer-mich.html", eyebrow: "BILDKARTEN", modes: ["Lernen", "Hören", "Alle Wörter"],
         due: (d, n) => `Heute: ${d} zum Wiederholen · ${n} neu`, learned: (a, b) => `${a} von ${b} Wörtern gelernt`,
         streak: (n) => `🔥 ${n} ${n === 1 ? "Tag" : "Tage"} in Folge`,
-        ask: "Wie heißt das auf Englisch? Sag es laut.", flip: "Umdrehen", play: "Anhören", example: "Beispiel",
+        ask: "Wie heißt das auf Englisch? Sag es laut.", flip: "Umdrehen", play: "Anhören", example: "Beispiel", originQ: "Woher kommt das Wort?",
         rate: ["Nochmal", "Schwer", "Gut", "Leicht"], days: (n) => (n === 0 ? "gleich" : n === 1 ? "1 Tag" : `${n} Tage`),
         doneTitle: "Für heute geschafft!", doneText: "Komm morgen wieder – dann sind die nächsten Karten dran.",
         listenAsk: "Hör zu: Welches Bild passt?", right: "Richtig!", wrong: "Nicht ganz.", nextQ: "Weiter",
@@ -29,7 +29,7 @@
         back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
         due: (d, n) => `Today: ${d} to review · ${n} new`, learned: (a, b) => `${a} of ${b} words learned`,
         streak: (n) => `🔥 ${n}-day streak`,
-        ask: "What is this in English? Say it out loud.", flip: "Flip", play: "Listen", example: "Example",
+        ask: "What is this in English? Say it out loud.", flip: "Flip", play: "Listen", example: "Example", originQ: "Where does the word come from?",
         rate: ["Again", "Hard", "Good", "Easy"], days: (n) => (n === 0 ? "soon" : n === 1 ? "1 day" : `${n} days`),
         doneTitle: "Done for today!", doneText: "Come back tomorrow – the next cards will be waiting.",
         listenAsk: "Listen: which picture fits?", right: "Correct!", wrong: "Not quite.", nextQ: "Next",
@@ -144,7 +144,7 @@
                     </div>
                 </a>` : "";
             })()}
-            <div class="vc-topics">${ids.map((d) => {
+            ${[...new Set(ids.map((d) => VOCAB_DECKS[d].level))].map((lv) => `<h2 class="vc-level">${lv}</h2><div class="vc-topics">${ids.filter((d) => VOCAB_DECKS[d].level === lv).map((d) => {
                 const k = VOCAB_DECKS[d];
                 const begun = k.words.some((w) => status(w, d) !== "grey");
                 return `<a class="vc-topic" href="${page}?deck=${d}">
@@ -156,7 +156,7 @@
                         <span class="vc-topic-go">${begun ? T.practice : T.start} →</span>
                     </div>
                 </a>`;
-            }).join("")}</div>
+            }).join("")}</div>`).join("")}
             <p class="as-disclaimer">${T.privacy}</p>`;
         return;
     }
@@ -207,6 +207,7 @@
                     ${lang === "de" ? `<p class="vc-de">${esc(w.de)}</p>` : ""}
                     <div class="sl-row vc-row" data-plays></div>
                     <p class="vc-example"><span>${T.example}:</span> “${esc(w.example)}”</p>
+                    ${w.origin ? `<details class="vc-origin"><summary>🌍 ${T.originQ}</summary><p>${esc(L(w.origin))}</p></details>` : ""}
                     <div class="vc-rate" data-rate></div>
                 </div>
             </div>`;

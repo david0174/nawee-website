@@ -68,3 +68,4 @@ body { background: var(--dm-bg); color: var(--ink); }
 .eyebrow, p.eyebrow { color: #f5c542; }
 .learn-step-links a, a.text-link { color: #f5c542; font-weight: 700; }
 .learn-step-links a:hover, .learn-step-links a:focus-visible, a.text-link:hover { color: #ffd966; text-decoration: underline; text-underline-offset: 4px; }
+.vc-origin summary { color: #f5c542; }
