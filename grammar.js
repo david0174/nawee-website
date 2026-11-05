@@ -1,7 +1,7 @@
 // Grammar track (grammatik.html / grammar.html): overview of the lessons, ?l=<id> opens one lesson.
 // A lesson: rule → how to build it → German comparison (German page) → examples from Nawee's texts (tap to hear,
 // link to the text) → practice with instant feedback → speaking task → mark as completed.
-// Progress in localStorage "nawee-grammar-v1" ({ done: { id: { score, of, date } } }). Content: grammar-data.js.
+// Progress in localStorage "nawee-grammar-v1" ({ done: { id: { score, of, date } }, weak: { id: { t, pairs: { "go|went": { miss, ok, last } } } }, weakDay }). Content: grammar-data.js.
 
 (() => {
     const root = document.querySelector("[data-grammar]");
@@ -24,7 +24,7 @@
         soon: "Bald dabei: some & any, much & many, Objektpronomen, Häufigkeitsadverbien – und danach B1: present perfect …", start: "Lektion starten →", done: (s, n) => `✓ Abgeschlossen · ${s}/${n} richtig`, completedOnly: "✓ Abgeschlossen",
         back: "← Alle Grammatik-Lektionen", rule: "Die Regel", build: "So bildest du es", german: "Anders als im Deutschen", examples: "In unseren Texten",
         examplesHint: "Tippe auf einen Satz, um ihn zu hören.", from: "aus", practice: "Üben", check: "Prüfen", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", typeHere: "Antwort eintippen",
-        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", puzzle: "Puzzle: Finde die Paare", puzzleHint: "Tippe ein Teil an, dann das passende Gegenstück. Tipp: Die Form der Kanten verrät, was zusammengehört.", puzzleNew: "Neues Puzzle", puzzleDone: (m) => `🎉 Alle Paare gefunden${m ? ` – mit ${m} Fehlversuch${m === 1 ? "" : "en"}` : " – ohne Fehler!"}`, speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
+        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", puzzle: "Puzzle: Finde die Paare", puzzleHint: "Tippe ein Teil an, dann das passende Gegenstück. Tipp: Die Form der Kanten verrät, was zusammengehört.", puzzleNew: "Neues Puzzle", trickyNow: "⚠️ Diesmal knifflig:", trickyOld: "🔁 Deine kniffligen Wörter:", trickyBtn: "Jetzt üben", trickyNote: "Sie verschwinden, sobald du sie zweimal richtig hast – auch in deinem Profil.", puzzleDone: (m) => `🎉 Alle Paare gefunden${m ? ` – mit ${m} Fehlversuch${m === 1 ? "" : "en"}` : " – ohne Fehler!"}`, speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
         betaNote: "Beta: Diese Lektion ist neu. Sag uns unten, was dir geholfen hat und was fehlt.", privacy: "Dein Fortschritt wird in diesem Browser gespeichert.",
     } : {
         eyebrow: "GRAMMAR", title: "Grammar", beta: "BETA",
@@ -32,7 +32,7 @@
         soon: "Coming soon: some & any, much & many, object pronouns, adverbs of frequency – then B1: present perfect …", start: "Start the lesson →", done: (s, n) => `✓ Completed · ${s}/${n} correct`, completedOnly: "✓ Completed",
         back: "← All grammar lessons", rule: "The rule", build: "How to build it", german: "", examples: "In our texts",
         examplesHint: "Tap a sentence to hear it.", from: "from", practice: "Practice", check: "Check", right: "Correct!", wrong: "Not quite – the answer is:", typeHere: "Type your answer",
-        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", puzzle: "Puzzle: match the pairs", puzzleHint: "Tap a piece, then its partner. Tip: the shape of the edges shows which pieces fit together.", puzzleNew: "New puzzle", puzzleDone: (m) => `🎉 All pairs matched${m ? ` – with ${m} wrong ${m === 1 ? "try" : "tries"}` : " – no mistakes!"}`, speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
+        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", puzzle: "Puzzle: match the pairs", puzzleHint: "Tap a piece, then its partner. Tip: the shape of the edges shows which pieces fit together.", puzzleNew: "New puzzle", trickyNow: "⚠️ Tricky this time:", trickyOld: "🔁 Your tricky words:", trickyBtn: "Practice them", trickyNote: "They disappear once you get them right twice – they’re also in your profile.", puzzleDone: (m) => `🎉 All pairs matched${m ? ` – with ${m} wrong ${m === 1 ? "try" : "tries"}` : " – no mistakes!"}`, speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
         betaNote: "Beta: this lesson is new. Tell us below what helped and what’s missing.", privacy: "Your progress is saved in this browser.",
     };
 
@@ -105,6 +105,7 @@
                 ${textTitle(e.from) ? `<a class="gr-from" href="${readPage}?t=${e.from}">${T.from}: ${esc(textTitle(e.from))} →</a>` : ""}</li>`).join("")}</ul></section>
         ${lesson.puzzle ? `<section class="gr-step gr-puzzle"><h2>🧩 ${T.puzzle}</h2><p class="as-note">${T.puzzleHint}</p>
             <div class="pz-done" data-pz-done></div><div class="pz-board${lesson.puzzle.wide ? " pz-wide" : ""}" data-pz-board></div>
+            <div class="pz-tricky" data-pz-tricky hidden></div>
             <p class="pz-status" data-pz-status hidden></p></section>` : ""}
         <section class="gr-step"><h2>✏️ ${T.practice}</h2><ol class="gr-practice" data-practice></ol><p class="gr-score" data-score hidden></p></section>
         <section class="gr-step gr-speak"><span class="gr-speak-icon" aria-hidden="true">🎤</span><h2>${T.speak}</h2>
@@ -222,18 +223,46 @@
         ];
         const edge = (k, cls) => `<svg class="${cls}" viewBox="0 0 22 56" width="22" height="56" aria-hidden="true">${SHAPES[k]}</svg>`;
         const shuffle = (a) => { for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-        let pairs = [], picked = null, misses = 0, left = 0;
+        let pairs = [], picked = null, misses = 0, left = 0, weakRound = false;
+        // tricky words (David, 2026-11-05): a pair you mixed up is remembered (also in the account) until you match it right twice
+        const today = new Date().toISOString().slice(0, 10);
+        const keyOf = (pr) => `${pr.a}|${pr.b}`;
+        const weakOf = () => ((data.weak || {})[lesson.id] || {}).pairs || {};
+        const setWeak = (pairsObj) => {
+            data.weak = data.weak || {};
+            if (Object.keys(pairsObj).length) data.weak[lesson.id] = { t: Date.now(), pairs: pairsObj }; else delete data.weak[lesson.id];
+            save();
+        };
+        const roundMiss = new Set();
+        const trickyBox = root.querySelector("[data-pz-tricky]");
+        const chip = (a, b) => `<button type="button" class="pz-chip" data-say="${esc(P.wide ? `${a} ${b}` : `${a}, ${b}`)}">${esc(a)} → ${esc(b)}</button>`;
+        const paintTricky = () => {
+            const now = [...roundMiss].map((i) => pairs[i]);
+            const before = Object.keys(weakOf()).filter((k) => !now.some((pr) => keyOf(pr) === k)).map((k) => k.split("|"));
+            trickyBox.hidden = !now.length && !before.length;
+            trickyBox.innerHTML = (now.length ? `<p><strong>${T.trickyNow}</strong> ${now.map((pr) => chip(pr.a, pr.b)).join(" ")}</p>` : "")
+                + (before.length ? `<p><strong>${T.trickyOld}</strong> ${before.map(([a, b]) => chip(a, b)).join(" ")} <button type="button" class="link-button" data-pz-weak>${T.trickyBtn} →</button></p>` : "")
+                + `<p class="as-note">${T.trickyNote}</p>`;
+            trickyBox.querySelectorAll(".pz-chip").forEach((c) => c.addEventListener("click", () => say(c.dataset.say)));
+            const wb = trickyBox.querySelector("[data-pz-weak]"); if (wb) wb.addEventListener("click", () => newRound(true));
+        };
         const piece = (side, i) => `<button type="button" class="pz-piece pz-${side}" data-side="${side}" data-i="${i}">
             ${side === "a" ? edge(pairs[i].k, "pz-tab") : edge(pairs[i].k, "pz-notch")}<span>${esc(side === "a" ? pairs[i].a : pairs[i].b)}</span></button>`;
-        const newRound = () => {
-            const n = P.wide ? 5 : 6, ks = shuffle([0, 1, 2, 3, 4, 5]);
-            pairs = shuffle(P.pairs.slice()).slice(0, n).map(([a, b], i) => ({ a, b, k: ks[i] }));
+        const newRound = (weakFirst) => {
+            const n = P.wide ? 5 : 6, ks = shuffle([0, 1, 2, 3, 4, 5]), W = weakOf();
+            const isWeak = ([a, b]) => !!W[`${a}|${b}`];
+            weakRound = !!weakFirst && P.pairs.some(isWeak);
+            // "practice them": your tricky pairs first, the rest filled up at random
+            const pool = weakRound ? [...shuffle(P.pairs.filter(isWeak)), ...shuffle(P.pairs.filter((x) => !isWeak(x)))] : shuffle(P.pairs.slice());
+            pairs = shuffle(pool.slice(0, n)).map(([a, b], i) => ({ a, b, k: ks[i] }));
+            roundMiss.clear();
             picked = null; misses = 0; left = n; status.hidden = true;
             // column header above the matched pairs (David, 2026-11-05: so you remember which side is which) – shown after the first match
             doneBox.innerHTML = `<div class="pz-head${P.wide ? " pz-wide" : ""}" hidden><span>${esc(L(P.a))}</span><span>${esc(L(P.b))}</span></div>`;
             const order = shuffle(pairs.map((_, i) => i));
             board.innerHTML = `<div class="pz-col"><p class="pz-label">${esc(L(P.a))}</p>${pairs.map((_, i) => piece("a", i)).join("")}</div>
                 <div class="pz-col"><p class="pz-label">${esc(L(P.b))}</p>${order.map((i) => piece("b", i)).join("")}</div>`;
+            paintTricky();
         };
         board.addEventListener("click", (e) => {
             const b = e.target.closest(".pz-piece");
@@ -250,22 +279,34 @@
                 sfx("correct");
                 setTimeout(() => say(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`), 300);
                 board.querySelectorAll(`.pz-piece[data-i="${i}"]`).forEach((el) => el.remove());
+                const W = { ...weakOf() }, wk = W[keyOf(pr)];  // matched right first time → one step towards "learned"
+                if (wk && !roundMiss.has(i)) { wk.ok = (wk.ok || 0) + 1; if (wk.ok >= 2) delete W[keyOf(pr)]; setWeak(W); }
                 doneBox.querySelector(".pz-head").hidden = false;
                 doneBox.insertAdjacentHTML("beforeend", `<div class="pz-joined${P.wide ? " pz-wide" : ""}" data-say="${esc(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`)}">${piece("a", i)}${piece("b", i)}</div>`);
                 const j = doneBox.lastElementChild; j.querySelectorAll("button").forEach((el) => { el.disabled = true; });
                 j.addEventListener("click", () => say(j.dataset.say));
                 left -= 1;
                 if (!left) {
+                    if (weakRound) { data.weakDay = today; save(); }
+                    paintTricky();
                     setTimeout(() => sfx("complete"), 900);
                     status.hidden = false;
                     status.innerHTML = `${T.puzzleDone(misses)} <button type="button" class="link-button" data-pz-new>${T.puzzleNew}</button>`;
-                    status.querySelector("[data-pz-new]").addEventListener("click", newRound);
+                    status.querySelector("[data-pz-new]").addEventListener("click", () => newRound(false));
                 }
             } else {
                 misses += 1; sfx("wrong");
+                // the piece you picked first is the one you were trying to place → that pair counts as tricky
+                const i = Number(x.dataset.i), pr = pairs[i], W = { ...weakOf() };
+                roundMiss.add(i);
+                W[keyOf(pr)] = { miss: ((W[keyOf(pr)] || {}).miss || 0) + 1, ok: 0, last: today };
+                setWeak(W); paintTricky();
                 [x, y].forEach((el) => { el.classList.remove("is-shake"); void el.offsetWidth; el.classList.add("is-shake"); });
             }
         });
-        newRound();
+        // from the profile: ?l=…&weak=1 starts with your tricky pairs and scrolls to the puzzle
+        const fromProfile = new URLSearchParams(location.search).get("weak") === "1";
+        newRound(fromProfile);
+        if (fromProfile) setTimeout(() => root.querySelector(".gr-puzzle").scrollIntoView({ behavior: "smooth", block: "start" }), 300);
     }
 })();

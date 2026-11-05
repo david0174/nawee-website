@@ -218,7 +218,10 @@
         write(VOCAB_KEY, mv);
         const lr = read(READING_KEY), mr = { done: { ...(rr.done || {}), ...(lr.done || {}) } };
         write(READING_KEY, mr);
-        const lgr = read(GRAMMAR_KEY), mgr = { done: { ...(rgr.done || {}), ...(lgr.done || {}) } };
+        // tricky puzzle words: per lesson the newer list wins (so pairs you learned on one device don't come back from the other)
+        const lgr = read(GRAMMAR_KEY), mweak = { ...(rgr.weak || {}) };
+        Object.entries(lgr.weak || {}).forEach(([k, w]) => { if (!mweak[k] || (w.t || 0) >= (mweak[k].t || 0)) mweak[k] = w; });
+        const mgr = { done: { ...(rgr.done || {}), ...(lgr.done || {}) }, weak: mweak, weakDay: [lgr.weakDay, rgr.weakDay].filter(Boolean).sort().pop() };
         write(GRAMMAR_KEY, mgr);
         const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed), dates: { ...(rw.dates || {}), ...(lw.dates || {}) } };
         write(WORK_KEY, mw);
@@ -365,7 +368,7 @@
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
         activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
         week: ["M", "T", "W", "T", "F", "S", "S"],
-        today: "Today", gReview: "Grammar review", gDone: "Grammar practiced:", gWeak: (t, sc, of) => `${t} · last time ${sc}/${of}`, gStale: (t) => `${t} · a week ago – keep it fresh`, weekly: "Weekly read", weeklyAll: "New this week · A1–C1", weeklyDone: "Done this week:", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
+        today: "Today", tricky: "Tricky words", trickyDone: "Tricky words practiced", trickyCard: "🧩 Your tricky words", trickyLead: "Pairs you mixed up in the grammar puzzles. They disappear once you match them right twice.", trickyGo: "Practice", gReview: "Grammar review", gDone: "Grammar practiced:", gWeak: (t, sc, of) => `${t} · last time ${sc}/${of}`, gStale: (t) => `${t} · a week ago – keep it fresh`, weekly: "Weekly read", weeklyAll: "New this week · A1–C1", weeklyDone: "Done this week:", repeat: "Review words", learnNew: "Learn new words", read: "Read a text", lesson: "Next lesson", nothingDue: "Nothing due", allDone: "🎉 All done for today!", reviewed: "All due words reviewed", learned: (n) => `${n} new words learned`, readDone: "Read:", lessonDone: "Lesson done:", doneLabel: "Done",
         words: (n) => `${n} ${n === 1 ? "word" : "words"}`, texts: (n) => `${n} new ${n === 1 ? "text" : "texts"}`, min: (n) => `${n} min`, go: "Let’s go",
         cards: "Picture cards", allTopics: "All topics", practice: "Practice",
         status: { green: "mastered", yellow: "practiced", red: "wrong", grey: "new" },
@@ -376,7 +379,7 @@
         level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
         activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
         week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-        today: "Heute", gReview: "Grammatik wiederholen", gDone: "Grammatik geübt:", gWeak: (t, sc, of) => `${t} · zuletzt ${sc}/${of}`, gStale: (t) => `${t} · vor einer Woche – frisch halten`, weekly: "Lesetext der Woche", weeklyAll: "Neu diese Woche · A1–C1", weeklyDone: "Diese Woche gelesen:", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
+        today: "Heute", tricky: "Knifflige Wörter", trickyDone: "Knifflige Wörter geübt", trickyCard: "🧩 Deine kniffligen Wörter", trickyLead: "Paare, die du im Grammatik-Puzzle verwechselt hast. Sie verschwinden, sobald du sie zweimal richtig zuordnest.", trickyGo: "Üben", gReview: "Grammatik wiederholen", gDone: "Grammatik geübt:", gWeak: (t, sc, of) => `${t} · zuletzt ${sc}/${of}`, gStale: (t) => `${t} · vor einer Woche – frisch halten`, weekly: "Lesetext der Woche", weeklyAll: "Neu diese Woche · A1–C1", weeklyDone: "Diese Woche gelesen:", repeat: "Wörter wiederholen", learnNew: "Neue Wörter lernen", read: "Einen Text lesen", lesson: "Nächste Lektion", nothingDue: "Nichts fällig", allDone: "🎉 Alles geschafft für heute!", reviewed: "Alle fälligen Wörter wiederholt", learned: (n) => `${n} neue Wörter gelernt`, readDone: "Gelesen:", lessonDone: "Lektion geschafft:", doneLabel: "Erledigt",
         words: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"}`, texts: (n) => `${n} neue ${n === 1 ? "Text" : "Texte"}`, min: (n) => `${n} Min.`, go: "Los geht’s",
         cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
         status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
@@ -444,6 +447,25 @@
             <p class="dash-sub">${D.totalDays(days.size)}</p>
         </section>`;
     };
+    // all tricky pairs, lesson with the most first; each links to that lesson's puzzle with the tricky pairs first
+    const trickyList = (g) => {
+        if (typeof GRAMMAR === "undefined") return [];
+        return Object.entries(g.weak || {}).map(([id, w]) => ({ id, keys: Object.keys(w.pairs || {}) })).filter((x) => x.keys.length && GRAMMAR.some((l) => l.id === x.id))
+            .sort((a, b) => b.keys.length - a.keys.length)
+            .flatMap((x) => x.keys.map((k) => ({ lesson: x.id, pair: k.replace("|", " → "), href: `${D.grammarPage}?l=${x.id}&weak=1` })));
+    };
+    const dashTricky = () => {
+        const list = trickyList(read(GRAMMAR_KEY));
+        if (!list.length) return "";
+        const by = {};
+        list.forEach((t) => (by[t.lesson] = by[t.lesson] || []).push(t));
+        return `<section class="dash-card dash-tricky"><h2 class="dash-h">${D.trickyCard}</h2><p class="dash-sub">${D.trickyLead}</p>
+            ${Object.entries(by).map(([id, ts]) => { const l = GRAMMAR.find((g) => g.id === id);
+                return `<div class="dash-tricky-row"><p class="dash-tricky-lesson">${l.icon} ${esc(isEnglish ? l.title.en : l.title.de)}</p>
+                <p class="dash-tricky-pairs">${ts.map((t) => `<span>${esc(t.pair)}</span>`).join("")}</p>
+                <a class="button secondary dash-tricky-go" href="${ts[0].href}">${D.trickyGo} →</a></div>`; }).join("")}
+        </section>`;
+    };
     const dashToday = () => {
         const v = read(VOCAB_KEY), cards = v.cards || {}, today = iso(new Date());
         let due = 0, unseen = 0;
@@ -478,6 +500,8 @@
         const gToday = gLessons.find((g) => gDone[g.id].date === today);
         const gWeak = gLessons.find((g) => gDone[g.id].of && gDone[g.id].score / gDone[g.id].of < 0.8);
         const gStale = gLessons.filter((g) => gDone[g.id].date <= weekAgo).sort((a, b) => gDone[a.id].date.localeCompare(gDone[b.id].date))[0];
+        // tricky words from the grammar puzzles (David, 2026-11-05)
+        const gData = read(GRAMMAR_KEY), tricky = trickyList(gData);
         const work = read(WORK_KEY), lessonToday = workLessons().find((l) => (work.dates || {})[l.id] === today);
         const learnedToday = v.newDay === today ? v.newCount || 0 : 0;
         const next = nextWork();
@@ -497,6 +521,9 @@
             gToday ? { icon: "📐", title: D.gReview, sub: `${D.gDone} ${gTitle(gToday)}`, done: true, href: `${D.grammarPage}?l=${gToday.id}` }
                 : gWeak ? { icon: "📐", title: D.gReview, sub: D.gWeak(gTitle(gWeak), gDone[gWeak.id].score, gDone[gWeak.id].of), min: 5, href: `${D.grammarPage}?l=${gWeak.id}` }
                 : gStale ? { icon: "📐", title: D.gReview, sub: D.gStale(gTitle(gStale)), min: 5, href: `${D.grammarPage}?l=${gStale.id}` } : null,
+            !tricky.length ? null
+                : gData.weakDay === today ? { icon: "🧩", title: D.trickyDone, sub: tricky.slice(0, 3).map((t) => esc(t.pair)).join(" · "), done: true, href: tricky[0].href }
+                : { icon: "🧩", title: D.tricky, sub: tricky.slice(0, 3).map((t) => esc(t.pair)).join(" · ") + (tricky.length > 3 ? ` +${tricky.length - 3}` : ""), min: 3, href: tricky[0].href },
             lessonToday ? { icon: "🎧", title: D.lesson, sub: `${D.lessonDone} ${title(lessonToday)}`, done: true, href: `${D.workPage}?l=${lessonToday.id}` }
                 : next ? { icon: "🎧", title: D.lesson, sub: title(next), min: 10, href: `${D.workPage}?l=${next.id}` } : null,
         ].filter(Boolean);
@@ -688,7 +715,7 @@
                         ${dashCourses(done, total, ccDone)}
                         <div class="dash-pair">${dashLevel(level, course)}${dashCards()}</div>
                     </div>
-                    <div class="dash-side">${dashActivity()}${dashToday()}</div>
+                    <div class="dash-side">${dashActivity()}${dashToday()}${dashTricky()}</div>
                 </div>
                 <div data-dash-webinar></div>
                 <section class="trophy-cabinet dash-card">

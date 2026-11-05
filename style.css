@@ -12932,3 +12932,15 @@ footer .footer-links {
 .pz-head span { padding-left: 16px; }
 .pz-head span + span { padding-left: 26px; }
 .pz-head.pz-wide { max-width: none; }
+/* tricky words (2026-11-05): pairs mixed up in the puzzle – under the puzzle and as a card in the profile */
+.pz-tricky { margin: 12px 0 0; padding: 12px 14px; border: 1px solid #f3d27a; border-left: 4px solid #e0a72e; border-radius: 12px; background: #fff8e6; }
+.pz-tricky p { margin: 0 0 6px; line-height: 1.9; }
+.pz-tricky p:last-child { margin-bottom: 0; }
+.pz-tricky[hidden] { display: none; }
+.pz-chip { display: inline-block; margin: 0 4px 4px 0; padding: 3px 10px; border: 1px solid #e0a72e; border-radius: 999px; background: #ffffff; color: #14213d; font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer; }
+.pz-chip:hover, .pz-chip:focus-visible { background: #f5c542; outline: none; }
+.dash-tricky-row { padding: 10px 0; border-top: 1px solid var(--line, #e3e8ef); }
+.dash-tricky-lesson { margin: 0 0 6px; font-weight: 700; }
+.dash-tricky-pairs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.dash-tricky-pairs span { padding: 3px 10px; border-radius: 999px; background: #fff3d1; color: #14213d; font-size: .9rem; font-weight: 700; }
+.dash-tricky-go { padding: 6px 14px; font-size: .9rem; }

@@ -79,3 +79,6 @@ body { background: var(--dm-bg); color: var(--ink); }
 .pz-b { color: #14213d; }
 .pz-joined .pz-piece, .pz-joined .pz-b { background: #1f8a5b; color: #ffffff; fill: #1f8a5b; }
 .pz-joined .pz-notch { fill: #1f8a5b; }
+/* tricky words: dark amber box, chips keep dark text on light gold */
+.pz-tricky { background: #2a2414; border-color: #6b5520; border-left-color: #e0a72e; }
+.pz-chip, .dash-tricky-pairs span { background: #f5c542; color: #14213d; border-color: #f5c542; }
