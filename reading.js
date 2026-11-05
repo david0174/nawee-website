@@ -37,6 +37,7 @@
 
     const id = new URLSearchParams(location.search).get("t");
     const text = READINGS.find((r) => r.id === id);
+    if (text) document.documentElement.classList.add("read-progress");  // gold progress bar while reading (style.css)
 
     // ---------- overview ----------
     const card = (r) => {

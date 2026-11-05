@@ -73,6 +73,7 @@
 
     const id = new URLSearchParams(location.search).get("l");
     const lesson = GRAMMAR.find((g) => g.id === id);
+    if (lesson) document.documentElement.classList.add("read-progress");  // gold progress bar during a lesson (style.css)
 
     // ---------- overview ----------
     if (!lesson) {

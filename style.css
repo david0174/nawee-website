@@ -12884,3 +12884,17 @@ footer .footer-links {
 .lv-grammar a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; color: inherit; text-decoration: none; }
 .lv-grammar a:hover { background: var(--soft); }
 .lv-beta { font-size: .75rem; font-style: normal; font-weight: 700; color: #d39b12; text-transform: uppercase; letter-spacing: .06em; }
+
+/* Smooth page changes (2026-11-05): a short cross-fade between pages of this site instead of a white flash.
+   Browsers without view transitions just change pages as before; off for "reduce motion". */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .2s; }
+.site-header { view-transition-name: site-header; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+
+/* Reading progress bar (2026-11-05): thin gold line at the top that fills while you scroll an open text or grammar
+   lesson (html.read-progress is set by reading.js / grammar.js). Scroll-driven animation – no support = no bar. */
+@supports (animation-timeline: scroll()) {
+    html.read-progress body::before { content: ""; position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 1000; background: #f5c542; transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; animation: read-progress linear both; animation-timeline: scroll(root); }
+    @keyframes read-progress { to { transform: scaleX(1); } }
+}
