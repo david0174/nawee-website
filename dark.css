@@ -634,6 +634,7 @@
     html:not([data-theme="light"]) .pz-b { color: #d5d9e2; }
     html:not([data-theme="light"]) .pz-joined .pz-piece { fill: #8ae5bd; }
     html:not([data-theme="light"]) .pz-joined .pz-notch { fill: #8ae5bd; }
+    html:not([data-theme="light"]) .pz-head { color: var(--muted, #cacbce); }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -1324,6 +1325,7 @@ html[data-theme="dark"] .pz-a { fill: #8fb2e0; }
 html[data-theme="dark"] .pz-b { color: #d5d9e2; }
 html[data-theme="dark"] .pz-joined .pz-piece { fill: #8ae5bd; }
 html[data-theme="dark"] .pz-joined .pz-notch { fill: #8ae5bd; }
+html[data-theme="dark"] .pz-head { color: var(--muted, #cacbce); }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }

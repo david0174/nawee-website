@@ -30,7 +30,7 @@ const GRAMMAR = [
             en: "",
         },
         puzzle: {
-            a: { de: "Grundform", en: "Base form" }, b: { de: "Vergangenheit", en: "Past simple" },
+            a: { de: "Gegenwart (Grundform)", en: "Present (base form)" }, b: { de: "Vergangenheit", en: "Past" },
             pairs: [["go", "went"], ["have", "had"], ["see", "saw"], ["come", "came"], ["get", "got"], ["make", "made"], ["take", "took"], ["say", "said"],
                     ["buy", "bought"], ["eat", "ate"], ["write", "wrote"], ["drive", "drove"], ["build", "built"], ["break", "broke"], ["think", "thought"],
                     ["work", "worked"], ["study", "studied"], ["stop", "stopped"], ["try", "tried"], ["live", "lived"]],

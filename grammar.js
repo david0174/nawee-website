@@ -228,7 +228,9 @@
         const newRound = () => {
             const n = P.wide ? 5 : 6, ks = shuffle([0, 1, 2, 3, 4, 5]);
             pairs = shuffle(P.pairs.slice()).slice(0, n).map(([a, b], i) => ({ a, b, k: ks[i] }));
-            picked = null; misses = 0; left = n; status.hidden = true; doneBox.innerHTML = "";
+            picked = null; misses = 0; left = n; status.hidden = true;
+            // column header above the matched pairs (David, 2026-11-05: so you remember which side is which) – shown after the first match
+            doneBox.innerHTML = `<div class="pz-head${P.wide ? " pz-wide" : ""}" hidden><span>${esc(L(P.a))}</span><span>${esc(L(P.b))}</span></div>`;
             const order = shuffle(pairs.map((_, i) => i));
             board.innerHTML = `<div class="pz-col"><p class="pz-label">${esc(L(P.a))}</p>${pairs.map((_, i) => piece("a", i)).join("")}</div>
                 <div class="pz-col"><p class="pz-label">${esc(L(P.b))}</p>${order.map((i) => piece("b", i)).join("")}</div>`;
@@ -248,6 +250,7 @@
                 sfx("correct");
                 setTimeout(() => say(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`), 300);
                 board.querySelectorAll(`.pz-piece[data-i="${i}"]`).forEach((el) => el.remove());
+                doneBox.querySelector(".pz-head").hidden = false;
                 doneBox.insertAdjacentHTML("beforeend", `<div class="pz-joined${P.wide ? " pz-wide" : ""}" data-say="${esc(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`)}">${piece("a", i)}${piece("b", i)}</div>`);
                 const j = doneBox.lastElementChild; j.querySelectorAll("button").forEach((el) => { el.disabled = true; });
                 j.addEventListener("click", () => say(j.dataset.say));
