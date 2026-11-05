@@ -24,7 +24,7 @@
         soon: "Bald dabei: some & any, much & many, Objektpronomen, Häufigkeitsadverbien – und danach B1: present perfect …", start: "Lektion starten →", done: (s, n) => `✓ Abgeschlossen · ${s}/${n} richtig`, completedOnly: "✓ Abgeschlossen",
         back: "← Alle Grammatik-Lektionen", rule: "Die Regel", build: "So bildest du es", german: "Anders als im Deutschen", examples: "In unseren Texten",
         examplesHint: "Tippe auf einen Satz, um ihn zu hören.", from: "aus", practice: "Üben", check: "Prüfen", right: "Richtig!", wrong: "Nicht ganz – richtig ist:", typeHere: "Antwort eintippen",
-        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
+        score: (s, n) => `${s} von ${n} richtig`, again: "Nochmal üben", puzzle: "Puzzle: Finde die Paare", puzzleHint: "Tippe ein Teil an, dann das passende Gegenstück. Tipp: Die Form der Kanten verrät, was zusammengehört.", puzzleNew: "Neues Puzzle", puzzleDone: (m) => `🎉 Alle Paare gefunden${m ? ` – mit ${m} Fehlversuch${m === 1 ? "" : "en"}` : " – ohne Fehler!"}`, speak: "Jetzt du: sag es selbst", speakHint: "Antworte laut auf Englisch – erst dann das Beispiel ansehen.", showModel: "Beispiel zeigen", play: "▶ Beispiel anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", markDone: "✓ Als abgeschlossen markieren", markUndo: "↩ Doch nicht abgeschlossen",
         betaNote: "Beta: Diese Lektion ist neu. Sag uns unten, was dir geholfen hat und was fehlt.", privacy: "Dein Fortschritt wird in diesem Browser gespeichert.",
     } : {
         eyebrow: "GRAMMAR", title: "Grammar", beta: "BETA",
@@ -32,7 +32,7 @@
         soon: "Coming soon: some & any, much & many, object pronouns, adverbs of frequency – then B1: present perfect …", start: "Start the lesson →", done: (s, n) => `✓ Completed · ${s}/${n} correct`, completedOnly: "✓ Completed",
         back: "← All grammar lessons", rule: "The rule", build: "How to build it", german: "", examples: "In our texts",
         examplesHint: "Tap a sentence to hear it.", from: "from", practice: "Practice", check: "Check", right: "Correct!", wrong: "Not quite – the answer is:", typeHere: "Type your answer",
-        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
+        score: (s, n) => `${s} of ${n} correct`, again: "Practice again", puzzle: "Puzzle: match the pairs", puzzleHint: "Tap a piece, then its partner. Tip: the shape of the edges shows which pieces fit together.", puzzleNew: "New puzzle", puzzleDone: (m) => `🎉 All pairs matched${m ? ` – with ${m} wrong ${m === 1 ? "try" : "tries"}` : " – no mistakes!"}`, speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
         betaNote: "Beta: this lesson is new. Tell us below what helped and what’s missing.", privacy: "Your progress is saved in this browser.",
     };
 
@@ -103,6 +103,9 @@
         <section class="gr-step"><h2>📖 ${T.examples}</h2><p class="as-note">${T.examplesHint}</p>
             <ul class="gr-examples">${lesson.examples.map((e) => `<li><button type="button" class="gr-ex" data-say="${esc(e.text)}">${highlight(e.text, e.hl)}</button>
                 ${textTitle(e.from) ? `<a class="gr-from" href="${readPage}?t=${e.from}">${T.from}: ${esc(textTitle(e.from))} →</a>` : ""}</li>`).join("")}</ul></section>
+        ${lesson.puzzle ? `<section class="gr-step gr-puzzle"><h2>🧩 ${T.puzzle}</h2><p class="as-note">${T.puzzleHint}</p>
+            <div class="pz-done" data-pz-done></div><div class="pz-board${lesson.puzzle.wide ? " pz-wide" : ""}" data-pz-board></div>
+            <p class="pz-status" data-pz-status hidden></p></section>` : ""}
         <section class="gr-step"><h2>✏️ ${T.practice}</h2><ol class="gr-practice" data-practice></ol><p class="gr-score" data-score hidden></p></section>
         <section class="gr-step gr-speak"><span class="gr-speak-icon" aria-hidden="true">🎤</span><h2>${T.speak}</h2>
             <p class="gr-speak-q">${esc(L(lesson.speak.q))}</p><p class="as-note">${T.speakHint}</p>
@@ -202,4 +205,64 @@
         });
     }
     build();
+
+    // ---------- puzzle (2026-11-05, David's idea): pairs fit together like puzzle pieces; the edge shape is the hint ----------
+    // Left pieces (blue) have a tab on the right edge, right pieces (gold) the matching notch on the left edge.
+    // Tap one piece, then its partner: right → they click together (tone + spoken), wrong → buzzer and a shake.
+    if (lesson.puzzle) {
+        const P = lesson.puzzle, board = root.querySelector("[data-pz-board]"), doneBox = root.querySelector("[data-pz-done]"), status = root.querySelector("[data-pz-status]");
+        // six edge shapes in a 22 × 56 box; the piece edge sits at x = 4
+        const SHAPES = [
+            '<rect x="0" y="23" width="6" height="10"/><circle cx="13" cy="28" r="9"/>',
+            '<polygon points="0,16 21,28 0,40"/>',
+            '<rect x="0" y="19" width="18" height="18" rx="2"/>',
+            '<rect x="0" y="14" width="7" height="28"/><circle cx="12" cy="19" r="6.5"/><circle cx="12" cy="37" r="6.5"/>',
+            '<polygon points="0,22 19,14 19,42 0,34"/>',
+            '<rect x="0" y="22" width="6" height="12"/><ellipse cx="12" cy="28" rx="8" ry="13"/>',
+        ];
+        const edge = (k, cls) => `<svg class="${cls}" viewBox="0 0 22 56" width="22" height="56" aria-hidden="true">${SHAPES[k]}</svg>`;
+        const shuffle = (a) => { for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+        let pairs = [], picked = null, misses = 0, left = 0;
+        const piece = (side, i) => `<button type="button" class="pz-piece pz-${side}" data-side="${side}" data-i="${i}">
+            ${side === "a" ? edge(pairs[i].k, "pz-tab") : edge(pairs[i].k, "pz-notch")}<span>${esc(side === "a" ? pairs[i].a : pairs[i].b)}</span></button>`;
+        const newRound = () => {
+            const n = P.wide ? 5 : 6, ks = shuffle([0, 1, 2, 3, 4, 5]);
+            pairs = shuffle(P.pairs.slice()).slice(0, n).map(([a, b], i) => ({ a, b, k: ks[i] }));
+            picked = null; misses = 0; left = n; status.hidden = true; doneBox.innerHTML = "";
+            const order = shuffle(pairs.map((_, i) => i));
+            board.innerHTML = `<div class="pz-col"><p class="pz-label">${esc(L(P.a))}</p>${pairs.map((_, i) => piece("a", i)).join("")}</div>
+                <div class="pz-col"><p class="pz-label">${esc(L(P.b))}</p>${order.map((i) => piece("b", i)).join("")}</div>`;
+        };
+        board.addEventListener("click", (e) => {
+            const b = e.target.closest(".pz-piece");
+            if (!b) return;
+            if (!picked || picked.dataset.side === b.dataset.side) {  // first pick (or change your mind on the same side)
+                if (picked) picked.classList.remove("is-picked");
+                picked = picked === b ? null : b;
+                if (picked) picked.classList.add("is-picked");
+                return;
+            }
+            const x = picked, y = b; picked = null; x.classList.remove("is-picked");
+            if (x.dataset.i === y.dataset.i) {
+                const i = Number(x.dataset.i), pr = pairs[i];
+                sfx("correct");
+                setTimeout(() => say(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`), 300);
+                board.querySelectorAll(`.pz-piece[data-i="${i}"]`).forEach((el) => el.remove());
+                doneBox.insertAdjacentHTML("beforeend", `<div class="pz-joined${P.wide ? " pz-wide" : ""}" data-say="${esc(P.wide ? `${pr.a} ${pr.b}` : `${pr.a}, ${pr.b}`)}">${piece("a", i)}${piece("b", i)}</div>`);
+                const j = doneBox.lastElementChild; j.querySelectorAll("button").forEach((el) => { el.disabled = true; });
+                j.addEventListener("click", () => say(j.dataset.say));
+                left -= 1;
+                if (!left) {
+                    setTimeout(() => sfx("complete"), 900);
+                    status.hidden = false;
+                    status.innerHTML = `${T.puzzleDone(misses)} <button type="button" class="link-button" data-pz-new>${T.puzzleNew}</button>`;
+                    status.querySelector("[data-pz-new]").addEventListener("click", newRound);
+                }
+            } else {
+                misses += 1; sfx("wrong");
+                [x, y].forEach((el) => { el.classList.remove("is-shake"); void el.offsetWidth; el.classList.add("is-shake"); });
+            }
+        });
+        newRound();
+    }
 })();

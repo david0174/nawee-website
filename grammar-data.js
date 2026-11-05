@@ -4,6 +4,8 @@
 // Text fields are { de, en } – the German page explains in German, the English page in simple English.
 // Practice items: type "gap" (type the answer; `answer` = list of accepted answers) or "choice" (`options`, `answer` = index);
 // optional `task` = a short instruction shown before the sentence (e.g. "Make it negative:").
+// `puzzle` (optional): matching game – pairs fit together like puzzle pieces, the edge shape is the hint; each round draws
+// 6 pairs (`wide`: sentence halves, 5 pairs, stacked layout). Labels `a` / `b` name the two sides.
 // `practice` is a pool: each round draws `perRound` items (default 10) at random, so repeating a lesson brings new sentences.
 
 const GRAMMAR = [
@@ -26,6 +28,12 @@ const GRAMMAR = [
         german: {
             de: "Im Deutschen erzählen wir mündlich meist im <strong>Perfekt</strong>: „Ich <em>habe</em> gestern <em>gearbeitet</em>.“ Im Englischen geht das mit einer Zeitangabe wie <em>yesterday</em> nicht – da steht das past simple: „I <strong>worked</strong> yesterday.“<br>❌ <em>I have seen him yesterday.</em> → ✅ <em>I saw him yesterday.</em>",
             en: "",
+        },
+        puzzle: {
+            a: { de: "Grundform", en: "Base form" }, b: { de: "Vergangenheit", en: "Past simple" },
+            pairs: [["go", "went"], ["have", "had"], ["see", "saw"], ["come", "came"], ["get", "got"], ["make", "made"], ["take", "took"], ["say", "said"],
+                    ["buy", "bought"], ["eat", "ate"], ["write", "wrote"], ["drive", "drove"], ["build", "built"], ["break", "broke"], ["think", "thought"],
+                    ["work", "worked"], ["study", "studied"], ["stop", "stopped"], ["try", "tried"], ["live", "lived"]],
         },
         examples: [
             { text: "In October 2026, Perseverance broke a record.", hl: ["broke"], from: "mars-rover-record" },
@@ -86,6 +94,11 @@ const GRAMMAR = [
             de: "Im Deutschen gibt es keine eigene Verlaufsform – wir sagen „Ich lese <em>gerade</em>“. Im Englischen zeigt die -ing-Form das „gerade“: „I’m reading.“<br>❌ <em>I read a book now.</em> → ✅ <em>I’m reading a book now.</em><br>Für Gewohnheiten (jeden Tag, immer) bleibt es beim present simple: „I read every evening.“",
             en: "",
         },
+        puzzle: {
+            a: { de: "Grundform", en: "Base form" }, b: { de: "-ing-Form", en: "-ing form" },
+            pairs: [["work", "working"], ["make", "making"], ["sit", "sitting"], ["run", "running"], ["write", "writing"], ["swim", "swimming"], ["lie", "lying"],
+                    ["study", "studying"], ["stop", "stopping"], ["have", "having"], ["get", "getting"], ["play", "playing"], ["dance", "dancing"], ["plan", "planning"]],
+        },
         examples: [
             { text: "A bird is singing outside my window.", hl: ["is singing"] },
             { text: "The cat is sleeping on the sofa.", hl: ["is sleeping"] },
@@ -140,6 +153,11 @@ const GRAMMAR = [
             de: "„als“ heißt beim Vergleich <strong>than</strong> – nicht „as“ und nicht „then“.<br>❌ <em>My car is bigger as yours.</em> → ✅ <em>My car is bigger than yours.</em><br>„so … wie“ heißt <strong>as … as</strong>: „She is as tall as her brother.“",
             en: "",
         },
+        puzzle: {
+            a: { de: "Adjektiv", en: "Adjective" }, b: { de: "Komparativ", en: "Comparative" },
+            pairs: [["big", "bigger"], ["good", "better"], ["bad", "worse"], ["happy", "happier"], ["expensive", "more expensive"], ["far", "further"], ["hot", "hotter"],
+                    ["easy", "easier"], ["cheap", "cheaper"], ["beautiful", "more beautiful"], ["nice", "nicer"], ["interesting", "more interesting"], ["small", "smaller"], ["busy", "busier"]],
+        },
         examples: [
             { text: "No vehicle has ever driven farther on another world.", hl: ["farther"], from: "mars-rover-record" },
             { text: "Sunny days and cool nights make the red even brighter.", hl: ["brighter"], from: "w2026-11-02-a2-leaves-color" },
@@ -191,6 +209,14 @@ const GRAMMAR = [
         german: {
             de: "Im Deutschen reicht oft das Präsens: „Morgen <em>gehe</em> ich ins Kino.“ Im Englischen brauchst du für Pläne going to: „Tomorrow I’m going to go to the cinema.“<br>⚠️ Falscher Freund: <strong>will ≠ wollen</strong>!<br>❌ <em>I will a coffee.</em> (= Ich werde einen Kaffee.) → ✅ <em>I want a coffee.</em> / <em>I’ll have a coffee.</em>",
             en: "",
+        },
+        puzzle: {
+            wide: true,
+            a: { de: "Situation", en: "Situation" }, b: { de: "Was passt?", en: "What comes next?" },
+            pairs: [["Look at those dark clouds!", "It’s going to rain."], ["The phone is ringing.", "I’ll get it."],
+                    ["I’ve already bought the tickets.", "We’re going to see the show on Friday."], ["This bag looks really heavy.", "I’ll help you carry it."],
+                    ["She’s saving money every month.", "She’s going to buy a car."], ["Thanks for the book!", "I’ll give it back next week."],
+                    ["Watch out! That glass", "is going to fall!"], ["I’m not sure about tonight.", "Maybe I’ll stay at home."]],
         },
         examples: [
             { text: "Take an umbrella – it’s going to rain.", hl: ["’s going to rain"] },

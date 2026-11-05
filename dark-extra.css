@@ -73,3 +73,9 @@ body { background: var(--dm-bg); color: var(--ink); }
 .gr-ex mark { background: #f5c542; color: #0d1b3a; } .gr-beta { background: #f5c542; color: #0d1b3a; }
 .gr-task { color: #f5c542; }
 .lv-beta { color: #f5c542; }
+/* grammar puzzle: dark board – the notch is painted in the board colour, so both change together */
+.pz-board, .pz-done { --pz-bg: #172231; }
+.pz-a { background: #3b6fb8; fill: #3b6fb8; }
+.pz-b { color: #14213d; }
+.pz-joined .pz-piece, .pz-joined .pz-b { background: #1f8a5b; color: #ffffff; fill: #1f8a5b; }
+.pz-joined .pz-notch { fill: #1f8a5b; }
