@@ -82,3 +82,6 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* tricky words: dark amber box, chips keep dark text on light gold */
 .pz-tricky { background: #2a2414; border-color: #6b5520; border-left-color: #e0a72e; }
 .pz-chip, .dash-tricky-pairs span { background: #f5c542; color: #14213d; border-color: #f5c542; }
+/* gold buttons keep dark text in dark mode */
+.button.button-gold { background: #f5c542; border-color: #f5c542; color: #14213d; box-shadow: 0 0 0 1px #f5c542, 0 0 22px rgba(245, 197, 66, .35); }
+.button.button-gold:hover, .button.button-gold:focus-visible { background: #f8d264; border-color: #f8d264; color: #14213d; }
