@@ -585,7 +585,7 @@
             root.innerHTML = `<p class="eyebrow">${T.title.toUpperCase()}</p><h1>${T.loginTitle}</h1><p class="as-lead">${T.loginLead}</p>${note}
                 ${googleBlock()}
                 <form class="account-form" data-form novalidate>
-                    ${field("email", T.email, "email", 'autocomplete="email" required')}
+                    ${field("email", T.email, "email", 'autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required')}
                     ${field("password", T.password, "password", 'autocomplete="current-password" required')}
                     <div data-msg></div>
                     <button type="submit" class="button primary">${T.login} <span aria-hidden="true">→</span></button>
@@ -611,7 +611,7 @@
                     ${field("firstName", T.firstName, "text", 'autocomplete="given-name" maxlength="40" required', true)}
                     ${field("nickname", T.username, "text", 'autocomplete="nickname" autocapitalize="off" spellcheck="false" maxlength="24" required', true)}
                     <p class="account-hint-text">${T.usernameHint}</p>
-                    ${field("email", T.email, "email", 'autocomplete="email" required', true)}
+                    ${field("email", T.email, "email", 'autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required', true)}
                     ${field("password", T.password, "password", 'autocomplete="new-password" minlength="8" required', true)}
                     ${passwordRules()}
                     ${field("password2", T.passwordRepeat, "password", 'autocomplete="new-password" minlength="8" required', true)}
