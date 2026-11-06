@@ -240,7 +240,7 @@
     };
     window.addEventListener("nawee:progress", push);
 
-    // greeting: the first name from the sign-up form or from Google; older accounts without one fall back to the username
+    // greeting: the first name from Google sign-in (or older sign-ups); otherwise the username (first-name field removed 2026-11-06)
     const firstName = () => {
         const m = (user && user.user_metadata) || {};
         const n = (m.first_name || m.given_name || String(m.full_name || m.name || "").trim().split(/\s+/)[0] || "").trim();
@@ -608,7 +608,6 @@
                 ${googleBlock()}
                 <form class="account-form" data-form novalidate>
                     <p class="account-hint-text account-required-note">${T.requiredNote}</p>
-                    ${field("firstName", T.firstName, "text", 'autocomplete="given-name" maxlength="40" required', true)}
                     ${field("nickname", T.username, "text", 'autocomplete="nickname" autocapitalize="off" spellcheck="false" maxlength="24" required', true)}
                     <p class="account-hint-text">${T.usernameHint}</p>
                     ${field("email", T.email, "email", 'autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required', true)}
@@ -627,9 +626,7 @@
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const msg = form.querySelector("[data-msg]");
-                const firstName = form.firstName.value.trim().replace(/\s+/g, " ").slice(0, 40);
                 const username = form.nickname.value.trim(), email = form.email.value.trim(), password = form.password.value;
-                if (!firstName) { msg.innerHTML = message(T.errors.firstName); return; }
                 if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { msg.innerHTML = message(T.errors.usernameFormat); return; }
                 if (!strongPassword(password)) { msg.innerHTML = message(T.errors.weak); return; }
                 if (password !== form.password2.value) { msg.innerHTML = message(T.errors.mismatch); return; }
@@ -637,7 +634,7 @@
                 const { data: free, error: checkError } = await db.rpc("username_available", { name: username });
                 if (checkError) { setBusy(form, false); msg.innerHTML = message(T.errors.generic); return; }
                 if (!free) { setBusy(form, false); msg.innerHTML = message(T.errors.usernameTaken); return; }
-                const { error } = await db.auth.signUp({ email, password, options: { data: { username, first_name: firstName }, emailRedirectTo: LIVE_ACCOUNT_URL } });
+                const { error } = await db.auth.signUp({ email, password, options: { data: { username }, emailRedirectTo: LIVE_ACCOUNT_URL } });
                 setBusy(form, false);
                 if (error) { msg.innerHTML = message(errorText(error)); return; }
                 views.check(email);
