@@ -609,7 +609,7 @@
                 <form class="account-form" data-form novalidate>
                     <p class="account-hint-text account-required-note">${T.requiredNote}</p>
                     ${field("firstName", T.firstName, "text", 'autocomplete="given-name" maxlength="40" required', true)}
-                    ${field("username", T.username, "text", 'autocomplete="username" maxlength="24" required', true)}
+                    ${field("nickname", T.username, "text", 'autocomplete="nickname" autocapitalize="off" spellcheck="false" maxlength="24" required', true)}
                     <p class="account-hint-text">${T.usernameHint}</p>
                     ${field("email", T.email, "email", 'autocomplete="email" required', true)}
                     ${field("password", T.password, "password", 'autocomplete="new-password" minlength="8" required', true)}
@@ -628,7 +628,7 @@
                 e.preventDefault();
                 const msg = form.querySelector("[data-msg]");
                 const firstName = form.firstName.value.trim().replace(/\s+/g, " ").slice(0, 40);
-                const username = form.username.value.trim(), email = form.email.value.trim(), password = form.password.value;
+                const username = form.nickname.value.trim(), email = form.email.value.trim(), password = form.password.value;
                 if (!firstName) { msg.innerHTML = message(T.errors.firstName); return; }
                 if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { msg.innerHTML = message(T.errors.usernameFormat); return; }
                 if (!strongPassword(password)) { msg.innerHTML = message(T.errors.weak); return; }
