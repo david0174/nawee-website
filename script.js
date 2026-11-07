@@ -665,7 +665,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     if (menu && !standalone && !menu.querySelector("[data-app-link]")) {
         const de = document.documentElement.lang.startsWith("de");
         const a = document.createElement("a");
-        a.href = de ? "app.html" : "app-en.html";
+        a.href = de ? "app.html" : document.documentElement.lang.startsWith("tr") ? "app-tr.html" : "app-en.html";
         a.dataset.appLink = "";
         a.className = "mobile-menu-app";
         a.textContent = de ? "📲 Nawee als App" : document.documentElement.lang.startsWith("tr") ? "📲 Uygulamayı indir" : "📲 Get the app";
@@ -677,10 +677,10 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     if (topNav && !standalone && !topNav.querySelector("[data-nav-app]")) {
         const l = document.documentElement.lang.slice(0, 2);
         const a = document.createElement("a");
-        a.href = l === "de" ? "app.html" : "app-en.html";
+        a.href = { de: "app.html", tr: "app-tr.html" }[l] || "app-en.html";
         a.className = "nav-app";
         a.dataset.navApp = "";
-        a.innerHTML = `<span aria-hidden="true">📲</span><span class="nav-app-text"> ${{ de: "Nawee als App", tr: "Uygulama" }[l] || "Get the app"}</span>`;
+        a.innerHTML = `<span aria-hidden="true">📲</span><span class="nav-app-text"> ${{ de: "Nawee als App", tr: "Uygulama" }[l] || "Get the app"}</span><span class="nav-app-short"> App</span>`;
         a.title = { de: "Nawee als App", tr: "Uygulamayı indir" }[l] || "Get the app";
         a.setAttribute("aria-label", a.title);
         const cta = topNav.querySelector(".nav-cta");
@@ -696,6 +696,62 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         deferred = null;
         document.querySelectorAll("[data-app-install]").forEach((b) => { b.hidden = true; });
     });
+    // ---------- get people to install the app (David, 2026-11-07: "I want to get people really to download the app") ----------
+    const lng = { de: "de", tr: "tr" }[document.documentElement.lang.slice(0, 2)] || "en";
+    const AT = {
+        de: { title: "Nawee als App", sub: "Kostenlos · mit einem Tipp offen · funktioniert offline", install: "Installieren", how: "So geht’s", close: "Schließen",
+              ios: "Tippe unten in Safari auf <strong>Teilen</strong> <span class=\"app-key\">⬆︎</span> und dann auf <strong>„Zum Home-Bildschirm“</strong>.", page: "app.html",
+              bandEyebrow: "NAWEE ALS APP", bandTitle: "Englisch üben – immer dabei", bandText: "Hol dir Nawee auf den Home-Bildschirm: ein Tipp, und du übst – im Vollbild und auch ohne Internet. Kostenlos und ohne App Store.",
+              bandPoints: ["👆 Ein Tipp – und du lernst", "✈️ Funktioniert auch offline", "🆓 Kostenlos, ohne App Store"], bandBtn: "📲 App installieren" },
+        en: { title: "Nawee as an app", sub: "Free · one tap to open · works offline", install: "Install", how: "How it works", close: "Close",
+              ios: "In Safari, tap <strong>Share</strong> <span class=\"app-key\">⬆︎</span> at the bottom, then <strong>“Add to Home Screen”</strong>.", page: "app-en.html",
+              bandEyebrow: "NAWEE AS AN APP", bandTitle: "Practice English – always with you", bandText: "Put Nawee on your home screen: one tap and you’re practicing – full screen and even without internet. Free, no app store.",
+              bandPoints: ["👆 One tap – and you’re learning", "✈️ Works offline too", "🆓 Free, no app store"], bandBtn: "📲 Install the app" },
+        tr: { title: "Uygulama olarak Nawee", sub: "Ücretsiz · tek dokunuşla açılır · internetsiz de çalışır", install: "Yükle", how: "Nasıl yapılır", close: "Kapat",
+              ios: "Safari’de alttaki <strong>Paylaş</strong> <span class=\"app-key\">⬆︎</span> düğmesine, sonra <strong>“Ana Ekrana Ekle”</strong>ye dokun.", page: "app-tr.html",
+              bandEyebrow: "UYGULAMA OLARAK NAWEE", bandTitle: "İngilizce çalış – her zaman yanında", bandText: "Nawee’yi ana ekranına ekle: tek dokunuş ve çalışmaya başlarsın – tam ekran ve internetsiz de. Ücretsiz, uygulama mağazası gerekmez.",
+              bandPoints: ["👆 Tek dokunuş – ve öğreniyorsun", "✈️ İnternetsiz de çalışır", "🆓 Ücretsiz, mağaza gerekmez"], bandBtn: "📲 Uygulamayı yükle" },
+    }[lng];
+    const storeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+    const storeSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* ignore */ } };
+    // the install action: Android/desktop Chrome → system prompt; iPhone → show the Safari steps; otherwise → app page
+    const installOr = (iosBox) => {
+        if (deferred) { deferred.prompt(); deferred.userChoice.catch(() => null).then(() => { deferred = null; }); return; }
+        if (ios && iosBox) { iosBox.hidden = !iosBox.hidden; return; }
+        location.href = AT.page;
+    };
+    // homepage: an app band right below the slider
+    const isHome = /^\/(index(-en|-tr)?\.html)?$/.test(location.pathname);
+    const anchorEl = document.querySelector("main .carousel") || document.querySelector("main .hero");
+    if (isHome && !standalone && anchorEl && !document.querySelector("[data-app-band]")) {
+        const band = document.createElement("section");
+        band.className = "app-band"; band.dataset.appBand = "";
+        band.innerHTML = `<div class="app-band-inner"><img class="app-band-icon" src="assets/app-icon-192.png" alt="" width="96" height="96">
+            <div class="app-band-copy"><p class="eyebrow">${AT.bandEyebrow}</p><h2>${AT.bandTitle}</h2><p>${AT.bandText}</p>
+            <ul class="app-band-points">${AT.bandPoints.map((x) => `<li>${x}</li>`).join("")}</ul>
+            <div class="app-band-actions"><button type="button" class="button primary" data-band-install>${AT.bandBtn}</button> <a class="text-link" href="${AT.page}">${AT.how} →</a></div>
+            <p class="app-band-ios" data-band-ios hidden>${AT.ios}</p></div></div>`;
+        anchorEl.after(band);
+        band.querySelector("[data-band-install]").addEventListener("click", () => installOr(band.querySelector("[data-band-ios]")));
+    }
+    // phones & tablets: a small app bar at the bottom – from the 2nd page a visitor opens, gone for 14 days after ✕
+    const views = Number(storeGet("nawee-views") || 0) + 1;
+    storeSet("nawee-views", String(views));
+    const dismissed = Number(storeGet("nawee-appbar-off") || 0);
+    const skipPage = /\/(app(-en|-tr)?|account(-tr)?|konto|offline)\.html$/.test(location.pathname);
+    if (!standalone && !skipPage && views >= 2 && Date.now() - dismissed > 14 * 864e5 && window.matchMedia("(max-width: 1100px)").matches) {
+        const bar = document.createElement("div");
+        bar.className = "app-bar"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", AT.title);
+        bar.innerHTML = `<img src="assets/app-icon-192.png" alt="" width="44" height="44"><div class="app-bar-text"><strong>${AT.title}</strong><span>${AT.sub}</span>
+            <p class="app-bar-ios" data-bar-ios hidden>${AT.ios}</p></div>
+            <button type="button" class="button primary app-bar-btn" data-bar-install>${AT.install}</button>
+            <button type="button" class="app-bar-close" data-bar-close aria-label="${AT.close}">✕</button>`;
+        document.body.append(bar);
+        document.documentElement.classList.add("has-app-bar");
+        bar.querySelector("[data-bar-install]").addEventListener("click", () => installOr(bar.querySelector("[data-bar-ios]")));
+        bar.querySelector("[data-bar-close]").addEventListener("click", () => { storeSet("nawee-appbar-off", String(Date.now())); bar.remove(); document.documentElement.classList.remove("has-app-bar"); });
+        window.addEventListener("appinstalled", () => { bar.remove(); document.documentElement.classList.remove("has-app-bar"); });
+    }
     document.addEventListener("click", async (e) => {
         const btn = e.target.closest("[data-app-install]");
         if (!btn || !deferred) return;

@@ -105,3 +105,10 @@ body { background: var(--dm-bg); color: var(--ink); }
 .sl-btn.iv-opt.is-right, .iv-pres.is-right { background: #143826; border-color: #2f9b5c; color: #b8ecc9; }
 .sl-btn.iv-opt.is-wrong, .iv-pres.is-wrong { background: #3d1c1c; border-color: #c94a4a; color: #f5c2c2; }
 .sl-btn.iv-chip.is-on { background: #3b6fd8; border-color: #3b6fd8; color: #fff; }
+
+/* app band + app bar */
+.app-band-inner { background: linear-gradient(135deg, #14244a, #101a33 70%); border-color: #2a4a8a; box-shadow: none; }
+.app-bar { background: #142142; border-color: #2a4a8a; }
+.app-band-ios, .app-bar-ios { background: #3a3010; color: #f3dc9b; }
+nav > a.nav-app { border-color: #5b8def; color: #dbe6ff; }
+nav > a.nav-app:hover { background: #3b6fd8; color: #fff; }

@@ -13449,9 +13449,30 @@ nav > a.nav-app {
     white-space: nowrap;
 }
 
+nav > a.nav-app {
+    padding: 7px 14px;
+    border: 2px solid var(--blue, #1a56db);
+    border-radius: 999px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+nav > a.nav-app:hover {
+    background: var(--blue, #1a56db);
+    color: #fff;
+}
+
+nav > a.nav-app .nav-app-short {
+    display: none;
+}
+
 @media (max-width: 1400px) {
     nav > a.nav-app .nav-app-text {
         display: none;
+    }
+
+    nav > a.nav-app .nav-app-short {
+        display: inline;
     }
 }
 
@@ -13459,4 +13480,167 @@ nav > a.nav-app {
     nav > a.nav-app {
         display: none;
     }
+}
+
+/* homepage band "Nawee as an app" (script.js) */
+.app-band {
+    padding: 28px 20px;
+}
+
+.app-band-inner {
+    display: flex;
+    gap: 26px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 30px;
+    border: 2px solid #cfe0ff;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #eef4ff, #ffffff 70%);
+    box-shadow: 0 14px 40px rgba(13, 47, 130, .08);
+}
+
+.app-band-icon {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(13, 47, 130, .18);
+}
+
+.app-band-copy h2 {
+    margin: 4px 0 8px;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.app-band-copy > p {
+    margin: 0 0 10px;
+}
+
+.app-band-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+    color: var(--blue-dark);
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+.app-band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+}
+
+.app-band-ios,
+.app-bar-ios {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #fff7e0;
+    color: #6b4e00;
+    font-size: .92rem;
+}
+
+.app-band-ios[hidden],
+.app-bar-ios[hidden] {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .app-band-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 20px;
+    }
+
+    .app-band-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 17px;
+    }
+}
+
+/* app bar at the bottom on phones & tablets (script.js) */
+.app-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 900;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 12px 12px 12px 14px;
+    border: 1px solid #cfe0ff;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 36px rgba(13, 47, 130, .22);
+    animation: app-bar-in .35s ease-out;
+}
+
+@keyframes app-bar-in {
+    from { transform: translateY(120%); opacity: 0; }
+    to { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-bar { animation: none; }
+}
+
+.app-bar img {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    box-shadow: 0 2px 8px rgba(13, 47, 130, .15);
+}
+
+.app-bar-text {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.app-bar-text strong {
+    display: block;
+    color: var(--blue-dark);
+}
+
+.app-bar-text span {
+    display: block;
+    color: var(--muted);
+    font-size: .82rem;
+}
+
+.app-bar-btn.button {
+    flex: none;
+    padding: 10px 16px;
+    font-size: .95rem;
+}
+
+.app-bar-close {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.has-app-bar body {
+    padding-bottom: 96px;
+}
+
+.has-app-bar .is-floating {
+    bottom: 104px;
 }
