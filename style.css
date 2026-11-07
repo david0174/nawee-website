@@ -13443,3 +13443,20 @@ footer .footer-links {
         display: block;
     }
 }
+
+/* "📲 App" in the top menu (script.js) – only the icon on laptop screens, hidden where the burger menu takes over */
+nav > a.nav-app {
+    white-space: nowrap;
+}
+
+@media (max-width: 1400px) {
+    nav > a.nav-app .nav-app-text {
+        display: none;
+    }
+}
+
+@media (max-width: 1100px) {
+    nav > a.nav-app {
+        display: none;
+    }
+}

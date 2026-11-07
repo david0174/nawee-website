@@ -668,9 +668,23 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         a.href = de ? "app.html" : "app-en.html";
         a.dataset.appLink = "";
         a.className = "mobile-menu-app";
-        a.textContent = de ? "📲 Nawee als App" : "📲 Get the app";
+        a.textContent = de ? "📲 Nawee als App" : document.documentElement.lang.startsWith("tr") ? "📲 Uygulamayı indir" : "📲 Get the app";
         const langs = menu.querySelector(".mobile-menu-languages");
         if (langs) langs.before(a); else menu.append(a);
+    }
+    // desktop: "📲 App" in the top menu, next to the account links (David, 2026-11-07) – not inside the installed app
+    const topNav = document.querySelector(".site-header nav");
+    if (topNav && !standalone && !topNav.querySelector("[data-nav-app]")) {
+        const l = document.documentElement.lang.slice(0, 2);
+        const a = document.createElement("a");
+        a.href = l === "de" ? "app.html" : "app-en.html";
+        a.className = "nav-app";
+        a.dataset.navApp = "";
+        a.innerHTML = `<span aria-hidden="true">📲</span><span class="nav-app-text"> ${{ de: "Nawee als App", tr: "Uygulama" }[l] || "Get the app"}</span>`;
+        a.title = { de: "Nawee als App", tr: "Uygulamayı indir" }[l] || "Get the app";
+        a.setAttribute("aria-label", a.title);
+        const cta = topNav.querySelector(".nav-cta");
+        if (cta) cta.before(a); else topNav.append(a);
     }
     let deferred = null;
     window.addEventListener("beforeinstallprompt", (e) => {
