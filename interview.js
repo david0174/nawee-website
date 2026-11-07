@@ -23,7 +23,7 @@
             listenFirst: "Hör erst zu – den Text kannst du danach einblenden.", right: "Richtig!", wrong: "Nicht ganz.",
             play: "▶ Anhören", check: "🎤 Prüfen", listening: "Ich höre zu …", checking: "Ich prüfe …", clear: "✓ Klar verständlich!", heard: (h) => `✗ Ich habe gehört: „${h}“`, missing: (m) => `Hör dir diese Wörter nochmal an: ${m}`, nothing: "Ich habe nichts gehört – sprich etwas lauter.", loading: (p) => `Aussprache-Check wird geladen (nur beim ersten Mal) … ${p} %`,
             buildAgain: "Von vorn", buildCheck: "Prüfen", buildEdit: "Tippe auf einen Satz, um ihn zurückzulegen – mit ↑ ↓ änderst du die Reihenfolge.", moveUp: "Nach oben", moveDown: "Nach unten", buildRight: "Richtig – genau so!", buildWrong: "Fast. So ist die Reihenfolge:",
-            hearQ: "▶ Frage anhören", time: "Zeit:", sec: "Sek.", rec: "● Antwort aufnehmen", stopRec: "■ Fertig", mine: "▶ Meine Antwort anhören", spoke: (s) => `Du hast ${s} Sekunden gesprochen.`, overTime: "Die Zeit ist um – im echten Interview wäre jetzt ein guter Moment zum Abschluss.",
+            hearQ: "▶ Frage anhören", time: "Zeit:", sec: "Sek.", rec: "● Antwort aufnehmen", stopRec: "■ Fertig", mine: "▶ Meine Antwort anhören", replayMine: "↻ Meine Antwort nochmal anhören", spoke: (s) => `Du hast ${s} Sekunden gesprochen.`, overTime: "Die Zeit ist um – im echten Interview wäre jetzt ein guter Moment zum Abschluss.",
             selfCheck: "Check dich selbst:", models: "Beispielantworten", b1: "B1 – einfach und klar", b2: "B2–C1 – natürlicher",
             notebook: "📓 Mein Notizbuch: meine eigene Antwort", notePh: "Schreib hier deine eigene Antwort auf Englisch …", saved: "Gespeichert", noteHint: "Wird in diesem Browser gespeichert – mit Konto auch in deinem Konto.",
             micNo: "Aufnehmen geht in diesem Browser nicht – antworte trotzdem laut.", micDenied: "Kein Zugriff auf das Mikrofon. Erlaube es in den Browser-Einstellungen – oder antworte einfach laut.",
@@ -41,7 +41,7 @@
             listenFirst: "Listen first – you can show the text afterwards.", right: "Correct!", wrong: "Not quite.",
             play: "▶ Listen", check: "🎤 Check", listening: "Listening …", checking: "Checking …", clear: "✓ Clear!", heard: (h) => `✗ I heard: “${h}”`, missing: (m) => `Listen again to these words: ${m}`, nothing: "I couldn’t hear anything – speak a little louder.", loading: (p) => `Loading the pronunciation check (only the first time) … ${p} %`,
             buildAgain: "Start over", buildCheck: "Check", buildEdit: "Tap a sentence to put it back – use ↑ ↓ to change the order.", moveUp: "Move up", moveDown: "Move down", buildRight: "Correct – that’s it!", buildWrong: "Almost. This is the order:",
-            hearQ: "▶ Hear the question", time: "Time:", sec: "sec", rec: "● Record my answer", stopRec: "■ Done", mine: "▶ Play my answer", spoke: (s) => `You spoke for ${s} seconds.`, overTime: "Time’s up – in a real interview, this would be a good moment to finish.",
+            hearQ: "▶ Hear the question", time: "Time:", sec: "sec", rec: "● Record my answer", stopRec: "■ Done", mine: "▶ Play my answer", replayMine: "↻ Play my answer again", spoke: (s) => `You spoke for ${s} seconds.`, overTime: "Time’s up – in a real interview, this would be a good moment to finish.",
             selfCheck: "Check yourself:", models: "Example answers", b1: "B1 – simple and clear", b2: "B2–C1 – more natural",
             notebook: "📓 My notebook: my own answer", notePh: "Write your own answer in English here …", saved: "Saved", noteHint: "Saved in this browser – and with an account, in your account too.",
             micNo: "This browser can’t record – answer out loud anyway.", micDenied: "No access to the microphone. Allow it in your browser settings – or just answer out loud.",
@@ -59,7 +59,7 @@
             listenFirst: "Önce dinle – metni sonra gösterebilirsin.", right: "Doğru!", wrong: "Tam değil.",
             play: "▶ Dinle", check: "🎤 Kontrol et", listening: "Dinliyorum …", checking: "Kontrol ediliyor …", clear: "✓ Net anlaşılıyor!", heard: (h) => `✗ Duyduğum: “${h}”`, missing: (m) => `Bu kelimeleri tekrar dinle: ${m}`, nothing: "Hiçbir şey duyamadım – biraz daha yüksek sesle konuş.", loading: (p) => `Telaffuz kontrolü yükleniyor (sadece ilk seferde) … %${p}`,
             buildAgain: "Baştan başla", buildCheck: "Kontrol et", buildEdit: "Geri koymak için bir cümleye dokun – ↑ ↓ ile sırayı değiştir.", moveUp: "Yukarı taşı", moveDown: "Aşağı taşı", buildRight: "Doğru – tam böyle!", buildWrong: "Neredeyse. Doğru sıra şöyle:",
-            hearQ: "▶ Soruyu dinle", time: "Süre:", sec: "sn", rec: "● Cevabımı kaydet", stopRec: "■ Bitti", mine: "▶ Cevabımı dinle", spoke: (s) => `${s} saniye konuştun.`, overTime: "Süre doldu – gerçek bir mülakatta bitirmek için iyi bir an olurdu.",
+            hearQ: "▶ Soruyu dinle", time: "Süre:", sec: "sn", rec: "● Cevabımı kaydet", stopRec: "■ Bitti", mine: "▶ Cevabımı dinle", replayMine: "↻ Cevabımı tekrar dinle", spoke: (s) => `${s} saniye konuştun.`, overTime: "Süre doldu – gerçek bir mülakatta bitirmek için iyi bir an olurdu.",
             selfCheck: "Kendini kontrol et:", models: "Örnek cevaplar", b1: "B1 – basit ve net", b2: "B2–C1 – daha doğal",
             notebook: "📓 Defterim: kendi cevabım", notePh: "Kendi cevabını buraya İngilizce yaz …", saved: "Kaydedildi", noteHint: "Bu tarayıcıda kaydedilir – hesapla hesabında da.",
             micNo: "Bu tarayıcı kayıt yapamıyor – yine de yüksek sesle cevap ver.", micDenied: "Mikrofona erişim yok. Tarayıcı ayarlarından izin ver – ya da sadece yüksek sesle cevap ver.",
@@ -250,10 +250,24 @@
     else {
         let rec = null, url = null, timer = null, t0 = 0;
         const clock = el("span", "iv-clock"), info = el("p", "as-note"); info.hidden = true;
-        const mine = button("", T.mine, () => { stopAll(); if (url) { audio = new Audio(url); audio.play().catch(() => {}); } }); mine.hidden = true;
+        // own answer: play → pause → continue → listen again (David, 2026-11-07)
+        let mineAudio = null;
+        const mine = button("", T.mine, () => {
+            if (!url) return;
+            if (mineAudio && !mineAudio.paused) { mineAudio.pause(); mine.textContent = T.resume; return; }
+            if (mineAudio && mineAudio.currentTime > 0 && !mineAudio.ended) { mineAudio.play().catch(() => {}); mine.textContent = T.pause; return; }
+            stopAll();
+            mineAudio = audio = new Audio(url);
+            // the label follows the audio, also when something else stops it (e.g. "Hear the question")
+            const a = mineAudio;
+            a.onplay = () => { if (mineAudio === a) mine.textContent = T.pause; };
+            a.onpause = () => { if (mineAudio === a && !a.ended) mine.textContent = T.resume; };
+            a.onended = () => { if (mineAudio === a) mine.textContent = T.replayMine; };
+            mineAudio.play().catch(() => {}); mine.textContent = T.pause;
+        }); mine.hidden = true;
         const recBtn = button("sl-play iv-recbtn", T.rec, async () => {
             if (rec && rec.state === "recording") { rec.stop(); return; }
-            stopAll();
+            stopAll(); if (mineAudio) { mineAudio.pause(); mine.textContent = T.mine; }
             let stream;
             try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch { info.hidden = false; info.textContent = T.micDenied; return; }
             const chunks = [];
@@ -264,6 +278,7 @@
                 const used = Math.round((performance.now() - t0) / 1000);
                 if (url) URL.revokeObjectURL(url);
                 url = URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || "audio/webm" }));
+                if (mineAudio) mineAudio.pause(); mineAudio = null; mine.textContent = T.mine;   // a new recording starts from the beginning
                 recBtn.textContent = T.rec; recBtn.classList.remove("is-recording"); mine.hidden = false; clock.textContent = "";
                 info.hidden = false; info.textContent = used >= secs ? T.overTime : T.spoke(used);
             };
