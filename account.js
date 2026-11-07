@@ -21,8 +21,18 @@
     });
     window.NaweeDB = db; // shared with page scripts (e.g. webinar.js)
 
-    const isEnglish = document.documentElement.lang === "en";
-    const ACCOUNT_PAGE = isEnglish ? "account.html" : "konto.html";
+    // languages: de / en / tr (2026-11-07). Turkish = English texts with Turkish overrides (anything not translated stays English)
+    const pageLang = (document.documentElement.lang || "en").slice(0, 2);
+    const isTurkish = pageLang === "tr";
+    const isEnglish = pageLang !== "de";
+    const ACCOUNT_PAGE = isEnglish ? "account.html" : "konto.html"; // confirmation / reset links (allowed in Supabase); Turkish visitors are forwarded by script.js
+    const ACCOUNT_LINK = isTurkish ? "account-tr.html" : ACCOUNT_PAGE;
+    const trMerge = (base, tr) => {
+        if (!isTurkish) return base;
+        const out = { ...base };
+        Object.entries(tr).forEach(([k, v]) => { out[k] = v && typeof v === "object" && !Array.isArray(v) && typeof base[k] === "object" && !Array.isArray(base[k]) ? { ...base[k], ...v } : v; });
+        return out;
+    };
     const LIVE_ACCOUNT_URL = `https://learn.nawee.net/${ACCOUNT_PAGE}`; // where confirmation and reset links lead
     const COURSE_KEY = "nawee-course-v1";
     const TROPHY_KEY = "nawee-trophies-v1";
@@ -45,7 +55,7 @@
         return n;
     })();
 
-    const T = isEnglish ? {
+    const T = trMerge(isEnglish ? {
         login: "Log in", signup: "Create account", email: "Email", password: "Password", username: "Username", firstName: "First name",
         passwordNew: "New password", passwordRepeat: "Repeat password", forgot: "Forgot your password?",
         noAccount: "No account yet?", haveAccount: "Already have an account?", sendLink: "Send reset link",
@@ -125,7 +135,46 @@
             rate: "Zu viele Versuche – bitte warte ein paar Minuten und versuch es dann noch einmal.",
             email: "Die Bestätigungs-E-Mail konnte gerade nicht gesendet werden. Bitte versuch es später noch einmal – oder schreib an david@nawee.net.", generic: "Etwas ist schiefgelaufen. Bitte versuch es noch einmal.",
         },
-    };
+    }, {
+        login: "Giriş yap", signup: "Hesap oluştur", email: "E-posta", password: "Şifre", username: "Kullanıcı adı", firstName: "Ad",
+        passwordNew: "Yeni şifre", passwordRepeat: "Şifreyi tekrarla", forgot: "Şifreni mi unuttun?",
+        noAccount: "Henüz hesabın yok mu?", haveAccount: "Zaten hesabın var mı?", sendLink: "Sıfırlama bağlantısı gönder",
+        back: "Girişe dön", savePassword: "Yeni şifreyi kaydet", logout: "Çıkış yap", toCourse: "Kursa git",
+        title: "Hesabım", loginTitle: "Tekrar hoş geldin!", signupTitle: "Ücretsiz hesabını oluştur",
+        signupLead: "İsteğe bağlı ve ücretsiz – öğrenme ilerlemeni kaydeder:",
+        benefits: ["Gerçek sohbetler için 21 ders", "Sana önerilen başlangıç noktasıyla bir seviye testi", "Her başarı için kupalar", "İlerlemen kaydedilir – tüm cihazlarında"],
+        loginLead: "Kursuna ve kupalarına devam etmek için giriş yap.",
+        usernameHint: "3–24 karakter: harf, rakam, nokta, tire veya alt çizgi. Profilinde görünür.",
+        passwordHint: "En az 8 karakter.", pwRules: ["En az 8 karakter", "Harf ve rakam"], pwMatch: "Şifreler eşleşiyor", requiredNote: "* Zorunlu",
+        privacy: `Kayıt olarak Nawee <a href="terms-of-use.html">Kullanım Koşulları</a>’nı ve <a href="privacy-policy.html">Gizlilik Politikası</a>’nı kabul etmiş olursun (İngilizce).`,
+        checkTitle: "Neredeyse bitti!", checkText: (e) => `<strong>${e}</strong> adresine bir e-posta gönderdik. Hesabını onaylamak için içindeki bağlantıya tıkla – sonra giriş yapabilirsin.`,
+        forgotTitle: "Şifreni sıfırla", forgotLead: "E-posta adresini gir, sana yeni şifre belirlemen için bir bağlantı gönderelim.",
+        forgotSent: "Bu e-posta için bir hesap varsa, birkaç dakika içinde bir bağlantı alacaksın.",
+        newPwTitle: "Yeni şifre belirle", pwSaved: "Yeni şifren kaydedildi.",
+        hello: (n) => `Merhaba, ${n}!`, loggedInAs: "Giriş yapan:", level: "Seviyen", progress: (d, t) => `${t} dersten ${d} tanesi tamamlandı`,
+        plan: "Öğrenme planın", planEdit: "Cevapları değiştir", planNone: "Henüz ayarlanmadı.", planStart: "5 kısa soruyu cevapla",
+        planGoal: { travel: "Seyahat", work: "İş", school: "Okul veya üniversite", abroad: "Yurt dışında yaşamak", people: "İnsanlarla konuşmak", fun: "Eğlence için" },
+        planFocus: { listening: "Anlamak", speaking: "Konuşmak", vocab: "Kelime bilgisi", pronunciation: "Telaffuz", confidence: "Özgüven" },
+        planLevel: ["Yeni", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `Günde ${m} dk`,
+        noLevel: "henüz belirlenmedi", trophies: "Kupaların", syncNote: "İlerlemen ve kupaların hesabında kaydedilir ve tüm cihazlarında senkronize edilir.",
+        deleteTitle: "Hesabı sil", deleteText: "Hesabını, kullanıcı adını ve sunucularımızda kayıtlı ilerlemeni siler. Bu tarayıcıda kayıtlı ilerleme burada kalır.",
+        deleteBtn: "Hesabımı sil", deleteConfirm: "Hesabını gerçekten silmek istiyor musun? Bu işlem geri alınamaz.", deleteWord: "SİL", deleteType: (w) => `Onaylamak için <strong>${w}</strong> yaz:`, deleteFinal: "Hesabımı kalıcı olarak sil", deleteCancel: "Vazgeç", deleted: "Hesabın silindi.",
+        hint: (n) => `<strong>${n}</strong> olarak giriş yaptın · <a href="account-tr.html">Hesabım</a>`,
+        google: "Google ile devam et", or: "ya da e-posta adresinle",
+        confirmedTitle: "E-postan onaylandı!",
+        confirmedText: "Nawee’ye hoş geldin – hesabın hazır. Öğrenme ilerlemen artık hesabında kaydediliyor ve tüm cihazlarında kullanılabilir.",
+        confirmedPrimary: "Öğrenmeye başla", confirmedSecondary: "Hesabıma git",
+        linkExpired: "Bu bağlantının süresi doldu ya da zaten kullanıldı. E-postanı zaten onayladıysan giriş yapman yeterli. Değilse yeni bir bağlantı için tekrar kayıt ol.",
+        hintOut: `İlerlemeni ve kupalarını tüm cihazlarında kaydetmek için <a href="account-tr.html">ücretsiz bir hesap oluştur</a>.`,
+        errors: {
+            invalid: "E-posta veya şifre yanlış.", unconfirmed: "Lütfen önce e-posta adresini onayla – gelen kutunu kontrol et.",
+            exists: "Bu e-posta için zaten bir hesap var.", usernameTaken: "Bu kullanıcı adı zaten alınmış.",
+            usernameFormat: "Lütfen 3–24 karakterlik bir kullanıcı adı seç (harf, rakam, . _ -).", firstName: "Lütfen adını gir.",
+            short: "Şifren en az 8 karakter olmalı.", weak: "Şifren en az 8 karakter olmalı ve hem harf hem rakam içermeli.", mismatch: "Şifreler eşleşmiyor.",
+            rate: "Çok fazla deneme – lütfen birkaç dakika bekleyip tekrar dene.",
+            email: "Onay e-postasını şu anda gönderemedik. Lütfen daha sonra tekrar dene – ya da david@nawee.net adresine yaz.", generic: "Bir şeyler ters gitti. Lütfen tekrar dene.",
+        },
+    });
 
     const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const errorText = (error) => {
@@ -362,7 +411,7 @@
     };
 
     // ---------- account overview (dashboard): courses, level, activity, today's tasks, picture cards ----------
-    const D = isEnglish ? {
+    const D = trMerge(isEnglish ? {
         welcome: "Welcome back,", courses: "Your courses", continue: "Continue", start: "Start", lessons: (d, t) => `${d}/${t} lessons`,
         fromStart: "English from the start", safeSpeaking: "Speaking with confidence", cc: "Communication Course",
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
@@ -384,7 +433,18 @@
         cards: "Bildkarten", allTopics: "Alle Themen", practice: "Üben",
         status: { green: "sicher", yellow: "geübt", red: "falsch", grey: "neu" },
         workPage: "beruf-lektion.html", ccPage: "communication-course.html", cardsPage: "vokabeln.html", readPage: "lesen.html", grammarPage: "grammatik.html", startPage: "start.html",
-    };
+    }, {
+        welcome: "Tekrar hoş geldin,", courses: "Kursların", continue: "Devam et", start: "Başla", lessons: (d, t) => `${d}/${t} ders`,
+        fromStart: "Sıfırdan İngilizce", safeSpeaking: "Kendinden emin konuşmak", cc: "İletişim Kursu",
+        level: "Seviyen", tested: (d) => `Seviye testi · ${d}`, fromAnswers: "Cevaplarına göre", testAgain: "Teste gir", noLevel: "Henüz belirlenmedi",
+        activity: "Etkinlik", streak: (n) => "gün üst üste", totalDays: (n) => `${n} gün öğrendin`,
+        week: ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+        today: "Bugün", tricky: "Zor kelimeler", trickyDone: "Zor kelimeler çalışıldı", trickyCard: "🧩 Zor kelimelerin", trickyLead: "Dilbilgisi bulmacalarında karıştırdığın çiftler. İki kez doğru eşleştirince kaybolurlar.", trickyGo: "Çalış", gReview: "Dilbilgisi tekrarı", gDone: "Çalışılan dilbilgisi:", gWeak: (t, sc, of) => `${t} · geçen sefer ${sc}/${of}`, gStale: (t) => `${t} · bir hafta önce – taze tut`, weekly: "Haftanın okuma metni", weeklyAll: "Bu hafta yeni · A1–C1", weeklyDone: "Bu hafta okundu:", repeat: "Kelimeleri tekrar et", learnNew: "Yeni kelimeler öğren", read: "Bir metin oku", lesson: "Sonraki ders", nothingDue: "Bekleyen bir şey yok", allDone: "🎉 Bugünlük hepsi tamam!", reviewed: "Bekleyen tüm kelimeler tekrar edildi", learned: (n) => `${n} yeni kelime öğrenildi`, readDone: "Okundu:", lessonDone: "Tamamlanan ders:", doneLabel: "Tamam",
+        words: (n) => `${n} kelime`, texts: (n) => `${n} yeni metin`, min: (n) => `${n} dk`, go: "Hadi başlayalım",
+        cards: "Resimli kartlar", allTopics: "Tüm konular", practice: "Çalış",
+        status: { green: "öğrenildi", yellow: "çalışıldı", red: "yanlış", grey: "yeni" },
+        cardsPage: "vocabulary-tr.html", grammarPage: "grammar-tr.html",
+    });
     const iso = (d) => d.toISOString().slice(0, 10);
     const bar = (part, whole) => `<span class="dash-bar"><span style="width:${whole ? Math.round((part / whole) * 100) : 0}%"></span></span>`;
 
@@ -697,11 +757,11 @@
             const ccDone = (read(CC_KEY).completed || []).length;
             root.innerHTML = `<div class="dash">
                 <div class="dash-top">
-                    <button type="button" class="dash-avatar" data-avatar-open aria-expanded="false" title="${isEnglish ? "Choose your avatar" : "Avatar wählen"}" aria-label="${isEnglish ? "Choose your avatar" : "Avatar wählen"}"></button>
+                    <button type="button" class="dash-avatar" data-avatar-open aria-expanded="false" title="${isTurkish ? "Avatarını seç" : isEnglish ? "Choose your avatar" : "Avatar wählen"}" aria-label="${isEnglish ? "Choose your avatar" : "Avatar wählen"}"></button>
                     <h1 class="dash-hello"><span>${D.welcome}</span> ${esc(firstName() || name)}!</h1>
                 </div>
                 <div class="avatar-picker" data-avatar-picker hidden>
-                    <p class="avatar-picker-h">${isEnglish ? "Choose your avatar" : "Wähle deinen Avatar"}</p>
+                    <p class="avatar-picker-h">${isTurkish ? "Avatarını seç" : isEnglish ? "Choose your avatar" : "Wähle deinen Avatar"}</p>
                     <div class="avatar-grid">${window.NaweeAvatars.map((a) => `<button type="button" class="avatar-opt" data-avatar="${a.id}" style="background:${a.bg}" aria-label="${a.id}">${a.e}</button>`).join("")}
                         <button type="button" class="avatar-opt avatar-none" data-avatar="" aria-label="${isEnglish ? "No avatar – show my initial" : "Kein Avatar – Anfangsbuchstabe"}">${esc((firstName() || name).charAt(0).toUpperCase())}</button></div>
                     <p class="avatar-msg" data-avatar-msg></p>
@@ -764,7 +824,7 @@
                 drawAvatar();
                 window.dispatchEvent(new CustomEvent("nawee:avatar"));
                 const { error } = await db.from("profiles").update({ avatar: id }).eq("id", user.id);
-                msg.textContent = error ? (isEnglish ? "Saved on this device." : "Auf diesem Gerät gespeichert.") : (isEnglish ? "✓ Saved" : "✓ Gespeichert");
+                msg.textContent = error ? (isTurkish ? "Bu cihaza kaydedildi." : isEnglish ? "Saved on this device." : "Auf diesem Gerät gespeichert.") : (isTurkish ? "✓ Kaydedildi" : isEnglish ? "✓ Saved" : "✓ Gespeichert");
                 setTimeout(() => { picker.hidden = true; avBtn.setAttribute("aria-expanded", "false"); msg.textContent = ""; }, 900);
             });
             // deleting needs two steps: open the confirm box, then type the confirm word – so it can't happen by a misclick

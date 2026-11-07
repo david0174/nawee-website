@@ -6,9 +6,22 @@
 (() => {
     const root = document.querySelector("[data-grammar]");
     if (!root || typeof GRAMMAR === "undefined") return;
-    const de = (document.documentElement.lang || "en").startsWith("de");
-    const L = (v) => (v && typeof v === "object" ? v[de ? "de" : "en"] : v) || "";
-    const page = de ? "grammatik.html" : "grammar.html";
+    // de / en / tr (2026-11-07) – Turkish texts come from grammar-tr.js and are merged into GRAMMAR here
+    const pl = (document.documentElement.lang || "en").slice(0, 2);
+    const de = pl === "de", tr = pl === "tr";
+    const lng = de ? "de" : tr ? "tr" : "en";
+    const L = (v) => (v && typeof v === "object" ? v[lng] || v.en : v) || "";
+    const page = de ? "grammatik.html" : tr ? "grammar-tr.html" : "grammar.html";
+    if (tr && typeof GRAMMAR_TR !== "undefined") GRAMMAR.forEach((g) => {
+        const t = GRAMMAR_TR[g.id]; if (!t) return;
+        g.title.tr = t.title; g.teaser.tr = t.teaser; g.rule.tr = t.rule; g.speak.q.tr = t.speak;
+        g.german = { ...g.german, tr: t.turkish };
+        if (g.puzzle && t.puzzle) { g.puzzle.a.tr = t.puzzle[0]; g.puzzle.b.tr = t.puzzle[1]; }
+        g.form.forEach((f, i) => { if (t.form[i]) { f.label.tr = t.form[i][0]; if (f.note) f.note.tr = t.form[i][1]; }
+            f.rows.forEach((r) => { if (r[0] && typeof r[0] === "object" && t.rowLabels && t.rowLabels[r[0].de]) r[0].tr = t.rowLabels[r[0].de]; }); });
+        g.practice.forEach((p, i) => { const x = t.practice[i]; if (x === undefined) return;
+            if (Array.isArray(x)) { if (p.task) p.task.tr = x[0]; p.why.tr = x[1]; } else p.why.tr = x; });
+    });
     const readPage = de ? "lesen.html" : "reading.html";
     const KEY = "nawee-grammar-v1";
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -35,6 +48,19 @@
         score: (s, n) => `${s} of ${n} correct`, again: "Practice again", puzzle: "Puzzle: match the pairs", puzzleHint: "Tap a piece, then its partner. Tip: the shape of the edges shows which pieces fit together.", puzzleNew: "New puzzle", trickyNow: "⚠️ Tricky this time:", trickyOld: "🔁 Your tricky words:", trickyBtn: "Practice them", trickyNote: "They disappear once you get them right twice – they’re also in your profile.", puzzleDone: (m) => `🎉 All pairs matched${m ? ` – with ${m} wrong ${m === 1 ? "try" : "tries"}` : " – no mistakes!"}`, speak: "Your turn: say it yourself", speakHint: "Answer out loud in English – then look at the example.", showModel: "Show example", play: "▶ Listen to the example", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", markDone: "✓ Mark as completed", markUndo: "↩ Mark as not completed",
         betaNote: "Beta: this lesson is new. Tell us below what helped and what’s missing.", privacy: "Your progress is saved in this browser.",
     };
+
+    if (tr) Object.assign(T, {
+        eyebrow: "DİLBİLGİSİ", title: "Dilbilgisi", beta: "BETA",
+        lead: "İngilizcenin arkasındaki kuralları anlamak isteyen herkes için: okuma metinlerimizden örneklerle kısa dersler, Türkçeyle bir karşılaştırma ve anında geri bildirimli alıştırmalar.",
+        soon: "Yakında: some & any, much & many, nesne zamirleri, sıklık zarfları – sonra B1: present perfect …", start: "Derse başla →", done: (s, n) => `✓ Tamamlandı · ${n} sorudan ${s} doğru`, completedOnly: "✓ Tamamlandı",
+        back: "← Tüm dilbilgisi dersleri", rule: "Kural", build: "Nasıl kurulur?", german: "Türkçeden farkı", examples: "Metinlerimizde",
+        examplesHint: "Dinlemek için bir cümleye dokun.", from: "kaynak", practice: "Alıştırma", check: "Kontrol et", right: "Doğru!", wrong: "Tam değil – doğrusu:", typeHere: "Cevabını yaz",
+        score: (s, n) => `${n} sorudan ${s} doğru`, again: "Tekrar çalış", puzzle: "Bulmaca: çiftleri eşleştir", puzzleHint: "Bir parçaya, sonra eşine dokun. İpucu: kenarların şekli hangi parçaların birbirine uyduğunu gösterir.",
+        puzzleNew: "Yeni bulmaca", trickyNow: "⚠️ Bu sefer zor olanlar:", trickyOld: "🔁 Zor kelimelerin:", trickyBtn: "Şimdi çalış", trickyNote: "İki kez doğru yapınca kaybolurlar – profilinde de görünürler.",
+        puzzleDone: (m) => `🎉 Tüm çiftler eşleşti${m ? ` – ${m} yanlış denemeyle` : " – hiç hata yok!"}`, speak: "Sıra sende: kendin söyle", speakHint: "Yüksek sesle İngilizce cevap ver – sonra örneğe bak.",
+        showModel: "Örneği göster", play: "▶ Örneği dinle", pause: "⏸ Duraklat", resume: "▶ Devam et", replay: "↻ Tekrar dinle", markDone: "✓ Tamamlandı olarak işaretle", markUndo: "↩ Tamamlanmadı olarak işaretle",
+        betaNote: "Beta: bu ders yeni. Neyin işine yaradığını ve neyin eksik olduğunu aşağıda bize yaz.", privacy: "İlerlemen bu tarayıcıda kaydedilir.",
+    });
 
     // browser voice (American English) – later David's recordings can replace it
     const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
@@ -99,7 +125,7 @@
         <section class="gr-step"><h2>🔧 ${T.build}</h2>${lesson.form.map((f) => `<div class="gr-form"><h3>${esc(L(f.label))}</h3>
             <div class="gr-pairs">${f.rows.map(([a0, b]) => { const a = L(a0); return `<button type="button" class="gr-pair" data-say="${esc(b === "✓" ? a : b.replace(/^→\s*/, ""))}"><span>${esc(a)}</span><b>${esc(b)}</b></button>`; }).join("")}</div>
             ${f.note ? `<p class="as-note">${L(f.note)}</p>` : ""}</div>`).join("")}</section>
-        ${de && L(lesson.german) ? `<section class="gr-step gr-german"><h2>🇩🇪 ${T.german}</h2><p>${L(lesson.german)}</p></section>` : ""}
+        ${(de || tr) && L(lesson.german) ? `<section class="gr-step gr-german"><h2>${tr ? "🇹🇷" : "🇩🇪"} ${T.german}</h2><p>${L(lesson.german)}</p></section>` : ""}
         <section class="gr-step"><h2>📖 ${T.examples}</h2><p class="as-note">${T.examplesHint}</p>
             <ul class="gr-examples">${lesson.examples.map((e) => `<li><button type="button" class="gr-ex" data-say="${esc(e.text)}">${highlight(e.text, e.hl)}</button>
                 ${textTitle(e.from) ? `<a class="gr-from" href="${readPage}?t=${e.from}">${T.from}: ${esc(textTitle(e.from))} →</a>` : ""}</li>`).join("")}</ul></section>
