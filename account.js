@@ -27,6 +27,9 @@
     const isEnglish = pageLang !== "de";
     const ACCOUNT_PAGE = isEnglish ? "account.html" : "konto.html"; // confirmation / reset links (allowed in Supabase); Turkish visitors are forwarded by script.js
     const ACCOUNT_LINK = isTurkish ? "account-tr.html" : ACCOUNT_PAGE;
+    const GT = ({ de: { set: "Deine Lernziele festlegen (2 Min.)", title: "🎯 Deine Lernziele", lead: "Sag uns, warum du Englisch lernst – wir machen dir einen Plan für dein kurzfristiges und dein langfristiges Ziel.", edit: "Ziele ändern" },
+        en: { set: "Set your learning goals (2 min)", title: "🎯 Your learning goals", lead: "Tell us why you’re learning English – we’ll make you a plan for your short-term and your long-term goal.", edit: "Change goals" },
+        tr: { set: "Öğrenme hedeflerini belirle (2 dk)", title: "🎯 Öğrenme hedeflerin", lead: "Neden İngilizce öğrendiğini bize söyle – kısa ve uzun vadeli hedefin için sana bir plan hazırlayalım.", edit: "Hedefleri değiştir" } })[pageLang] || null;
     const trMerge = (base, tr) => {
         if (!isTurkish) return base;
         const out = { ...base };
@@ -351,7 +354,9 @@
             <h2 id="account-popup-title">${T.confirmedTitle}</h2>
             <p>${T.confirmedText}</p>
             <div class="as-actions">
-                <a class="button primary" href="${T.learnPage}">${T.confirmedPrimary} <span aria-hidden="true">→</span></a>
+                ${read(PROFILE_KEY).detail === undefined
+                    ? `<a class="button primary" href="${T.startPage}?edit">${GT.set} <span aria-hidden="true">→</span></a>`
+                    : `<a class="button primary" href="${T.learnPage}">${T.confirmedPrimary} <span aria-hidden="true">→</span></a>`}
                 <button type="button" class="button secondary" data-close>${T.confirmedSecondary}</button>
             </div>`;
         dialog.querySelector("[data-close]").addEventListener("click", () => dialog.close());
@@ -524,6 +529,16 @@
                 return `<div class="dash-tricky-row"><p class="dash-tricky-lesson">${l.icon} ${esc(isEnglish ? l.title.en : l.title.de)}</p>
                 <p class="dash-tricky-pairs">${ts.map((t) => `<span>${esc(t.pair)}</span>`).join("")}</p>
                 <a class="button secondary dash-tricky-go" href="${ts[0].href}">${D.trickyGo} →</a></div>`; }).join("")}
+        </section>`;
+    };
+    // learning goals (2026-11-07): short-term + long-term plan from the "get started" answers (goals.js)
+    const dashGoals = () => {
+        const G = GT;
+        const p = read(PROFILE_KEY);
+        const body = window.NaweeGoals ? window.NaweeGoals.html(p, { compact: true }) : "";
+        return `<section class="dash-card dash-goals"><h2 class="dash-h">${G.title}</h2>
+            ${body ? `${body}<a class="dash-link" href="${T.startPage}?edit">${G.edit} →</a>`
+                : `<p class="dash-sub">${G.lead}</p><a class="button primary dash-go" href="${T.startPage}?edit">${G.set} →</a>`}
         </section>`;
     };
     const dashToday = () => {
@@ -772,7 +787,7 @@
                         ${dashCourses(done, total, ccDone)}
                         <div class="dash-pair">${dashLevel(level, course)}${dashCards()}</div>
                     </div>
-                    <div class="dash-side">${dashActivity()}${dashToday()}${dashTricky()}</div>
+                    <div class="dash-side">${dashGoals()}${dashActivity()}${dashToday()}${dashTricky()}</div>
                 </div>
                 <div data-dash-webinar></div>
                 <section class="trophy-cabinet dash-card">

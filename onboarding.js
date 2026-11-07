@@ -18,9 +18,6 @@
             ["google", "🔍", "Bei Google"], ["instagram", "📸", "Auf Instagram oder Facebook"], ["linkedin", "💼", "Auf LinkedIn"],
             ["youtube", "▶️", "Auf YouTube"], ["friends", "👋", "Jemand hat es mir empfohlen"], ["school", "🏫", "In der Schule, Uni oder Firma"],
             ["other", "✨", "Woanders"]] },
-        { id: "goal", ask: "Wofür brauchst du Englisch?", options: [
-            ["travel", "✈️", "Unterwegs zurechtkommen"], ["work", "💼", "Für meinen Job"], ["school", "🎓", "Für Schule oder Studium"],
-            ["abroad", "🏠", "Für ein Leben im Ausland"], ["people", "💬", "Um mit Menschen zu reden, die mir wichtig sind"], ["fun", "🎉", "Einfach, weil ich Lust darauf habe"]] },
         { id: "level", ask: "Wie gut ist dein Englisch gerade?", levels: true, options: [
             [0, "Neu", "Ich starte bei null."], [1, "A1", "Ein bisschen: Begrüßungen und einzelne Wörter."],
             [2, "A2", "Ich komme im Alltag gerade so zurecht."], [3, "B1–B2", "Ich kann mich gut unterhalten."],
@@ -36,9 +33,6 @@
             ["google", "🔍", "On Google"], ["instagram", "📸", "On Instagram or Facebook"], ["linkedin", "💼", "On LinkedIn"],
             ["youtube", "▶️", "On YouTube"], ["friends", "👋", "Someone recommended it"], ["school", "🏫", "At school, college or work"],
             ["other", "✨", "Somewhere else"]] },
-        { id: "goal", ask: "What do you need English for?", options: [
-            ["travel", "✈️", "Getting around abroad"], ["work", "💼", "My job"], ["school", "🎓", "School or college"],
-            ["abroad", "🏠", "Living in another country"], ["people", "💬", "Talking with people who matter to me"], ["fun", "🎉", "Simply because I enjoy it"]] },
         { id: "level", ask: "How good is your English right now?", levels: true, options: [
             [0, "New", "I’m starting from zero."], [1, "A1", "A little: greetings and a few words."],
             [2, "A2", "I can just about get by in everyday life."], [3, "B1–B2", "I can hold a good conversation."],
@@ -58,9 +52,6 @@
             ["google", "🔍", "Google’da"], ["instagram", "📸", "Instagram ya da Facebook’ta"], ["linkedin", "💼", "LinkedIn’de"],
             ["youtube", "▶️", "YouTube’da"], ["friends", "👋", "Biri tavsiye etti"], ["school", "🏫", "Okulda, üniversitede ya da işte"],
             ["other", "✨", "Başka bir yerde"]] },
-        { id: "goal", ask: "İngilizceye ne için ihtiyacın var?", options: [
-            ["travel", "✈️", "Yurt dışında idare etmek"], ["work", "💼", "İşim için"], ["school", "🎓", "Okul ya da üniversite için"],
-            ["abroad", "🏠", "Başka bir ülkede yaşamak için"], ["people", "💬", "Benim için önemli insanlarla konuşmak için"], ["fun", "🎉", "Sadece hoşuma gittiği için"]] },
         { id: "level", ask: "İngilizcen şu anda ne kadar iyi?", levels: true, options: [
             [0, "Yeni", "Sıfırdan başlıyorum."], [1, "A1", "Biraz: selamlaşmalar ve birkaç kelime."],
             [2, "A2", "Günlük hayatta ancak idare edebiliyorum."], [3, "B1–B2", "İyi bir sohbet yürütebiliyorum."],
@@ -140,12 +131,18 @@
         fetch(`${SUPABASE_URL}/rest/v1/onboarding_answers`, {
             method: "POST",
             headers: { apikey: SUPABASE_KEY, "Content-Type": "application/json", Prefer: "return=minimal" },
-            body: JSON.stringify({ lang: de ? "de" : "en", source: a.source, goal: a.goal, level: a.level, focus: a.focus, minutes: a.minutes }),
+            body: JSON.stringify({ lang: tr ? "tr" : de ? "de" : "en", source: a.source, goal: a.goal, detail: a.detail, horizon: a.horizon, level: a.level, focus: a.focus, minutes: a.minutes }),
             keepalive: true,
         }).catch(() => {});
     };
 
     const answers = {};
+    // the questions in order; the goal part (why → what exactly → short/long term → date) comes from goals.js and adapts to the answers
+    const flow = () => {
+        const by = (id) => Q.find((q) => q.id === id);
+        const G = window.NaweeGoals ? window.NaweeGoals.questions(answers) : [];
+        return [by("source"), ...G, by("level"), by("focus"), by("minutes")].filter(Boolean);
+    };
     let step = -1; // -1 = welcome
     let started = false; // the visitor began answering on this page
 
@@ -174,8 +171,10 @@
             root.querySelector(".ob-next").addEventListener("click", () => { started = true; step = 0; render(); });
             return;
         }
-        if (step >= Q.length) return plan();
-        const q = Q[step];
+        const F = flow();
+        if (step >= F.length) return plan();
+        const q = F[step];
+        if (q.date) return dateStep(q, F);
         const list = q.options.map(([value, icon, label, sub]) => {
             const picked = answers[q.id] === value;
             const art = q.levels
@@ -185,28 +184,45 @@
                 ${art}<span class="ob-label">${esc(label)}${sub ? `<small>${esc(sub)}</small>` : ""}</span></button>`;
         }).join("");
         shell(esc(q.ask), `<div class="ob-options${q.levels || q.options.length < 6 ? " ob-options-1" : ""}">${list}</div>`,
-            { progress: (step + 1) / (Q.length + 1), canNext: answers[q.id] !== undefined });
+            { progress: (step + 1) / (F.length + 1), canNext: answers[q.id] !== undefined });
         const next = root.querySelector(".ob-next");
         root.querySelectorAll(".ob-option").forEach((btn, i) => btn.addEventListener("click", () => {
+            if (q.id === "goal" && answers.goal !== q.options[i][0]) delete answers.detail; // a new reason needs a new "what exactly"
+            if (q.id === "horizon" && q.options[i][0] !== "soon") delete answers.due;
             answers[q.id] = q.options[i][0];
             root.querySelectorAll(".ob-option").forEach((x) => { x.classList.toggle("is-picked", x === btn); x.setAttribute("aria-pressed", x === btn); });
             next.disabled = false;
         }));
         next.addEventListener("click", () => {
             if (answers[q.id] === undefined) return;
-            step += 1;
-            if (step >= Q.length) {
-                const firstTime = !load();
-                save({ ...answers, date: new Date().toISOString().slice(0, 10) });
-                if (firstTime) count(answers);
-                window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
-            }
-            render();
+            advance();
         });
     };
+    const advance = () => {
+        step += 1;
+        if (step >= flow().length) {
+            const firstTime = !load();
+            save({ ...answers, date: new Date().toISOString().slice(0, 10) });
+            if (firstTime) count(answers);
+            window.dispatchEvent(new Event("nawee:progress")); // account.js saves it to the account (if logged in)
+        }
+        render();
+    };
+    // "Is there a date already?" – a date field (today or later) or "No date yet"
+    const dateStep = (q, F) => {
+        const today = new Date().toISOString().slice(0, 10);
+        shell(esc(q.ask), `<div class="ob-date"><input type="date" class="ob-date-input" min="${today}" value="${esc(answers.due || "")}" aria-label="${esc(q.ask)}">
+            <button type="button" class="ob-nodate">${esc(q.noDate)}</button></div>`, { progress: (step + 1) / (F.length + 1), canNext: Boolean(answers.due) });
+        const input = root.querySelector(".ob-date-input"), next = root.querySelector(".ob-next");
+        input.addEventListener("input", () => { answers.due = input.value; next.disabled = !input.value; });
+        next.addEventListener("click", () => { if (answers.due) advance(); });
+        root.querySelector(".ob-nodate").addEventListener("click", () => { answers.due = ""; advance(); });
+    };
 
-    const labelOf = (id, value) => {
-        const o = Q.find((q) => q.id === id).options.find((x) => x[0] === value);
+    const labelOf = (id, value, p = {}) => {
+        if (id === "goal" && window.NaweeGoals) return window.NaweeGoals.label("goal", window.NaweeGoals.normalize(p).goal);
+        const q0 = Q.find((q) => q.id === id);
+        const o = q0 && q0.options.find((x) => x[0] === value);
         if (o) return o[2].replace(/\.$/, "");
         // answers saved before 2026-11-07 (5 / 10 / 20 minutes) still show their number
         return id === "minutes" && value ? `${value} ${de ? "Minuten" : tr ? "dakika" : "minutes"}` : "";
@@ -227,12 +243,13 @@
     });
 
     const plan = () => {
-        step = Q.length;
+        step = flow().length;
         const p = load() || answers;
         const level = Number(p.level) || 0;
         const rec = level <= 1 ? T.beginner : level === 2 ? T.middle : T.advanced;
         const extra = level <= 1 ? T.cards : level === 2 ? T.lesson : T.check;
-        const chips = ["goal", "level", "focus"].map((id) => `<li><span>${T.labels[id]}</span>${esc(labelOf(id, p[id]))}</li>`).join("")
+        const goalPlan = window.NaweeGoals ? window.NaweeGoals.html(p) : "";
+        const chips = ["goal", "level", "focus"].map((id) => `<li><span>${T.labels[id]}</span>${esc(labelOf(id, p[id], p))}</li>`).join("")
             + (p.minutes ? `<li><span>${T.labels.minutes}</span>${esc(labelOf("minutes", p.minutes))}</li>` : "");
         root.innerHTML = `
             <div class="ob-top"><span class="ob-back-space"></span><span class="ob-progress"><span style="width:100%"></span></span></div>
@@ -241,14 +258,15 @@
                 <p class="ob-bubble">${T.ready}</p>
             </div>
             <ul class="ob-summary">${chips}</ul>
-            <div class="ob-rec">
+            ${goalPlan}
+            <div class="ob-rec"${goalPlan ? " hidden" : ""}>
                 <p class="ob-rec-label">${T.start}</p>
                 <h2>${rec.title}</h2>
                 <p>${rec.text}</p>
                 <a class="button primary" href="${rec.href}">${rec.cta} →</a>
                 <a class="ob-rec-extra" href="${extra.href}">${extra.text} →</a>
             </div>
-            ${p.minutes ? `<p class="ob-daily">${T.daily(p.minutes)}</p>` : ""}
+            ${p.minutes && !goalPlan ? `<p class="ob-daily">${T.daily(p.minutes)}</p>` : ""}
             <div class="ob-save" data-ob-save>${saveBox()}</div>
             <p class="ob-links"><a href="${T.path.href}">${T.path.text}</a> · <button type="button" class="ob-redo">${T.redo}</button></p>`;
         root.querySelector(".ob-redo").addEventListener("click", () => {
@@ -268,8 +286,9 @@
         loggedIn = Boolean(session && session.user && session.refresh_token);
     } catch { /* storage unavailable */ }
     const saved = load();
-    const answered = (p) => p && p.level !== undefined;
-    if (loggedIn && !editing) { location.replace(accountPage); return; } // logged in: no plan offer, straight to the progress
+    const answered = (p) => p && p.level !== undefined && p.detail !== undefined; // older answers (before 2026-11-07) get the new questions once
+    // logged in and the questions are answered: straight to the progress; logged in without answers (e.g. right after sign-up): ask them
+    if (loggedIn && !editing && answered(saved)) { location.replace(accountPage); return; }
     // answers saved in the account (another device) arrive after account.js has synced
     window.addEventListener("nawee:account", (e) => {
         if (e.detail && e.detail.name && answered(load()) && !editing && !started) location.replace(accountPage);

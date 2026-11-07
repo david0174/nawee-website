@@ -85,3 +85,14 @@ body { background: var(--dm-bg); color: var(--ink); }
 /* gold buttons keep dark text in dark mode */
 .button.button-gold { background: #f5c542; border-color: #f5c542; color: #14213d; box-shadow: 0 0 0 1px #f5c542, 0 0 22px rgba(245, 197, 66, .35); }
 .button.button-gold:hover, .button.button-gold:focus-visible { background: #f8d264; border-color: #f8d264; color: #14213d; }
+/* learning goals plan (2026-11-07) */
+.gp-card { background: #172231; border-color: #2b3a4f; }
+.gp-long { background: #141f2f; }
+.gp-card h3, .gp-target { color: #ffffff; }
+.gp-sub, .gp-help, .gp-weekly, .gp-routine-h, .gp-label { color: #b7c3d3; }
+.gp-routine { color: #dbe5f5; }
+.gp-step { background: #1d2a3d; } .gp-say { background: #2a2414; }
+.gp-step a, .gp-help a, .ob-nodate { color: #9cbcf0; }
+.gp-n { background: #f5c542; color: #14213d; }
+.gp-due { background: #f5c542; color: #14213d; }
+.ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }

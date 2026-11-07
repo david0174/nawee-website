@@ -641,6 +641,23 @@
     html:not([data-theme="light"]) .dash-tricky-pairs span { background: #382d10; color: #d5d9e2; }
     html:not([data-theme="light"]) .button.button-gold { color: #d5d9e2; }
     html:not([data-theme="light"]) .button.button-gold:hover, html:not([data-theme="light"]) .button.button-gold:focus-visible { background: #5c4c1e; border-color: #5c4c1e; color: #d5d9e2; }
+    html:not([data-theme="light"]) .gp-card { border: 1px solid #1c232e; background: #14181f; }
+    html:not([data-theme="light"]) .gp-long { background: #0c162b; }
+    html:not([data-theme="light"]) .gp-label { color: #c3c6c9; }
+    html:not([data-theme="light"]) .gp-card h3 { color: #80a2f0; }
+    html:not([data-theme="light"]) .gp-due { color: #d5d9e2; }
+    html:not([data-theme="light"]) .gp-sub { color: #ccced2; }
+    html:not([data-theme="light"]) .gp-step { background: #141b25; }
+    html:not([data-theme="light"]) .gp-step a { color: #7ea9f1; }
+    html:not([data-theme="light"]) .gp-say { background: #31290e; }
+    html:not([data-theme="light"]) .gp-help { color: #ccced2; }
+    html:not([data-theme="light"]) .gp-help a { color: #7ea9f1; }
+    html:not([data-theme="light"]) .gp-target { color: #80a2f0; }
+    html:not([data-theme="light"]) .gp-routine-h { color: #ccced2; }
+    html:not([data-theme="light"]) .gp-routine { color: #d1d4db; }
+    html:not([data-theme="light"]) .gp-weekly { color: #ccced2; }
+    html:not([data-theme="light"]) .ob-date-input { border: 2px solid #232a34; }
+    html:not([data-theme="light"]) .ob-nodate { color: #7ea9f1; }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -701,6 +718,17 @@
     html:not([data-theme="light"]) .pz-chip, html:not([data-theme="light"]) .dash-tricky-pairs span { background: #f5c542; color: #14213d; border-color: #f5c542; }
     html:not([data-theme="light"]) .button.button-gold { background: #f5c542; border-color: #f5c542; color: #14213d; box-shadow: 0 0 0 1px #f5c542, 0 0 22px rgba(245, 197, 66, .35); }
     html:not([data-theme="light"]) .button.button-gold:hover, html:not([data-theme="light"]) .button.button-gold:focus-visible { background: #f8d264; border-color: #f8d264; color: #14213d; }
+    html:not([data-theme="light"]) .gp-card { background: #172231; border-color: #2b3a4f; }
+    html:not([data-theme="light"]) .gp-long { background: #141f2f; }
+    html:not([data-theme="light"]) .gp-card h3, html:not([data-theme="light"]) .gp-target { color: #ffffff; }
+    html:not([data-theme="light"]) .gp-sub, html:not([data-theme="light"]) .gp-help, html:not([data-theme="light"]) .gp-weekly, html:not([data-theme="light"]) .gp-routine-h, html:not([data-theme="light"]) .gp-label { color: #b7c3d3; }
+    html:not([data-theme="light"]) .gp-routine { color: #dbe5f5; }
+    html:not([data-theme="light"]) .gp-step { background: #1d2a3d; }
+    html:not([data-theme="light"]) .gp-say { background: #2a2414; }
+    html:not([data-theme="light"]) .gp-step a, html:not([data-theme="light"]) .gp-help a, html:not([data-theme="light"]) .ob-nodate { color: #9cbcf0; }
+    html:not([data-theme="light"]) .gp-n { background: #f5c542; color: #14213d; }
+    html:not([data-theme="light"]) .gp-due { background: #f5c542; color: #14213d; }
+    html:not([data-theme="light"]) .ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1342,6 +1370,23 @@ html[data-theme="dark"] .dash-tricky-row { border-top: 1px solid var(--line, #1e
 html[data-theme="dark"] .dash-tricky-pairs span { background: #382d10; color: #d5d9e2; }
 html[data-theme="dark"] .button.button-gold { color: #d5d9e2; }
 html[data-theme="dark"] .button.button-gold:hover, html[data-theme="dark"] .button.button-gold:focus-visible { background: #5c4c1e; border-color: #5c4c1e; color: #d5d9e2; }
+html[data-theme="dark"] .gp-card { border: 1px solid #1c232e; background: #14181f; }
+html[data-theme="dark"] .gp-long { background: #0c162b; }
+html[data-theme="dark"] .gp-label { color: #c3c6c9; }
+html[data-theme="dark"] .gp-card h3 { color: #80a2f0; }
+html[data-theme="dark"] .gp-due { color: #d5d9e2; }
+html[data-theme="dark"] .gp-sub { color: #ccced2; }
+html[data-theme="dark"] .gp-step { background: #141b25; }
+html[data-theme="dark"] .gp-step a { color: #7ea9f1; }
+html[data-theme="dark"] .gp-say { background: #31290e; }
+html[data-theme="dark"] .gp-help { color: #ccced2; }
+html[data-theme="dark"] .gp-help a { color: #7ea9f1; }
+html[data-theme="dark"] .gp-target { color: #80a2f0; }
+html[data-theme="dark"] .gp-routine-h { color: #ccced2; }
+html[data-theme="dark"] .gp-routine { color: #d1d4db; }
+html[data-theme="dark"] .gp-weekly { color: #ccced2; }
+html[data-theme="dark"] .ob-date-input { border: 2px solid #232a34; }
+html[data-theme="dark"] .ob-nodate { color: #7ea9f1; }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }
@@ -1402,6 +1447,17 @@ html[data-theme="dark"] .pz-tricky { background: #2a2414; border-color: #6b5520;
 html[data-theme="dark"] .pz-chip, html[data-theme="dark"] .dash-tricky-pairs span { background: #f5c542; color: #14213d; border-color: #f5c542; }
 html[data-theme="dark"] .button.button-gold { background: #f5c542; border-color: #f5c542; color: #14213d; box-shadow: 0 0 0 1px #f5c542, 0 0 22px rgba(245, 197, 66, .35); }
 html[data-theme="dark"] .button.button-gold:hover, html[data-theme="dark"] .button.button-gold:focus-visible { background: #f8d264; border-color: #f8d264; color: #14213d; }
+html[data-theme="dark"] .gp-card { background: #172231; border-color: #2b3a4f; }
+html[data-theme="dark"] .gp-long { background: #141f2f; }
+html[data-theme="dark"] .gp-card h3, html[data-theme="dark"] .gp-target { color: #ffffff; }
+html[data-theme="dark"] .gp-sub, html[data-theme="dark"] .gp-help, html[data-theme="dark"] .gp-weekly, html[data-theme="dark"] .gp-routine-h, html[data-theme="dark"] .gp-label { color: #b7c3d3; }
+html[data-theme="dark"] .gp-routine { color: #dbe5f5; }
+html[data-theme="dark"] .gp-step { background: #1d2a3d; }
+html[data-theme="dark"] .gp-say { background: #2a2414; }
+html[data-theme="dark"] .gp-step a, html[data-theme="dark"] .gp-help a, html[data-theme="dark"] .ob-nodate { color: #9cbcf0; }
+html[data-theme="dark"] .gp-n { background: #f5c542; color: #14213d; }
+html[data-theme="dark"] .gp-due { background: #f5c542; color: #14213d; }
+html[data-theme="dark"] .ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
