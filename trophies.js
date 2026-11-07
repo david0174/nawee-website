@@ -6,7 +6,7 @@
 (() => {
     const KEY = "nawee-trophies-v1";
     const COURSE_KEY = "nawee-course-v1";
-    const isEnglish = document.documentElement.lang === "en";
+    const isEnglish = document.documentElement.lang !== "de"; // English and Turkish pages (Turkish trophy texts: later)
 
     const load = (key) => { try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; } };
     const save = (data) => {

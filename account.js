@@ -52,7 +52,7 @@
 
     const params = new URLSearchParams(location.search);
     const NEXT_KEY = "nawee-next-page";
-    const validNext = (n) => /^(kurs\.html|lektion\.html\?l=\d-\d|communication-course\.html|communication-lesson\.html\?l=\d-\d)$/.test(n || "") ? n : "";
+    const validNext = (n) => /^((kurs|course|course-tr)\.html|(lektion|lesson|lesson-tr)\.html\?l=\d-\d|communication-course\.html|communication-lesson\.html\?l=\d-\d)$/.test(n || "") ? n : "";
     const nextPage = (() => {
         let n = validNext(params.get("next"));
         if (!n) { try { n = validNext(sessionStorage.getItem(NEXT_KEY)); sessionStorage.removeItem(NEXT_KEY); } catch { /* ignore */ } }
@@ -424,7 +424,7 @@
     // ---------- account overview (dashboard): courses, level, activity, today's tasks, picture cards ----------
     const D = trMerge(isEnglish ? {
         welcome: "Welcome back,", courses: "Your courses", continue: "Continue", start: "Start", lessons: (d, t) => `${d}/${t} lessons`,
-        fromStart: "English from the start", safeSpeaking: "Speaking with confidence", cc: "Communication Course",
+        fromStart: "English from the start", safeSpeaking: "Confident Conversations", coursePage: "course.html", cc: "Communication Course",
         level: "Your level", tested: (d) => `Placement test · ${d}`, fromAnswers: "From your answers", testAgain: "Take the test", noLevel: "Not determined yet",
         activity: "Activity", streak: (n) => (n === 1 ? "day in a row" : "days in a row"), totalDays: (n) => `You learned on ${n} ${n === 1 ? "day" : "days"}`,
         week: ["M", "T", "W", "T", "F", "S", "S"],
@@ -435,7 +435,7 @@
         workPage: "work-lesson.html", ccPage: "communication-course.html", cardsPage: "vocabulary.html", readPage: "reading.html", grammarPage: "grammar.html", startPage: "get-started.html",
     } : {
         welcome: "Willkommen zurück,", courses: "Deine Kurse", continue: "Weiter", start: "Starten", lessons: (d, t) => `${d}/${t} Lektionen`,
-        fromStart: "Englisch von Anfang an", safeSpeaking: "Sicher sprechen", cc: "Communication Course",
+        fromStart: "Englisch von Anfang an", safeSpeaking: "Sicher sprechen", coursePage: "kurs.html", cc: "Communication Course",
         level: "Dein Niveau", tested: (d) => `Einstufungstest · ${d}`, fromAnswers: "Aus deinen Antworten", testAgain: "Test machen", noLevel: "Noch nicht ermittelt",
         activity: "Aktivität", streak: (n) => (n === 1 ? "Tag in Folge" : "Tage in Folge"), totalDays: (n) => `An ${n} ${n === 1 ? "Tag" : "Tagen"} gelernt`,
         week: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
@@ -446,7 +446,7 @@
         workPage: "beruf-lektion.html", ccPage: "communication-course.html", cardsPage: "vokabeln.html", readPage: "lesen.html", grammarPage: "grammatik.html", startPage: "start.html",
     }, {
         welcome: "Tekrar hoş geldin,", courses: "Kursların", continue: "Devam et", start: "Başla", lessons: (d, t) => `${d}/${t} ders`,
-        fromStart: "Sıfırdan İngilizce", safeSpeaking: "Kendinden emin konuşmak", cc: "İletişim Kursu",
+        fromStart: "Sıfırdan İngilizce", safeSpeaking: "Kendinden emin konuş", coursePage: "course-tr.html", cc: "İletişim Kursu",
         level: "Seviyen", tested: (d) => `Seviye testi · ${d}`, fromAnswers: "Cevaplarına göre", testAgain: "Teste gir", noLevel: "Henüz belirlenmedi",
         activity: "Etkinlik", streak: (n) => "gün üst üste", totalDays: (n) => `${n} gün öğrendin`,
         week: ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
@@ -477,7 +477,7 @@
                 ${bar(wDone, lessons.length)}
                 <span class="dash-feature-foot"><span>${D.lessons(wDone, lessons.length)}</span><span>${next ? `${wDone ? D.continue : D.start} →` : "✓"}</span></span>
             </a>
-            ${row(D.safeSpeaking, done, total, "kurs.html")}
+            ${row(D.safeSpeaking, done, total, D.coursePage)}
             ${row(D.cc, ccDone, 21, D.ccPage)}
         </section>`;
     };
@@ -489,7 +489,7 @@
             <h2 class="dash-h">${D.level}</h2>
             <p class="dash-big">${esc(big)}</p><p class="dash-sub">${sub}</p>
             ${planBlock()}
-            <a class="dash-link" href="kurs.html">▶ ${D.testAgain}</a>
+            <a class="dash-link" href="${D.coursePage}">▶ ${D.testAgain}</a>
         </section>`;
     };
     // all days with any learning activity (lessons/trophies, picture cards, reading)
