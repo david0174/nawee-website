@@ -201,9 +201,9 @@ const GRAMMAR = [
             en: "<strong>going to</strong> for <strong>plans</strong> you’ve already made and things you can see coming. <strong>will</strong> for <strong>quick decisions</strong>, promises and guesses.",
         },
         form: [
-            { label: { de: "going to: am / is / are going to + Grundform", en: "going to: am / is / are going to + base form" }, rows: [["I visit Anna on Saturday (Plan)", "I’m going to visit Anna on Saturday."], ["Look at the clouds!", "It’s going to rain."]],
+            { label: { de: "going to: am / is / are going to + Grundform", en: "going to: am / is / are going to + base form" }, rows: [[{ de: "I visit Anna on Saturday (Plan)", en: "I visit Anna on Saturday (plan)" }, "I’m going to visit Anna on Saturday."], ["Look at the clouds!", "It’s going to rain."]],
               note: { de: "Der Plan stand schon vorher fest – oder man sieht es kommen.", en: "The plan was made before – or you can see it coming." } },
-            { label: { de: "will: will / ’ll + Grundform", en: "will: will / ’ll + base form" }, rows: [["Spontan im Restaurant", "I’ll have a cheese sandwich."], ["Versprechen", "I’ll call you tomorrow."], ["Vermutung", "I think it will work."]],
+            { label: { de: "will: will / ’ll + Grundform", en: "will: will / ’ll + base form" }, rows: [[{ de: "Spontan im Restaurant", en: "Quick decision at a restaurant" }, "I’ll have a cheese sandwich."], [{ de: "Versprechen", en: "Promise" }, "I’ll call you tomorrow."], [{ de: "Vermutung", en: "Guess" }, "I think it will work."]],
               note: { de: "Gesprochen fast immer kurz: I’ll, you’ll, she’ll … Verneinung: won’t.", en: "Spoken almost always short: I’ll, you’ll, she’ll … Negative: won’t." } },
         ],
         german: {

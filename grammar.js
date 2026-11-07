@@ -97,7 +97,7 @@
         <h1>${esc(L(lesson.title))}</h1>
         <section class="gr-step"><h2>📌 ${T.rule}</h2><p class="gr-rule">${L(lesson.rule)}</p></section>
         <section class="gr-step"><h2>🔧 ${T.build}</h2>${lesson.form.map((f) => `<div class="gr-form"><h3>${esc(L(f.label))}</h3>
-            <div class="gr-pairs">${f.rows.map(([a, b]) => `<button type="button" class="gr-pair" data-say="${esc(b === "✓" ? a : b.replace(/^→\s*/, ""))}"><span>${esc(a)}</span><b>${esc(b)}</b></button>`).join("")}</div>
+            <div class="gr-pairs">${f.rows.map(([a0, b]) => { const a = L(a0); return `<button type="button" class="gr-pair" data-say="${esc(b === "✓" ? a : b.replace(/^→\s*/, ""))}"><span>${esc(a)}</span><b>${esc(b)}</b></button>`; }).join("")}</div>
             ${f.note ? `<p class="as-note">${L(f.note)}</p>` : ""}</div>`).join("")}</section>
         ${de && L(lesson.german) ? `<section class="gr-step gr-german"><h2>🇩🇪 ${T.german}</h2><p>${L(lesson.german)}</p></section>` : ""}
         <section class="gr-step"><h2>📖 ${T.examples}</h2><p class="as-note">${T.examplesHint}</p>
