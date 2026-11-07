@@ -13087,3 +13087,300 @@ footer .footer-links {
     gap: 8px;
     margin: 6px 0 16px;
 }
+
+/* ---------- job interview module (interview.js, 2026-11-07) ---------- */
+.iv-level {
+    margin: -6px 0 18px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.rd-card.iv-soon {
+    opacity: .6;
+    cursor: default;
+}
+
+.iv-goal {
+    margin: 10px 0 12px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--gold, #f5c242);
+    border-radius: 12px;
+    background: var(--soft, #f4f7fd);
+    color: var(--blue-dark);
+}
+
+.iv-step {
+    margin-top: 34px;
+}
+
+.iv-step h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 12px;
+    font-size: 1.35rem;
+}
+
+.iv-n {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--blue-dark);
+    color: #fff;
+    font-size: .95rem;
+    flex: none;
+}
+
+.iv-script {
+    display: grid;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.iv-script[hidden] {
+    display: none;
+}
+
+.iv-part {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.sl-btn.iv-line {
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    text-align: left;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.sl-btn.iv-line.iv-ben {
+    margin-left: 24px;
+    width: calc(100% - 24px);
+}
+
+.sl-btn.iv-line.is-speaking {
+    outline: 3px solid var(--gold, #f5c242);
+}
+
+.iv-q {
+    margin: 0 0 18px;
+}
+
+.iv-qtext {
+    margin: 0 0 8px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+.iv-opts {
+    display: grid;
+    gap: 8px;
+}
+
+.sl-btn.iv-opt {
+    justify-content: flex-start;
+    text-align: left;
+    font-weight: 400;
+}
+
+.sl-btn.iv-opt.is-right {
+    background: #e8f7ee;
+    border-color: #2f9b5c;
+    color: #155c36;
+}
+
+.sl-btn.iv-opt.is-wrong {
+    background: #fdecec;
+    border-color: #c94a4a;
+    color: #8c2b2b;
+}
+
+.iv-phrase {
+    display: grid;
+    gap: 6px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.iv-use {
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.iv-ptext {
+    color: var(--blue-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.iv-pres {
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--soft, #f4f7fd);
+    font-size: .95rem;
+}
+
+.iv-pres.is-right {
+    background: #e8f7ee;
+    color: #155c36;
+}
+
+.iv-pres.is-wrong {
+    background: #fdecec;
+    color: #8c2b2b;
+}
+
+.iv-built {
+    display: grid;
+    gap: 6px;
+    min-height: 20px;
+    margin: 10px 0;
+    padding-left: 22px;
+    color: var(--blue-dark);
+}
+
+.iv-correct em {
+    color: var(--muted);
+    font-style: normal;
+    font-weight: 700;
+}
+
+.iv-pool {
+    display: grid;
+    gap: 8px;
+}
+
+.sl-btn.iv-block {
+    justify-content: flex-start;
+    text-align: left;
+    font-weight: 400;
+    border-style: dashed;
+}
+
+.iv-question {
+    margin: 0 0 10px;
+    color: var(--blue-dark);
+    font-size: 1.15rem;
+}
+
+.iv-time {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 0;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.sl-btn.iv-chip {
+    padding: 6px 12px;
+    font-size: .85rem;
+}
+
+.sl-btn.iv-chip.is-on {
+    background: var(--blue-dark);
+    border-color: var(--blue-dark);
+    color: #fff;
+}
+
+.sl-btn.iv-recbtn.is-recording {
+    background: #c94a4a;
+    border-color: #c94a4a;
+}
+
+.iv-clock {
+    align-self: center;
+    color: #c94a4a;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.iv-privacy {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.iv-sub {
+    margin: 22px 0 8px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+.iv-checks {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.iv-checks label {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.iv-model {
+    margin: 0 0 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.iv-model summary {
+    color: var(--blue-dark);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.iv-model p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.iv-notebook {
+    margin-top: 22px;
+}
+
+.iv-notebook textarea {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font: inherit;
+    line-height: 1.5;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.iv-tip p,
+.iv-mission p {
+    line-height: 1.6;
+}
+
+.iv-done {
+    margin-top: 14px;
+}
+
+.iv-cta {
+    margin-top: 34px;
+}

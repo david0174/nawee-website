@@ -47,6 +47,7 @@
     const GAMES_KEY = "nawee-games-v1"; // typing games (games.js; synced inside `course.games`)
     const TIME_KEY = "nawee-time-v1"; // learning time (script.js; synced inside `course.time`)
     const WORK_KEY = "nawee-work-course-v1"; // "English from the start" lessons (speak-lesson.js; synced inside `course.work`)
+    const INTERVIEW_KEY = "nawee-interview-v1"; // job interview module (interview.js; synced inside `course.interview`)
     const RELOAD_FLAG = "nawee-synced-reload";
 
     const params = new URLSearchParams(location.search);
@@ -251,7 +252,7 @@
         if (!user) return;
         clearTimeout(pushTimer);
         pushTimer = setTimeout(() => {
-            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), grammar: read(GRAMMAR_KEY), work: read(WORK_KEY), games: read(GAMES_KEY), time: read(TIME_KEY) };
+            const course = { ...read(COURSE_KEY), communication: read(CC_KEY), profile: read(PROFILE_KEY), vocab: read(VOCAB_KEY), reading: read(READING_KEY), grammar: read(GRAMMAR_KEY), work: read(WORK_KEY), interview: read(INTERVIEW_KEY), games: read(GAMES_KEY), time: read(TIME_KEY) };
             db.from("learner_progress").upsert({ user_id: user.id, course, trophies: read(TROPHY_KEY), updated_at: new Date().toISOString() })
                 .then(() => {}, () => {});
         }, 700);
@@ -260,7 +261,7 @@
         const { data, error } = await db.from("learner_progress").select("course, trophies").eq("user_id", user.id).maybeSingle();
         if (error) return false;
         const lc = read(COURSE_KEY), lt = read(TROPHY_KEY), lcc = read(CC_KEY);
-        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, grammar: rgr = {}, work: rw = {}, games: rg = {}, time: rti = {}, ...rc } = (data && data.course) || {};
+        const { communication: rcc = {}, profile: rp = {}, vocab: rv = {}, reading: rr = {}, grammar: rgr = {}, work: rw = {}, interview: riv = {}, games: rg = {}, time: rti = {}, ...rc } = (data && data.course) || {};
         const mc = mergeCourse(lc, rc), mt = mergeTrophies(lt, (data && data.trophies) || {});
         const mcc = { completed: union(lcc.completed, rcc.completed) };
         write(COURSE_KEY, mc);
@@ -277,6 +278,11 @@
         write(GRAMMAR_KEY, mgr);
         const lw = read(WORK_KEY), mw = { ...rw, ...lw, completed: union(lw.completed, rw.completed), dates: { ...(rw.dates || {}), ...(lw.dates || {}) } };
         write(WORK_KEY, mw);
+        // interview module: lessons done from both devices; notebook answers – the newer text wins
+        const liv = read(INTERVIEW_KEY), notes = { ...(riv.notes || {}) };
+        Object.entries(liv.notes || {}).forEach(([k, n]) => { if (!notes[k] || (n.t || 0) >= (notes[k].t || 0)) notes[k] = n; });
+        const miv = { completed: union(liv.completed, riv.completed), dates: { ...(riv.dates || {}), ...(liv.dates || {}) }, notes };
+        write(INTERVIEW_KEY, miv);
         const lg = read(GAMES_KEY), best = { ...(rg.best || {}) };
         Object.entries(lg.best || {}).forEach(([k, v]) => { best[k] = Math.max(v, best[k] || 0); });
         write(GAMES_KEY, { best, days: union(lg.days, rg.days).sort().slice(-400) });
@@ -288,7 +294,7 @@
         if (!lp.date && rp.date) write(PROFILE_KEY, rp); // newest answers win
         else if (lp.date && rp.date && rp.date > lp.date) write(PROFILE_KEY, rp);
         push();
-        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length || Object.keys(lgr.done || {}).length !== Object.keys(mgr.done).length || (lw.completed || []).length !== mw.completed.length; // true = progress from another device arrived
+        return signature(lc, lt, lcc) !== signature(mc, mt, mcc) || vocabSig(lv) !== vocabSig(mv) || Object.keys(lr.done || {}).length !== Object.keys(mr.done).length || Object.keys(lgr.done || {}).length !== Object.keys(mgr.done).length || (lw.completed || []).length !== mw.completed.length || (liv.completed || []).length !== miv.completed.length || JSON.stringify(liv.notes || {}) !== JSON.stringify(notes); // true = progress from another device arrived
     };
     window.addEventListener("nawee:progress", push);
 

@@ -6,9 +6,9 @@ window.NaweeGoals = (() => {
     const lang = { de: "de", tr: "tr" }[(document.documentElement.lang || "en").slice(0, 2)] || "en";
     const t = (o) => (o && typeof o === "object" ? o[lang] || o.en : o) || "";
     const PAGES = {
-        de: { lesson: "beruf-lektion.html", cards: "vokabeln.html", grammar: "grammatik.html", read: "lesen.html", games: "spiele.html", music: "musik.html", check: "kommunikations-check.html" },
-        en: { lesson: "work-lesson.html", cards: "vocabulary.html", grammar: "grammar.html", read: "reading.html", games: "games.html", music: "music.html", check: "communication-check.html" },
-        tr: { lesson: "work-lesson.html", cards: "vocabulary-tr.html", grammar: "grammar-tr.html", read: "reading-tr.html", games: "games-tr.html", music: "music.html", check: "communication-check.html" },
+        de: { lesson: "beruf-lektion.html", cards: "vokabeln.html", grammar: "grammatik.html", read: "lesen.html", games: "spiele.html", music: "musik.html", check: "kommunikations-check.html", interview: "vorstellungsgespraech.html" },
+        en: { lesson: "work-lesson.html", cards: "vocabulary.html", grammar: "grammar.html", read: "reading.html", games: "games.html", music: "music.html", check: "communication-check.html", interview: "interview.html" },
+        tr: { lesson: "work-lesson.html", cards: "vocabulary-tr.html", grammar: "grammar-tr.html", read: "reading-tr.html", games: "games-tr.html", music: "music.html", check: "communication-check.html", interview: "interview-tr.html" },
     }[lang];
 
     // ---------- questions ----------
@@ -113,6 +113,7 @@ window.NaweeGoals = (() => {
         cards: { de: "Bildkarten", en: "Picture cards", tr: "Resimli kartlar" }, gram: { de: "Grammatik", en: "Grammar", tr: "Dilbilgisi" },
         read: { de: "Lesetext der Woche auf deinem Niveau", en: "This week’s reading text at your level", tr: "Bu haftanın okuma metni – senin seviyende" },
         betest: { de: "Business-English-Test (5 Min.)", en: "Business English Test (5 min)", tr: "İş İngilizcesi Testi (5 dk, İngilizce)" },
+        iv1: { de: "Vorstellungsgespräch, Lektion 1: Erzählen Sie etwas über sich", en: "Job interview, lesson 1: Tell me about yourself", tr: "İş görüşmesi, ders 1: Bize biraz kendinizden bahsedin" },
         check: { de: "Kommunikations-Check (3 Min.)", en: "Communication Check (3 min)", tr: "İletişim Testi (3 dk, İngilizce)" },
         games: { de: "Spiele: Tippen, Reimen, Wörter", en: "Games: typing, rhymes, words", tr: "Oyunlar: yazma, kafiye, kelimeler" },
         music: { de: "Songs mit Lyrics", en: "Songs with lyrics", tr: "Şarkı sözleriyle şarkılar" } };
@@ -123,6 +124,7 @@ window.NaweeGoals = (() => {
         gram: (id) => ({ text: `${t(W.gram)}: ${t(GRAM[id])}`, href: `${PAGES.grammar}?l=${id}` }),
         read: () => ({ text: t(W.read), href: `${PAGES.read}#weekly` }),
         betest: () => ({ text: t(W.betest), href: "business-english-test.html" }),
+        iv: (n) => ({ text: t(W[`iv${n}`]), href: `${PAGES.interview}?l=${n}` }),
         check: () => ({ text: t(W.check), href: PAGES.check }),
         games: () => ({ text: t(W.games), href: PAGES.games }),
         music: () => ({ text: t(W.music), href: PAGES.music }),
@@ -148,7 +150,7 @@ window.NaweeGoals = (() => {
     const PLAN = {
         "work/meeting": [[S.l11(), S.cards("office"), S.gram("future"), S.say(SAY.meeting)], [S.cc("5-1"), S.cc("2-1"), S.cc("3-3"), S.say(SAY.meeting)]],
         "work/presentation": [[S.l11(), S.cards("office"), S.gram("comparatives"), S.say(SAY.presentation)], [S.cc("6-1"), S.cc("6-2"), S.cc("6-3"), S.say(SAY.presentation)]],
-        "work/interview": [[S.l11(), S.gram("past-simple"), S.cards("office"), S.say(SAY.interview)], [S.cc("2-2"), S.cc("1-2"), S.cc("1-3"), S.say(SAY.interview)]],
+        "work/interview": [[S.l11(), S.iv(1), S.gram("past-simple"), S.say(SAY.interview)], [S.iv(1), S.cc("2-2"), S.cc("1-3"), S.say(SAY.interview)]],
         "work/emails": [[S.cards("office"), S.gram("present-continuous"), S.read(), S.say(SAY.emails)], [S.cc("2-1"), S.cc("1-1"), S.cc("7-1"), S.betest()]],
         "work/phone": [[S.l11(), S.cards("office"), S.say(SAY.phone)], [S.cc("3-1"), S.cc("3-3"), S.say(SAY.phone)]],
         "work/smalltalk": [[S.l11(), S.cards("food"), S.gram("present-continuous"), S.say(SAY.smalltalk)], [S.cc("3-2"), S.cc("7-2"), S.say(SAY.smalltalk)]],

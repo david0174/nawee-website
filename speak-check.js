@@ -91,14 +91,21 @@
         if (!h) return false;
         if (h === w || hs === ws || ` ${h} `.includes(` ${w} `)) return true;
         if (hs === `${ws}s` || hs === `${ws}es` || `${hs}s` === ws) return true;            // chair / chairs
+        if (w.split(" ").length >= 3) {                                                     // a phrase: most of its words must be there
+            const hw = new Set(h.split(" "));
+            const words = w.split(" "), found = words.filter((x) => hw.has(x) || [...hw].some((y) => x.length >= 5 && dist(x, y) <= 1));
+            return found.length / words.length >= 0.75;
+        }
         return ws.length >= 6 && dist(hs, ws) <= 1;                                         // one letter off in a long word
     };
+    // words of a phrase the model didn't hear (to show "listen again to: …")
+    const missing = (heard, phrase) => { const hw = new Set(norm(heard).split(" ")); return norm(phrase).split(" ").filter((x) => !hw.has(x)); };
     const check = async (blob, word) => {
         const pipe = await load();
         const out = await pipe(await samples(blob));
         // Whisper writes [BLANK_AUDIO], (silence) … when it hears nothing useful
         const heard = String(out.text || "").replace(/\[[^\]]*\]|\([^)]*\)/g, "").replace(/^[\s"“]+|[\s".!?,”]+$/g, "").trim();
-        return { heard, ok: same(heard, word) };
+        return { heard, ok: same(heard, word), missing: missing(heard, word) };
     };
 
     window.NaweeSpeak = { supported, load, record, check, ready: () => ready, stop: () => record.stop?.() };
