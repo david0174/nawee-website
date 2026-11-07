@@ -55,12 +55,16 @@
 
     // tap-to-hear word chips under the hero text (German page: German meaning; English page: meaning on hover)
     const de = document.documentElement.lang.startsWith("de");
+    // Turkish pages (2026-11-07): Turkish meanings under the words, Turkish titles
+    const TR_WORDS = {"harvest": "hasat", "corn": "mısır", "apple": "elma", "pumpkin pie": "bal kabağı turtası", "turkey": "hindi", "thankful": "minnettar", "pumpkin": "bal kabağı", "bat": "yarasa", "skeleton": "iskelet", "costume": "kostüm", "trick or treat": "şeker mi şaka mı", "fireworks": "havai fişek", "cheers": "şerefe", "New Year’s resolution": "yeni yıl kararı", "countdown": "geri sayım", "celebrate": "kutlamak", "snow": "kar", "Christmas tree": "Noel ağacı", "present": "hediye", "snowman": "kardan adam", "cookies": "kurabiye", "stocking": "Noel çorabı", "snowflake": "kar tanesi"};
+    const TR_TITLES = { "Harvest time! 🍂": "Hasat zamanı! 🍂", "Holiday season! 🎄": "Bayram mevsimi! 🎄" };
     function wordChips(title, words) { // a function declaration, so winter() can use it too
         const de = document.documentElement.lang.startsWith("de");
         const box = document.createElement("div");
         box.className = "hw-words";
-        box.innerHTML = `<p><strong>${title}</strong> ${de ? "Tipp ein Wort an und hör es dir an:" : "Tap a word to hear it:"}</p>`
-            + words.map(([e, w, g, mean]) => `<button type="button" data-say="${w}" title="${de ? g : mean}"><span aria-hidden="true">${e}</span> ${w}${de ? ` <small>${g}</small>` : ""}</button>`).join("");
+        const tr = document.documentElement.lang.startsWith("tr");
+        box.innerHTML = `<p><strong>${tr ? TR_TITLES[title] || title : title}</strong> ${de ? "Tipp ein Wort an und hör es dir an:" : tr ? "Dinlemek için bir kelimeye dokun:" : "Tap a word to hear it:"}</p>`
+            + words.map(([e, w, g, mean]) => `<button type="button" data-say="${w}" title="${de ? g : tr && TR_WORDS[w] ? TR_WORDS[w] : mean}"><span aria-hidden="true">${e}</span> ${w}${de ? ` <small>${g}</small>` : tr && TR_WORDS[w] ? ` <small>${TR_WORDS[w]}</small>` : ""}</button>`).join("");
         const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
         box.addEventListener("click", (e) => {
             const btn = e.target.closest("[data-say]");

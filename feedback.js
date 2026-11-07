@@ -19,7 +19,7 @@
 
     const kind = /^(lektion|communication-lesson|beruf-lektion|work-lesson)\.html$/.test(file) ? "lesson"
         : /^(tippen|typing)\.html$/.test(file) ? "course"
-        : /^(index|index-en)\.html$/.test(file) ? "site" : "page";
+        : /^(index|index-en|index-tr)\.html$/.test(file) ? "site" : "page";
     const T = de ? {
         q: { lesson: "Was können wir an dieser Lektion besser machen?", course: "Was können wir an diesem Kurs besser machen?", site: "Was können wir an Nawee besser machen?", page: "Was können wir an dieser Seite besser machen?" }[kind],
         lead: "Hat etwas gefehlt, war etwas unklar – oder hat dir etwas besonders gut gefallen? Schreib es uns. Wir lesen jede Nachricht.",
@@ -41,6 +41,15 @@
         review: "Do you like Nawee? <a href=\"reviews.html#write\">Write a short review →</a>",
         error: "That didn’t work right now. Please try again later.",
     };
+    if (document.documentElement.lang.startsWith("tr")) Object.assign(T, {
+        q: { lesson: "Bu derste neyi daha iyi yapabiliriz?", course: "Bu kursta neyi daha iyi yapabiliriz?", site: "Nawee’de neyi daha iyi yapabiliriz?", page: "Bu sayfada neyi daha iyi yapabiliriz?" }[kind],
+        lead: "Bir şey eksik ya da belirsiz miydi – ya da bir şeyi çok mu beğendin? Bize yaz. Her mesajı okuyoruz.",
+        ph: "örn. “Alıştırma benim için çok hızlıydı” ya da “Resimli kartlar bana çok yardımcı oldu”",
+        label: "Geri bildirimin", hint: "Anonim – lütfen kişisel bilgi ekleme.",
+        send: "Geri bildirim gönder", sent: "Teşekkürler! 💛 Geri bildirimin Nawee’yi daha iyi yapmamıza yardımcı oluyor.",
+        more: "Başka bir şey var mı?", review: "Nawee’yi beğendin mi? <a href=\"reviews.html#write\">Kısa bir yorum yaz →</a>",
+        error: "Şu anda olmadı. Lütfen daha sonra tekrar dene.",
+    });
 
     const send = (row) => fetch(`${SUPABASE_URL}/rest/v1/feedback`, {
         method: "POST",

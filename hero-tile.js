@@ -6,6 +6,8 @@
     const tile = document.querySelector("[data-hero-tile]");
     if (!tile) return;
     const de = document.documentElement.lang === "de";
+    const tr = document.documentElement.lang === "tr";
+    const x = (d, e, t) => (de ? d : tr ? t : e); // German / English / Turkish
     const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch { return {}; } };
     let session = null;
     try { session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null"); } catch { /* ignore */ }
@@ -44,16 +46,16 @@
             <span class="ht-count">${n}/${total}</span>
             <span class="ht-bar"><span style="width:${total ? Math.round((n / total) * 100) : 0}%"></span></span>
         </a>`;
-    const nextHref = next ? `${de ? "beruf-lektion.html" : "work-lesson.html"}?l=${next.id}` : (de ? "vokabeln.html" : "vocabulary.html");
-    const nextLabel = next ? `${de ? "Weiter" : "Continue"}: ${esc(de ? next.title.de : next.title.en)}` : (de ? "Bildkarten üben" : "Practice picture cards");
+    const nextHref = next ? `${de ? "beruf-lektion.html" : "work-lesson.html"}?l=${next.id}` : x("vokabeln.html", "vocabulary.html", "vocabulary-tr.html");
+    const nextLabel = next ? `${x("Weiter", "Continue", "Devam et")}: ${esc(de ? next.title.de : next.title.en)}` : x("Bildkarten üben", "Practice picture cards", "Resimli kartları çalış");
 
     tile.classList.add("is-progress");
-    tile.innerHTML = `<p class="path-chooser-label">${de ? "Dein Fortschritt" : "Your progress"}</p>
-        <p class="ht-hello">${name ? `${de ? "Hallo" : "Hi"}, ${esc(name.charAt(0).toUpperCase() + name.slice(1))}!` : (de ? "Schön, dass du da bist!" : "Good to see you!")}
-            ${streak ? `<span class="ht-streak">🔥 ${streak} ${de ? (streak === 1 ? "Tag" : "Tage") : (streak === 1 ? "day" : "days")}</span>` : ""}</p>
-        ${row("🎧", de ? "Lektionen" : "Lessons", lessonsDone, lessons.length, de ? "fuer-mich.html" : "for-me.html")}
-        ${row("🖼️", de ? "Bildkarten-Wörter" : "Picture-card words", words, totalWords, de ? "vokabeln.html" : "vocabulary.html")}
-        ${row("📰", de ? "Lesetexte" : "Reading texts", texts, totalTexts, de ? "lesen.html" : "reading.html")}
+    tile.innerHTML = `<p class="path-chooser-label">${x("Dein Fortschritt", "Your progress", "İlerlemen")}</p>
+        <p class="ht-hello">${name ? `${x("Hallo", "Hi", "Merhaba")}, ${esc(name.charAt(0).toUpperCase() + name.slice(1))}!` : x("Schön, dass du da bist!", "Good to see you!", "Seni görmek güzel!")}
+            ${streak ? `<span class="ht-streak">🔥 ${streak} ${x(streak === 1 ? "Tag" : "Tage", streak === 1 ? "day" : "days", "gün")}</span>` : ""}</p>
+        ${row("🎧", x("Lektionen", "Lessons", "Dersler"), lessonsDone, lessons.length, de ? "fuer-mich.html" : "for-me.html")}
+        ${row("🖼️", x("Bildkarten-Wörter", "Picture-card words", "Resimli kart kelimeleri"), words, totalWords, x("vokabeln.html", "vocabulary.html", "vocabulary-tr.html"))}
+        ${row("📰", x("Lesetexte", "Reading texts", "Okuma metinleri"), texts, totalTexts, de ? "lesen.html" : "reading.html")}
         <a class="button primary path-start" href="${nextHref}">${nextLabel} <span aria-hidden="true">→</span></a>
-        <a class="path-login" href="${de ? "konto.html" : "account.html"}">${de ? "Zu meinem Konto" : "Go to my account"} →</a>`;
+        <a class="path-login" href="${x("konto.html", "account.html", "account-tr.html")}">${x("Zu meinem Konto", "Go to my account", "Hesabıma git")} →</a>`;
 })();

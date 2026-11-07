@@ -155,7 +155,7 @@
         plan: "Öğrenme planın", planEdit: "Cevapları değiştir", planNone: "Henüz ayarlanmadı.", planStart: "5 kısa soruyu cevapla",
         planGoal: { travel: "Seyahat", work: "İş", school: "Okul veya üniversite", abroad: "Yurt dışında yaşamak", people: "İnsanlarla konuşmak", fun: "Eğlence için" },
         planFocus: { listening: "Anlamak", speaking: "Konuşmak", vocab: "Kelime bilgisi", pronunciation: "Telaffuz", confidence: "Özgüven" },
-        planLevel: ["Yeni", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `Günde ${m} dk`,
+        planLevel: ["Yeni", "A1", "A2", "B1–B2", "C1+"], planMinutes: (m) => `Günde ${m} dk`, startPage: "get-started-tr.html",
         noLevel: "henüz belirlenmedi", trophies: "Kupaların", syncNote: "İlerlemen ve kupaların hesabında kaydedilir ve tüm cihazlarında senkronize edilir.",
         deleteTitle: "Hesabı sil", deleteText: "Hesabını, kullanıcı adını ve sunucularımızda kayıtlı ilerlemeni siler. Bu tarayıcıda kayıtlı ilerleme burada kalır.",
         deleteBtn: "Hesabımı sil", deleteConfirm: "Hesabını gerçekten silmek istiyor musun? Bu işlem geri alınamaz.", deleteWord: "SİL", deleteType: (w) => `Onaylamak için <strong>${w}</strong> yaz:`, deleteFinal: "Hesabımı kalıcı olarak sil", deleteCancel: "Vazgeç", deleted: "Hesabın silindi.",
@@ -443,7 +443,7 @@
         words: (n) => `${n} kelime`, texts: (n) => `${n} yeni metin`, min: (n) => `${n} dk`, go: "Hadi başlayalım",
         cards: "Resimli kartlar", allTopics: "Tüm konular", practice: "Çalış",
         status: { green: "öğrenildi", yellow: "çalışıldı", red: "yanlış", grey: "yeni" },
-        cardsPage: "vocabulary-tr.html", grammarPage: "grammar-tr.html",
+        cardsPage: "vocabulary-tr.html", grammarPage: "grammar-tr.html", startPage: "get-started-tr.html",
     });
     const iso = (d) => d.toISOString().slice(0, 10);
     const bar = (part, whole) => `<span class="dash-bar"><span style="width:${whole ? Math.round((part / whole) * 100) : 0}%"></span></span>`;

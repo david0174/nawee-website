@@ -12,7 +12,7 @@
 
     const LEVEL_INFO = {
         "below-A2": { label: "unter A2", name: "Einstieg",
-            text: "Du stehst mit Englisch noch am Anfang. Der Kurs setzt etwa B1 voraus – du kannst trotzdem reinschauen, aber ein Grundlagenkurs oder Einzelcoaching bringt dich gerade schneller voran.",
+            text: "Du stehst mit Englisch noch am Anfang. Der Kurs setzt etwa B1 voraus – du kannst trotzdem reinschauen, aber ein Grundlagenkurs oder Einzelunterricht bringt dich gerade schneller voran.",
             start: 1 },
         A2: { label: "A2", name: "Grundlegende Kenntnisse",
             text: "Du verstehst einfache Sätze und kommst in vertrauten Alltagssituationen zurecht. Der Kurs ist eine kleine Herausforderung für dich – nimm dir Zeit für die Erklärungen und nutze die deutschen Bedeutungen der Phrasen.",

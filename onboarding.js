@@ -51,6 +51,27 @@
             [15, "📅", "15 minutes", "A fixed time slot"], [20, "🎯", "20 minutes or more", "Full focus"]] },
     ];
 
+    // Turkish (2026-11-07): same questions and ids, Turkish texts
+    const tr = document.documentElement.lang === "tr";
+    if (tr) Q.splice(0, Q.length,
+        { id: "source", ask: "Nawee’yi nerede buldun?", options: [
+            ["google", "🔍", "Google’da"], ["instagram", "📸", "Instagram ya da Facebook’ta"], ["linkedin", "💼", "LinkedIn’de"],
+            ["youtube", "▶️", "YouTube’da"], ["friends", "👋", "Biri tavsiye etti"], ["school", "🏫", "Okulda, üniversitede ya da işte"],
+            ["other", "✨", "Başka bir yerde"]] },
+        { id: "goal", ask: "İngilizceye ne için ihtiyacın var?", options: [
+            ["travel", "✈️", "Yurt dışında idare etmek"], ["work", "💼", "İşim için"], ["school", "🎓", "Okul ya da üniversite için"],
+            ["abroad", "🏠", "Başka bir ülkede yaşamak için"], ["people", "💬", "Benim için önemli insanlarla konuşmak için"], ["fun", "🎉", "Sadece hoşuma gittiği için"]] },
+        { id: "level", ask: "İngilizcen şu anda ne kadar iyi?", levels: true, options: [
+            [0, "Yeni", "Sıfırdan başlıyorum."], [1, "A1", "Biraz: selamlaşmalar ve birkaç kelime."],
+            [2, "A2", "Günlük hayatta ancak idare edebiliyorum."], [3, "B1–B2", "İyi bir sohbet yürütebiliyorum."],
+            [4, "C1+", "Akıcı konuşuyorum ve daha profesyonel konuşmak istiyorum."]] },
+        { id: "focus", ask: "Önce ne gelişsin?", options: [
+            ["listening", "👂", "İngilizceyi daha iyi anlamak"], ["speaking", "🗣️", "Daha rahat konuşmak"], ["vocab", "📚", "Daha çok kelime bilmek"],
+            ["pronunciation", "👄", "Telaffuzum"], ["confidence", "💪", "Hata yapma korkusu olmadan konuşmak"]] },
+        { id: "minutes", ask: "Günde ne kadar vaktin var?", options: [
+            [5, "☕", "5 dakika", "Kısa bir mola"], [10, "🎧", "10 dakika", "Küçük bir rutin"],
+            [15, "📅", "15 dakika", "Sabit bir zaman"], [20, "🎯", "20 dakika ya da daha fazla", "Tam odak"]] });
+
     const T = de ? {
         hello: "Hi, ich bin David! Ein paar kurze Fragen, dann stelle ich deinen Lernplan zusammen.",
         go: "Los geht’s", next: "Weiter", back: "Zurück",
@@ -88,6 +109,26 @@
         redo: "Answer the questions again",
         path: { href: "for-me.html", text: "Go to your learning path →" },
     };
+
+    if (tr) Object.assign(T, {
+        hello: "Merhaba, ben David! Birkaç kısa soru, sonra senin için bir öğrenme planı hazırlayacağım.",
+        go: "Hadi başlayalım", next: "Devam", back: "Geri",
+        ready: "Öğrenme planın hazır!",
+        labels: { goal: "Hedef", level: "Seviye", focus: "Odak", minutes: "Günde" },
+        start: "Buradan başla",
+        beginner: { title: "Ders 1.1: Kendini tanıtmak", text: "Dinle, tekrar et, kendin konuş – gerçek ses kayıtlarıyla. Sonra ilk kelimelerini resimli kartlarla çalış.", href: "work-lesson.html?l=1-1", cta: "Derse başla" },
+        middle: { title: "Resimli kartlar: Ofiste", text: "Resimli ve sesli 20 kelime – duymadan önce kelimeyi yüksek sesle söyle. Ayrıca ısınmak için ders 1.1.", href: "vocabulary-tr.html?deck=office", cta: "Resimli kartları çalış" },
+        advanced: { title: "İletişim Kursu", text: "Gerçek sohbetler için kısa dersler: soru sormak, fikrini söylemek, sohbet etmek. İstersen önce nerede olduğunu kontrol et. (Kurs İngilizce.)", href: "communication-course.html", cta: "Kursa başla" },
+        check: { href: "communication-check.html", text: "Önce İletişim Testi’ni yap (3 dk, İngilizce)" },
+        cards: { href: "vocabulary-tr.html", text: "Resimli kartları çalış" },
+        lesson: { href: "work-lesson.html?l=1-1", text: "Ders 1.1’e bak" },
+        daily: (m) => `Hedefin: günde ${m} dakika. Bir ders yaklaşık 10 dakika, bir tur resimli kart yaklaşık 5 dakika sürer.`,
+        save: "Planını ve ilerlemeni her cihazında görmek ister misin?",
+        saveLink: "Ücretsiz hesap oluştur", saveHref: "account-tr.html?mode=signup&next=get-started-tr.html", saved: (n) => `✓ Planın hesabında (<strong>${n}</strong>) kayıtlı ve tüm cihazlarında kullanılabilir.`,
+        noSign: "Hesap gerekmez – planın bu tarayıcıda kaydedilir.",
+        redo: "Soruları tekrar cevapla",
+        path: { href: "for-me-tr.html", text: "Öğrenme yoluna git →" },
+    });
 
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch { return null; } };
@@ -218,7 +259,7 @@
     // came back later: show the saved plan (with the option to answer again)
     // logged in + questions already answered → straight to the account overview ("?edit" = answer the questions again)
     const editing = new URLSearchParams(location.search).has("edit");
-    const accountPage = de ? "konto.html" : "account.html";
+    const accountPage = de ? "konto.html" : tr ? "account-tr.html" : "account.html";
     let loggedIn = false;
     try {
         const session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");

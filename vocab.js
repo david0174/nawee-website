@@ -46,7 +46,7 @@
         overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
     };
     if (lang === "tr") Object.assign(T, {
-        back: "← Öğrenme yolun", eyebrow: "RESİMLİ KARTLAR", modes: ["Öğren", "Dinle", "Tüm kelimeler"],
+        back: "← Öğrenme yolun", backHref: "for-me-tr.html", eyebrow: "RESİMLİ KARTLAR", modes: ["Öğren", "Dinle", "Tüm kelimeler"],
         due: (d, n) => `Bugün: ${d} tekrar · ${n} yeni`, learned: (a, b) => `${b} kelimeden ${a} tanesi öğrenildi`,
         streak: (n) => `🔥 ${n} gün üst üste`,
         ask: "Bunun İngilizcesi ne? Yüksek sesle söyle.", flip: "Çevir", play: "Dinle", example: "Örnek", originQ: "Kelime nereden geliyor?",

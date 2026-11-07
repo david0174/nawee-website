@@ -520,10 +520,14 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     bar.innerHTML = loggedIn
         ? statsBar()
         : new Date() < new Date("2026-11-23T19:30:00+01:00") // web seminar announcement until it has taken place
-            ? (en
+            ? (tr
+                ? `<span aria-hidden="true">🎙️</span> <strong>Ücretsiz canlı web semineri</strong> 23 Kasım’da (İngilizce) – zaten sahip olduğun araçlarla kendi kendine İngilizce öğrenmek. <a href="web-seminar.html">Yerini ayırt →</a>`
+                : en
                 ? `<span aria-hidden="true">🎙️</span> <strong>Free live web seminar</strong> on Nov 23 – how to teach yourself English with the tools you already have. <a href="web-seminar.html">Save your seat →</a>`
                 : `<span aria-hidden="true">🎙️</span> <strong>Kostenloses Live-Web-Seminar</strong> am 23.11. – wie du dir selbst Englisch beibringst, mit den Werkzeugen, die du schon hast. <a href="webseminar.html">Platz sichern →</a>`)
-            : (en
+            : (tr
+                ? `<span aria-hidden="true">🎓</span> <strong>Yeni:</strong> ücretsiz İngilizce dersleri, kurslar ve alıştırmalar – kayıt gerekmez. <a href="learn.html">Öğrenmeye başla →</a>`
+                : en
                 ? `<span aria-hidden="true">🎓</span> <strong>New:</strong> free English lessons, courses &amp; practice – no sign-up needed. <a href="learn.html">Start learning →</a>`
                 : `<span aria-hidden="true">🎓</span> <strong>Neu:</strong> kostenlose Englisch-Lektionen, Kurse &amp; Übungen – ohne Anmeldung. <a href="lernen.html">Jetzt lernen →</a>`);
     if (!loggedIn) {
