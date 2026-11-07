@@ -9,10 +9,10 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#0d2f82">
     <meta name="apple-mobile-web-app-title" content="Nawee">
-    <link rel="stylesheet" href="style.css?v=20261107iw">
-    <link rel="stylesheet" href="dark.css?v=20261107iw">
+    <link rel="stylesheet" href="style.css?v=20261107mv">
+    <link rel="stylesheet" href="dark.css?v=20261107mv">
     <!-- Nawee Learning moved from nawee.net: take over progress handed over once in the URL fragment (fills only missing keys) -->
-    <script>try{var m=location.hash.match(/^#nawee-migrate=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));for(var k in d){if(/^nawee-/.test(k)&&localStorage.getItem(k)===null)localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[2]?"#"+decodeURIComponent(m[2]):""))}}catch(e){}</script>
+    <script>try{var m=location.hash.match(/^#nawee-(migrate|move)=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[2])))));for(var k in d){if(/^nawee-/.test(k)&&(m[1]==="move"||localStorage.getItem(k)===null))localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[3]?"#"+decodeURIComponent(m[3]):""))}}catch(e){}</script>
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <style>
         .legal {
@@ -54,16 +54,16 @@
     </style>
     <!-- a written version exists in the other language, so browsers should not machine-translate this page -->
     <meta name="google" content="notranslate">
-    <link rel="alternate" hreflang="de" href="https://learn.nawee.net/datenschutz.html">
-    <link rel="alternate" hreflang="en" href="https://learn.nawee.net/privacy-policy.html">
-    <link rel="alternate" hreflang="x-default" href="https://learn.nawee.net/privacy-policy.html">
+    <link rel="alternate" hreflang="de" href="https://nawee.net/datenschutz.html">
+    <link rel="alternate" hreflang="en" href="https://nawee.net/privacy-policy.html">
+    <link rel="alternate" hreflang="x-default" href="https://nawee.net/privacy-policy.html">
     <!-- preview when the page is shared (WhatsApp, LinkedIn, Facebook, …) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nawee">
     <meta property="og:locale" content="de_DE">
     <meta property="og:title" content="Datenschutzerklärung | Nawee">
-    <meta property="og:url" content="https://learn.nawee.net/datenschutz.html">
-    <meta property="og:image" content="https://learn.nawee.net/assets/share-de.jpg">
+    <meta property="og:url" content="https://nawee.net/datenschutz.html">
+    <meta property="og:image" content="https://nawee.net/assets/share-de.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Nawee – Englisch lernen durch Hören und Sprechen">
@@ -117,7 +117,7 @@
         <p>
             Wir nutzen die Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA
             (&bdquo;Cloudflare&ldquo;), als DNS-Anbieter, also für die Namensauflösung unserer Domain.
-            Dabei wird lediglich die Anfrage verarbeitet, zu welcher Serveradresse nawee.net und learn.nawee.net gehören.
+            Dabei wird lediglich die Anfrage verarbeitet, zu welcher Serveradresse nawee.net und nawee.net gehören.
             Der eigentliche Aufruf der Website läuft nicht über Cloudflare.
         </p>
         <p>
@@ -155,6 +155,37 @@
             soweit Ihre Nachricht mit einem Vertrag oder vorvertraglichen Maßnahmen zusammenhängt, und im
             Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer zuverlässigen
             E-Mail-Kommunikation).
+        </p>
+
+        <h3 id="chat">Nachrichten über den Chat („Nachricht an David“)</h3>
+        <p>
+            Über den runden Chat-Button unten rechts können Sie mir eine Nachricht schreiben. Beim bloßen Aufruf
+            der Seite wird dabei nichts an Dritte übertragen; erst wenn Sie auf „Senden“ klicken, werden Ihre
+            Nachricht, Ihre E-Mail-Adresse, Ihr Name (falls angegeben), die Seite, auf der Sie geschrieben haben,
+            die Sprache und der Zeitpunkt an unseren Datenbankdienst Supabase (Supabase Inc., USA; Speicherung in
+            einem Rechenzentrum in Frankfurt am Main, EU) übermittelt und dort gespeichert. Beim Verbindungsaufbau
+            verarbeitet Supabase technisch bedingt Ihre IP-Adresse; sie wird von uns nicht gespeichert. Damit ich
+            Ihre Nachricht sofort sehe, wird sie anschließend per E-Mail über <strong>Brevo</strong> (Sendinblue
+            SAS, Frankreich) an mein Postfach bei Zoho Mail weitergeleitet.
+        </p>
+        <p>
+            Zweck ist die Beantwortung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre
+            Anfrage auf einen Vertrag abzielt, im Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+            Beantwortung von Anfragen). Ich lösche die Nachrichten, sobald Ihre Anfrage erledigt ist, spätestens
+            nach sechs Monaten, sofern keine gesetzlichen Aufbewahrungspflichten bestehen. Mit Supabase und Brevo
+            bestehen Verträge zur Auftragsverarbeitung gemäß Art. 28 DSGVO; für etwaige Datenübermittlungen in die
+            USA gelten die Standardvertragsklauseln der EU-Kommission. Der Chat setzt keine Cookies.
+        </p>
+
+        <h3 id="bewerbungen">Bewerbungen</h3>
+        <p>
+            Wenn Sie sich per E-Mail bei uns bewerben, verarbeiten wir Ihre Angaben und Unterlagen (z. B. Name,
+            Kontaktdaten, Lebenslauf, Zeugnisse) ausschließlich, um Ihre Bewerbung zu prüfen und mit Ihnen in
+            Kontakt zu treten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher
+            Maßnahmen auf Ihre Anfrage). Die E-Mails empfangen wir über Zoho Mail (siehe oben). Kommt keine
+            Zusammenarbeit zustande, löschen wir Ihre Unterlagen spätestens sechs Monate nach Abschluss des
+            Bewerbungsverfahrens, sofern Sie nicht in eine längere Aufbewahrung eingewilligt haben.
+            <!-- ANWALTLICHE PRÜFUNG: Abschnitt Bewerbungen (Rechtsgrundlage, Löschfrist) -->
         </p>
 
         <h3>Bestellung von Paketen über Zoho Forms</h3>
@@ -215,7 +246,7 @@
             Speicher Ihres Browsers abgelegt, damit sie beim nächsten Mal nicht erneut geladen werden müssen. Ihre
             Aufnahme und das Ergebnis werden nicht an uns oder Dritte übermittelt und nicht gespeichert. Den
             gespeicherten Modell-Download (ca. 60 MB) können Sie jederzeit löschen, indem Sie die Website-Daten für
-            learn.nawee.net in Ihrem Browser löschen.
+            nawee.net in Ihrem Browser löschen.
         </p>
         <p>
             Nach Ihrem ersten Einstufungstest übermitteln wir das ermittelte Niveau (z. B. „B1“) und die Sprache
@@ -342,7 +373,7 @@
             Er gilt für alle in diesem Abschnitt genannten Zoho-Dienste (Zoho Mail und Zoho Forms).
         </p>
 
-        <h2>5. Newsletter</h2>
+        <h2 id="newsletter">5. Newsletter</h2>
         <p>
             Wenn Sie unseren Newsletter abonnieren, verarbeiten wir Ihre E-Mail-Adresse, um Ihnen
             Tipps, Einblicke und Ideen rund um Englisch und Kommunikation zu senden. Die Anmeldung erfolgt im
@@ -586,6 +617,7 @@
             <a href="lesen.html">Lesen</a>
             <a href="grammatik.html">Grammatik</a>
             <a href="spiele.html">Spiele</a>
+            <a href="lessons/index.html">Englischunterricht</a>
             <a href="selbst-lernen.html">Selbst lernen</a>
             <a href="ueber-nawee.html">Über Nawee</a>
             <a href="bewertungen.html">Bewertungen</a>
@@ -593,7 +625,7 @@
             <a href="app.html">📲 Nawee als App</a>
             <a href="fehler-melden.html">Fehler melden</a>
             <a href="konto.html">Mein Konto</a>
-            <a href="https://nawee.net/#angebote" target="_blank" rel="noopener">Englischunterricht mit David ↗</a>
+            <a href="/lessons/#angebote">Englischunterricht mit David ↗</a>
         </nav>
         <nav class="footer-legal" aria-label="Rechtliches">
             <p class="footer-heading">Rechtliches</p>

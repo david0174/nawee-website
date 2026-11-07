@@ -478,7 +478,7 @@
             if (done && !nextAvailable && courseComplete) {
                 finish.innerHTML = `<div class="as-cta lesson-complete">
                     <h2>Glückwunsch – du hast den Kurs abgeschlossen!</h2>
-                    <p>Du kennst jetzt die wichtigsten Strategien für echte Gespräche. Übe weiter mit den Bildkarten und den anderen kostenlosen Kursen. Wenn du gezielt an deinen Situationen arbeiten willst: <a href="https://nawee.net/#angebote" target="_blank" rel="noopener">Unterricht &amp; Preise bei David ↗</a></p>
+                    <p>Du kennst jetzt die wichtigsten Strategien für echte Gespräche. Übe weiter mit den Bildkarten und den anderen kostenlosen Kursen. Wenn du gezielt an deinen Situationen arbeiten willst: <a href="/lessons/#angebote">Unterricht &amp; Preise bei David ↗</a></p>
                     <div class="as-actions"><a class="button primary" href="lernen.html">Weiter lernen <span aria-hidden="true">→</span></a>
                     <a class="button mission-outline" href="kurs.html">Zur Kursübersicht</a></div></div>`;
                 return;

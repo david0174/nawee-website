@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kostenloser Tippkurs: Lern das Zehnfingersystem auf QWERTZ- oder QWERTY-Tastatur – und dabei englische Wörter. Jedes Wort wird vorgelesen und erklärt.">
     <title>Tippen lernen – mit englischen Wörtern | Nawee</title>
-    <link rel="canonical" href="https://learn.nawee.net/tippen.html">
-    <link rel="stylesheet" href="style.css?v=20261107iw">
-    <link rel="stylesheet" href="dark.css?v=20261107iw">
+    <link rel="canonical" href="https://nawee.net/tippen.html">
+    <link rel="stylesheet" href="style.css?v=20261107mv">
+    <link rel="stylesheet" href="dark.css?v=20261107mv">
     <!-- Nawee Learning moved from nawee.net: take over progress handed over once in the URL fragment (fills only missing keys) -->
-    <script>try{var m=location.hash.match(/^#nawee-migrate=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));for(var k in d){if(/^nawee-/.test(k)&&localStorage.getItem(k)===null)localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[2]?"#"+decodeURIComponent(m[2]):""))}}catch(e){}</script>
+    <script>try{var m=location.hash.match(/^#nawee-(migrate|move)=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[2])))));for(var k in d){if(/^nawee-/.test(k)&&(m[1]==="move"||localStorage.getItem(k)===null))localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[3]?"#"+decodeURIComponent(m[3]):""))}}catch(e){}</script>
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -18,17 +18,17 @@
     <meta name="apple-mobile-web-app-title" content="Nawee">
     <!-- a written version exists in the other language, so browsers should not machine-translate this page -->
     <meta name="google" content="notranslate">
-    <link rel="alternate" hreflang="de" href="https://learn.nawee.net/tippen.html">
-    <link rel="alternate" hreflang="en" href="https://learn.nawee.net/typing.html">
-    <link rel="alternate" hreflang="x-default" href="https://learn.nawee.net/tippen.html">
+    <link rel="alternate" hreflang="de" href="https://nawee.net/tippen.html">
+    <link rel="alternate" hreflang="en" href="https://nawee.net/typing.html">
+    <link rel="alternate" hreflang="x-default" href="https://nawee.net/tippen.html">
     <!-- preview when the page is shared (WhatsApp, LinkedIn, Facebook, …) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nawee">
     <meta property="og:locale" content="de_DE">
     <meta property="og:title" content="Tippen lernen – mit englischen Wörtern | Nawee">
     <meta property="og:description" content="Kostenlose Englisch-Spiele: Typing Race gegen Tom und Ben, Word Rain und Wort & Bedeutung – tippen, hören und Wörter festigen.">
-    <meta property="og:url" content="https://learn.nawee.net/tippen.html">
-    <meta property="og:image" content="https://learn.nawee.net/assets/share-de.jpg">
+    <meta property="og:url" content="https://nawee.net/tippen.html">
+    <meta property="og:image" content="https://nawee.net/assets/share-de.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Nawee – Englisch lernen durch Hören und Sprechen">
@@ -48,6 +48,7 @@
             <a href="lesen.html">Lesen</a>
             <a href="grammatik.html">Grammatik</a>
             <a href="spiele.html" aria-current="page">Spiele</a>
+            <a href="lessons/index.html">Englischunterricht</a>
             <a href="ueber-nawee.html">Über Nawee</a>
             <a class="nav-cta" href="konto.html?mode=signup">Konto erstellen</a>
             <div class="language-switch">
@@ -71,6 +72,7 @@
                     <a href="lesen.html">Lesen</a>
                     <a href="grammatik.html">Grammatik</a>
                     <a href="spiele.html" aria-current="page">Spiele</a>
+                    <a href="lessons/index.html">Englischunterricht</a>
                     <a href="ueber-nawee.html">Über Nawee</a>
                     <a href="index.html#wege">Kostenlos starten</a>
                     <div class="mobile-menu-languages">
@@ -117,6 +119,7 @@
             <a href="lesen.html">Lesen</a>
             <a href="grammatik.html">Grammatik</a>
             <a href="spiele.html" aria-current="page">Spiele</a>
+            <a href="lessons/index.html">Englischunterricht</a>
             <a href="selbst-lernen.html">Selbst lernen</a>
             <a href="ueber-nawee.html">Über Nawee</a>
             <a href="bewertungen.html">Bewertungen</a>
@@ -124,7 +127,7 @@
             <a href="app.html">📲 Nawee als App</a>
             <a href="fehler-melden.html">Fehler melden</a>
             <a href="konto.html">Mein Konto</a>
-            <a href="https://nawee.net/#angebote" target="_blank" rel="noopener">Englischunterricht mit David ↗</a>
+            <a href="/lessons/#angebote">Englischunterricht mit David ↗</a>
         </nav>
         <nav class="footer-legal" aria-label="Rechtliches">
             <p class="footer-heading">Rechtliches</p>
@@ -140,6 +143,6 @@
     <script src="feedback.js?v=20261107b"></script>
     <script src="typing.js?v=20261105a"></script>
     <script src="vendor/supabase.js"></script>
-    <script src="account.js?v=20261107iv"></script>
+    <script src="account.js?v=20261107mv"></script>
 </body>
 </html>

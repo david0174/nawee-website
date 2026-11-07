@@ -1,232 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://learn.nawee.net/</loc>
+    <loc>https://nawee.net/</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/index-en.html</loc>
+    <loc>https://nawee.net/index-en.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/datenschutz.html</loc>
+    <loc>https://nawee.net/datenschutz.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/privacy-policy.html</loc>
+    <loc>https://nawee.net/privacy-policy.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/business-english-test.html</loc>
+    <loc>https://nawee.net/business-english-test.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/lernen.html</loc>
+    <loc>https://nawee.net/lernen.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/learn.html</loc>
+    <loc>https://nawee.net/learn.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/communication-course.html</loc>
+    <loc>https://nawee.net/communication-course.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/communication-check.html</loc>
+    <loc>https://nawee.net/communication-check.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/kommunikations-check.html</loc>
+    <loc>https://nawee.net/kommunikations-check.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/kurs.html</loc>
+    <loc>https://nawee.net/kurs.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/fuer-mich.html</loc>
+    <loc>https://nawee.net/fuer-mich.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/for-me.html</loc>
+    <loc>https://nawee.net/for-me.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/beruf-lektion.html</loc>
+    <loc>https://nawee.net/beruf-lektion.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/work-lesson.html</loc>
+    <loc>https://nawee.net/work-lesson.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/vokabeln.html</loc>
+    <loc>https://nawee.net/vokabeln.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/vocabulary.html</loc>
+    <loc>https://nawee.net/vocabulary.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/start.html</loc>
+    <loc>https://nawee.net/start.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/get-started.html</loc>
+    <loc>https://nawee.net/get-started.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/lesen.html</loc>
+    <loc>https://nawee.net/lesen.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/reading.html</loc>
+    <loc>https://nawee.net/reading.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/spiele.html</loc>
+    <loc>https://nawee.net/spiele.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/games.html</loc>
+    <loc>https://nawee.net/games.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/ueber-nawee.html</loc>
-    <lastmod>2026-10-23</lastmod>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://learn.nawee.net/about.html</loc>
+    <loc>https://nawee.net/ueber-nawee.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/selbst-lernen.html</loc>
+    <loc>https://nawee.net/about.html</loc>
+    <lastmod>2026-10-23</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nawee.net/selbst-lernen.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/learn-on-your-own.html</loc>
+    <loc>https://nawee.net/learn-on-your-own.html</loc>
     <lastmod>2026-10-23</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/webseminar.html</loc>
+    <loc>https://nawee.net/webseminar.html</loc>
     <lastmod>2026-10-24</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/web-seminar.html</loc>
+    <loc>https://nawee.net/web-seminar.html</loc>
     <lastmod>2026-10-24</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/geschichte-englisch.html</loc>
+    <loc>https://nawee.net/geschichte-englisch.html</loc>
     <lastmod>2026-10-24</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://learn.nawee.net/history-of-english.html</loc>
+    <loc>https://nawee.net/history-of-english.html</loc>
     <lastmod>2026-10-24</lastmod>
     <priority>0.6</priority>
   </url>
-  <url><loc>https://learn.nawee.net/tippen.html</loc></url>
-  <url><loc>https://learn.nawee.net/bewertungen.html</loc></url>
-  <url><loc>https://learn.nawee.net/reviews.html</loc></url>
-  <url><loc>https://learn.nawee.net/unterstuetzen.html</loc></url>
-  <url><loc>https://learn.nawee.net/support.html</loc></url>
-  <url><loc>https://learn.nawee.net/app.html</loc></url>
-  <url><loc>https://learn.nawee.net/app-en.html</loc></url>
-  <url><loc>https://learn.nawee.net/musik.html</loc></url>
-  <url><loc>https://learn.nawee.net/music.html</loc></url>
-  <url><loc>https://learn.nawee.net/typing.html</loc></url>
+  <url><loc>https://nawee.net/tippen.html</loc></url>
+  <url><loc>https://nawee.net/bewertungen.html</loc></url>
+  <url><loc>https://nawee.net/reviews.html</loc></url>
+  <url><loc>https://nawee.net/unterstuetzen.html</loc></url>
+  <url><loc>https://nawee.net/support.html</loc></url>
+  <url><loc>https://nawee.net/app.html</loc></url>
+  <url><loc>https://nawee.net/app-en.html</loc></url>
+  <url><loc>https://nawee.net/musik.html</loc></url>
+  <url><loc>https://nawee.net/music.html</loc></url>
+  <url><loc>https://nawee.net/typing.html</loc></url>
   <url>
-    <loc>https://learn.nawee.net/grammar.html</loc>
+    <loc>https://nawee.net/grammar.html</loc>
     <lastmod>2026-11-04</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/grammatik.html</loc>
+    <loc>https://nawee.net/grammatik.html</loc>
     <lastmod>2026-11-04</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/nutzungsbedingungen.html</loc>
+    <loc>https://nawee.net/nutzungsbedingungen.html</loc>
     <lastmod>2026-11-06</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/terms-of-use.html</loc>
+    <loc>https://nawee.net/terms-of-use.html</loc>
     <lastmod>2026-11-06</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/index-tr.html</loc>
+    <loc>https://nawee.net/index-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/vocabulary-tr.html</loc>
+    <loc>https://nawee.net/vocabulary-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/grammar-tr.html</loc>
+    <loc>https://nawee.net/grammar-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/get-started-tr.html</loc>
+    <loc>https://nawee.net/get-started-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/for-me-tr.html</loc>
+    <loc>https://nawee.net/for-me-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/learn-tr.html</loc>
+    <loc>https://nawee.net/learn-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/about-tr.html</loc>
+    <loc>https://nawee.net/about-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/reading-tr.html</loc>
+    <loc>https://nawee.net/reading-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/games-tr.html</loc>
+    <loc>https://nawee.net/games-tr.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/interview.html</loc>
+    <loc>https://nawee.net/interview.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/vorstellungsgespraech.html</loc>
+    <loc>https://nawee.net/vorstellungsgespraech.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
   <url>
-    <loc>https://learn.nawee.net/interview-tr.html</loc>
+    <loc>https://nawee.net/interview-tr.html</loc>
+    <lastmod>2026-11-07</lastmod>
+  </url>
+  <url>
+    <loc>https://nawee.net/lessons/</loc>
+    <lastmod>2026-11-07</lastmod>
+  </url>
+  <url>
+    <loc>https://nawee.net/lessons/index-en.html</loc>
+    <lastmod>2026-11-07</lastmod>
+  </url>
+  <url>
+    <loc>https://nawee.net/lessons/ueber-mich.html</loc>
+    <lastmod>2026-11-07</lastmod>
+  </url>
+  <url>
+    <loc>https://nawee.net/lessons/about-me.html</loc>
     <lastmod>2026-11-07</lastmod>
   </url>
 </urlset>

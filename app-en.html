@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Install Nawee on your phone’s home screen for free – no app store needed. One tap to learn, full screen and also offline.">
     <title>Get the Nawee app – free on your phone | Nawee</title>
-    <link rel="canonical" href="https://learn.nawee.net/app-en.html">
-    <link rel="stylesheet" href="style.css?v=20261107iw">
-    <link rel="stylesheet" href="dark.css?v=20261107iw">
+    <link rel="canonical" href="https://nawee.net/app-en.html">
+    <link rel="stylesheet" href="style.css?v=20261107mv">
+    <link rel="stylesheet" href="dark.css?v=20261107mv">
     <!-- Nawee Learning moved from nawee.net: take over progress handed over once in the URL fragment (fills only missing keys) -->
-    <script>try{var m=location.hash.match(/^#nawee-migrate=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));for(var k in d){if(/^nawee-/.test(k)&&localStorage.getItem(k)===null)localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[2]?"#"+decodeURIComponent(m[2]):""))}}catch(e){}</script>
+    <script>try{var m=location.hash.match(/^#nawee-(migrate|move)=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[2])))));for(var k in d){if(/^nawee-/.test(k)&&(m[1]==="move"||localStorage.getItem(k)===null))localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[3]?"#"+decodeURIComponent(m[3]):""))}}catch(e){}</script>
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -18,17 +18,17 @@
     <meta name="apple-mobile-web-app-title" content="Nawee">
     <!-- a written version exists in the other language, so browsers should not machine-translate this page -->
     <meta name="google" content="notranslate">
-    <link rel="alternate" hreflang="de" href="https://learn.nawee.net/app.html">
-    <link rel="alternate" hreflang="en" href="https://learn.nawee.net/app-en.html">
-    <link rel="alternate" hreflang="x-default" href="https://learn.nawee.net/app-en.html">
+    <link rel="alternate" hreflang="de" href="https://nawee.net/app.html">
+    <link rel="alternate" hreflang="en" href="https://nawee.net/app-en.html">
+    <link rel="alternate" hreflang="x-default" href="https://nawee.net/app-en.html">
     <!-- preview when the page is shared (WhatsApp, LinkedIn, Facebook, …) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nawee">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Get the Nawee app – free on your phone | Nawee">
     <meta property="og:description" content="Install Nawee on your phone’s home screen for free – no app store needed. One tap to learn, full screen and also offline.">
-    <meta property="og:url" content="https://learn.nawee.net/app-en.html">
-    <meta property="og:image" content="https://learn.nawee.net/assets/share-en.jpg">
+    <meta property="og:url" content="https://nawee.net/app-en.html">
+    <meta property="og:image" content="https://nawee.net/assets/share-en.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Nawee – Learn English by listening and speaking">
@@ -48,6 +48,7 @@
             <a href="reading.html">Reading</a>
             <a href="grammar.html">Grammar</a>
             <a href="games.html">Games</a>
+            <a href="lessons/index-en.html">English lessons</a>
             <a href="about.html">About Nawee</a>
             <a class="nav-cta" href="account.html?mode=signup">Create account</a>
             <div class="language-switch">
@@ -71,6 +72,7 @@
                     <a href="reading.html">Reading</a>
                     <a href="grammar.html">Grammar</a>
                     <a href="games.html">Games</a>
+                    <a href="lessons/index-en.html">English lessons</a>
                     <a href="about.html">About Nawee</a>
                     <a href="index-en.html#wege">Start for free</a>
                     <div class="mobile-menu-languages">
@@ -100,7 +102,7 @@
                 <article class="app-step" data-app-os="ios">
                     <h3><span aria-hidden="true">🍎</span> iPhone &amp; iPad</h3>
                     <ol>
-                        <li>Open <strong>learn.nawee.net</strong> in <strong>Safari</strong>.</li>
+                        <li>Open <strong>nawee.net</strong> in <strong>Safari</strong>.</li>
                         <li>Tap <strong>Share</strong> <span class="app-key" aria-hidden="true">⬆︎</span> (the square with an arrow).</li>
                         <li>Choose <strong>“Add to Home Screen”</strong>.</li>
                         <li>Tap <strong>“Add”</strong> – done!</li>
@@ -109,7 +111,7 @@
                 <article class="app-step" data-app-os="other">
                     <h3><span aria-hidden="true">🤖</span> Android</h3>
                     <ol>
-                        <li>Open <strong>learn.nawee.net</strong> in <strong>Chrome</strong>.</li>
+                        <li>Open <strong>nawee.net</strong> in <strong>Chrome</strong>.</li>
                         <li>Tap <strong>⋮</strong> (three dots) at the top right.</li>
                         <li>Choose <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.</li>
                         <li>Confirm with <strong>“Install”</strong> – done!</li>
@@ -118,7 +120,7 @@
                 <article class="app-step" data-app-os="other">
                     <h3><span aria-hidden="true">💻</span> Computer</h3>
                     <ol>
-                        <li>Open <strong>learn.nawee.net</strong> in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
+                        <li>Open <strong>nawee.net</strong> in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
                         <li>Click the <strong>install icon</strong> <span class="app-key" aria-hidden="true">⊕</span> in the address bar.</li>
                         <li>Confirm with <strong>“Install”</strong>.</li>
                     </ol>
@@ -155,6 +157,7 @@
             <a href="reading.html">Reading</a>
             <a href="grammar.html">Grammar</a>
             <a href="games.html">Games</a>
+            <a href="lessons/index-en.html">English lessons</a>
             <a href="learn-on-your-own.html">Learn on your own</a>
             <a href="about.html">About Nawee</a>
             <a href="reviews.html">Reviews</a>
@@ -162,7 +165,7 @@
             <a aria-current="page" href="app-en.html">📲 Get the app</a>
             <a href="report-a-bug.html">Report a bug</a>
             <a href="account.html">My account</a>
-            <a href="https://nawee.net/index-en.html#angebote" target="_blank" rel="noopener">English lessons with David ↗</a>
+            <a href="/lessons/index-en.html#angebote">English lessons with David ↗</a>
         </nav>
         <nav class="footer-legal" aria-label="Legal">
             <p class="footer-heading">Legal</p>

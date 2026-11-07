@@ -3002,14 +3002,14 @@ nav > a.is-current::after {
 }
 
 /* offer section on the homepage: two equally wide, centred cards (Englisch, KI) */
-#angebote .cards {
+#free .cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 1220px;
     margin: 0 auto;
 }
 
 @media (max-width: 760px) {
-    #angebote .cards {
+    #free .cards {
         grid-template-columns: minmax(0, 1fr);
         max-width: 560px;
     }
@@ -3097,7 +3097,7 @@ nav > a.is-current::after {
 }
 
 @media (max-width: 1000px) and (min-width: 761px) {
-    #angebote .cards {
+    #free .cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -13408,4 +13408,38 @@ footer .footer-links {
 
 .iv-edit {
     margin: 0 0 10px;
+}
+
+/* top menu with "English lessons" (2026-11-07): keep it on one line on laptop screens – "About Nawee" stays in the footer */
+@media (max-width: 1400px) and (min-width: 901px) {
+    nav > a[href^="about"],
+    nav > a[href^="ueber-nawee"] {
+        display: none;
+    }
+}
+
+@media (max-width: 1180px) and (min-width: 1101px) {
+    nav {
+        gap: 14px;
+    }
+
+    nav > a:not(.nav-cta) {
+        font-size: .78rem;
+        letter-spacing: .06em;
+    }
+}
+
+/* small laptops: the burger menu takes over, like on tablets */
+@media (max-width: 1100px) and (min-width: 901px) {
+    nav > a:not(.nav-cta) {
+        display: none;
+    }
+
+    .language-switch {
+        display: none;
+    }
+
+    nav .menu-switch {
+        display: block;
+    }
 }

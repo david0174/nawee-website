@@ -82,7 +82,7 @@
             tag: tx("👋 PERSÖNLICH MIT DAVID", "👋 LEARN WITH DAVID"),
             title: tx("Schneller weiter mit Englischunterricht", "Go further, faster, with lessons"),
             text: tx("Englischunterricht für jedes Niveau – eins zu eins mit David, online oder in Hannover. Allgemeines Englisch und Berufsenglisch, mit kostenlosem Kennenlerngespräch.", "English lessons for every level – one-on-one with David, online or in Hannover. General English and Professional English, with a free intro call."),
-            cta: tx("Unterricht & Preise", "Lessons & prices"), href: tx("https://nawee.net/", "https://nawee.net/index-en.html"), external: true,
+            cta: tx("Unterricht & Preise", "Lessons & prices"), href: tx("/lessons/", "/lessons/index-en.html"), external: true,
             visual: `<div class="cs-coach"><img src="assets/david-avatar.jpg" alt=""><strong>David Nawee</strong><small>${tx("Englischlehrer · Muttersprachler aus den USA", "English teacher · native speaker from the US")}</small><span>${tx("Erstgespräch kostenlos", "Free intro call")}</span></div>`,
         },
         {

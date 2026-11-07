@@ -68,7 +68,7 @@
             lessons: "Altı ders", cta: "Yakında gerçek bir mülakatın mı var? David ya da Omer ile birebir İngilizce dersinde çalış.", ctaLink: "İngilizce derslerine bak ↗",
         },
     }[lng];
-    const LESSONS_URL = lng === "de" ? "https://nawee.net/#angebote" : "https://nawee.net/index-en.html#angebote";
+    const LESSONS_URL = lng === "de" ? "/lessons/#angebote" : "/lessons/index-en.html#angebote";
 
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };

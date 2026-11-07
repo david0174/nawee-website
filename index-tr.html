@@ -2,14 +2,17 @@
 <html lang="tr">
  <head>
     <meta charset="UTF-8">
+    <!-- nawee.net/#angebote, #lehrer … used to be the tutoring homepage – those anchors now live in /lessons/ (2026-11-07) -->
+    <script>(function(){var h=location.hash.slice(1);if(/^(angebote|lehrer|kontakt|methode|business-english|fuer-wen|ueben)$/.test(h))location.replace("/lessons/index-en.html#"+h);})();</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Nawee ile ücretsiz İngilizce öğren: dinleme ve konuşma dersleri, resimli kartlar, okuma metinleri ve oyunlar – ilk kelimenden itibaren, anadili İngilizce olan biri tarafından seslendirilmiş. Kayıt gerekmez.">
     <title>Nawee – Dinleyerek ve konuşarak İngilizce öğren | ücretsiz</title>
-    <link rel="canonical" href="https://learn.nawee.net/index-tr.html">
-    <link rel="stylesheet" href="style.css?v=20261107iw">
-    <link rel="stylesheet" href="dark.css?v=20261107iw">
+    <link rel="canonical" href="https://nawee.net/index-tr.html">
+    <link rel="stylesheet" href="style.css?v=20261107mv">
+    <link rel="stylesheet" href="dark.css?v=20261107mv">
     <!-- Nawee Learning moved from nawee.net: take over progress handed over once in the URL fragment (fills only missing keys) -->
-    <script>try{var m=location.hash.match(/^#nawee-migrate=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));for(var k in d){if(/^nawee-/.test(k)&&localStorage.getItem(k)===null)localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[2]?"#"+decodeURIComponent(m[2]):""))}}catch(e){}</script>
+    <script>try{var m=location.hash.match(/^#nawee-(migrate|move)=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[2])))));for(var k in d){if(/^nawee-/.test(k)&&(m[1]==="move"||localStorage.getItem(k)===null))localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[3]?"#"+decodeURIComponent(m[3]):""))}}catch(e){}</script>
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
     <link rel="icon" type="image/png" href="assets/favicon.png?v=7">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -19,18 +22,18 @@
    
     <!-- Turkish version (2026-11-07) – reviewed by Omer before going live; browsers should not machine-translate it -->
     <meta name="google" content="notranslate">
-    <link rel="alternate" hreflang="de" href="https://learn.nawee.net/">
-    <link rel="alternate" hreflang="en" href="https://learn.nawee.net/index-en.html">
-    <link rel="alternate" hreflang="tr" href="https://learn.nawee.net/index-tr.html">
-    <link rel="alternate" hreflang="x-default" href="https://learn.nawee.net/index-en.html">
+    <link rel="alternate" hreflang="de" href="https://nawee.net/">
+    <link rel="alternate" hreflang="en" href="https://nawee.net/index-en.html">
+    <link rel="alternate" hreflang="tr" href="https://nawee.net/index-tr.html">
+    <link rel="alternate" hreflang="x-default" href="https://nawee.net/index-en.html">
     <!-- preview when the page is shared (WhatsApp, LinkedIn, Facebook, …) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nawee">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:title" content="Nawee – Dinleyerek ve konuşarak İngilizce öğren | ücretsiz">
     <meta property="og:description" content="Nawee ile ücretsiz İngilizce öğren: dinleme ve konuşma dersleri, resimli kartlar, okuma metinleri ve oyunlar – ilk kelimenden itibaren, anadili İngilizce olan biri tarafından seslendirilmiş. Kayıt gerekmez.">
-    <meta property="og:url" content="https://learn.nawee.net/index-tr.html">
-    <meta property="og:image" content="https://learn.nawee.net/assets/share-en.jpg">
+    <meta property="og:url" content="https://nawee.net/index-tr.html">
+    <meta property="og:image" content="https://nawee.net/assets/share-en.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Nawee – Dinleyerek ve konuşarak İngilizce öğren">
@@ -42,21 +45,21 @@
       "@graph": [
         {
           "@type": "WebSite",
-          "@id": "https://learn.nawee.net/#website",
-          "url": "https://learn.nawee.net/",
+          "@id": "https://nawee.net/#website",
+          "url": "https://nawee.net/",
           "name": "Nawee",
           "alternateName": "Nawee – İngilizce öğren",
           "inLanguage": "tr",
           "publisher": {
-            "@id": "https://learn.nawee.net/#organization"
+            "@id": "https://nawee.net/#organization"
           }
         },
         {
           "@type": "EducationalOrganization",
-          "@id": "https://learn.nawee.net/#organization",
+          "@id": "https://nawee.net/#organization",
           "name": "Nawee",
-          "url": "https://learn.nawee.net/",
-          "logo": "https://learn.nawee.net/assets/logo.png",
+          "url": "https://nawee.net/",
+          "logo": "https://nawee.net/assets/logo.png",
           "email": "david@nawee.net",
           "telephone": "+49 511 93676970",
           "address": {
@@ -92,6 +95,7 @@
             <a href="reading-tr.html">Okuma</a>
             <a href="grammar-tr.html">Dilbilgisi</a>
             <a href="games-tr.html">Oyunlar</a>
+            <a href="lessons/index-en.html">İngilizce dersleri</a>
             <a href="about-tr.html">Nawee hakkında</a>
             <a class="nav-cta" href="account-tr.html?mode=signup">Hesap oluştur</a>
              <div class="language-switch">
@@ -116,6 +120,7 @@
                     <a href="reading-tr.html">Okuma</a>
                     <a href="grammar-tr.html">Dilbilgisi</a>
                     <a href="games-tr.html">Oyunlar</a>
+                    <a href="lessons/index-en.html">İngilizce dersleri</a>
                     <a href="about-tr.html">Nawee hakkında</a>
                     <a href="index-tr.html#wege">Ücretsiz başla</a>
                     <div class="mobile-menu-languages">
@@ -174,7 +179,7 @@
 
 
         <!-- What you'll find: paths, lessons, picture cards, courses -->
-        <section class="section learn-section learn-section-soft" id="angebote">
+        <section class="section learn-section learn-section-soft" id="free">
             <div class="section-heading centered">
                 <p class="eyebrow">TAMAMEN ÜCRETSİZ</p>
                 <h2>Nawee’de neler var?</h2>
@@ -316,6 +321,7 @@
             <a href="reading-tr.html">Okuma</a>
             <a href="grammar-tr.html">Dilbilgisi</a>
             <a href="games-tr.html">Oyunlar</a>
+            <a href="lessons/index-en.html">İngilizce dersleri</a>
             <a href="learn-on-your-own.html">Kendi başına öğren</a>
             <a href="about-tr.html">Nawee hakkında</a>
             <a href="reviews.html">Yorumlar</a>
@@ -323,7 +329,7 @@
             <a href="app-en.html">📲 Uygulamayı indir</a>
             <a href="report-a-bug.html">Hata bildir</a>
             <a href="account-tr.html">Hesabım</a>
-            <a href="https://nawee.net/index-en.html#angebote" target="_blank" rel="noopener">David ile İngilizce dersleri ↗</a>
+            <a href="/lessons/index-en.html#angebote">David ile İngilizce dersleri ↗</a>
         </nav>
         <nav class="footer-legal" aria-label="Yasal">
             <p class="footer-heading">Yasal</p>
@@ -343,6 +349,6 @@
     <script src="vocab-data.js?v=20261105a"></script>
     <script src="reading-data.js?v=20261107a"></script>
     <script src="hero-tile.js?v=20261107t3"></script>
-    <script src="carousel.js?v=20261107t3"></script>
+    <script src="carousel.js?v=20261107mv"></script>
 </body>
 </html>
