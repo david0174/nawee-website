@@ -9,8 +9,8 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#0d2f82">
     <meta name="apple-mobile-web-app-title" content="Nawee">
-    <link rel="stylesheet" href="style.css?v=20261107a">
-    <link rel="stylesheet" href="dark.css?v=20261107a">
+    <link rel="stylesheet" href="style.css?v=20261107s">
+    <link rel="stylesheet" href="dark.css?v=20261107s">
     <!-- Nawee Learning moved from nawee.net: take over progress handed over once in the URL fragment (fills only missing keys) -->
     <script>try{var m=location.hash.match(/^#nawee-migrate=([^&]*)(?:&h=(.*))?$/);if(m){var d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));for(var k in d){if(/^nawee-/.test(k)&&localStorage.getItem(k)===null)localStorage.setItem(k,d[k])}history.replaceState(null,"",location.pathname+location.search+(m[2]?"#"+decodeURIComponent(m[2]):""))}}catch(e){}</script>
     <script>try{var t=localStorage.getItem("nawee-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
@@ -83,7 +83,7 @@
         <a class="back" href="index.html">← Zurück zur Startseite</a>
 
         <h1>Datenschutzerklärung</h1>
-        <p>Stand: Oktober 2026</p>
+        <p>Stand: November 2026</p>
 
         <h2>1. Verantwortlicher</h2>
         <p>
@@ -206,6 +206,16 @@
             sie abspielen können; sie wird weder gespeichert noch an uns oder Dritte übermittelt und beim
             Schließen der Seite gelöscht. Die gesprochenen Beispielsätze sind Aufnahmen von David Nawee oder,
             wo es noch keine gibt, werden von der eingebauten Sprachausgabe Ihres Browsers auf Ihrem Gerät erzeugt.
+        </p>
+        <p>
+            Bei den Bildkarten können Sie Ihre Aussprache prüfen lassen (&bdquo;Sag es&ldquo;). Dafür wandelt ein kleines
+            Spracherkennungsmodell (Whisper tiny.en von OpenAI, Open-Source-Lizenz MIT) Ihre Aufnahme in Text um, und wir
+            vergleichen ihn mit dem gesuchten Wort. Das geschieht vollständig auf Ihrem Gerät: Das Modell und die dafür
+            nötige Software (transformers.js) werden beim ersten Mal von unserem eigenen Webserver geladen und im
+            Speicher Ihres Browsers abgelegt, damit sie beim nächsten Mal nicht erneut geladen werden müssen. Ihre
+            Aufnahme und das Ergebnis werden nicht an uns oder Dritte übermittelt und nicht gespeichert. Den
+            gespeicherten Modell-Download (ca. 60 MB) können Sie jederzeit löschen, indem Sie die Website-Daten für
+            learn.nawee.net in Ihrem Browser löschen.
         </p>
         <p>
             Nach Ihrem ersten Einstufungstest übermitteln wir das ermittelte Niveau (z. B. „B1“) und die Sprache

@@ -12982,3 +12982,108 @@ footer .footer-links {
 .ob-date { display: grid; gap: 12px; justify-items: center; margin: 18px 0; }
 .ob-date-input { font: inherit; font-size: 1.1rem; padding: 12px 16px; border-radius: 12px; border: 2px solid #c9d5e6; min-width: 240px; }
 .ob-nodate { border: 0; background: none; color: #1554c0; font: inherit; font-weight: 700; cursor: pointer; text-decoration: underline; }
+
+/* ---------- pronunciation check on the picture cards (vocab.js + speak-check.js, 2026-11-07) ---------- */
+.say {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    margin: 14px 0 4px;
+}
+
+.sl-btn.say-rec {
+    font-weight: 700;
+}
+
+.say-live {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--blue-dark);
+    font-weight: 700;
+}
+
+.say-live[hidden],
+.say-status[hidden],
+.say-result[hidden] {
+    display: none;
+}
+
+.say-meter {
+    width: 90px;
+    height: 10px;
+    border-radius: 99px;
+    background: var(--line);
+    overflow: hidden;
+}
+
+.say-meter i {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: #d64545;
+    transition: width .05s linear;
+}
+
+.say-stop {
+    padding: 6px 12px;
+    font-size: .85rem;
+}
+
+.say-status {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.say-result {
+    width: 100%;
+    max-width: 460px;
+    padding: 12px 14px;
+    border-radius: 12px;
+}
+
+.say-result.is-right {
+    background: #e8f7ee;
+    color: #155c36;
+}
+
+.say-result.is-wrong {
+    background: #fdecec;
+    color: #8c2b2b;
+}
+
+.say-msg {
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+.say-result .sl-row {
+    justify-content: center;
+}
+
+.say-privacy {
+    margin: 0;
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.say-next {
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.say-note {
+    margin-top: 14px;
+}
+
+.say-miss {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 6px 0 16px;
+}

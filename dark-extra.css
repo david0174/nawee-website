@@ -96,3 +96,7 @@ body { background: var(--dm-bg); color: var(--ink); }
 .gp-n { background: #f5c542; color: #14213d; }
 .gp-due { background: #f5c542; color: #14213d; }
 .ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }
+
+/* pronunciation check results (picture cards) */
+.say-result.is-right { background: #143826; color: #b8ecc9; }
+.say-result.is-wrong { background: #3d1c1c; color: #f5c2c2; }

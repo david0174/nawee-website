@@ -17,7 +17,7 @@
     const KEY = "nawee-vocab-v1";
     const NEW_PER_DAY = 10;
     const T = lang === "de" ? {
-        back: "← Dein Lernweg", backHref: "fuer-mich.html", eyebrow: "BILDKARTEN", modes: ["Lernen", "Hören", "Alle Wörter"],
+        back: "← Dein Lernweg", backHref: "fuer-mich.html", eyebrow: "BILDKARTEN", modes: ["Lernen", "Hören", "🎤 Sprechen", "Alle Wörter"],
         due: (d, n) => `Heute: ${d} zum Wiederholen · ${n} neu`, learned: (a, b) => `${a} von ${b} Wörtern gelernt`,
         streak: (n) => `🔥 ${n} ${n === 1 ? "Tag" : "Tage"} in Folge`,
         ask: "Wie heißt das auf Englisch? Sag es laut.", flip: "Umdrehen", play: "Anhören", example: "Beispiel", originQ: "Woher kommt das Wort?",
@@ -30,8 +30,18 @@
         weakTitle: "Meine schwächsten Wörter", weakIntro: "Deine roten und unsicheren Wörter aus allen Themen – in einer Runde. Wer hier übt, macht am schnellsten Fortschritte.", weakEmpty: "Noch keine schwachen Wörter – übe erst ein paar Bildkarten, dann sammeln sich hier die Wörter, die du noch wiederholen solltest.", weakCard: (n) => `${n} ${n === 1 ? "Wort" : "Wörter"} aus allen Themen, die du noch wiederholen solltest`, weakGo: "Jetzt wiederholen",
         levelLabel: "Niveau:", allLevels: "Alle", allTitle: "Bildkarten", allLead: "Vokabeln üben, unabhängig von den Lektionen: Bild ansehen, Wort laut sagen, anhören. Jedes Thema zeigt dir, wie sicher du schon bist.",
         overall: "Alle Themen zusammen", words: (n) => `${n} Wörter`, practice: "Üben", start: "Starten", topics: "← Alle Themen",
+        say: {
+            btn: "🎤 Sag es – Aussprache prüfen", listening: "Ich höre zu … sag das Wort", stop: "Stopp", checking: "Ich prüfe …",
+            loading: (p) => `Der Aussprache-Check wird geladen – nur beim ersten Mal (ca. 40 MB) … ${p} %`,
+            right: (h) => `✓ Super – das klang wie „${h}“.`, wrong: (h) => `✗ Das klang wie „${h}“. Hör dir das Wort an und versuch es nochmal.`,
+            nothing: "Ich habe nichts gehört – sprich etwas lauter und näher am Mikrofon.", blocked: "Das Mikrofon ist blockiert. Erlaube es für diese Website in den Browser-Einstellungen.",
+            failed: "Der Aussprache-Check läuft auf diesem Gerät leider nicht. Du kannst trotzdem vergleichen: aufnehmen und anhören.", noRec: "Dein Browser kann leider keine Aufnahmen machen – probier es in Chrome, Safari oder Edge.",
+            you: "Du", model: "David", again: "🎤 Nochmal", privacy: "🔒 Deine Stimme bleibt auf deinem Gerät – nichts wird hochgeladen.",
+            ask: "Sag dieses Wort laut:", score: (r, t) => `${r} von ${t} Wörtern klar ausgesprochen`, redo: "Diese Wörter nochmal üben:", next: "Weiter →",
+            note: "Der Check hört, ob das Wort klar verständlich war – er bewertet nicht jeden einzelnen Laut. Vergleich deine Aufnahme auch mit dem Beispiel zum Anhören.",
+        },
     } : {
-        back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "All words"],
+        back: "← Your learning path", backHref: "for-me.html", eyebrow: "PICTURE CARDS", modes: ["Learn", "Listen", "🎤 Say it", "All words"],
         due: (d, n) => `Today: ${d} to review · ${n} new`, learned: (a, b) => `${a} of ${b} words learned`,
         streak: (n) => `🔥 ${n}-day streak`,
         ask: "What is this in English? Say it out loud.", flip: "Flip", play: "Listen", example: "Example", originQ: "Where does the word come from?",
@@ -44,9 +54,19 @@
         weakTitle: "My weakest words", weakIntro: "Your red and shaky words from all topics – in one round. Practicing here is the fastest way to make progress.", weakEmpty: "No weak words yet – practice some picture cards first, then the words you should review will collect here.", weakCard: (n) => `${n} ${n === 1 ? "word" : "words"} from all topics you should review`, weakGo: "Review now",
         levelLabel: "Level:", allLevels: "All", allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
         overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
+        say: {
+            btn: "🎤 Say it – check my pronunciation", listening: "Listening … say the word", stop: "Stop", checking: "Checking …",
+            loading: (p) => `Loading the pronunciation check – only the first time (about 40 MB) … ${p} %`,
+            right: (h) => `✓ Great – that sounded like “${h}”.`, wrong: (h) => `✗ That sounded like “${h}”. Listen to the word and try again.`,
+            nothing: "I couldn’t hear anything – speak a little louder and closer to the microphone.", blocked: "The microphone is blocked. Allow it for this website in your browser settings.",
+            failed: "The pronunciation check doesn’t run on this device. You can still compare: record and listen.", noRec: "Your browser can’t record audio – try Chrome, Safari or Edge.",
+            you: "You", model: "David", again: "🎤 Again", privacy: "🔒 Your voice stays on your device – nothing is uploaded.",
+            ask: "Say this word out loud:", score: (r, t) => `${r} of ${t} words said clearly`, redo: "Practice these words again:", next: "Next →",
+            note: "The check hears whether the word was clear – it doesn’t rate every single sound. Compare your recording with the example, too.",
+        },
     };
     if (lang === "tr") Object.assign(T, {
-        back: "← Öğrenme yolun", backHref: "for-me-tr.html", eyebrow: "RESİMLİ KARTLAR", modes: ["Öğren", "Dinle", "Tüm kelimeler"],
+        back: "← Öğrenme yolun", backHref: "for-me-tr.html", eyebrow: "RESİMLİ KARTLAR", modes: ["Öğren", "Dinle", "🎤 Söyle", "Tüm kelimeler"],
         due: (d, n) => `Bugün: ${d} tekrar · ${n} yeni`, learned: (a, b) => `${b} kelimeden ${a} tanesi öğrenildi`,
         streak: (n) => `🔥 ${n} gün üst üste`,
         ask: "Bunun İngilizcesi ne? Yüksek sesle söyle.", flip: "Çevir", play: "Dinle", example: "Örnek", originQ: "Kelime nereden geliyor?",
@@ -60,6 +80,16 @@
         weakEmpty: "Henüz zayıf kelime yok – önce birkaç resimli kart çalış.",
         levelLabel: "Seviye:", allLevels: "Hepsi", allTitle: "Resimli kartlar", allLead: "Kelimeleri derslerden bağımsız çalış: resme bak, kelimeyi söyle, dinle. Her konu, onu ne kadar iyi bildiğini gösterir.",
         overall: "Tüm konular birlikte", words: (n) => `${n} kelime`, practice: "Çalış", start: "Başla", topics: "← Tüm konular",
+        say: {
+            btn: "🎤 Söyle – telaffuzumu kontrol et", listening: "Dinliyorum … kelimeyi söyle", stop: "Durdur", checking: "Kontrol ediliyor …",
+            loading: (p) => `Telaffuz kontrolü yükleniyor – sadece ilk seferde (yaklaşık 40 MB) … %${p}`,
+            right: (h) => `✓ Harika – “${h}” gibi duyuldu.`, wrong: (h) => `✗ “${h}” gibi duyuldu. Kelimeyi dinle ve tekrar dene.`,
+            nothing: "Hiçbir şey duyamadım – biraz daha yüksek sesle ve mikrofona daha yakın konuş.", blocked: "Mikrofon engellenmiş. Tarayıcı ayarlarından bu siteye izin ver.",
+            failed: "Telaffuz kontrolü bu cihazda çalışmıyor. Yine de karşılaştırabilirsin: kaydet ve dinle.", noRec: "Tarayıcın ses kaydedemiyor – Chrome, Safari ya da Edge ile dene.",
+            you: "Sen", model: "David", again: "🎤 Tekrar", privacy: "🔒 Sesin cihazında kalır – hiçbir şey yüklenmez.",
+            ask: "Bu kelimeyi yüksek sesle söyle:", score: (r, t) => `${t} kelimeden ${r} tanesi net söylendi`, redo: "Bu kelimeleri tekrar çalış:", next: "Devam →",
+            note: "Kontrol, kelimenin net anlaşılıp anlaşılmadığını duyar – her sesi tek tek değerlendirmez. Kaydını dinleme örneğiyle de karşılaştır.",
+        },
     });
 
     const deckParam = new URLSearchParams(location.search).get("deck");
@@ -238,6 +268,7 @@
         stage.innerHTML = `<div class="vc-card">
                 <img class="vc-img" src="${img(w)}" alt="">
                 <div class="vc-front"><p class="vc-ask">${T.ask}</p><p class="as-note">${T.tip}</p></div>
+                <div data-say></div>
                 <div class="vc-back" hidden>
                     <p class="vc-word">${esc(w.word)}</p>
                     ${lang !== "en" && w[lang] ? `<p class="vc-de">${esc(w[lang])}</p>` : ""}
@@ -253,6 +284,7 @@
             speak(w.word, w.audio);
         });
         front.append(flip);
+        const sw = sayWidget(w); if (sw) stage.querySelector("[data-say]").append(sw);
         back.querySelector("[data-plays]").append(
             btn("sl-play", `<span aria-hidden="true">▶</span> ${esc(w.word)}`, () => speak(w.word, w.audio)),
             btn("", `<span aria-hidden="true">▶</span> ${T.example}`, () => speak(w.example, w.exAudio)));
@@ -309,7 +341,91 @@
         round();
     };
 
-    // ---------- mode 3: all words ----------
+    // ---------- mode 3: say the word – pronunciation check on the device (speak-check.js) ----------
+    const sayRound = () => {
+        if (!window.NaweeSpeak?.supported) { stage.innerHTML = `<div class="vc-done"><p>${T.say.noRec}</p></div>`; return; }
+        window.NaweeSpeak.load().catch(() => {});   // start loading the model right away
+        const rounds = [...deck.words].sort(() => Math.random() - 0.5).slice(0, 8);
+        const result = new Map();
+        let i = 0;
+        const round = () => {
+            if (i >= rounds.length) {
+                const ok = rounds.filter((w) => result.get(w)), miss = rounds.filter((w) => !result.get(w));
+                stage.innerHTML = `<div class="vc-done"><p class="vc-done-icon" aria-hidden="true">🎤</p><h2>${T.say.score(ok.length, rounds.length)}</h2>
+                    ${miss.length ? `<p>${T.say.redo}</p><div class="say-miss" data-miss></div>` : ""}</div>`;
+                miss.forEach((w) => stage.querySelector("[data-miss]").append(btn("", `▶ ${esc(w.word)}`, () => speak(w.word, w.audio))));
+                stage.querySelector(".vc-done").append(btn("sl-play sl-big", T.again, sayRound));
+                markDay(); drawStats();
+                return;
+            }
+            const w = rounds[i];
+            stage.innerHTML = `<div class="vc-card say-card"><p class="exercise-number">${i + 1} / ${rounds.length}</p>
+                <img class="vc-img" src="${img(w)}" alt=""><p class="vc-ask">${T.say.ask}</p>
+                <p class="vc-word">${esc(w.word)}</p>${lang !== "en" && w[lang] ? `<p class="vc-de">${esc(w[lang])}</p>` : ""}
+                <div class="sl-row vc-row" data-plays></div><div data-say></div><div class="sl-row say-next" data-next></div></div>`;
+            stage.querySelector("[data-plays]").append(btn("", `<span aria-hidden="true">▶</span> ${T.play}`, () => speak(w.word, w.audio)));
+            const next = btn("sl-play", T.say.next, () => { i += 1; round(); });
+            stage.querySelector("[data-next]").append(next);
+            stage.querySelector("[data-say]").append(sayWidget(w, (ok) => {
+                if (ok) result.set(w, true); else if (!result.has(w)) result.set(w, false);
+                if (ok) next.focus();
+            }));
+            if (i === 0) stage.querySelector(".say-card").insertAdjacentHTML("beforeend", `<p class="as-note say-note">${T.say.note}</p>`);
+        };
+        round();
+    };
+
+    // the 🎤 box: record → check → result with "David" / "You" to compare (used on the Learn card and in the Say-it round)
+    function sayWidget(w, onResult) {
+        const S = window.NaweeSpeak;
+        if (!S?.supported) return null;
+        const box = document.createElement("div");
+        box.className = "say";
+        box.innerHTML = `<div class="say-live" data-live hidden><span class="say-meter"><i data-meter></i></span><span>${T.say.listening}</span></div>
+            <p class="say-status" data-status hidden></p><div class="say-result" data-result hidden></div><p class="say-privacy">${T.say.privacy}</p>`;
+        const live = box.querySelector("[data-live]"), status = box.querySelector("[data-status]"), res = box.querySelector("[data-result]"), meter = box.querySelector("[data-meter]");
+        let mine = null;
+        const rec = btn("sl-play say-rec", T.say.btn, () => go());
+        const stopB = btn("say-stop", `■ ${T.say.stop}`, () => S.stop());
+        live.append(stopB);
+        box.prepend(rec);
+        const show = (cls, html, withRetry) => {
+            res.hidden = false; res.className = `say-result ${cls}`;
+            res.innerHTML = `<p class="say-msg">${html}</p><div class="sl-row" data-cmp></div>`;
+            const cmp = res.querySelector("[data-cmp]");
+            cmp.append(btn("", `🔊 ${w.audio ? T.say.model : T.play}`, () => speak(w.word, w.audio)));
+            if (mine) cmp.append(btn("", `🔊 ${T.say.you}`, () => { synth?.cancel(); if (current) current.pause(); current = new Audio(mine); current.play().catch(() => {}); }));
+            if (withRetry) cmp.append(btn("", T.say.again, () => go()));
+        };
+        const go = async () => {
+            res.hidden = true; status.hidden = true; rec.hidden = true; live.hidden = false;
+            let waiting = false;   // true while the result waits for the model (first time only)
+            S.load((p) => { if (waiting) status.textContent = T.say.loading(p); }).catch(() => {});
+            let r;
+            try { r = await S.record({ onLevel: (v) => { meter.style.width = `${Math.round(v * 100)}%`; } }); }
+            catch { live.hidden = true; rec.hidden = false; show("is-wrong", T.say.blocked, false); return; }
+            live.hidden = true; window.__pk = r.peak;
+            if (mine) URL.revokeObjectURL(mine);
+            mine = URL.createObjectURL(r.blob);
+            if (!r.loud) { show("is-wrong", T.say.nothing, true); return; }
+            status.hidden = false; status.textContent = T.say.checking;
+            if (!S.ready()) { waiting = true; status.textContent = T.say.loading(0); S.load().then(() => { waiting = false; status.textContent = T.say.checking; }, () => {}); }
+            try {
+                const out = await S.check(r.blob, w.word);
+                status.hidden = true; waiting = false;
+                if (!out.heard) show("is-wrong", T.say.nothing, true);
+                else show(out.ok ? "is-right" : "is-wrong", (out.ok ? T.say.right : T.say.wrong)(esc(out.heard.toLowerCase())), true);
+                onResult?.(out.ok);
+                markDay();
+            } catch {
+                status.hidden = true; waiting = false;
+                show("is-wrong", T.say.failed, true);
+            }
+        };
+        return box;
+    }
+
+    // ---------- mode 4: all words ----------
     const all = () => {
         stage.innerHTML = `<div class="vc-all" data-all></div>`;
         const box = stage.querySelector("[data-all]");
@@ -319,7 +435,7 @@
         });
     };
 
-    const modes = [() => { buildQueue(); learn(); }, listen, all];
+    const modes = [() => { buildQueue(); learn(); }, listen, sayRound, all];
     const select = (m) => {
         root.querySelectorAll(".vc-tab").forEach((t) => t.setAttribute("aria-selected", String(Number(t.dataset.mode) === m)));
         modes[m]();

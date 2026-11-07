@@ -33,6 +33,8 @@ self.addEventListener("fetch", (event) => {
     const url = new URL(req.url);
     // only plain GET requests for our own files; audio/video range requests go straight to the network
     if (req.method !== "GET" || url.origin !== self.location.origin || req.headers.has("range")) return;
+    // the speech model for the pronunciation check (~60 MB) is cached by the checker itself – not here, and never refreshed in the background
+    if (url.pathname.startsWith("/models/") || url.pathname.startsWith("/vendor/transformers/")) return;
 
     if (req.mode === "navigate") {
         event.respondWith(

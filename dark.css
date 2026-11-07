@@ -658,6 +658,9 @@
     html:not([data-theme="light"]) .gp-weekly { color: #ccced2; }
     html:not([data-theme="light"]) .ob-date-input { border: 2px solid #232a34; }
     html:not([data-theme="light"]) .ob-nodate { color: #7ea9f1; }
+    html:not([data-theme="light"]) .say-live { color: var(--dm-head); }
+    html:not([data-theme="light"]) .say-result.is-right { background: #18291f; color: #8be4b4; }
+    html:not([data-theme="light"]) .say-result.is-wrong { background: #2c1111; color: #dd9292; }
     html:not([data-theme="light"]) .legal a { color: var(--dm-link); }
     html:not([data-theme="light"]) .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
     html:not([data-theme="light"]) button { color: #ffffff; }
@@ -729,6 +732,8 @@
     html:not([data-theme="light"]) .gp-n { background: #f5c542; color: #14213d; }
     html:not([data-theme="light"]) .gp-due { background: #f5c542; color: #14213d; }
     html:not([data-theme="light"]) .ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }
+    html:not([data-theme="light"]) .say-result.is-right { background: #143826; color: #b8ecc9; }
+    html:not([data-theme="light"]) .say-result.is-wrong { background: #3d1c1c; color: #f5c2c2; }
 }
 html[data-theme="dark"] { --ink: #e7edf6; --muted: #b7c3d3; --line: #2b3a4f; --soft: #151f2c; --blue-soft: #1a2738;
     --dm-bg: #0f1621; --dm-surface: #172231; --dm-band: #0b111a; --dm-head: #eef3fa; --dm-link: #9cbcf0;
@@ -1387,6 +1392,9 @@ html[data-theme="dark"] .gp-routine { color: #d1d4db; }
 html[data-theme="dark"] .gp-weekly { color: #ccced2; }
 html[data-theme="dark"] .ob-date-input { border: 2px solid #232a34; }
 html[data-theme="dark"] .ob-nodate { color: #7ea9f1; }
+html[data-theme="dark"] .say-live { color: var(--dm-head); }
+html[data-theme="dark"] .say-result.is-right { background: #18291f; color: #8be4b4; }
+html[data-theme="dark"] .say-result.is-wrong { background: #2c1111; color: #dd9292; }
 html[data-theme="dark"] .legal a { color: var(--dm-link); }
 html[data-theme="dark"] .legal-placeholder { background: #322a0f; color: #f1d67e !important; }
 html[data-theme="dark"] button { color: #ffffff; }
@@ -1458,6 +1466,8 @@ html[data-theme="dark"] .gp-step a, html[data-theme="dark"] .gp-help a, html[dat
 html[data-theme="dark"] .gp-n { background: #f5c542; color: #14213d; }
 html[data-theme="dark"] .gp-due { background: #f5c542; color: #14213d; }
 html[data-theme="dark"] .ob-date-input { background: #172231; color: #e7edf6; border-color: #3d5378; color-scheme: dark; }
+html[data-theme="dark"] .say-result.is-right { background: #143826; color: #b8ecc9; }
+html[data-theme="dark"] .say-result.is-wrong { background: #3d1c1c; color: #f5c2c2; }
 @media (prefers-color-scheme: dark) and (max-width: 900px) {
     html:not([data-theme="light"]) .method-item, html:not([data-theme="light"]) .method-item:first-child, html:not([data-theme="light"]) .method-item:last-child { border-bottom: 1px solid #1b2634; }
     html:not([data-theme="light"]) .method-item:nth-child(odd) { border-right: 1px solid #1b2634; }
