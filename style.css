@@ -13384,3 +13384,28 @@ footer .footer-links {
 .iv-cta {
     margin-top: 34px;
 }
+
+/* interview: placed answer parts can be sent back or moved (2026-11-07) */
+.iv-built .iv-placed {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.sl-btn.iv-ptxt {
+    flex: 1;
+    justify-content: flex-start;
+    text-align: left;
+    font-weight: 400;
+}
+
+.sl-btn.iv-move {
+    flex: none;
+    width: 38px;
+    padding: 8px 0;
+    justify-content: center;
+}
+
+.iv-edit {
+    margin: 0 0 10px;
+}

@@ -22,7 +22,7 @@
             playAll: "▶ Gespräch anhören", pause: "⏸ Pause", resume: "▶ Weiter", replay: "↻ Nochmal anhören", showText: "Text anzeigen", hideText: "Text ausblenden",
             listenFirst: "Hör erst zu – den Text kannst du danach einblenden.", right: "Richtig!", wrong: "Nicht ganz.",
             play: "▶ Anhören", check: "🎤 Prüfen", listening: "Ich höre zu …", checking: "Ich prüfe …", clear: "✓ Klar verständlich!", heard: (h) => `✗ Ich habe gehört: „${h}“`, missing: (m) => `Hör dir diese Wörter nochmal an: ${m}`, nothing: "Ich habe nichts gehört – sprich etwas lauter.", loading: (p) => `Aussprache-Check wird geladen (nur beim ersten Mal) … ${p} %`,
-            buildAgain: "Nochmal", buildRight: "Richtig – genau so!", buildWrong: "Fast. So ist die Reihenfolge:",
+            buildAgain: "Von vorn", buildCheck: "Prüfen", buildEdit: "Tippe auf einen Satz, um ihn zurückzulegen – mit ↑ ↓ änderst du die Reihenfolge.", moveUp: "Nach oben", moveDown: "Nach unten", buildRight: "Richtig – genau so!", buildWrong: "Fast. So ist die Reihenfolge:",
             hearQ: "▶ Frage anhören", time: "Zeit:", sec: "Sek.", rec: "● Antwort aufnehmen", stopRec: "■ Fertig", mine: "▶ Meine Antwort anhören", spoke: (s) => `Du hast ${s} Sekunden gesprochen.`, overTime: "Die Zeit ist um – im echten Interview wäre jetzt ein guter Moment zum Abschluss.",
             selfCheck: "Check dich selbst:", models: "Beispielantworten", b1: "B1 – einfach und klar", b2: "B2–C1 – natürlicher",
             notebook: "📓 Mein Notizbuch: meine eigene Antwort", notePh: "Schreib hier deine eigene Antwort auf Englisch …", saved: "Gespeichert", noteHint: "Wird in diesem Browser gespeichert – mit Konto auch in deinem Konto.",
@@ -40,7 +40,7 @@
             playAll: "▶ Play the conversation", pause: "⏸ Pause", resume: "▶ Continue", replay: "↻ Listen again", showText: "Show text", hideText: "Hide text",
             listenFirst: "Listen first – you can show the text afterwards.", right: "Correct!", wrong: "Not quite.",
             play: "▶ Listen", check: "🎤 Check", listening: "Listening …", checking: "Checking …", clear: "✓ Clear!", heard: (h) => `✗ I heard: “${h}”`, missing: (m) => `Listen again to these words: ${m}`, nothing: "I couldn’t hear anything – speak a little louder.", loading: (p) => `Loading the pronunciation check (only the first time) … ${p} %`,
-            buildAgain: "Try again", buildRight: "Correct – that’s it!", buildWrong: "Almost. This is the order:",
+            buildAgain: "Start over", buildCheck: "Check", buildEdit: "Tap a sentence to put it back – use ↑ ↓ to change the order.", moveUp: "Move up", moveDown: "Move down", buildRight: "Correct – that’s it!", buildWrong: "Almost. This is the order:",
             hearQ: "▶ Hear the question", time: "Time:", sec: "sec", rec: "● Record my answer", stopRec: "■ Done", mine: "▶ Play my answer", spoke: (s) => `You spoke for ${s} seconds.`, overTime: "Time’s up – in a real interview, this would be a good moment to finish.",
             selfCheck: "Check yourself:", models: "Example answers", b1: "B1 – simple and clear", b2: "B2–C1 – more natural",
             notebook: "📓 My notebook: my own answer", notePh: "Write your own answer in English here …", saved: "Saved", noteHint: "Saved in this browser – and with an account, in your account too.",
@@ -58,7 +58,7 @@
             playAll: "▶ Konuşmayı dinle", pause: "⏸ Duraklat", resume: "▶ Devam et", replay: "↻ Tekrar dinle", showText: "Metni göster", hideText: "Metni gizle",
             listenFirst: "Önce dinle – metni sonra gösterebilirsin.", right: "Doğru!", wrong: "Tam değil.",
             play: "▶ Dinle", check: "🎤 Kontrol et", listening: "Dinliyorum …", checking: "Kontrol ediliyor …", clear: "✓ Net anlaşılıyor!", heard: (h) => `✗ Duyduğum: “${h}”`, missing: (m) => `Bu kelimeleri tekrar dinle: ${m}`, nothing: "Hiçbir şey duyamadım – biraz daha yüksek sesle konuş.", loading: (p) => `Telaffuz kontrolü yükleniyor (sadece ilk seferde) … %${p}`,
-            buildAgain: "Tekrar dene", buildRight: "Doğru – tam böyle!", buildWrong: "Neredeyse. Doğru sıra şöyle:",
+            buildAgain: "Baştan başla", buildCheck: "Kontrol et", buildEdit: "Geri koymak için bir cümleye dokun – ↑ ↓ ile sırayı değiştir.", moveUp: "Yukarı taşı", moveDown: "Aşağı taşı", buildRight: "Doğru – tam böyle!", buildWrong: "Neredeyse. Doğru sıra şöyle:",
             hearQ: "▶ Soruyu dinle", time: "Süre:", sec: "sn", rec: "● Cevabımı kaydet", stopRec: "■ Bitti", mine: "▶ Cevabımı dinle", spoke: (s) => `${s} saniye konuştun.`, overTime: "Süre doldu – gerçek bir mülakatta bitirmek için iyi bir an olurdu.",
             selfCheck: "Kendini kontrol et:", models: "Örnek cevaplar", b1: "B1 – basit ve net", b2: "B2–C1 – daha doğal",
             notebook: "📓 Defterim: kendi cevabım", notePh: "Kendi cevabını buraya İngilizce yaz …", saved: "Kaydedildi", noteHint: "Bu tarayıcıda kaydedilir – hesapla hesabında da.",
@@ -206,21 +206,32 @@
     const s4 = section(4, T.steps[3]);
     s4.append(el("p", "", esc(L(lesson.build.task))));
     const buildBox = el("div", "iv-build"); s4.append(buildBox);
+    // tap a part to add it; placed parts can be moved up / down or sent back before checking (David, 2026-11-07)
     const drawBuild = () => {
-        const order = [];
-        buildBox.innerHTML = `<ol class="iv-built" data-built></ol><div class="iv-pool" data-pool></div><div data-bfb></div>`;
-        const built = buildBox.querySelector("[data-built]"), pool = buildBox.querySelector("[data-pool]"), bfb = buildBox.querySelector("[data-bfb]");
+        const order = [];   // indexes into lesson.build.blocks, in the learner's order
         const blocks = lesson.build.blocks.map((b, k) => ({ ...b, k })).sort(() => Math.random() - 0.5);
-        blocks.forEach((b) => pool.append(button("iv-block", esc(b.text), (e) => {
-            e.currentTarget.remove(); order.push(b.k);
-            built.append(el("li", "", esc(b.text)));
-            if (order.length < blocks.length) return;
-            const ok = order.every((v, m) => v === m);
-            bfb.innerHTML = `<p class="exercise-feedback ${ok ? "is-right" : "is-wrong"}">${ok ? "✓ " + T.buildRight : "✗ " + T.buildWrong}</p>
-                ${ok ? "" : `<ol class="iv-built iv-correct">${lesson.build.blocks.map((x) => `<li><em>${esc(L(x.label))}:</em> ${esc(x.text)}</li>`).join("")}</ol>`}
+        const draw = (result) => {
+            buildBox.innerHTML = `<ol class="iv-built" data-built></ol><div class="iv-pool" data-pool></div><div class="sl-row" data-bactions></div><div data-bfb></div>`;
+            const built = buildBox.querySelector("[data-built]"), pool = buildBox.querySelector("[data-pool]"), actions = buildBox.querySelector("[data-bactions]"), bfb = buildBox.querySelector("[data-bfb]");
+            order.forEach((k, pos) => {
+                const li = el("li", "iv-placed");
+                li.append(button("iv-ptxt", esc(lesson.build.blocks[k].text), () => { order.splice(pos, 1); draw(); }));
+                const up = button("iv-move", "↑", () => { [order[pos - 1], order[pos]] = [order[pos], order[pos - 1]]; draw(); });
+                const down = button("iv-move", "↓", () => { [order[pos + 1], order[pos]] = [order[pos], order[pos + 1]]; draw(); });
+                up.disabled = pos === 0; down.disabled = pos === order.length - 1;
+                up.setAttribute("aria-label", T.moveUp); down.setAttribute("aria-label", T.moveDown);
+                li.append(up, down); built.append(li);
+            });
+            blocks.filter((b) => !order.includes(b.k)).forEach((b) => pool.append(button("iv-block", esc(b.text), () => { order.push(b.k); draw(); })));
+            if (order.length) built.insertAdjacentHTML("afterend", `<p class="as-note iv-edit">${T.buildEdit}</p>`);
+            if (order.length === blocks.length) actions.append(button("sl-play", T.buildCheck, () => draw(order.every((v, m) => v === m))));
+            if (result === undefined) return;
+            bfb.innerHTML = `<p class="exercise-feedback ${result ? "is-right" : "is-wrong"}">${result ? "✓ " + T.buildRight : "✗ " + T.buildWrong}</p>
+                ${result ? "" : `<ol class="iv-built iv-correct">${lesson.build.blocks.map((x) => `<li><em>${esc(L(x.label))}:</em> ${esc(x.text)}</li>`).join("")}</ol>`}
                 <p class="as-note">${esc(L(lesson.build.why))}</p>`;
             bfb.append(button("", T.buildAgain, drawBuild));
-        })));
+        };
+        draw();
     };
     drawBuild();
 
