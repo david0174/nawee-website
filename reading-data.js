@@ -32,7 +32,7 @@ const READINGS = [
         speak: { q: "Would you like to drive a car on Mars? Why or why not?", model: "Yes, I would, because it’s exciting. / No, I wouldn’t, because it’s too far away." },
     },
     {
-        id: "green-star", kind: "news", level: "A2", date: "2026-10-19",
+        id: "green-star", grammar: ["linking-words"], kind: "news", level: "A2", date: "2026-10-19",
         title: "Scientists find a green star",
         source: { name: "ScienceDaily / University of Warwick", url: "https://www.sciencedaily.com/releases/2026/10/261017230018.htm" },
         image: "🌟",
@@ -58,7 +58,7 @@ const READINGS = [
         speak: { q: "What is your favorite color – and why?", model: "My favorite color is … because …" },
     },
     {
-        id: "fewer-gas-cars", grammar: ["comparatives"], kind: "news", level: "A2", date: "2026-10-05",
+        id: "fewer-gas-cars", grammar: ["comparatives", "linking-words"], kind: "news", level: "A2", date: "2026-10-05",
         title: "Fewer people buy gas-only cars",
         source: { name: "Electrek", url: "https://electrek.co/2026/10/05/gas-cars-fall-below-50-percent-global-new-car-sales/" },
         image: "🚗",
@@ -160,7 +160,7 @@ const READINGS = [
     },
     // ---------- WEEKLY READ (kind "weekly", week = Monday of that week; one text per level A1–C1, new set every Monday) ----------
     {
-        id: "w2026-11-02-a1-autumn-park", kind: "weekly", week: "2026-11-02", level: "A1",
+        id: "w2026-11-02-a1-autumn-park", grammar: ["linking-words"], kind: "weekly", week: "2026-11-02", level: "A1",
         title: "A walk in the park in autumn",
         image: "🍂",
         paragraphs: [
@@ -185,7 +185,7 @@ const READINGS = [
         speak: { q: "Do you like autumn? Say why or why not.", model: "Yes, I like autumn because the trees are beautiful. / No, I don’t like autumn because it is cold." },
     },
     {
-        id: "w2026-11-02-a2-leaves-color", grammar: ["comparatives"], kind: "weekly", week: "2026-11-02", level: "A2",
+        id: "w2026-11-02-a2-leaves-color", grammar: ["comparatives", "linking-words"], kind: "weekly", week: "2026-11-02", level: "A2",
         title: "Why do leaves change color?",
         source: { name: "NOAA SciJinks", url: "https://scijinks.gov/autumn-leaves/" },
         image: "🍁",
