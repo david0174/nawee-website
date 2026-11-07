@@ -29,8 +29,8 @@
             ["listening", "👂", "Englisch besser verstehen"], ["speaking", "🗣️", "Freier sprechen"], ["vocab", "📚", "Mehr Wörter kennen"],
             ["pronunciation", "👄", "Meine Aussprache"], ["confidence", "💪", "Ohne Angst vor Fehlern reden"]] },
         { id: "minutes", ask: "Wie viel Zeit hast du pro Tag?", options: [
-            [5, "☕", "5 Minuten", "Kurz zwischendurch"], [10, "🎧", "10 Minuten", "Eine kleine Routine"],
-            [15, "📅", "15 Minuten", "Ein fester Termin"], [20, "🎯", "20 Minuten oder mehr", "Volle Konzentration"]] },
+            [15, "☕", "15 Minuten", "Eine kleine Routine"], [30, "📅", "30 Minuten", "Ein fester Termin"],
+            [60, "🎯", "60 Minuten", "Volle Konzentration"]] },
     ] : [
         { id: "source", ask: "Where did you find Nawee?", options: [
             ["google", "🔍", "On Google"], ["instagram", "📸", "On Instagram or Facebook"], ["linkedin", "💼", "On LinkedIn"],
@@ -47,8 +47,8 @@
             ["listening", "👂", "Understanding English"], ["speaking", "🗣️", "Speaking more freely"], ["vocab", "📚", "Knowing more words"],
             ["pronunciation", "👄", "My pronunciation"], ["confidence", "💪", "Talking without fear of mistakes"]] },
         { id: "minutes", ask: "How much time do you have each day?", options: [
-            [5, "☕", "5 minutes", "A quick break"], [10, "🎧", "10 minutes", "A small routine"],
-            [15, "📅", "15 minutes", "A fixed time slot"], [20, "🎯", "20 minutes or more", "Full focus"]] },
+            [15, "☕", "15 minutes", "A small routine"], [30, "📅", "30 minutes", "A fixed time slot"],
+            [60, "🎯", "60 minutes", "Full focus"]] },
     ];
 
     // Turkish (2026-11-07): same questions and ids, Turkish texts
@@ -69,8 +69,8 @@
             ["listening", "👂", "İngilizceyi daha iyi anlamak"], ["speaking", "🗣️", "Daha rahat konuşmak"], ["vocab", "📚", "Daha çok kelime bilmek"],
             ["pronunciation", "👄", "Telaffuzum"], ["confidence", "💪", "Hata yapma korkusu olmadan konuşmak"]] },
         { id: "minutes", ask: "Günde ne kadar vaktin var?", options: [
-            [5, "☕", "5 dakika", "Kısa bir mola"], [10, "🎧", "10 dakika", "Küçük bir rutin"],
-            [15, "📅", "15 dakika", "Sabit bir zaman"], [20, "🎯", "20 dakika ya da daha fazla", "Tam odak"]] });
+            [15, "☕", "15 dakika", "Küçük bir rutin"], [30, "📅", "30 dakika", "Sabit bir zaman"],
+            [60, "🎯", "60 dakika", "Tam odak"]] });
 
     const T = de ? {
         hello: "Hi, ich bin David! Ein paar kurze Fragen, dann stelle ich deinen Lernplan zusammen.",
@@ -207,7 +207,9 @@
 
     const labelOf = (id, value) => {
         const o = Q.find((q) => q.id === id).options.find((x) => x[0] === value);
-        return o ? o[2].replace(/\.$/, "") : "";
+        if (o) return o[2].replace(/\.$/, "");
+        // answers saved before 2026-11-07 (5 / 10 / 20 minutes) still show their number
+        return id === "minutes" && value ? `${value} ${de ? "Minuten" : tr ? "dakika" : "minutes"}` : "";
     };
 
     // logged in (account.js tells us): the plan is saved in the account; otherwise offer one
