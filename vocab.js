@@ -7,8 +7,13 @@
     const root = document.querySelector("[data-vocab]");
     if (!root) return;
 
-    const lang = document.documentElement.lang === "en" ? "en" : "de";
-    const L = (v) => (v && typeof v === "object" ? v[lang] : v) || "";
+    // de / en / tr (2026-11-07) – Turkish texts come from vocab-tr.js and are merged into the decks here
+    const lang = { de: "de", tr: "tr" }[(document.documentElement.lang || "en").slice(0, 2)] || "en";
+    const L = (v) => (v && typeof v === "object" ? v[lang] || v.en : v) || "";
+    if (lang === "tr" && typeof VOCAB_TR !== "undefined") Object.entries(VOCAB_DECKS).forEach(([id, d]) => {
+        const t = VOCAB_TR.decks[id]; if (t) { d.title.tr = t[0]; d.intro.tr = t[1]; }
+        d.words.forEach((w) => { if (VOCAB_TR.words[w.id]) w.tr = VOCAB_TR.words[w.id]; if (w.origin && VOCAB_TR.origins[w.id]) w.origin.tr = VOCAB_TR.origins[w.id]; });
+    });
     const KEY = "nawee-vocab-v1";
     const NEW_PER_DAY = 10;
     const T = lang === "de" ? {
@@ -40,14 +45,30 @@
         levelLabel: "Level:", allLevels: "All", allTitle: "Picture cards", allLead: "Practice vocabulary on its own, apart from the lessons: look at the picture, say the word, listen. Each topic shows how well you know it.",
         overall: "All topics together", words: (n) => `${n} words`, practice: "Practice", start: "Start", topics: "← All topics",
     };
+    if (lang === "tr") Object.assign(T, {
+        back: "← Öğrenme yolun", eyebrow: "RESİMLİ KARTLAR", modes: ["Öğren", "Dinle", "Tüm kelimeler"],
+        due: (d, n) => `Bugün: ${d} tekrar · ${n} yeni`, learned: (a, b) => `${b} kelimeden ${a} tanesi öğrenildi`,
+        streak: (n) => `🔥 ${n} gün üst üste`,
+        ask: "Bunun İngilizcesi ne? Yüksek sesle söyle.", flip: "Çevir", play: "Dinle", example: "Örnek", originQ: "Kelime nereden geliyor?",
+        rate: ["Tekrar", "Zor", "İyi", "Kolay"], days: (n) => (n === 0 ? "birazdan" : `${n} gün`),
+        doneTitle: "Bugünlük bu kadar!", doneText: "Yarın tekrar gel – sıradaki kartlar seni bekliyor olacak.",
+        listenAsk: "Dinle: hangi resim uyuyor?", right: "Doğru!", wrong: "Tam değil.", nextQ: "Devam",
+        score: (r, t) => `${t} sorudan ${r} doğru`, again: "Tekrar", privacy: "İlerlemen bu tarayıcıda kaydedilir – <a href=\"account-tr.html\">ücretsiz bir hesapla</a> hesabında da, tüm cihazlarında.",
+        reset: "İlerlemeyi sıfırla", resetQ: "Bu kartlardaki ilerlemen silinsin mi?", tip: "İpucu: önce yüksek sesle söyle, sonra çevir – kelime böyle akılda kalır.",
+        status: { green: "öğrenildi", yellow: "çalışıldı", red: "son cevap yanlış", grey: "yeni" }, barLabel: "Bu konudaki ilerlemen",
+        weakTitle: "En zayıf kelimelerim", weakIntro: "Tüm konulardan kırmızı ve emin olmadığın kelimelerin – tek turda. Burada çalışmak en hızlı ilerleme yolu.",
+        weakEmpty: "Henüz zayıf kelime yok – önce birkaç resimli kart çalış.",
+        levelLabel: "Seviye:", allLevels: "Hepsi", allTitle: "Resimli kartlar", allLead: "Kelimeleri derslerden bağımsız çalış: resme bak, kelimeyi söyle, dinle. Her konu, onu ne kadar iyi bildiğini gösterir.",
+        overall: "Tüm konular birlikte", words: (n) => `${n} kelime`, practice: "Çalış", start: "Başla", topics: "← Tüm konular",
+    });
 
     const deckParam = new URLSearchParams(location.search).get("deck");
     const deckId = deckParam || "office";
     const weakMode = deckParam === "weak"; // personal deck: weakest words from all topics
     const deck = weakMode ? { title: { de: T.weakTitle, en: T.weakTitle }, level: "★", intro: { de: T.weakIntro, en: T.weakIntro }, words: [] } : VOCAB_DECKS[deckId];
     if (!deck) { root.innerHTML = `<p><a href="${T.backHref}">${T.back}</a></p>`; return; }
-    const page = lang === "de" ? "vokabeln.html" : "vocabulary.html";
-    document.title = `${L(deck.title)} – ${lang === "de" ? "Bildkarten" : "Picture cards"} | Nawee`;
+    const page = { de: "vokabeln.html", tr: "vocabulary-tr.html" }[lang] || "vocabulary.html";
+    document.title = `${L(deck.title)} – ${{ de: "Bildkarten", tr: "Resimli kartlar" }[lang] || "Picture cards"} | Nawee`;
     const img = (w) => `assets/vocab/${w._deck || deckId}/${w.id}.svg`;
 
     // ---------- storage ----------
@@ -219,7 +240,7 @@
                 <div class="vc-front"><p class="vc-ask">${T.ask}</p><p class="as-note">${T.tip}</p></div>
                 <div class="vc-back" hidden>
                     <p class="vc-word">${esc(w.word)}</p>
-                    ${lang === "de" ? `<p class="vc-de">${esc(w.de)}</p>` : ""}
+                    ${lang !== "en" && w[lang] ? `<p class="vc-de">${esc(w[lang])}</p>` : ""}
                     <div class="sl-row vc-row" data-plays></div>
                     <p class="vc-example"><span>${T.example}:</span> “${esc(w.example)}”</p>
                     ${w.origin ? `<details class="vc-origin"><summary>🌍 ${T.originQ}</summary><p>${esc(L(w.origin))}</p></details>` : ""}
@@ -293,7 +314,7 @@
         stage.innerHTML = `<div class="vc-all" data-all></div>`;
         const box = stage.querySelector("[data-all]");
         deck.words.forEach((w) => {
-            const b = btn("vc-item", `<i class="vc-dot vc-dot-${status(w)}" title="${T.status[status(w)]}"></i><img src="${img(w)}" alt=""><strong>${esc(w.word)}</strong>${lang === "de" ? `<small>${esc(w.de)}</small>` : ""}`, () => speak(w.word, w.audio));
+            const b = btn("vc-item", `<i class="vc-dot vc-dot-${status(w)}" title="${T.status[status(w)]}"></i><img src="${img(w)}" alt=""><strong>${esc(w.word)}</strong>${lang !== "en" && w[lang] ? `<small>${esc(w[lang])}</small>` : ""}`, () => speak(w.word, w.audio));
             box.append(b);
         });
     };

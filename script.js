@@ -151,7 +151,7 @@ document.querySelectorAll(".nl-form").forEach((form) => {
 const backToTop = document.createElement("button");
 backToTop.type = "button";
 backToTop.className = "back-to-top";
-backToTop.setAttribute("aria-label", document.documentElement.lang === "de" ? "Nach oben scrollen" : "Back to top");
+backToTop.setAttribute("aria-label", { de: "Nach oben scrollen", tr: "Yukarı çık" }[document.documentElement.lang.slice(0, 2)] || "Back to top");
 backToTop.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 document.body.appendChild(backToTop);
 
@@ -166,13 +166,15 @@ backToTop.addEventListener("click", () => {
 });
 
 // Language: remember the language a visitor picks in the menu and open that version on later visits
-// (no popup; search engines still see every page in both languages)
+// (no popup; search engines still see every page in every language). Three languages since 2026-11-07: de / en / tr –
+// a page lists its twins as <link rel="alternate" hreflang="…">; pages without a Turkish twin simply don't offer it.
 (() => {
     const PREF_KEY = "nawee-lang";
-    const lang = document.documentElement.lang.startsWith("de") ? "de" : "en";
-    const other = lang === "de" ? "en" : "de";
+    const LANGS = { de: "Deutsch", en: "English", tr: "Türkçe" };
+    const lang = ((document.documentElement.lang || "en").slice(0, 2) in LANGS) ? document.documentElement.lang.slice(0, 2) : "en";
     const getPref = () => { try { return localStorage.getItem(PREF_KEY); } catch { return null; } };
     const setPref = (value) => { try { localStorage.setItem(PREF_KEY, value); } catch { /* storage unavailable */ } };
+    const twin = (l) => { const el = document.querySelector(`link[rel="alternate"][hreflang="${l}"]`); return el ? (new URL(el.href).pathname.split("/").pop() || "index.html") : null; };
 
     // switching the language keeps you on the same lesson / text / topic (?l=…, ?t=…, ?deck=…, ?g=…) – David, 2026-11-04
     const keepPlace = (a) => {
@@ -180,6 +182,12 @@ backToTop.addEventListener("click", () => {
         if (!location.search || href.includes("?") || /^https?:/.test(href)) return;
         a.setAttribute("href", href.split("#")[0] + location.search + (location.hash && !location.hash.startsWith("#nawee-migrate") ? location.hash : ""));
     };
+    // the Turkish entry is added to the menus automatically when this page has a Turkish twin
+    const trHref = twin("tr");
+    if (trHref && lang !== "tr") document.querySelectorAll(".language-menu, .mobile-menu-languages").forEach((menu) => {
+        if (menu.querySelector('a[lang="tr"]')) return;
+        const a = document.createElement("a"); a.href = trHref; a.lang = "tr"; a.textContent = "Türkçe"; menu.appendChild(a);
+    });
     // choosing a language in the menu counts as an explicit choice
     document.querySelectorAll(".language-menu a[lang], .mobile-menu-languages a[lang]").forEach((a) => {
         keepPlace(a);
@@ -192,26 +200,30 @@ backToTop.addEventListener("click", () => {
     if (copy && menuLinks.length) {
         const sw = document.createElement("p");
         sw.className = "footer-lang";
-        sw.innerHTML = `<span aria-hidden="true">🌐</span> ${menuLinks.map((a) => `<a href="${a.getAttribute("href")}" lang="${a.lang}"${a.lang === lang ? ' aria-current="true"' : ""}>${a.lang === "de" ? "Deutsch" : "English"}</a>`).join(" · ")}`;
+        sw.innerHTML = `<span aria-hidden="true">🌐</span> ${menuLinks.map((a) => `<a href="${a.getAttribute("href")}" lang="${a.lang}"${a.lang === lang ? ' aria-current="true"' : ""}>${LANGS[a.lang] || a.textContent}</a>`).join(" · ")}`;
         sw.querySelectorAll("a[lang]").forEach((a) => { keepPlace(a); a.addEventListener("click", () => setPref(a.lang)); });
         copy.prepend(sw);
     }
 
-    // header dropdown: "🌐 DE ▾" – lists all languages (more can be added to the menu later)
+    // header dropdown: "🌐 DE ▾" – lists all languages
     const toggle = document.querySelector(".site-header .language-toggle");
     if (toggle) {
         toggle.innerHTML = `<span aria-hidden="true">🌐</span> ${lang.toUpperCase()} <span class="lang-caret" aria-hidden="true">▾</span>`;
-        toggle.setAttribute("aria-label", lang === "de" ? "Sprache wählen" : "Choose language");
+        toggle.setAttribute("aria-label", { de: "Sprache wählen", tr: "Dil seçin" }[lang] || "Choose language");
     }
 
-    const alternate = document.querySelector(`link[rel="alternate"][hreflang="${other}"]`);
-    if (!alternate) return; // page exists in one language only
-    const go = () => location.replace((new URL(alternate.href).pathname.split("/").pop() || "index.html") + location.search + location.hash);
-    if (getPref() === other) { go(); return; }
-    // first visit without a choice: browsers not set to German get the English page (not for search engine bots)
+    const go = (file) => location.replace(file + location.search + location.hash);
+    // an explicit earlier choice wins (only if this page exists in that language)
+    const pref = getPref();
+    if (pref && pref !== lang && pref in LANGS) { const f = twin(pref); if (f) { go(f); return; } }
+    if (pref) return;
+    // first visit without a choice (not for search engine bots): Turkish browsers → Turkish page if there is one;
+    // browsers not set to German on a German page → English
     const bot = /bot|crawl|spider|slurp|google|bing|yandex|duckduck|baidu|facebookexternalhit|preview/i.test(navigator.userAgent);
-    const wantsGerman = (navigator.languages || [navigator.language || ""]).some((l) => /^de/i.test(l));
-    if (!getPref() && lang === "de" && !wantsGerman && !bot && !navigator.webdriver) go();
+    if (bot || navigator.webdriver) return;
+    const wants = (re) => (navigator.languages || [navigator.language || ""]).some((l) => re.test(l));
+    if (lang !== "tr" && wants(/^tr/i) && twin("tr")) { go(twin("tr")); return; }
+    if (lang === "de" && !wants(/^de/i) && twin("en")) go(twin("en"));
 })();
 
 // Homepage: underline "Über mich" / "About Me" in the menu while the About Me section is on screen
@@ -376,8 +388,11 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
 // Header: "Anmelden" / "Mein Konto" on every page, and a course announcement bar at the top.
 // The login state is read from the session Supabase keeps in the browser (no extra library needed here).
 (() => {
-    const en = document.documentElement.lang === "en";
-    const accountPage = en ? "account.html" : "konto.html";
+    const pl = (document.documentElement.lang || "en").slice(0, 2);
+    const en = pl !== "de"; // English texts unless the page is German; Turkish below
+    const tr = pl === "tr";
+    const accountPage = tr ? "account-tr.html" : en ? "account.html" : "konto.html";
+    const t3 = (e, d, t) => (tr ? t : en ? e : d);
     let loggedIn = false, session = null;
     try {
         session = JSON.parse(localStorage.getItem("sb-sphhbjfyreugpuzbwird-auth-token") || "null");
@@ -418,13 +433,13 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
             const st = learnerStats();
             menu.innerHTML = `<p class="num-name">${esc(username)}</p>
                 <ul class="num-stats">
-                    <li><strong>🔥 ${st.streak}</strong>${en ? "day streak" : "Tage in Folge"}</li>
-                    <li><strong>📚 ${st.words}</strong>${en ? "words" : "Wörter"}</li>
-                    <li><strong>🎧 ${st.lessons}</strong>${en ? "lessons" : "Lektionen"}</li>
-                    <li><strong>⏱️ ${st.timeText}</strong>${en ? "learned" : "gelernt"}</li>
+                    <li><strong>🔥 ${st.streak}</strong>${t3("day streak", "Tage in Folge", "gün üst üste")}</li>
+                    <li><strong>📚 ${st.words}</strong>${t3("words", "Wörter", "kelime")}</li>
+                    <li><strong>🎧 ${st.lessons}</strong>${t3("lessons", "Lektionen", "ders")}</li>
+                    <li><strong>⏱️ ${st.timeText}</strong>${t3("learned", "gelernt", "öğrenildi")}</li>
                 </ul>
-                <a class="num-link" href="${accountPage}">${en ? "My account & progress" : "Mein Konto & Fortschritt"} →</a>
-                <a class="num-logout" href="${accountPage}?logout=1">${en ? "Log out" : "Abmelden"}</a>`;
+                <a class="num-link" href="${accountPage}">${t3("My account & progress", "Mein Konto & Fortschritt", "Hesabım ve ilerlemem")} →</a>
+                <a class="num-logout" href="${accountPage}?logout=1">${t3("Log out", "Abmelden", "Çıkış yap")}</a>`;
         };
         const close = () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); };
         btn.addEventListener("click", (e) => {
@@ -439,7 +454,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         const login = document.createElement("a");
         login.className = "nav-account";
         login.href = accountPage;
-        login.innerHTML = `${icon}<span>${en ? "Log in" : "Anmelden"}</span>`;
+        login.innerHTML = `${icon}<span>${t3("Log in", "Anmelden", "Giriş yap")}</span>`;
         if (location.pathname.endsWith(accountPage)) login.setAttribute("aria-current", "page");
         cta.before(login);
     }
@@ -447,7 +462,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     if (mobileLanguages) {
         const link = document.createElement("a");
         link.href = accountPage;
-        link.textContent = loggedIn ? `${en ? "My account" : "Mein Konto"} (${username})` : (en ? "Log in" : "Anmelden");
+        link.textContent = loggedIn ? `${t3("My account", "Mein Konto", "Hesabım")} (${username})` : (t3("Log in", "Anmelden", "Giriş yap"));
         mobileLanguages.before(link);
     }
 
@@ -456,15 +471,15 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         const startLink = (el) => /(^|\/)(start|get-started)\.html(?!\?edit)|#wege$/.test(el.getAttribute("href") || "");
         document.querySelectorAll(".as-cta").forEach((box) => {
             if (![...box.querySelectorAll("a")].some(startLink)) return;
-            box.innerHTML = `<h2>${en ? "Let’s keep going!" : "Weiter geht’s!"}</h2>
-                <p>${en ? "Pick up where you left off – your progress is saved in your account." : "Mach da weiter, wo du aufgehört hast – dein Fortschritt ist in deinem Konto gespeichert."}</p>
-                <a class="button primary" href="${accountPage}">${en ? "Go to my progress" : "Zu meinem Fortschritt"} <span aria-hidden="true">→</span></a>`;
+            box.innerHTML = `<h2>${t3("Let’s keep going!", "Weiter geht’s!", "Hadi devam edelim!")}</h2>
+                <p>${t3("Pick up where you left off – your progress is saved in your account.", "Mach da weiter, wo du aufgehört hast – dein Fortschritt ist in deinem Konto gespeichert.", "Kaldığın yerden devam et – ilerlemen hesabında kayıtlı.")}</p>
+                <a class="button primary" href="${accountPage}">${t3("Go to my progress", "Zu meinem Fortschritt", "İlerlememe git")} <span aria-hidden="true">→</span></a>`;
         });
         document.querySelectorAll("a[href]").forEach((a) => {
             if (!startLink(a) || a.closest(".site-header nav > .nav-user-wrap")) return;
             if (a.closest(".mobile-menu")) { a.remove(); return; }
             a.href = accountPage;
-            if (a.classList.contains("button")) a.innerHTML = `${en ? "Continue learning" : "Weiter lernen"} <span aria-hidden="true">→</span>`;
+            if (a.classList.contains("button")) a.innerHTML = `${t3("Continue learning", "Weiter lernen", "Öğrenmeye devam et")} <span aria-hidden="true">→</span>`;
         });
     }
 
@@ -480,7 +495,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         let streak = 0;
         while (days.has(iso(d))) { streak += 1; d.setDate(d.getDate() - 1); }
         const minutes = Math.round((time.total || 0) / 60);
-        const timeText = minutes >= 60 ? `${Math.floor(minutes / 60)} h ${minutes % 60} ${en ? "min" : "Min."}` : `${minutes} ${en ? "min" : "Min."}`;
+        const timeText = minutes >= 60 ? `${Math.floor(minutes / 60)} h ${minutes % 60} ${t3("min", "Min.", "dk")}` : `${minutes} ${t3("min", "Min.", "dk")}`;
         const words = Object.values(vocab.cards || {}).filter((c) => (c.reps || 0) > 0).length;
         const lessons = (read("nawee-work-course-v1").completed || []).length + (read("nawee-course-v1").completed || []).length + (read("nawee-communication-course-v1").completed || []).length;
         return { streak, timeText, words, lessons };
@@ -489,9 +504,9 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
         const { streak, timeText, words } = learnerStats();
         return `<span class="cb-stats">
                 <span>🔥 <strong>${streak}</strong> ${en ? (streak === 1 ? "day in a row" : "days in a row") : (streak === 1 ? "Tag in Folge" : "Tage in Folge")}</span>
-                <span>⏱️ <strong>${timeText}</strong> ${en ? "learned" : "gelernt"}</span>
-                <span>📚 <strong>${words}</strong> ${en ? "words" : "Wörter"}</span>
-            </span> <a href="${en ? "account.html" : "konto.html"}">${en ? "Continue learning →" : "Weiter lernen →"}</a>`;
+                <span>⏱️ <strong>${timeText}</strong> ${t3("learned", "gelernt", "öğrenildi")}</span>
+                <span>📚 <strong>${words}</strong> ${t3("words", "Wörter", "kelime")}</span>
+            </span> <a href="${accountPage}">${t3("Continue learning →", "Weiter lernen →", "Öğrenmeye devam et →")}</a>`;
     }
 
     // announcement bar (not on the account, learning hub and course pages themselves)
@@ -514,7 +529,7 @@ window.NaweeAvatar = (id) => window.NaweeAvatars.find((a) => a.id === id) || nul
     if (!loggedIn) {
         const close = document.createElement("button");
         close.type = "button";
-        close.setAttribute("aria-label", en ? "Close" : "Schließen");
+        close.setAttribute("aria-label", t3("Close", "Schließen", "Kapat"));
         close.textContent = "×";
         close.addEventListener("click", () => {
             bar.remove();
