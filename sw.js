@@ -8,7 +8,7 @@ const VERSION = "v1";
 const PAGES = `nawee-pages-${VERSION}`;
 const FILES = `nawee-files-${VERSION}`;
 const MAX_FILES = 400; // keeps the saved files small on the phone
-const START = ["offline.html", "assets/icon-192.png", "assets/logo_notext.png"];
+const START = ["offline.html", "assets/app-icon-192.png", "assets/logo_notext.png"];
 
 self.addEventListener("install", (event) => {
     event.waitUntil(caches.open(PAGES).then((c) => c.addAll(START)).then(() => self.skipWaiting()));
