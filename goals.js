@@ -8,7 +8,7 @@ window.NaweeGoals = (() => {
     const PAGES = {
         de: { lesson: "beruf-lektion.html", cards: "vokabeln.html", grammar: "grammatik.html", read: "lesen.html", games: "spiele.html", music: "musik.html", check: "kommunikations-check.html" },
         en: { lesson: "work-lesson.html", cards: "vocabulary.html", grammar: "grammar.html", read: "reading.html", games: "games.html", music: "music.html", check: "communication-check.html" },
-        tr: { lesson: "work-lesson.html", cards: "vocabulary-tr.html", grammar: "grammar-tr.html", read: "reading.html", games: "games.html", music: "music.html", check: "communication-check.html" },
+        tr: { lesson: "work-lesson.html", cards: "vocabulary-tr.html", grammar: "grammar-tr.html", read: "reading-tr.html", games: "games-tr.html", music: "music.html", check: "communication-check.html" },
     }[lang];
 
     // ---------- questions ----------

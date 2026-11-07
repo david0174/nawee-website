@@ -6,10 +6,22 @@
     const root = document.querySelector("[data-reading]");
     if (!root || typeof READINGS === "undefined") return;
 
-    const de = document.documentElement.lang === "de";
+    const de = document.documentElement.lang === "de", tr = document.documentElement.lang === "tr";
     const KEY = "nawee-reading-v1";
-    const page = de ? "lesen.html" : "reading.html";
-    const T = de ? {
+    const page = de ? "lesen.html" : tr ? "reading-tr.html" : "reading.html";
+    const grammarPage = de ? "grammatik.html" : tr ? "grammar-tr.html" : "grammar.html";
+    // grammar title in the page language (Turkish titles come from grammar-tr.js when it's loaded)
+    const gTitle = (x) => (tr && typeof GRAMMAR_TR !== "undefined" && GRAMMAR_TR[x.id] ? GRAMMAR_TR[x.id].title : de ? x.title.de : x.title.en);
+    const T = tr ? {
+        eyebrow: "OKUMA", title: "Okuma metinleri", lead: "Okuyup dinleyebileceğin kısa İngilizce metinler: gerçek olaylar hakkında basit haberler ve Tom ile Ben’in hikâyeleri. İpucu: önce oku, sonra dinle – ve sonunda yüksek sesle cevap ver.",
+        news: "Haberler", stories: "Hikâyeler", weekly: "Haftanın metni", weeklyLead: "Her pazartesi yeni – A1’den C1’e her seviye için bir metin. Seviyeni seç (ya da bir üstünü dene).", weeklyOld: "Önceki haftaların metinleri", filterLabel: "Seviyem:", all: "Hepsi", noneAtLevel: "Bu seviyede burada henüz bir şey yok – başka bir seviyeye bak ya da yakında tekrar gel.", newReads: "Yeni metinler", newStories: "Yeni hikâyeler", doneReads: "Okunan metinler", doneStories: "Okunan hikâyeler", allDone: "Hepsini okudun 🎉 – yeni metinler yolda.", completed: "✓ Okundu", grammarIn: "Bu metindeki dilbilgisi:", markDone: "✓ Okundu olarak işaretle", markUndo: "↩ Okunmadı olarak işaretle", markedNote: "Okundu olarak işaretlendi – bu metni artık “Okunan” bölümünde bulursun.", weekOf: (d) => new Date(d + "T12:00:00").toLocaleDateString("tr-TR", { day: "numeric", month: "long" }) + " haftası", done: (s, n) => `✓ Okundu · ${n} sorudan ${s} doğru`, start: "Oku →",
+        back: "← Tüm metinler", listen: "▶ Sesli oku", stop: "■ Durdur", slow: "Daha yavaş", tapHint: "İpucu: altı çizili bir kelimeye dokun – kelimeyi duyarsın ve Türkçe anlamını görürsün.", soundOn: "Kelime telaffuzunu kapat", soundOff: "Kelime telaffuzunu aç",
+        questions: "Anladın mı?", right: "Doğru!", wrong: "Tam değil – doğru cevap:", speakTitle: "Bunun hakkında konuş", speakHint: "Yüksek sesle İngilizce cevap ver. Sonra örnekle karşılaştır.",
+        showModel: "Örneği göster", source: "Kaynak", ownWords: "kendi basit kelimelerimizle", result: (s, n) => `${n} sorudan ${s} doğru – aferin!`, next: "Sonraki metin →",
+        date: (d) => new Date(d + "T12:00:00").toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }),
+        privacy: "Okuma ilerlemen bu tarayıcıda kaydedilir – <a href=\"account-tr.html\">ücretsiz bir hesapla</a> hesabında da.",
+        special: ["YENİ · BETA", "Dilbilgisi", "İngilizcenin kuralları, basitçe anlatılmış →", "ÖZEL", "İngilizcenin tarihi", "Tek bir zaman çizelgesinde 2000 yıl →"],
+    } : de ? {
         eyebrow: "LESEN", title: "Lesetexte", lead: "Kurze englische Texte zum Lesen und Hören: einfache Nachrichten über echte Ereignisse und Geschichten mit Tom und Ben. Tipp: Erst lesen, dann anhören – und am Ende laut antworten.",
         news: "Nachrichten", stories: "Geschichten", weekly: "Lesetext der Woche", weeklyLead: "Jeden Montag neu – ein Text für jedes Niveau von A1 bis C1. Such dir dein Niveau aus (oder probier eins höher).", weeklyOld: "Frühere Wochentexte", filterLabel: "Mein Niveau:", all: "Alle", noneAtLevel: "Auf diesem Niveau gibt es hier noch nichts – schau bei einem anderen Niveau oder bald wieder vorbei.", newReads: "Neue Lesetexte", newStories: "Neue Geschichten", doneReads: "Gelesene Texte", doneStories: "Gelesene Geschichten", allDone: "Alles gelesen 🎉 – bald kommt Neues.", completed: "✓ Gelesen", grammarIn: "Grammatik in diesem Text:", markDone: "✓ Als gelesen markieren", markUndo: "↩ Doch nicht gelesen", markedNote: "Als gelesen markiert – du findest den Text jetzt unter „Gelesen“.", weekOf: (d) => "Woche vom " + new Date(d + "T12:00:00").toLocaleDateString("de-DE", { day: "numeric", month: "long" }), done: (s, n) => `✓ Gelesen · ${s}/${n} richtig`, start: "Lesen →",
         back: "← Alle Texte", listen: "▶ Vorlesen", stop: "■ Stopp", slow: "Langsamer", tapHint: "Tipp: Tippe auf ein unterstrichenes Wort – du hörst es und siehst die Übersetzung.", soundOn: "Aussprache der Wörter ausschalten", soundOff: "Aussprache der Wörter einschalten",
@@ -79,13 +91,13 @@
                 <h2 class="rd-group">📖 ${T.newStories}</h2>${list(stories.filter((r) => !data.done[r.id]), stories)}
                 ${reads.some((r) => data.done[r.id]) ? `<h2 class="rd-group rd-group--done">✓ ${T.doneReads}</h2><div class="rd-list rd-list--done">${reads.filter((r) => data.done[r.id]).map(card).join("")}</div>` : ""}
                 ${stories.some((r) => data.done[r.id]) ? `<h2 class="rd-group rd-group--done">✓ ${T.doneStories}</h2><div class="rd-list rd-list--done">${stories.filter((r) => data.done[r.id]).map(card).join("")}</div>` : ""}
-                <a class="rd-card rd-special" href="${de ? "grammatik.html" : "grammar.html"}">
+                <a class="rd-card rd-special" href="${grammarPage}">
                 <span class="rd-card-icon" aria-hidden="true">📐</span>
-                <span class="rd-card-body"><span class="rd-card-meta">${de ? "NEU · BETA" : "NEW · BETA"}</span><strong>${de ? "Grammatik" : "Grammar"}</strong><span class="rd-card-status">${de ? "Die Regeln hinter dem Englischen, kurz erklärt →" : "The rules behind English, explained simply →"}</span></span>
+                <span class="rd-card-body"><span class="rd-card-meta">${tr ? T.special[0] : de ? "NEU · BETA" : "NEW · BETA"}</span><strong>${tr ? T.special[1] : de ? "Grammatik" : "Grammar"}</strong><span class="rd-card-status">${tr ? T.special[2] : de ? "Die Regeln hinter dem Englischen, kurz erklärt →" : "The rules behind English, explained simply →"}</span></span>
             </a>
             <a class="rd-card rd-special" href="${de ? "geschichte-englisch.html" : "history-of-english.html"}">
                     <span class="rd-card-icon" aria-hidden="true">📜</span>
-                    <span class="rd-card-body"><span class="rd-card-meta">${de ? "SPEZIAL" : "SPECIAL"}</span><strong>${de ? "Die Geschichte des Englischen" : "The history of English"}</strong><span class="rd-card-status">${de ? "2000 Jahre in einem Zeitstrahl →" : "2,000 years on one timeline →"}</span></span>
+                    <span class="rd-card-body"><span class="rd-card-meta">${tr ? T.special[3] : de ? "SPEZIAL" : "SPECIAL"}</span><strong>${tr ? T.special[4] : de ? "Die Geschichte des Englischen" : "The history of English"}</strong><span class="rd-card-status">${tr ? T.special[5] : de ? "2000 Jahre in einem Zeitstrahl →" : "2,000 years on one timeline →"}</span></span>
                 </a>
                 <p class="as-disclaimer">${T.privacy}</p>`;
             root.querySelectorAll("[data-lvl]").forEach((b) => b.addEventListener("click", () => {
@@ -131,7 +143,7 @@
         <section class="rd-section"><h2>${T.questions}</h2><div data-questions></div><p class="rd-result" data-result hidden></p></section>
         <section class="rd-section rd-speak"><h2>🗣️ ${T.speakTitle}</h2><p class="rd-speak-q">${esc(text.speak.q)}</p><p class="as-note">${T.speakHint}</p>
             <button type="button" class="link-button" data-model>${T.showModel}</button><p class="rd-model" data-model-text hidden>${esc(text.speak.model)}</p></section>
-        ${(text.grammar || []).filter((g) => typeof GRAMMAR !== "undefined" && GRAMMAR.some((x) => x.id === g)).map((g) => { const x = GRAMMAR.find((y) => y.id === g); return `<p class="rd-grammar">📐 ${T.grammarIn} <a href="${de ? "grammatik.html" : "grammar.html"}?l=${g}">${esc(de ? x.title.de : x.title.en)} →</a></p>`; }).join("")}
+        ${(text.grammar || []).filter((g) => typeof GRAMMAR !== "undefined" && GRAMMAR.some((x) => x.id === g)).map((g) => { const x = GRAMMAR.find((y) => y.id === g); return `<p class="rd-grammar">📐 ${T.grammarIn} <a href="${grammarPage}?l=${g}">${esc(gTitle(x))} →</a></p>`; }).join("")}
         <p class="rd-next"><button type="button" class="button primary" data-mark></button> <a class="button secondary" href="${page}?t=${nextText.id}">${T.next}</a></p>
         <p class="rd-marked" data-marked hidden>${T.markedNote}</p>
         <p class="as-disclaimer">${T.privacy}</p>`;
@@ -153,7 +165,8 @@
         const g = text.glossary[b.dataset.k];
         root.querySelectorAll(".rd-word.is-open").forEach((x) => x.classList.remove("is-open"));
         b.classList.add("is-open");
-        gloss.textContent = de ? g.de : g.en;  // only the meaning – the word itself is right next to it (David, 2026-11-05)
+        const gt = tr && typeof READING_TR !== "undefined" && READING_TR[text.id] ? READING_TR[text.id][b.dataset.k] : "";
+        gloss.textContent = de ? g.de : gt || g.en;  // only the meaning – the word itself is right next to it (David, 2026-11-05)
         speakWord(b.textContent);
         gloss.hidden = false;
         b.after(gloss);

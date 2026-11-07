@@ -55,7 +55,7 @@
             ${streak ? `<span class="ht-streak">🔥 ${streak} ${x(streak === 1 ? "Tag" : "Tage", streak === 1 ? "day" : "days", "gün")}</span>` : ""}</p>
         ${row("🎧", x("Lektionen", "Lessons", "Dersler"), lessonsDone, lessons.length, de ? "fuer-mich.html" : "for-me.html")}
         ${row("🖼️", x("Bildkarten-Wörter", "Picture-card words", "Resimli kart kelimeleri"), words, totalWords, x("vokabeln.html", "vocabulary.html", "vocabulary-tr.html"))}
-        ${row("📰", x("Lesetexte", "Reading texts", "Okuma metinleri"), texts, totalTexts, de ? "lesen.html" : "reading.html")}
+        ${row("📰", x("Lesetexte", "Reading texts", "Okuma metinleri"), texts, totalTexts, de ? "lesen.html" : tr ? "reading-tr.html" : "reading.html")}
         <a class="button primary path-start" href="${nextHref}">${nextLabel} <span aria-hidden="true">→</span></a>
         <a class="path-login" href="${x("konto.html", "account.html", "account-tr.html")}">${x("Zu meinem Konto", "Go to my account", "Hesabıma git")} →</a>`;
 })();

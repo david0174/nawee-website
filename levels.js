@@ -6,18 +6,18 @@
 (() => {
     const boxes = document.querySelectorAll("[data-levels]");
     if (!boxes.length) return;
-    const de = document.documentElement.lang === "de";
-    const L = (o) => (typeof o === "string" ? o : de ? o.de : o.en);
+    const de = document.documentElement.lang === "de", tr = document.documentElement.lang === "tr";
+    const L = (o) => (typeof o === "string" ? o : de ? o.de : (tr && o.tr) || o.en);
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const progress = (key) => { try { return (JSON.parse(localStorage.getItem(key)) || {}).completed || []; } catch { return []; } };
 
     // planned themes of "English from the start" that aren't written yet (approved plan, 6 modules × 4 lessons)
     const WORK_PLAN = [
-        { id: 2, title: { de: "Alltag", en: "Everyday life" }, lessons: ["My day", "At the café", "Shopping & prices", "Asking the way"] },
-        { id: 3, title: { de: "Menschen & Freizeit", en: "People & free time" }, lessons: ["Describing people", "Hobbies & likes", "Last weekend", "Invitations: yes & polite no"] },
-        { id: 4, title: { de: "Unterwegs", en: "On the go" }, lessons: ["Tickets & transport", "At the hotel", "Problems & complaints", "Telling a trip story"] },
-        { id: 5, title: { de: "Termine & Telefon", en: "Appointments & phone" }, lessons: ["Phone calls", "Appointments", "Small talk at work", "Plans for the future"] },
-        { id: 6, title: { de: "Sicher im Gespräch", en: "Confident in conversation" }, lessons: ["Asking to repeat & clarify", "Comparing & opinions", "Giving advice", "Final task: a whole day in English"] },
+        { id: 2, title: { de: "Alltag", en: "Everyday life", tr: "Günlük hayat" }, lessons: ["My day", "At the café", "Shopping & prices", "Asking the way"] },
+        { id: 3, title: { de: "Menschen & Freizeit", en: "People & free time", tr: "İnsanlar ve boş zaman" }, lessons: ["Describing people", "Hobbies & likes", "Last weekend", "Invitations: yes & polite no"] },
+        { id: 4, title: { de: "Unterwegs", en: "On the go", tr: "Yolda" }, lessons: ["Tickets & transport", "At the hotel", "Problems & complaints", "Telling a trip story"] },
+        { id: 5, title: { de: "Termine & Telefon", en: "Appointments & phone", tr: "Randevular ve telefon" }, lessons: ["Phone calls", "Appointments", "Small talk at work", "Plans for the future"] },
+        { id: 6, title: { de: "Sicher im Gespräch", en: "Confident in conversation", tr: "Sohbette kendinden emin" }, lessons: ["Asking to repeat & clarify", "Comparing & opinions", "Giving advice", "Final task: a whole day in English"] },
     ];
     const workModules = () => {
         const real = typeof WORK_MODULES !== "undefined" ? WORK_MODULES : [];
@@ -37,20 +37,20 @@
     const levels = () => {
         const work = has("WORK_MODULES") ? workModules() : [];
         const workIn = (ids) => ({
-            key: "nawee-work-course-v1", course: { de: "Englisch von Anfang an", en: "English from the start" },
+            key: "nawee-work-course-v1", course: { de: "Englisch von Anfang an", en: "English from the start", tr: "Sıfırdan İngilizce (English from the start)" },
             modules: work.filter((m) => ids.includes(m.id)),
             href: (id) => `${de ? "beruf-lektion.html" : "work-lesson.html"}?l=${id}`,
             ready: (id) => has("WORK_LESSONS") && Boolean(WORK_LESSONS[id]),
         });
         return [
-            { code: "A1", name: { de: "Einstieg: die ersten Gespräche", en: "Getting started: first conversations" }, ...workIn([1, 2, 3]) },
-            { code: "A2", name: { de: "Grundlagen: Alltag und unterwegs", en: "Basics: everyday life and travel" }, ...workIn([4, 5, 6]) },
-            { code: "B1", name: { de: "Sicher sprechen im echten Gespräch", en: "Speaking with confidence in real conversations" },
-              key: "nawee-course-v1", course: { de: "Sicher sprechen (Erklärungen auf Deutsch)", en: "Sicher sprechen (explanations in German)" },
+            { code: "A1", name: { de: "Einstieg: die ersten Gespräche", en: "Getting started: first conversations", tr: "Başlangıç: ilk sohbetler" }, ...workIn([1, 2, 3]) },
+            { code: "A2", name: { de: "Grundlagen: Alltag und unterwegs", en: "Basics: everyday life and travel", tr: "Temeller: günlük hayat ve seyahat" }, ...workIn([4, 5, 6]) },
+            { code: "B1", name: { de: "Sicher sprechen im echten Gespräch", en: "Speaking with confidence in real conversations", tr: "Gerçek sohbetlerde rahat konuşmak" },
+              key: "nawee-course-v1", course: { de: "Sicher sprechen (Erklärungen auf Deutsch)", en: "Sicher sprechen (explanations in German)", tr: "Sicher sprechen (açıklamalar Almanca)" },
               modules: has("COURSE_MODULES") ? COURSE_MODULES : [], href: (id) => `lektion.html?l=${id}`,
               ready: (id) => has("COURSE_LESSONS") && Boolean(COURSE_LESSONS[id]) },
-            { code: "B2–C1", name: { de: "Klar und überzeugend kommunizieren", en: "Communicate clearly and convincingly" },
-              key: "nawee-communication-course-v1", course: { de: "Communicate with Confidence (auf Englisch)", en: "Communicate with Confidence" },
+            { code: "B2–C1", name: { de: "Klar und überzeugend kommunizieren", en: "Communicate clearly and convincingly", tr: "Açık ve ikna edici iletişim" },
+              key: "nawee-communication-course-v1", course: { de: "Communicate with Confidence (auf Englisch)", en: "Communicate with Confidence", tr: "Communicate with Confidence (İngilizce)" },
               modules: has("CC_MODULES") ? CC_MODULES : [], href: (id) => `communication-lesson.html?l=${id}`,
               ready: (id) => has("CC_LESSONS") && Boolean(CC_LESSONS[id]) },
         ].map((lv) => {
@@ -80,11 +80,15 @@
         if (!list.length) return "";
         let done = {};
         try { done = (JSON.parse(localStorage.getItem("nawee-grammar-v1")) || {}).done || {}; } catch { /* ignore */ }
-        const page = de ? "grammatik.html" : "grammar.html";
-        return `<div class="lv-grammar"><p class="lv-grammar-h">📐 ${de ? "Grammatik auf diesem Niveau" : "Grammar at this level"}</p><ul>${list.map((g) => `<li><a href="${page}?l=${g.id}">
-            <span class="lv-check${done[g.id] ? " is-done" : ""}">${done[g.id] ? "✓" : ""}</span>${esc(L(g.title))}${g.beta ? ` <em class="lv-beta">beta</em>` : ""}<span class="lv-go">${done[g.id] ? (de ? "Öffnen" : "Open") : (de ? "Starten" : "Start")} →</span></a></li>`).join("")}</ul></div>`;
+        const page = de ? "grammatik.html" : tr ? "grammar-tr.html" : "grammar.html";
+        // Turkish titles come from grammar-tr.js when the page loads it
+        const title = (g) => (tr && typeof GRAMMAR_TR !== "undefined" && GRAMMAR_TR[g.id] ? GRAMMAR_TR[g.id].title : L(g.title));
+        return `<div class="lv-grammar"><p class="lv-grammar-h">📐 ${de ? "Grammatik auf diesem Niveau" : tr ? "Bu seviyedeki dilbilgisi" : "Grammar at this level"}</p><ul>${list.map((g) => `<li><a href="${page}?l=${g.id}">
+            <span class="lv-check${done[g.id] ? " is-done" : ""}">${done[g.id] ? "✓" : ""}</span>${esc(title(g))}${g.beta ? ` <em class="lv-beta">beta</em>` : ""}<span class="lv-go">${done[g.id] ? T.open : T.start} →</span></a></li>`).join("")}</ul></div>`;
     };
-    const T = de
+    const T = tr
+        ? { soon: "Yakında", lessons: (n) => `${n} ders`, start: "Başla", open: "Aç", doneMark: "Tamamlandı", comingSoon: "yakında", allSoon: "Bu seviyenin dersleri şu anda hazırlanıyor – yakında başlıyor.", course: "Kurs" }
+        : de
         ? { soon: "Bald", lessons: (n) => `${n} Lektion${n === 1 ? "" : "en"}`, start: "Starten", open: "Öffnen", doneMark: "Geschafft", comingSoon: "bald verfügbar", allSoon: "Die Lektionen für dieses Niveau entstehen gerade – bald geht’s los.", course: "Kurs" }
         : { soon: "Soon", lessons: (n) => `${n} lesson${n === 1 ? "" : "s"}`, start: "Start", open: "Open", doneMark: "Done", comingSoon: "coming soon", allSoon: "The lessons for this level are being written – coming soon.", course: "Course" };
     const badge = (pct, ready) => (!ready ? `<span class="lv-pct lv-soon">${T.soon}</span>` : pct > 0 ? `<span class="lv-pct${pct === 100 ? " lv-full" : ""}">${pct} %</span>` : "");

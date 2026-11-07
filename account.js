@@ -166,7 +166,7 @@
         google: "Google ile devam et", or: "ya da e-posta adresinle",
         confirmedTitle: "E-postan onaylandı!",
         confirmedText: "Nawee’ye hoş geldin – hesabın hazır. Öğrenme ilerlemen artık hesabında kaydediliyor ve tüm cihazlarında kullanılabilir.",
-        confirmedPrimary: "Öğrenmeye başla", confirmedSecondary: "Hesabıma git",
+        confirmedPrimary: "Öğrenmeye başla", confirmedSecondary: "Hesabıma git", learnPage: "learn-tr.html",
         linkExpired: "Bu bağlantının süresi doldu ya da zaten kullanıldı. E-postanı zaten onayladıysan giriş yapman yeterli. Değilse yeni bir bağlantı için tekrar kayıt ol.",
         hintOut: `İlerlemeni ve kupalarını tüm cihazlarında kaydetmek için <a href="account-tr.html">ücretsiz bir hesap oluştur</a>.`,
         errors: {
@@ -448,7 +448,7 @@
         words: (n) => `${n} kelime`, texts: (n) => `${n} yeni metin`, min: (n) => `${n} dk`, go: "Hadi başlayalım",
         cards: "Resimli kartlar", allTopics: "Tüm konular", practice: "Çalış",
         status: { green: "öğrenildi", yellow: "çalışıldı", red: "yanlış", grey: "yeni" },
-        cardsPage: "vocabulary-tr.html", grammarPage: "grammar-tr.html", startPage: "get-started-tr.html",
+        cardsPage: "vocabulary-tr.html", grammarPage: "grammar-tr.html", readPage: "reading-tr.html", startPage: "get-started-tr.html",
     });
     const iso = (d) => d.toISOString().slice(0, 10);
     const bar = (part, whole) => `<span class="dash-bar"><span style="width:${whole ? Math.round((part / whole) * 100) : 0}%"></span></span>`;

@@ -2,8 +2,8 @@
 // Reads the progress the courses keep in this browser (localStorage); nothing is sent anywhere.
 
 (() => {
-    const de = document.documentElement.lang === "de";
-    const text = (done, total) => de ? `${done} von ${total} Lektionen geschafft` : `${done} of ${total} lessons done`;
+    const de = document.documentElement.lang === "de", tr = document.documentElement.lang === "tr";
+    const text = (done, total) => de ? `${done} von ${total} Lektionen geschafft` : tr ? `${total} dersten ${done} tanesi tamamlandı` : `${done} of ${total} lessons done`;
 
     document.querySelectorAll("[data-progress-key]").forEach((card) => {
         let completed = [];

@@ -7,10 +7,27 @@
     const root = document.querySelector("[data-games]");
     if (!root) return;
 
-    const de = document.documentElement.lang === "de";
+    const de = document.documentElement.lang === "de", tr = document.documentElement.lang === "tr";
+    const X = (d, e, t) => (de ? d : tr ? t : e);  // inline text in the page language
+    // meaning of a picture-card word in the learner’s language: German, or Turkish (vocab-tr.js) on the Turkish page
+    const meaningOf = (w) => (de ? w.de : tr && typeof VOCAB_TR !== "undefined" ? VOCAB_TR.words[w.id] || "" : "");
     const KEY = "nawee-games-v1";
-    const page = de ? "spiele.html" : "games.html";
-    const T = de ? {
+    const page = de ? "spiele.html" : tr ? "games-tr.html" : "games.html";
+    // Turkish meaning of a reading-glossary word (reading-tr.js), else English
+    const glossOf = (r, w, g) => (de ? g.de : (tr && typeof READING_TR !== "undefined" && READING_TR[r.id] && READING_TR[r.id][w]) || g.en);
+    const T = tr ? {
+        eyebrow: "OYUNLAR", title: "Oyunlar", lead: "İngilizce yaz, hızlan, kelimeleri pekiştir – kursundaki metinler ve kelimelerle.",
+        best: "En iyi", none: "Henüz oynanmadı", play: "Oyna →", back: "← Tüm oyunlar",
+        race: "Typing Race", raceText: "Kısa bir İngilizce metni olabildiğince hızlı ve doğru yaz – ve Tom ile Ben’e karşı yarış.",
+        rain: "Word Rain", rainText: "İngilizce kelimeler gökten düşüyor. Aşağı ulaşmadan önce yaz. Gittikçe hızlanıyor!",
+        level: "Rakipler", levels: ["Rahat", "Normal", "Hızlı"], track: "Parkur", tracks: { random: "Rastgele", mountains: "Dağlar", park: "Park", underwater: "Su altı" }, start: "Başla", you: "Sen", countdown: "Başlıyor:",
+        typeHere: "Buraya yaz …", from: "Metin:", wpm: "WPM", wpmLong: "dakikada kelime", acc: "Doğruluk", place: ["1. oldun! 🏆", "2. oldun 🥈", "3. oldun 🥉"],
+        again: "Tekrar oyna", newBest: "Yeni rekor!", tipRace: "İpucu: devam etmeden önce hatayı düzeltmelisin. Doğru yazmak, aceleyle yazmaktan daha hızlıdır.",
+        mode: "Mod", modes: ["Kopyala", "Çevir (TR → EN)"], score: "Puan", lives: "Can", over: "Oyun bitti!", rainTip: "Kelimeyi yaz – Enter’a ya da boşluğa basmana gerek yok.",
+        parts: "Cümle Dedektifi", partsText: "Bir cümledeki tüm isimlere, fiillere, sıfatlara … tıkla – ve bir İngilizce cümlenin nasıl kurulduğunu gör.", partsLead: "Bir cümle, birkaç görev: her seferinde bir sözcük türünün kelimelerini işaretle ve cevabını kontrol et. Sonunda tüm cümleyi renklere ayrılmış görürsün. Bir kelimeyi duymak için ona dokun.", partsMark: "İşaretle:", partsCheck: "Kontrol et", partsNext: "Sonraki", partsDone: "Sonuç", partsRight: "Doğru!", partsAlmost: "Neredeyse! <span class=\"gm-pt-key is-right\">yeşil</span> = doğru, <span class=\"gm-pt-key is-wrong\">kırmızı</span> = yanlışlıkla işaretlendi, <span class=\"gm-pt-key is-missed\">kesik çizgili</span> = atlandı.", partsBreakdown: "Cümle böyle kurulmuş:", partsScore: (p, n) => `${n} görevden ${p} tanesi hatasız ${p === n ? "– mükemmel! 🏆" : ""}`, partsAnother: "Sonraki cümle", partsStep: (i, n) => `Görev ${i} / ${n}`, sentences: (n) => `${n} cümle çözümlendi`, rhyme: "Rhyme Time", rhymeText: "Bir kelime, birkaç kafiye – ve sen konuşursun: yüksek sesle bir cümle kur ya da birkaç satır rap yap. İstersen zamanlayıcıyla.", timer: "Kelime başına süre", off: "Kapalı", beat: "Beat", volume: "Ses", beatNote: "Beat’ler tarayıcında canlı olarak üretilir – kendi beat’lerimiz, lisans gerektirmez.", ytTitle: "Başka beat’ler mi istersin? YouTube’da enstrümantaller:", ytNote: "YouTube’u yeni sekmede açar – beat’i orada başlat, burada beat için “Kapalı”yı seç ve başla.", nextWord: "Sonraki kelime", rhymesWith: "Kafiyeli kelimeler – anlamını görmek için kelimenin üzerine gel", rhymeTask: "Kelimeyle ve bir kafiyeyle yüksek sesle bir cümle söyle – ya da birkaç satır rap yap!", rhymeLine: "Akılda kalan satır", words2: (n) => `${n} kelime tamamlandı`, stop: "Durdur",
+        typeWord: "Kelimeyi yaz …", missed: "Kaçırılanlar:", define: "Word & Meaning", defineText: "Bir kelimeyi ve kısa İngilizce anlamını yaz, ör. “key it opens a lock” – çizgiyi oyun senin için koyar. 10 hızlı tur – kelimeleri İngilizce açıklamayı öğren.", item: (i, n) => `${i} / ${n}`, round: "Tur tamamlandı!", time: "Süre", sec: "sn", typed: "Yazılanlar", german: "Türkçe", words: "Bu metindeki kelimeler", wordsLive: "Bu metindeki kelimeler", wordsTap: "Duymak için bir kelimeye dokun.", readAll: "Metnin tamamını oku →", readPage: "reading-tr.html",
+        privacy: "En iyi skorların bu tarayıcıda kaydedilir – <a href=\"account-tr.html\">ücretsiz bir hesapla</a> hesabında da.",
+    } : de ? {
         eyebrow: "SPIELE", title: "Spiele", lead: "Englisch tippen, schneller werden, Wörter festigen – mit Texten und Wörtern aus deinem Kurs.",
         best: "Bestwert", none: "Noch nicht gespielt", play: "Spielen →", back: "← Alle Spiele",
         race: "Typing Race", raceText: "Tippe einen kurzen englischen Text so schnell und genau wie möglich – und fahr gegen Tom und Ben um die Wette.",
@@ -98,15 +115,15 @@
             <div class="gm-tiles">
                 <a class="gm-tile gm-tile-course" href="${de ? "tippen.html" : "typing.html"}">
                     <span class="gm-tile-icon" aria-hidden="true">⌨️</span>
-                    <span class="gm-tile-body"><strong>${de ? "Tippen lernen – mit Englisch" : "Learn to type – with English"}</strong><span>${de ? "Das Zehnfingersystem Schritt für Schritt – und dabei englische Wörter hören und verstehen. QWERTZ oder QWERTY." : "Touch typing step by step – and hear and understand English words along the way. QWERTY or QWERTZ."}</span>
-                    <span class="gm-tile-best">${de ? "Neu · Kurs" : "New · course"}</span></span>
-                    <span class="gm-tile-go">${de ? "Starten" : "Start"}</span>
+                    <span class="gm-tile-body"><strong>${X("Tippen lernen – mit Englisch", "Learn to type – with English", "On parmakla yaz – İngilizceyle")}</strong><span>${X("Das Zehnfingersystem Schritt für Schritt – und dabei englische Wörter hören und verstehen. QWERTZ oder QWERTY.", "Touch typing step by step – and hear and understand English words along the way. QWERTY or QWERTZ.", "On parmak klavye adım adım – bu sırada İngilizce kelimeleri duy ve anla. QWERTY ya da QWERTZ.")}</span>
+                    <span class="gm-tile-best">${X("Neu · Kurs", "New · course", "Yeni · kurs")}</span></span>
+                    <span class="gm-tile-go">${X("Starten", "Start", "Başla")}</span>
                 </a>
                 <a class="gm-tile gm-tile-course" href="${de ? "musik.html" : "music.html"}">
                     <span class="gm-tile-icon" aria-hidden="true">🎵</span>
-                    <span class="gm-tile-body"><strong>${de ? "Englisch mit Musik" : "English through music"}</strong><span>${de ? "Bekannte Songs hören, Ausdrücke auf der Satz-Jagd entdecken, nachsprechen und selbst sprechen." : "Listen to well-known songs, find phrases on a phrase hunt, repeat them and speak yourself."}</span>
-                    <span class="gm-tile-best">${de ? "Neu · Songs" : "New · songs"}</span></span>
-                    <span class="gm-tile-go">${de ? "Starten" : "Start"}</span>
+                    <span class="gm-tile-body"><strong>${X("Englisch mit Musik", "English through music", "Müzikle İngilizce")}</strong><span>${X("Bekannte Songs hören, Ausdrücke auf der Satz-Jagd entdecken, nachsprechen und selbst sprechen.", "Listen to well-known songs, find phrases on a phrase hunt, repeat them and speak yourself.", "Tanınmış şarkıları dinle, kalıp avında ifadeler keşfet, tekrar et ve kendin konuş.")}</span>
+                    <span class="gm-tile-best">${X("Neu · Songs", "New · songs", "Yeni · şarkılar")}</span></span>
+                    <span class="gm-tile-go">${X("Starten", "Start", "Başla")}</span>
                 </a>
                 ${tile("race", "🏁", T.race, T.raceText, data.best.race ? `${data.best.race} ${T.wpm}` : "")}
                 ${tile("rain", "🌧️", T.rain, T.rainText, data.best.rain ? `${data.best.rain} ${T.score}` : "")}
@@ -123,14 +140,14 @@
         document.title = `${T.parts} – ${T.title} | Nawee`;
         // word classes, in the order they are asked; main class after ":", "d|pr" = determiner, pronoun also accepted
         const CLS = {
-            n: { de: "Nomen", en: "noun", task: de ? "alle <strong>Nomen</strong> (nouns)" : "all the <strong>nouns</strong>", hint: de ? "Dinge, Personen, Orte und Namen – z. B. shop, friend, Tom" : "things, people, places and names – e.g. shop, friend, Tom" },
-            v: { de: "Verb", en: "verb", task: de ? "alle <strong>Verben</strong> (verbs)" : "all the <strong>verbs</strong>", hint: de ? "was jemand tut oder ist – z. B. went, plays, is" : "what someone does or is – e.g. went, plays, is" },
-            adj: { de: "Adjektiv", en: "adjective", task: de ? "alle <strong>Adjektive</strong> (adjectives)" : "all the <strong>adjectives</strong>", hint: de ? "beschreiben ein Nomen – z. B. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>" : "describe a noun – e.g. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>" },
-            adv: { de: "Adverb", en: "adverb", task: de ? "alle <strong>Adverbien</strong> (adverbs)" : "all the <strong>adverbs</strong>", hint: de ? "sagen, wie, wann oder wie oft – z. B. quickly, often, very" : "say how, when or how often – e.g. quickly, often, very" },
-            pr: { de: "Pronomen", en: "pronoun", task: de ? "alle <strong>Pronomen</strong> (pronouns)" : "all the <strong>pronouns</strong>", hint: de ? "stehen für ein Nomen – z. B. I, she, it, they" : "stand for a noun – e.g. I, she, it, they" },
-            d: { de: "Begleiter", en: "determiner", task: de ? "alle <strong>Begleiter</strong> (determiners)" : "all the <strong>determiners</strong>", hint: de ? "stehen vor einem Nomen – z. B. the, a, my, his. (my, his, their nennt man auch Possessivpronomen – beides zählt.)" : "come before a noun – e.g. the, a, my, his. (my, his, their are also called possessive pronouns – both count.)" },
-            prep: { de: "Präposition", en: "preposition", task: de ? "alle <strong>Präpositionen</strong> (prepositions)" : "all the <strong>prepositions</strong>", hint: de ? "zeigen Ort, Richtung oder Zeit – z. B. to, in, under, after" : "show place, direction or time – e.g. to, in, under, after" },
-            conj: { de: "Konjunktion", en: "conjunction", task: de ? "alle <strong>Konjunktionen</strong> (conjunctions)" : "all the <strong>conjunctions</strong>", hint: de ? "verbinden Wörter oder Satzteile – z. B. and, but, because" : "join words or parts of a sentence – e.g. and, but, because" },
+            n: { de: "Nomen", en: "noun", tr: "isim", task: X("alle <strong>Nomen</strong> (nouns)", "all the <strong>nouns</strong>", "tüm <strong>isimleri</strong> (nouns)"), hint: X("Dinge, Personen, Orte und Namen – z. B. shop, friend, Tom", "things, people, places and names – e.g. shop, friend, Tom", "şeyler, kişiler, yerler ve adlar – ör. shop, friend, Tom") },
+            v: { de: "Verb", en: "verb", tr: "fiil", task: X("alle <strong>Verben</strong> (verbs)", "all the <strong>verbs</strong>", "tüm <strong>fiilleri</strong> (verbs)"), hint: X("was jemand tut oder ist – z. B. went, plays, is", "what someone does or is – e.g. went, plays, is", "birinin yaptığı ya da olduğu şey – ör. went, plays, is") },
+            adj: { de: "Adjektiv", en: "adjective", tr: "sıfat", task: X("alle <strong>Adjektive</strong> (adjectives)", "all the <strong>adjectives</strong>", "tüm <strong>sıfatları</strong> (adjectives)"), hint: X("beschreiben ein Nomen – z. B. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>", "describe a noun – e.g. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>", "bir ismi tanımlar – ör. a <em>new</em> coat, the <em>old</em> dog, he is <em>tired</em>") },
+            adv: { de: "Adverb", en: "adverb", tr: "zarf", task: X("alle <strong>Adverbien</strong> (adverbs)", "all the <strong>adverbs</strong>", "tüm <strong>zarfları</strong> (adverbs)"), hint: X("sagen, wie, wann oder wie oft – z. B. quickly, often, very", "say how, when or how often – e.g. quickly, often, very", "nasıl, ne zaman ya da ne sıklıkla olduğunu söyler – ör. quickly, often, very") },
+            pr: { de: "Pronomen", en: "pronoun", tr: "zamir", task: X("alle <strong>Pronomen</strong> (pronouns)", "all the <strong>pronouns</strong>", "tüm <strong>zamirleri</strong> (pronouns)"), hint: X("stehen für ein Nomen – z. B. I, she, it, they", "stand for a noun – e.g. I, she, it, they", "bir ismin yerini tutar – ör. I, she, it, they") },
+            d: { de: "Begleiter", en: "determiner", tr: "belirleyici", task: X("alle <strong>Begleiter</strong> (determiners)", "all the <strong>determiners</strong>", "tüm <strong>belirleyicileri</strong> (determiners)"), hint: X("stehen vor einem Nomen – z. B. the, a, my, his. (my, his, their nennt man auch Possessivpronomen – beides zählt.)", "come before a noun – e.g. the, a, my, his. (my, his, their are also called possessive pronouns – both count.)", "bir isimden önce gelir – ör. the, a, my, his. (my, his, their iyelik zamiri olarak da adlandırılır – ikisi de sayılır.)") },
+            prep: { de: "Präposition", en: "preposition", tr: "edat", task: X("alle <strong>Präpositionen</strong> (prepositions)", "all the <strong>prepositions</strong>", "tüm <strong>edatları</strong> (prepositions)"), hint: X("zeigen Ort, Richtung oder Zeit – z. B. to, in, under, after", "show place, direction or time – e.g. to, in, under, after", "yer, yön ya da zaman gösterir – ör. to, in, under, after") },
+            conj: { de: "Konjunktion", en: "conjunction", tr: "bağlaç", task: X("alle <strong>Konjunktionen</strong> (conjunctions)", "all the <strong>conjunctions</strong>", "tüm <strong>bağlaçları</strong> (conjunctions)"), hint: X("verbinden Wörter oder Satzteile – z. B. and, but, because", "join words or parts of a sentence – e.g. and, but, because", "kelimeleri ya da cümle parçalarını bağlar – ör. and, but, because") },
         };
         const SENTENCES = [
             "I:pr quickly:adv went:v to:prep the:d shop:n and:conj bought:v a:d new:adj coat:n for:prep my:d|pr friend:n .",
@@ -159,7 +176,7 @@
                 <div class="gm-parts" data-box></div>
                 <p class="as-disclaimer">${T.privacy}</p>`;
             const box = root.querySelector("[data-box]");
-            const sentence = (cls) => `<p class="gm-pt-sentence">${words.map((x, k) => `<button type="button" class="gm-pt-word${cls ? ` is-${x.main}` : ""}" data-k="${k}" aria-pressed="false">${esc(x.w)}${cls ? `<small>${de ? CLS[x.main].de : CLS[x.main].en}</small>` : ""}</button>${x.punct ? `<span class="gm-pt-punct">${esc(x.punct)}</span>` : ""}`).join(" ")}</p>`;
+            const sentence = (cls) => `<p class="gm-pt-sentence">${words.map((x, k) => `<button type="button" class="gm-pt-word${cls ? ` is-${x.main}` : ""}" data-k="${k}" aria-pressed="false">${esc(x.w)}${cls ? `<small>${X(CLS[x.main].de, CLS[x.main].en, CLS[x.main].tr)}</small>` : ""}</button>${x.punct ? `<span class="gm-pt-punct">${esc(x.punct)}</span>` : ""}`).join(" ")}</p>`;
 
             const show = () => {
                 checked = false;
@@ -200,7 +217,7 @@
                 const used = Object.keys(CLS).filter((c) => words.some((x) => x.main === c));
                 box.innerHTML = `<p class="gm-pt-task">${T.partsBreakdown}</p>
                     ${sentence(true)}
-                    <ul class="gm-pt-legend">${used.map((c) => `<li class="is-${c}">${de ? `${CLS[c].de} <em>(${CLS[c].en})</em>` : CLS[c].en}</li>`).join("")}</ul>
+                    <ul class="gm-pt-legend">${used.map((c) => `<li class="is-${c}">${de || tr ? `${X(CLS[c].de, "", CLS[c].tr)} <em>(${CLS[c].en})</em>` : CLS[c].en}</li>`).join("")}</ul>
                     <p class="gm-pt-score">${T.partsScore(perfect, steps.length)}</p>
                     <div class="gm-pt-actions"><button type="button" class="button primary" data-again>${T.partsAnother} →</button></div>`;
                 box.querySelectorAll(".gm-pt-word").forEach((b) => b.addEventListener("click", () => say(words[b.dataset.k].w)));
@@ -288,11 +305,11 @@
                     const inText = Object.entries(r.glossary).filter(([w]) => lower.includes(w.toLowerCase()));
                     if (!inText.length) return "";
                     return `<div class="gm-words gm-words-live"><h2>${T.wordsLive}</h2><p class="gm-words-tap">🔊 ${T.wordsTap}</p>
-                        <dl>${inText.map(([w, g]) => `<div><dt><button type="button" data-say="${esc(w)}">${esc(w)}</button></dt><dd>${esc(de ? g.de : g.en)}</dd></div>`).join("")}</dl></div>`;
+                        <dl>${inText.map(([w, g]) => `<div><dt><button type="button" data-say="${esc(w)}">${esc(w)}</button></dt><dd>${esc(glossOf(r, w, g))}</dd></div>`).join("")}</dl></div>`;
                 }
                 const entries = Object.entries(r.glossary).sort(([a], [b]) => lower.includes(b.toLowerCase()) - lower.includes(a.toLowerCase()));
                 return `<div class="gm-words"><h2>${T.words}</h2>
-                    <dl>${entries.map(([w, g]) => `<div${lower.includes(w.toLowerCase()) ? ' class="is-typed"' : ""}><dt>${esc(w)}</dt><dd>${esc(de ? g.de : g.en)}</dd></div>`).join("")}</dl>
+                    <dl>${entries.map(([w, g]) => `<div${lower.includes(w.toLowerCase()) ? ' class="is-typed"' : ""}><dt>${esc(w)}</dt><dd>${esc(glossOf(r, w, g))}</dd></div>`).join("")}</dl>
                     <a class="gm-read" href="${T.readPage}?t=${r.id}">${T.readAll}</a></div>`;
             }
             const end = () => {
@@ -363,9 +380,9 @@
                     <p class="gm-def-count" data-count></p>
                     <span class="dash-bar gm-def-bar"><span data-bar style="width:0%"></span></span>
                     <img class="gm-def-img" data-img alt="">
-                    <button type="button" class="gm-say" data-say aria-label="${de ? "Wort anhören" : "Hear the word"}">🔊 <span data-word></span></button>
-                    <div class="gm-text gm-def-line" data-text title="${de ? "Auf ein Wort tippen, um es zu hören" : "Tap a word to hear it"}"></div>
-                    <p class="gm-def-hint">🔊 ${de ? "Tipp auf ein Wort, um es zu hören." : "Tap any word to hear it."}</p>
+                    <button type="button" class="gm-say" data-say aria-label="${X("Wort anhören", "Hear the word", "Kelimeyi dinle")}">🔊 <span data-word></span></button>
+                    <div class="gm-text gm-def-line" data-text title="${X("Auf ein Wort tippen, um es zu hören", "Tap a word to hear it", "Duymak için bir kelimeye dokun")}"></div>
+                    <p class="gm-def-hint">🔊 ${X("Tipp auf ein Wort, um es zu hören.", "Tap any word to hear it.", "Duymak için herhangi bir kelimeye dokun.")}</p>
                     <input class="gm-input" data-input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="${T.typeHere}">
                     <p class="gm-def-de" data-de></p>
                 </div>
@@ -403,7 +420,7 @@
                     <p><strong>${wpm}</strong> ${T.wpmLong} · <strong>${acc}%</strong> ${T.acc} · <strong>${Math.round(secs)}</strong> ${T.sec}${newBest ? ` · <span class="gm-new">${T.newBest}</span>` : ""}</p>
                     <button type="button" class="button primary" data-again>${T.again}</button>
                 </div>
-                <div class="gm-words"><h2>${T.typed}</h2><dl>${items.map((w, k) => `<div><dt><button type="button" class="gm-say-word" data-sayw="${k}">🔊 ${esc(w.word)}</button></dt><dd><button type="button" class="gm-say-def" data-sayd="${k}">${esc(w.def)}</button>${de ? ` · <em>${esc(w.de)}</em>` : ""}</dd></div>`).join("")}</dl></div>`;
+                <div class="gm-words"><h2>${T.typed}</h2><dl>${items.map((w, k) => `<div><dt><button type="button" class="gm-say-word" data-sayw="${k}">🔊 ${esc(w.word)}</button></dt><dd><button type="button" class="gm-say-def" data-sayd="${k}">${esc(w.def)}</button>${meaningOf(w) ? ` · <em>${esc(meaningOf(w))}</em>` : ""}</dd></div>`).join("")}</dl></div>`;
                 root.querySelectorAll("[data-sayw]").forEach((b) => b.addEventListener("click", () => { const w = items[Number(b.dataset.sayw)]; say(w.word, w.audio); }));
                 root.querySelectorAll("[data-sayd]").forEach((b) => b.addEventListener("click", () => say(items[Number(b.dataset.sayd)].def)));
                 root.querySelector("[data-again]").addEventListener("click", play);
@@ -424,10 +441,10 @@
                 draw();
                 if (typed === text) {
                     chars += text.length + 1;
-                    root.querySelector("[data-de]").textContent = de ? `${T.german}: ${items[i].de}` : "✓";
+                    root.querySelector("[data-de]").textContent = meaningOf(items[i]) ? `${T.german}: ${meaningOf(items[i])}` : "✓";
                     i += 1;
                     input.disabled = true;
-                    setTimeout(() => { input.disabled = false; if (i >= items.length) finish(); else show(); }, de ? 700 : 300);
+                    setTimeout(() => { input.disabled = false; if (i >= items.length) finish(); else show(); }, meaningOf(items[i - 1] || {}) ? 700 : 300);
                 }
             });
             root.querySelector("[data-say]").addEventListener("click", () => { const w = items[Math.min(i, items.length - 1)]; say(w.word, w.audio); input.focus(); });
@@ -607,9 +624,9 @@
                     <p class="gm-rhyme-task">🗣️ ${T.rhymeTask}</p>
                     <div class="gm-rhyme-actions"><button type="button" class="button primary" data-next>${T.nextWord} →</button><button type="button" class="button secondary" data-stop>${T.stop}</button></div>
                     <div class="gm-player" data-player>
-                        <button type="button" class="gm-pl-btn" data-pl-prev aria-label="${de ? "Vorheriger Beat" : "Previous beat"}">⏮</button>
+                        <button type="button" class="gm-pl-btn" data-pl-prev aria-label="${X("Vorheriger Beat", "Previous beat", "Önceki beat")}">⏮</button>
                         <button type="button" class="gm-pl-play" data-pl-play aria-label="Play/Pause"></button>
-                        <button type="button" class="gm-pl-btn" data-pl-next aria-label="${de ? "Nächster Beat" : "Next beat"}">⏭</button>
+                        <button type="button" class="gm-pl-btn" data-pl-next aria-label="${X("Nächster Beat", "Next beat", "Sonraki beat")}">⏭</button>
                         <span class="gm-pl-info"><span class="gm-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong data-pl-name></strong><small data-pl-bpm></small></span>
                         <label class="gm-pl-vol">🔊 <input type="range" min="0" max="1" step="0.05" value="${volume}" data-volume aria-label="${T.volume}"></label>
                     </div>
@@ -678,7 +695,8 @@
 
     // ---------- Word Rain ----------
     document.title = `${T.rain} – ${T.title} | Nawee`;
-    const words = typeof VOCAB_DECKS === "undefined" ? [] : Object.values(VOCAB_DECKS).flatMap((d) => d.words.map((w) => ({ en: w.word, de: w.de.split(",")[0].trim() })));
+    // translate mode: German meanings – on the Turkish page the Turkish ones (vocab-tr.js)
+    const words = typeof VOCAB_DECKS === "undefined" ? [] : Object.values(VOCAB_DECKS).flatMap((d) => d.words.map((w) => ({ en: w.word, de: ((tr && meaningOf(w)) || w.de).split(",")[0].trim() })));
     let mode = 0;
     const setup = () => {
         root.innerHTML = `<a class="lesson-back" href="${page}">${T.back}</a><p class="eyebrow">${T.eyebrow}</p><h1>🌧️ ${T.rain}</h1>
